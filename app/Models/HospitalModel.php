@@ -27,4 +27,28 @@ class HospitalModel extends Model
     {
         return $this->orderBy('ID', 'ASC')->findAll($limit, $offset);
     }
+    
+    public function getHospitalsByCategory($category, $limit = 10, $offset = 0)
+    {
+        $cacheKey = "hospitals_category_{$category}_{$limit}_{$offset}";
+
+        // Check if cached data exists
+        if ($cachedData = cache()->get($cacheKey)) {
+            return $cachedData;
+        }
+
+        $builder = $this->db->table($this->table);
+        $query = $builder->select('ID, BusinessName, FullAddress, PhoneNumber, PermitDate')
+                         ->where('OpenServiceName', $category)
+                         ->orderBy('ID', 'ASC')
+                         ->limit($limit, $offset)
+                         ->get();
+        
+        $result = $query->getResultArray() ?: [];
+
+        // Save the result to cache (e.g., for 10 minutes)
+        cache()->save($cacheKey, $result, 600);
+
+        return $result;
+    }
 }

@@ -6,8 +6,8 @@
     <title>HospitalHub</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
+            font-family: 'Helvetica Neue', sans-serif;
+            background-color: #ffffff;
             margin: 0;
             padding: 20px;
             display: flex;
@@ -18,36 +18,58 @@
         }
         h1 {
             text-align: center;
-            color: #007bff;
-            margin-bottom: 30px;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2.2em;
+            font-weight: 500;
+        }
+        .category {
+            margin-bottom: 40px;
+            width: 100%;
+            max-width: 800px;
+        }
+        .category h2 {
+            text-align: left;
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 400;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
         }
         .carousel {
-            width: 90%;
-            max-width: 800px;
             overflow: hidden;
             position: relative;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
+            border-radius: 8px;
         }
         .card-container {
             display: flex;
-            transition: transform 0.5s ease-in-out;
+            transition: transform 0.3s ease-in-out;
         }
         .card {
             min-width: 100%;
-            box-sizing: border-box;
             padding: 20px;
-            background-color: #ffffff;
-            border-radius: 10px;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            text-align: left;
+            height: 180px;
+            border: 1px solid #eee;
+            border-radius: 8px;
         }
         .card h2 {
             margin: 0 0 10px;
-            font-size: 1.5em;
+            font-size: 1.2em;
             color: #333;
+            font-weight: 400;
         }
         .card p {
-            margin: 5px 0;
-            color: #555;
+            margin: 4px 0;
+            color: #666;
+            font-size: 0.9em;
+            line-height: 1.4em;
         }
         .navigation {
             position: absolute;
@@ -58,13 +80,13 @@
             transform: translateY(-50%);
         }
         .nav-button {
-            background-color: #007bff;
+            background-color: transparent;
             border: none;
-            color: white;
-            padding: 10px 15px;
+            font-size: 1.5em;
             cursor: pointer;
-            border-radius: 50%;
-            opacity: 0.8;
+            color: #007bff;
+            opacity: 0.6;
+            transition: opacity 0.3s;
         }
         .nav-button:hover {
             opacity: 1;
@@ -73,55 +95,67 @@
 </head>
 <body>
     <h1>HospitalHub</h1>
-    <div class="carousel">
-        <div class="card-container">
-            <?php if (!empty($hospitals) && is_array($hospitals)): ?>
-                <?php foreach ($hospitals as $hospital): ?>
-                    <div class="card">
-                        <h2><?= esc($hospital['BusinessName']); ?></h2>
-                        <p><strong>Address:</strong> <?= esc($hospital['FullAddress']); ?></p>
-                        <p><strong>Phone:</strong> <?= esc($hospital['PhoneNumber']); ?></p>
-                        <p><strong>Permit Date:</strong> <?= esc($hospital['PermitDate']); ?></p>
-                    </div>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <div class="card">
-                    <h2>No Hospitals Found</h2>
-                    <p>There are no hospital records available at the moment.</p>
+    <?php foreach ($hospitalsByCategory as $category => $hospitals): ?>
+        <div class="category">
+            <h2><?= esc($category); ?></h2>
+            <div class="carousel">
+                <div class="card-container" id="container-<?= esc($category); ?>">
+                    <?php if (!empty($hospitals) && is_array($hospitals)): ?>
+                        <?php foreach ($hospitals as $hospital): ?>
+                            <div class="card">
+                                <h2><?= esc($hospital['BusinessName']); ?></h2>
+                                <p><strong>Address:</strong> <?= esc($hospital['FullAddress']); ?></p>
+                                <p><strong>Phone:</strong> <?= esc($hospital['PhoneNumber']); ?></p>
+                                <p><strong>Permit Date:</strong> <?= esc($hospital['PermitDate']); ?></p>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <div class="card">
+                            <h2>No Hospitals Found</h2>
+                            <p>There are no hospital records available for this category at the moment.</p>
+                        </div>
+                    <?php endif; ?>
                 </div>
-            <?php endif; ?>
+                <div class="navigation">
+                    <button class="nav-button" onclick="prevSlide('<?= esc($category); ?>')">&#10094;</button>
+                    <button class="nav-button" onclick="nextSlide('<?= esc($category); ?>')">&#10095;</button>
+                </div>
+            </div>
         </div>
-        <div class="navigation">
-            <button class="nav-button" onclick="prevSlide()">&#10094;</button>
-            <button class="nav-button" onclick="nextSlide()">&#10095;</button>
-        </div>
-    </div>
+    <?php endforeach; ?>
 
     <script>
-        const cardContainer = document.querySelector('.card-container');
-        const cards = document.querySelectorAll('.card');
-        let currentIndex = 0;
-
-        function updateSlide() {
-            cardContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
+        function updateSlide(category, index) {
+            const container = document.getElementById(`container-${category}`);
+            container.style.transform = `translateX(-${index * 100}%)`;
         }
 
-        function nextSlide() {
-            if (currentIndex < cards.length - 1) {
-                currentIndex++;
+        const slideIndices = {};
+
+        <?php foreach ($hospitalsByCategory as $category => $hospitals): ?>
+            slideIndices['<?= esc($category); ?>'] = 0;
+        <?php endforeach; ?>
+
+        function nextSlide(category) {
+            const container = document.getElementById(`container-${category}`);
+            const cards = container.querySelectorAll('.card');
+            if (slideIndices[category] < cards.length - 1) {
+                slideIndices[category]++;
             } else {
-                currentIndex = 0;
+                slideIndices[category] = 0;
             }
-            updateSlide();
+            updateSlide(category, slideIndices[category]);
         }
 
-        function prevSlide() {
-            if (currentIndex > 0) {
-                currentIndex--;
+        function prevSlide(category) {
+            const container = document.getElementById(`container-${category}`);
+            const cards = container.querySelectorAll('.card');
+            if (slideIndices[category] > 0) {
+                slideIndices[category]--;
             } else {
-                currentIndex = cards.length - 1;
+                slideIndices[category] = cards.length - 1;
             }
-            updateSlide();
+            updateSlide(category, slideIndices[category]);
         }
     </script>
 </body>
