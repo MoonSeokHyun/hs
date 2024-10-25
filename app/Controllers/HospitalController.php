@@ -23,4 +23,16 @@ class HospitalController extends BaseController
 
         return view('hospital/index', $data);
     }
+
+    public function detail($id)
+    {
+        $hospitalModel = new HospitalModel();
+        $hospital = $hospitalModel->find($id);
+
+        if (!$hospital) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound("Hospital with ID {$id} not found");
+        }
+
+        return view('hospital/detail', ['hospital' => $hospital]);
+    }
 }

@@ -48,6 +48,7 @@
         }
         .card {
             min-width: 100%;
+            box-sizing: border-box;
             padding: 20px;
             background-color: #f9f9f9;
             display: flex;
@@ -58,6 +59,11 @@
             height: 180px;
             border: 1px solid #eee;
             border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .card:hover {
+            background-color: #f1f1f1;
         }
         .card h2 {
             margin: 0 0 10px;
@@ -102,12 +108,12 @@
                 <div class="card-container" id="container-<?= esc($category); ?>">
                     <?php if (!empty($hospitals) && is_array($hospitals)): ?>
                         <?php foreach ($hospitals as $hospital): ?>
-                            <div class="card">
+                            <a href="/hospitals/detail/<?= esc($hospital['ID']); ?>" class="card">
                                 <h2><?= esc($hospital['BusinessName']); ?></h2>
                                 <p><strong>Address:</strong> <?= esc($hospital['FullAddress']); ?></p>
                                 <p><strong>Phone:</strong> <?= esc($hospital['PhoneNumber']); ?></p>
                                 <p><strong>Permit Date:</strong> <?= esc($hospital['PermitDate']); ?></p>
-                            </div>
+                            </a>
                         <?php endforeach; ?>
                     <?php else: ?>
                         <div class="card">
@@ -127,7 +133,8 @@
     <script>
         function updateSlide(category, index) {
             const container = document.getElementById(`container-${category}`);
-            container.style.transform = `translateX(-${index * 100}%)`;
+            const cardWidth = container.querySelector('.card').offsetWidth;
+            container.style.transform = `translateX(-${index * cardWidth}px)`;
         }
 
         const slideIndices = {};
