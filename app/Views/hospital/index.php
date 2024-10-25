@@ -15,6 +15,7 @@
                 <th>Full Address</th>
                 <th>Phone Number</th>
                 <th>Permit Date</th>
+                <th>Test</th>
             </tr>
         </thead>
         <tbody>
