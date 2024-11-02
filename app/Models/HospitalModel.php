@@ -51,4 +51,26 @@ class HospitalModel extends Model
 
         return $result;
     }
+    
+    // Method to get nearby facilities within a radius
+    public function getNearbyFacilities($latitude, $longitude, $distance = 5, $limit = 5)
+    {
+        $latitude = (float) $latitude;
+        $longitude = (float) $longitude;
+
+        // Calculate nearby facilities using Haversine formula
+        $query = $this->db->query("
+            SELECT ID, BusinessName, FullAddress, PhoneNumber,
+            (6371 * acos(cos(radians($latitude)) * cos(radians(Coordinate_X)) * 
+            cos(radians(Coordinate_Y) - radians($longitude)) + 
+            sin(radians($latitude)) * sin(radians(Coordinate_X)))) AS distance
+            FROM MedicalInstitutions
+            WHERE Coordinate_X IS NOT NULL AND Coordinate_Y IS NOT NULL
+            HAVING distance <= $distance
+            ORDER BY distance
+            LIMIT $limit
+        ");
+
+        return $query->getResultArray();
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\HospitalModel;
+use App\Models\ReviewModel;
 
 class HospitalController extends BaseController
 {
@@ -10,10 +11,9 @@ class HospitalController extends BaseController
     {
         $hospitalModel = new HospitalModel();
 
-        // 카테고리별로 병원 정보를 가져옵니다
         $categories = [
-            '병원', '부속의료기관', '산후조리업', '안전상비의약품 판매업소', 
-            '약국', '응급환자이송업', '의료법인', '의료유사업', '의원'
+            '부속의료기관', '안전상비의약품 판매업소', 
+            '응급환자이송업', '의료유사업'
         ];
 
         $data['hospitalsByCategory'] = [];
@@ -27,12 +27,36 @@ class HospitalController extends BaseController
     public function detail($id)
     {
         $hospitalModel = new HospitalModel();
+        $reviewModel = new ReviewModel();
+
         $hospital = $hospitalModel->find($id);
+        $reviews = $reviewModel->getReviewsByHospital($id);
 
         if (!$hospital) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound("Hospital with ID {$id} not found");
         }
 
-        return view('hospital/detail', ['hospital' => $hospital]);
+        // 편의시설 정보를 추가
+        $nearbyFacilities = $hospitalModel->getNearbyFacilities($hospital['Coordinate_X'], $hospital['Coordinate_Y']);
+
+        return view('hospital/detail', [
+            'hospital' => $hospital,
+            'reviews' => $reviews,
+            'nearbyFacilities' => $nearbyFacilities
+        ]);
+    }
+
+    public function addReview()
+    {
+        $reviewModel = new ReviewModel();
+        $data = [
+            'hospital_id' => $this->request->getPost('hospital_id'),
+            'user_name'   => $this->request->getPost('user_name'),
+            'rating'      => $this->request->getPost('rating'),
+            'comment'     => $this->request->getPost('comment'),
+        ];
+        
+        $reviewModel->save($data);
+        return redirect()->to('/hospital/detail/' . $data['hospital_id']);
     }
 }
