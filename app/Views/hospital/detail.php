@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ease Hub - <?= esc($hospital['BusinessName']); ?> 정보</title>
+    <title><?= esc($hospital['BusinessName']); ?> 정보</title>
 
     <!-- SEO 메타태그 -->
     <meta name="description" content="<?= esc($hospital['BusinessName']); ?>에 대한 병원 정보 및 리뷰를 제공합니다. 병원 위치, 운영 상태, 의료 기관 유형, 연락처 등 상세 정보 확인.">
@@ -77,10 +77,11 @@
 
         #map {
             width: 100%;
-            height: 400px;
+            max-width: 800px; /* 지도 크기 줄이기 */
+            height: 300px;    /* 높이 설정 */
             margin-top: 20px;
             border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .add-review-form input[type="text"],
@@ -90,7 +91,7 @@
             border: 1px solid #ccc;
             border-radius: 4px;
             font-size: 1em;
-            width: 100%;
+            width: 98%;
             margin-top: 10px;
             margin-bottom: 10px;
         }
@@ -146,7 +147,6 @@
         <div class="card">
             <h2>기본 정보</h2>
             <p><strong>서비스명:</strong> <?= esc($hospital['OpenServiceName']); ?></p>
-            <p><strong>의료기관 유형:</strong> <?= esc($hospital['MedicalInstitutionType']); ?></p>
         </div>
         
         <div class="card">
@@ -167,7 +167,7 @@
     <div id="map"></div>
 
     <div class="nearby-facilities">
-        <h2>근처 편의시설 (2km 이내)</h2>
+        <h2>근처 편의시설 (5km 이내)</h2>
         <table>
             <thead>
                 <tr>
@@ -181,7 +181,7 @@
                 <?php if (!empty($nearbyFacilities)): ?>
                     <?php foreach ($nearbyFacilities as $facility): ?>
                         <tr>
-                            <td><a href="/facility/detail/<?= esc($facility['ID']); ?>"><?= esc($facility['BusinessName']); ?></a></td>
+                            <td><a href="/hospitals/detail/<?= esc($facility['ID']); ?>"><?= esc($facility['BusinessName']); ?></a></td>
                             <td><?= esc($facility['FullAddress']); ?></td>
                             <td><?= esc($facility['PhoneNumber']); ?></td>
                             <td><?= number_format($facility['distance'], 2); ?> km</td>
@@ -233,26 +233,39 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var coordinateX = <?= json_encode($hospital['Coordinate_X']); ?>;
-            var coordinateY = <?= json_encode($hospital['Coordinate_Y']); ?>;
-            
-            if (coordinateX && coordinateY) {
-                var mapOptions = {
-                    center: new naver.maps.LatLng(coordinateX, coordinateY),
-                    zoom: 16
-                };
-                
-                var map = new naver.maps.Map('map', mapOptions);
+        var latitude = <?= json_encode($latitude); ?>;
+        var longitude = <?= json_encode($longitude); ?>;
 
-                var markerOptions = {
-                    position: new naver.maps.LatLng(coordinateX, coordinateY),
-                    map: map
-                };
-                
-                var marker = new naver.maps.Marker(markerOptions);
+        var mapOptions = {
+            center: new naver.maps.LatLng(latitude, longitude),
+            zoom: 16
+        };
+
+        var map = new naver.maps.Map('map', mapOptions);
+
+        // 마커 추가
+        var marker = new naver.maps.Marker({
+            position: new naver.maps.LatLng(latitude, longitude),
+            map: map,
+            icon: {
+                url: 'https://example.com/path/to/custom-marker-icon.png',
+                size: new naver.maps.Size(30, 40),
+                origin: new naver.maps.Point(0, 0),
+                anchor: new naver.maps.Point(15, 40)
+            }
+        });
+
+        // 인포윈도우 생성
+        var infoWindow = new naver.maps.InfoWindow({
+            content: `<div style="padding:10px;font-size:14px;color:#333;"><strong><?= esc($hospital['BusinessName']); ?></strong></div>`
+        });
+
+        // 마커 클릭 시 인포윈도우 열기/닫기
+        naver.maps.Event.addListener(marker, 'click', function() {
+            if (infoWindow.getMap()) {
+                infoWindow.close();
             } else {
-                console.error("Coordinates are missing.");
+                infoWindow.open(map, marker);
             }
         });
     </script>

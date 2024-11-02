@@ -12,3 +12,6 @@ $routes->get('sitemap', 'SitemapController::index');
 $routes->get('sitemap/page/(:num)', 'SitemapController::page/$1');
 
 $routes->post('/hospital/addReview', 'HospitalController::addReview');
+
+$routes->get('facility/detail/(:num)', 'FacilityController::detail/$1');
+$routes->post('facility/addReview', 'FacilityController::addReview');

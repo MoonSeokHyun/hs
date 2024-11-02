@@ -53,7 +53,7 @@ class HospitalModel extends Model
     }
     
     // Method to get nearby facilities within a radius
-    public function getNearbyFacilities($latitude, $longitude, $distance = 5, $limit = 5)
+    public function getNearbyFacilities($latitude, $longitude, $distance = 10, $limit = 5)
     {
         $latitude = (float) $latitude;
         $longitude = (float) $longitude;
