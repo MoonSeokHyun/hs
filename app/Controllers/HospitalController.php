@@ -68,60 +68,69 @@ class HospitalController extends BaseController
 
     public function detail($id)
     {
-        $hospitalModel = new HospitalModel();
-        $reviewModel = new ReviewModel();
-
-        // 병원 상세 정보를 캐시 처리
-        $hospitalCacheKey = "hospital_detail_{$id}";
-        $hospital = cache()->get($hospitalCacheKey);
-        
-        if (!$hospital) {
-            $hospital = $hospitalModel->find($id);
-            cache()->save($hospitalCacheKey, $hospital, 3600);
+        try {
+            $hospitalModel = new HospitalModel();
+            $reviewModel = new ReviewModel();
+    
+            // 병원 상세 정보를 캐시 처리
+            $hospitalCacheKey = "hospital_detail_{$id}";
+            $hospital = cache()->get($hospitalCacheKey);
+            
+            if (!$hospital) {
+                $hospital = $hospitalModel->find($id);
+                cache()->save($hospitalCacheKey, $hospital, 3600);
+            }
+    
+            if (!$hospital) {
+                throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound("Hospital with ID {$id} not found");
+            }
+    
+            // 병원 리뷰와 평점 요약 정보 가져오기
+            $reviews = $reviewModel->getReviewsByHospital($id);
+            $ratingSummary = $hospitalModel->getHospitalRatingSummary($id);
+    
+            // 좌표 변환 캐시
+            $coordsCacheKey = "hospital_coords_{$id}";
+            $coords = cache()->get($coordsCacheKey);
+            
+            if (!$coords && isset($hospital['Coordinate_X'], $hospital['Coordinate_Y'])) {
+                $proj4 = new Proj4php();
+                $tmProj = new Proj('EPSG:5186', $proj4); 
+                $wgs84Proj = new Proj('EPSG:4326', $proj4); 
+    
+                $pointSrc = new Point($hospital['Coordinate_X'], $hospital['Coordinate_Y'], $tmProj);
+                $pointDest = $proj4->transform($wgs84Proj, $pointSrc);
+    
+                $coords = ['latitude' => $pointDest->y, 'longitude' => $pointDest->x];
+                cache()->save($coordsCacheKey, $coords, 3600);
+            }
+    
+            // 주변 시설 정보 캐시 및 가져오기
+            $nearbyCacheKey = "nearby_facilities_{$id}";
+            $nearbyFacilities = cache()->get($nearbyCacheKey);
+            
+            if (!$nearbyFacilities) {
+                $nearbyFacilities = $hospitalModel->getNearbyFacilities($coords['latitude'], $coords['longitude']);
+                cache()->save($nearbyCacheKey, $nearbyFacilities, 3600);
+            }
+    
+            return view('hospital/detail', [
+                'hospital' => $hospital,
+                'reviews' => $reviews,
+                'ratingSummary' => $ratingSummary,
+                'nearbyFacilities' => $nearbyFacilities,
+                'latitude' => $coords['latitude'],
+                'longitude' => $coords['longitude']
+            ]);
+    
+        } catch (\Exception $e) {
+            // 에러 발생 시 HTML 형식으로 에러 메시지 출력
+            return view('error_template', [
+                'errorMessage' => $e->getMessage()
+            ]);
         }
-
-        if (!$hospital) {
-            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound("Hospital with ID {$id} not found");
-        }
-
-        // 병원 리뷰와 평점 요약 정보 가져오기
-        $reviews = $reviewModel->getReviewsByHospital($id);
-        $ratingSummary = $hospitalModel->getHospitalRatingSummary($id);
-
-        // 좌표 변환 캐시
-        $coordsCacheKey = "hospital_coords_{$id}";
-        $coords = cache()->get($coordsCacheKey);
-        
-        if (!$coords && isset($hospital['Coordinate_X'], $hospital['Coordinate_Y'])) {
-            $proj4 = new Proj4php();
-            $tmProj = new Proj('EPSG:5186', $proj4); 
-            $wgs84Proj = new Proj('EPSG:4326', $proj4); 
-
-            $pointSrc = new Point($hospital['Coordinate_X'], $hospital['Coordinate_Y'], $tmProj);
-            $pointDest = $proj4->transform($wgs84Proj, $pointSrc);
-
-            $coords = ['latitude' => $pointDest->y, 'longitude' => $pointDest->x];
-            cache()->save($coordsCacheKey, $coords, 3600);
-        }
-
-        // 주변 시설 정보 캐시 및 가져오기
-        $nearbyCacheKey = "nearby_facilities_{$id}";
-        $nearbyFacilities = cache()->get($nearbyCacheKey);
-        
-        if (!$nearbyFacilities) {
-            $nearbyFacilities = $hospitalModel->getNearbyFacilities($coords['latitude'], $coords['longitude']);
-            cache()->save($nearbyCacheKey, $nearbyFacilities, 3600);
-        }
-
-        return view('hospital/detail', [
-            'hospital' => $hospital,
-            'reviews' => $reviews,
-            'ratingSummary' => $ratingSummary,
-            'nearbyFacilities' => $nearbyFacilities,
-            'latitude' => $coords['latitude'],
-            'longitude' => $coords['longitude']
-        ]);
     }
+    
 
     public function addReview()
     {
