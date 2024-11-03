@@ -19,8 +19,8 @@
 #--------------------------------------------------------------------
 # APP
 #--------------------------------------------------------------------
+app.baseURL = 'https://easehub.co.kr/'
 
-# app.baseURL = ''
 # If you have trouble with `.`, you could also use `_`.
 # app_baseURL = ''
 # app.forceGlobalSecureRequests = false
