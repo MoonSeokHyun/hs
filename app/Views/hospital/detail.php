@@ -21,6 +21,7 @@
     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
 
     <style>
+        /* 기본 스타일 */
         body {
             font-family: 'Helvetica Neue', sans-serif;
             background-color: #f8f9fa;
@@ -32,7 +33,20 @@
             flex-direction: column;
             color: #333333;
         }
-        
+
+        /* 컨테이너 스타일 */
+        .container {
+            width: 80%;
+            max-width: 800px;
+        }
+
+        /* 모바일 화면에서 컨테이너 너비를 95%로 설정 */
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+            }
+        }
+
         h1 {
             text-align: center;
             color: #007b83;
@@ -41,8 +55,6 @@
         }
 
         .hospital-details, .review-section, .nearby-facilities, .add-review-form {
-            max-width: 800px;
-            width: 100%;
             padding: 20px;
             border: 1px solid #ddd;
             border-radius: 8px;
@@ -77,8 +89,7 @@
 
         #map {
             width: 100%;
-            max-width: 800px; /* 지도 크기 줄이기 */
-            height: 300px;    /* 높이 설정 */
+            height: 300px;
             margin-top: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -138,98 +149,128 @@
         .nearby-facilities a:hover {
             text-decoration: underline;
         }
+
+        /* Footer styling */
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            font-size: 0.9em;
+            color: #666;
+            border-top: 1px solid #ddd;
+            background-color: #f7f9fc;
+            border-radius: 8px;
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer a {
+            color: #007b83;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
-    <h1><?= esc($hospital['BusinessName']); ?></h1>
+    <div class="container">
+        <h1><?= esc($hospital['BusinessName']); ?></h1>
 
-    <div class="hospital-details">
-        <div class="card">
-            <h2>기본 정보</h2>
-            <p><strong>서비스명:</strong> <?= esc($hospital['OpenServiceName']); ?></p>
-        </div>
-        
-        <div class="card">
-            <h2>운영 상태</h2>
-            <p><strong>영업 상태:</strong> <?= esc($hospital['BusinessStatusName']); ?></p>
-            <p><strong>허가일자:</strong> <?= esc($hospital['PermitDate']); ?></p>
-        </div>
-        
-        <div class="card">
-            <h2>연락처 및 위치</h2>
-            <p><strong>전화번호:</strong> <?= esc($hospital['PhoneNumber']); ?></p>
-            <p><strong>주소:</strong> <?= esc($hospital['FullAddress']); ?></p>
-            <p><strong>도로명 주소:</strong> <?= esc($hospital['RoadNameFullAddress']); ?></p>
-            <p><strong>우편번호:</strong> <?= esc($hospital['PostalCode']); ?></p>
-        </div>
-    </div>
-
-    <div id="map"></div>
-
-    <div class="nearby-facilities">
-        <h2>근처 편의시설 (5km 이내)</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>시설명</th>
-                    <th>주소</th>
-                    <th>전화번호</th>
-                    <th>거리 (km)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if (!empty($nearbyFacilities)): ?>
-                    <?php foreach ($nearbyFacilities as $facility): ?>
-                        <tr>
-                            <td><a href="/hospitals/detail/<?= esc($facility['ID']); ?>"><?= esc($facility['BusinessName']); ?></a></td>
-                            <td><?= esc($facility['FullAddress']); ?></td>
-                            <td><?= esc($facility['PhoneNumber']); ?></td>
-                            <td><?= number_format($facility['distance'], 2); ?> km</td>
-                        </tr>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <tr><td colspan="4">근처에 편의시설이 없습니다.</td></tr>
-                <?php endif; ?>
-            </tbody>
-        </table>
-    </div>
-
-    <div class="review-section">
-        <h2>리뷰 및 평점</h2>
-        <?php if ($reviews): ?>
-            <?php foreach ($reviews as $review): ?>
-                <div class="review">
-                    <p><strong><?= esc($review['user_name']); ?></strong> - <span class="review-rating"><?= str_repeat('★', $review['rating']); ?></span></p>
-                    <p><?= esc($review['comment']); ?></p>
-                    <p><small><?= esc($review['created_at']); ?></small></p>
-                </div>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <p>아직 리뷰가 없습니다.</p>
-        <?php endif; ?>
-    </div>
-
-    <div class="add-review-form">
-        <h2>리뷰 작성</h2>
-        <form action="/hospital/addReview" method="post">
-            <input type="hidden" name="hospital_id" value="<?= esc($hospital['ID']); ?>">
-            <label for="user_name">이름:</label>
-            <input type="text" name="user_name" required>
+        <div class="hospital-details">
+            <div class="card">
+                <h2>기본 정보</h2>
+                <p><strong>서비스명:</strong> <?= esc($hospital['OpenServiceName']); ?></p>
+            </div>
             
-            <label for="rating">평점:</label>
-            <select name="rating" required>
-                <option value="5">★★★★★</option>
-                <option value="4">★★★★</option>
-                <option value="3">★★★</option>
-                <option value="2">★★</option>
-                <option value="1">★</option>
-            </select>
+            <div class="card">
+                <h2>운영 상태</h2>
+                <p><strong>영업 상태:</strong> <?= esc($hospital['BusinessStatusName']); ?></p>
+                <p><strong>허가일자:</strong> <?= esc($hospital['PermitDate']); ?></p>
+            </div>
             
-            <label for="comment">댓글:</label>
-            <textarea name="comment" rows="4" required></textarea>
-            
-            <button type="submit">리뷰 작성</button>
-        </form>
+            <div class="card">
+                <h2>연락처 및 위치</h2>
+                <p><strong>전화번호:</strong> <?= esc($hospital['PhoneNumber']); ?></p>
+                <p><strong>주소:</strong> <?= esc($hospital['FullAddress']); ?></p>
+                <p><strong>도로명 주소:</strong> <?= esc($hospital['RoadNameFullAddress']); ?></p>
+                <p><strong>우편번호:</strong> <?= esc($hospital['PostalCode']); ?></p>
+            </div>
+        </div>
+
+        <div id="map"></div>
+
+        <div class="nearby-facilities">
+            <h2>근처 편의시설 (5km 이내)</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>시설명</th>
+                        <th>주소</th>
+                        <th>전화번호</th>
+                        <th>거리 (km)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (!empty($nearbyFacilities)): ?>
+                        <?php foreach ($nearbyFacilities as $facility): ?>
+                            <tr>
+                                <td><a href="/hospitals/detail/<?= esc($facility['ID']); ?>"><?= esc($facility['BusinessName']); ?></a></td>
+                                <td><?= esc($facility['FullAddress']); ?></td>
+                                <td><?= esc($facility['PhoneNumber']); ?></td>
+                                <td><?= number_format($facility['distance'], 2); ?> km</td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr><td colspan="4">근처에 편의시설이 없습니다.</td></tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="review-section">
+            <h2>리뷰 및 평점</h2>
+            <?php if ($reviews): ?>
+                <?php foreach ($reviews as $review): ?>
+                    <div class="review">
+                        <p><strong><?= esc($review['user_name']); ?></strong> - <span class="review-rating"><?= str_repeat('★', $review['rating']); ?></span></p>
+                        <p><?= esc($review['comment']); ?></p>
+                        <p><small><?= esc($review['created_at']); ?></small></p>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>아직 리뷰가 없습니다.</p>
+            <?php endif; ?>
+        </div>
+
+        <div class="add-review-form">
+            <h2>리뷰 작성</h2>
+            <form action="/hospital/addReview" method="post">
+                <input type="hidden" name="hospital_id" value="<?= esc($hospital['ID']); ?>">
+                <label for="user_name">이름:</label>
+                <input type="text" name="user_name" required>
+                
+                <label for="rating">평점:</label>
+                <select name="rating" required>
+                    <option value="5">★★★★★</option>
+                    <option value="4">★★★★</option>
+                    <option value="3">★★★</option>
+                    <option value="2">★★</option>
+                    <option value="1">★</option>
+                </select>
+                
+                <label for="comment">댓글:</label>
+                <textarea name="comment" rows="4" required></textarea>
+                
+                <button type="submit">리뷰 작성</button>
+            </form>
+        </div>
+
+        <div class="footer">
+            본 데이터는 <a href="https://www.data.go.kr" target="_blank">www.data.go.kr</a>에서 제공한 자료를 기반으로 하였습니다.<br>
+            이 웹 사이트는 영리 목적으로 만들어졌습니다.<br>
+            잘못된 정보는 <a href="mailto:gjqmaoslwj@naver.com">gjqmaoslwj@naver.com</a>으로 문의해 주세요.
+        </div>
     </div>
 
     <script>
@@ -243,7 +284,6 @@
 
         var map = new naver.maps.Map('map', mapOptions);
 
-        // 마커 추가
         var marker = new naver.maps.Marker({
             position: new naver.maps.LatLng(latitude, longitude),
             map: map,
@@ -255,12 +295,10 @@
             }
         });
 
-        // 인포윈도우 생성
         var infoWindow = new naver.maps.InfoWindow({
             content: `<div style="padding:10px;font-size:14px;color:#333;"><strong><?= esc($hospital['BusinessName']); ?></strong></div>`
         });
 
-        // 마커 클릭 시 인포윈도우 열기/닫기
         naver.maps.Event.addListener(marker, 'click', function() {
             if (infoWindow.getMap()) {
                 infoWindow.close();

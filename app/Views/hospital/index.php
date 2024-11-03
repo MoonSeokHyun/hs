@@ -1,169 +1,212 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ease Hub</title>
+    <title>Ease Hub - 편의시설 정보</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Ease Hub에서 인기 있는 편의시설, 최근 추가된 시설 및 최신 리뷰를 확인하세요. 서울 지역의 병원 및 편의시설 정보를 제공합니다.">
+    <meta name="keywords" content=" 편의시설, Ease Hub 리뷰, 인기 시설, 최근 추가">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Ease Hub">
+    
+    <!-- Open Graph for social media -->
+    <meta property="og:title" content="Ease Hub -  편의시설 정보">
+    <meta property="og:description" content="서울 지역  편의시설 정보, 최신 리뷰와 인기 시설을 확인하세요.">
+    <meta property="og:image" content="">
+    <meta property="og:url" content="https://easehub.co.kr/>
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card for Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Ease Hub - 편의시설 정보">
+    <meta name="twitter:description" content="서울 지역  편의시설 정보, 최신 리뷰와 인기 시설을 확인하세요.">
+    <meta name="twitter:image" content="YOUR_IMAGE_URL_HERE">
+
     <style>
+        /* Body and container styles */
         body {
-            font-family: 'Helvetica Neue', sans-serif;
-            background-color: #ffffff;
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
+            background-color: #f7f9fc;
+            color: #333;
             display: flex;
             justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            min-height: 100vh;
         }
+
+        .container {
+            width: 80%;
+            max-width: 900px;
+        }
+
+        /* 모바일 화면에서 container 너비를 95%로 설정 */
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+            }
+        }
+
+        /* Title styling */
         h1 {
             text-align: center;
-            color: #333;
+            color: #007bff;
             margin-bottom: 20px;
-            font-size: 2.2em;
-            font-weight: 500;
         }
-        .category {
+
+        /* Section styling */
+        .section {
             margin-bottom: 40px;
-            width: 100%;
-            max-width: 800px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
-        .category h2 {
-            text-align: left;
+
+        .section h2 {
             font-size: 1.5em;
             color: #333;
-            margin-bottom: 15px;
-            font-weight: 400;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 2px solid #007bff;
             padding-bottom: 5px;
+            margin-bottom: 15px;
         }
-        .carousel {
-            overflow: hidden;
-            position: relative;
-            border-radius: 8px;
-        }
-        .card-container {
-            display: flex;
-            transition: transform 0.3s ease-in-out;
-        }
-        .card {
-            min-width: 100%;
-            box-sizing: border-box;
-            padding: 20px;
-            background-color: #f9f9f9;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-            text-align: left;
-            height: 180px;
-            border: 1px solid #eee;
+
+        /* Facility, review, and category item styling */
+        .facility, .review, .category-item {
+            padding: 15px;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
             border-radius: 8px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.2s;
         }
-        .card:hover {
-            background-color: #f1f1f1;
+
+        .facility:hover, .review:hover, .category-item:hover {
+            background-color: #f0f8ff;
         }
-        .card h2 {
-            margin: 0 0 10px;
-            font-size: 1.2em;
+
+        .facility h3, .review h3, .category-item h3 {
+            margin: 0 0 5px;
             color: #333;
-            font-weight: 400;
         }
-        .card p {
-            margin: 4px 0;
+
+        .facility p, .review p, .category-item p {
+            margin: 5px 0;
             color: #666;
             font-size: 0.9em;
-            line-height: 1.4em;
         }
-        .navigation {
-            position: absolute;
-            top: 50%;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            transform: translateY(-50%);
+
+        /* Rating color */
+        .rating {
+            color: #ffc107;
         }
-        .nav-button {
-            background-color: transparent;
-            border: none;
-            font-size: 1.5em;
-            cursor: pointer;
-            color: #007bff;
-            opacity: 0.6;
-            transition: opacity 0.3s;
+
+        /* Footer styling */
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #f7f9fc;
+            color: #666;
+            font-size: 0.9em;
+            border-top: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
         }
-        .nav-button:hover {
-            opacity: 1;
+
+        .footer a {
+            color: #007b83;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
         }
     </style>
-</head>
-<body>
-    <h1>Ease Hub </h1>
-    <?php foreach ($hospitalsByCategory as $category => $hospitals): ?>
-        <div class="category">
-            <h2><?= esc($category); ?></h2>
-            <div class="carousel">
-                <div class="card-container" id="container-<?= esc($category); ?>">
-                    <?php if (!empty($hospitals) && is_array($hospitals)): ?>
-                        <?php foreach ($hospitals as $hospital): ?>
-                            <a href="/hospitals/detail/<?= esc($hospital['ID']); ?>" class="card">
-                                <h2><?= esc($hospital['BusinessName']); ?></h2>
-                                <p><strong>Address:</strong> <?= esc($hospital['FullAddress']); ?></p>
-                                <p><strong>Phone:</strong> <?= esc($hospital['PhoneNumber']); ?></p>
-                                <p><strong>Permit Date:</strong> <?= esc($hospital['PermitDate']); ?></p>
-                            </a>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <div class="card">
-                            <h2>No Hospitals Found</h2>
-                            <p>There are no hospital records available for this category at the moment.</p>
-                        </div>
-                    <?php endif; ?>
-                </div>
-                <div class="navigation">
-                    <button class="nav-button" onclick="prevSlide('<?= esc($category); ?>')">&#10094;</button>
-                    <button class="nav-button" onclick="nextSlide('<?= esc($category); ?>')">&#10095;</button>
-                </div>
-            </div>
-        </div>
-    <?php endforeach; ?>
 
     <script>
-        function updateSlide(category, index) {
-            const container = document.getElementById(`container-${category}`);
-            const cardWidth = container.querySelector('.card').offsetWidth;
-            container.style.transform = `translateX(-${index * cardWidth}px)`;
-        }
-
-        const slideIndices = {};
-
-        <?php foreach ($hospitalsByCategory as $category => $hospitals): ?>
-            slideIndices['<?= esc($category); ?>'] = 0;
-        <?php endforeach; ?>
-
-        function nextSlide(category) {
-            const container = document.getElementById(`container-${category}`);
-            const cards = container.querySelectorAll('.card');
-            if (slideIndices[category] < cards.length - 1) {
-                slideIndices[category]++;
-            } else {
-                slideIndices[category] = 0;
-            }
-            updateSlide(category, slideIndices[category]);
-        }
-
-        function prevSlide(category) {
-            const container = document.getElementById(`container-${category}`);
-            const cards = container.querySelectorAll('.card');
-            if (slideIndices[category] > 0) {
-                slideIndices[category]--;
-            } else {
-                slideIndices[category] = cards.length - 1;
-            }
-            updateSlide(category, slideIndices[category]);
+        function navigateTo(url) {
+            window.location.href = url;
         }
     </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Ease Hub</h1>
+
+        <!-- 인기 있는 편의시설 섹션 -->
+        <div class="section">
+            <h2>인기 있는 편의시설</h2>
+            <?php if (!empty($popularFacilities)): ?>
+                <?php foreach ($popularFacilities as $facility): ?>
+                    <div class="facility" onclick="navigateTo('/hospitals/detail/<?= esc($facility['ID']); ?>')">
+                        <h3><?= esc($facility['BusinessName']); ?></h3>
+                        <p>주소: <?= isset($facility['FullAddress']) ? esc($facility['FullAddress']) : '주소 정보 없음'; ?></p>
+                        <p>평균 평점: <span class="rating"><?= number_format($facility['avg_rating'], 1); ?> / 5</span></p>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>인기 있는 편의시설이 없습니다.</p>
+            <?php endif; ?>
+        </div>
+
+        <!-- 최근 등록된 리뷰 섹션 -->
+        <div class="section">
+            <h2>최근 리뷰</h2>
+            <?php if (!empty($latestReviews)): ?>
+                <?php foreach ($latestReviews as $review): ?>
+                    <div class="review" onclick="navigateTo('/hospitals/detail/<?= esc($review['hospital_id']); ?>')">
+                        <h3><?= esc($review['BusinessName']); ?></h3>
+                        <p>리뷰어: <?= esc($review['user_name']); ?></p>
+                        <p>평점: <span class="rating"><?= esc($review['rating']); ?> / 5</span></p>
+                        <p><?= esc($review['comment']); ?></p>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>최근 리뷰가 없습니다.</p>
+            <?php endif; ?>
+        </div>
+
+        <!-- 최근 추가된 편의시설 섹션 -->
+        <div class="section">
+            <h2>최근 추가된 편의시설</h2>
+            <?php if (!empty($recentlyAddedFacilities)): ?>
+                <?php foreach (array_slice($recentlyAddedFacilities, 0, 5) as $facility): ?>
+                    <div class="facility" onclick="navigateTo('/hospitals/detail/<?= esc($facility['ID']); ?>')">
+                        <h3><?= esc($facility['BusinessName']); ?></h3>
+                        <p>주소: <?= isset($facility['FullAddress']) ? esc($facility['FullAddress']) : '주소 정보 없음'; ?></p>
+                        <p>추가일: <?= date('Y-m-d', strtotime($facility['PermitDate'])); ?></p>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>최근 추가된 편의시설이 없습니다.</p>
+            <?php endif; ?>
+        </div>
+
+        <!-- 편의시설 목록 섹션 -->
+        <div class="section">
+            <h2>편의시설</h2>
+            <?php if (!empty($hospitalsByCategory)): ?>
+                <?php foreach ($hospitalsByCategory as $category => $hospitals): ?>
+                    <h3><?= esc($category); ?></h3>
+                    <?php foreach (array_slice($hospitals, 0, 5) as $hospital): ?>
+                        <div class="category-item" onclick="navigateTo('/hospitals/detail/<?= esc($hospital['ID']); ?>')">
+                            <h3><?= esc($hospital['BusinessName']); ?></h3>
+                            <p><strong>주소:</strong> <?= isset($hospital['FullAddress']) ? esc($hospital['FullAddress']) : '주소 정보 없음'; ?></p>
+                            <p>평균 평점: <span class="rating"><?= number_format($hospital['average_rating'], 1); ?> / 5</span> (<?= esc($hospital['review_count']); ?>개 리뷰)</p>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>편의시설 정보가 없습니다.</p>
+            <?php endif; ?>
+        </div>
+        <div class="footer">
+            본 데이터는 <a href="https://www.data.go.kr" target="_blank">www.data.go.kr</a>에서 제공한 자료를 기반으로 하였습니다.<br>
+            이 웹 사이트는 영리 목적으로 만들어졌습니다.<br>
+            잘못된 정보는 <a href="mailto:gjqmaoslwj@naver.com">gjqmaoslwj@naver.com</a>으로 문의해 주세요.
+        </div>
+    </div>
 </body>
 </html>

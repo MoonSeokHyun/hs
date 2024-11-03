@@ -13,18 +13,57 @@ class HospitalController extends BaseController
     public function index()
     {
         $hospitalModel = new HospitalModel();
+        $reviewModel = new ReviewModel();
 
+        // 병원 카테고리 정의
         $categories = [
             '부속의료기관', '안전상비의약품 판매업소', 
             '응급환자이송업', '의료유사업'
         ];
 
-        $data['hospitalsByCategory'] = [];
-        foreach ($categories as $category) {
-            $data['hospitalsByCategory'][$category] = $hospitalModel->getHospitalsByCategory($category, 10);
-        }
+        $data = [];
+
+        // 카테고리별 병원 조회 및 캐시 처리
+        $data['hospitalsByCategory'] = $this->fetchHospitalsByCategory($hospitalModel, $reviewModel, $categories);
+
+        // 인기 있는 시설과 최근 추가된 시설 캐싱된 데이터 가져오기
+        $data['popularFacilities'] = cache()->remember('popularFacilities', 3600, function() use ($hospitalModel) {
+            return $hospitalModel->getPopularFacilitiesByRating(10);
+        });
+
+        $data['recentlyAddedFacilities'] = cache()->remember('recentlyAddedFacilities', 3600, function() use ($hospitalModel) {
+            return $hospitalModel->getRecentlyAddedFacilities(10);
+        });
+
+        // 최근 리뷰 캐시 설정
+        $data['latestReviews'] = cache()->remember('latestReviews', 600, function() use ($reviewModel) {
+            return $reviewModel->getLatestReviews(5);
+        });
 
         return view('hospital/index', $data);
+    }
+
+    // 카테고리별 병원을 캐시하고 리뷰 모델과 함께 가져오는 메서드
+    private function fetchHospitalsByCategory($hospitalModel, $reviewModel, $categories)
+    {
+        $categoryData = [];
+        foreach ($categories as $category) {
+            $cacheKey = "hospitalsByCategory_{$category}";
+            $hospitals = cache()->get($cacheKey);
+
+            if (!$hospitals) {
+                $hospitals = $hospitalModel->getHospitalsByCategory($category, 10);
+                foreach ($hospitals as &$hospital) {
+                    $ratingData = $reviewModel->getAverageRatingByHospital($hospital['ID']);
+                    $hospital['average_rating'] = $ratingData['average_rating'] ?? 0;
+                    $hospital['review_count'] = $ratingData['review_count'] ?? 0;
+                }
+                cache()->save($cacheKey, $hospitals, 3600);
+            }
+            $categoryData[$category] = $hospitals;
+        }
+
+        return $categoryData;
     }
 
     public function detail($id)
@@ -32,52 +71,74 @@ class HospitalController extends BaseController
         $hospitalModel = new HospitalModel();
         $reviewModel = new ReviewModel();
 
-        $hospital = $hospitalModel->find($id);
-        $reviews = $reviewModel->getReviewsByHospital($id);
+        // 병원 상세 정보를 캐시 처리
+        $hospitalCacheKey = "hospital_detail_{$id}";
+        $hospital = cache()->get($hospitalCacheKey);
+        
+        if (!$hospital) {
+            $hospital = $hospitalModel->find($id);
+            cache()->save($hospitalCacheKey, $hospital, 3600);
+        }
 
         if (!$hospital) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound("Hospital with ID {$id} not found");
         }
 
-        // TM 좌표를 WGS84 좌표로 변환
-        $latitude = null;
-        $longitude = null;
+        // 병원 리뷰와 평점 요약 정보 가져오기
+        $reviews = $reviewModel->getReviewsByHospital($id);
+        $ratingSummary = $hospitalModel->getHospitalRatingSummary($id);
 
-        if (isset($hospital['Coordinate_X'], $hospital['Coordinate_Y'])) {
+        // 좌표 변환 캐시
+        $coordsCacheKey = "hospital_coords_{$id}";
+        $coords = cache()->get($coordsCacheKey);
+        
+        if (!$coords && isset($hospital['Coordinate_X'], $hospital['Coordinate_Y'])) {
             $proj4 = new Proj4php();
-            $tmProj = new Proj('EPSG:5186', $proj4); // 한국 TM 좌표계
-            $wgs84Proj = new Proj('EPSG:4326', $proj4); // WGS84 좌표계
+            $tmProj = new Proj('EPSG:5186', $proj4); 
+            $wgs84Proj = new Proj('EPSG:4326', $proj4); 
 
             $pointSrc = new Point($hospital['Coordinate_X'], $hospital['Coordinate_Y'], $tmProj);
             $pointDest = $proj4->transform($wgs84Proj, $pointSrc);
 
-            $latitude = $pointDest->y; // 변환된 위도
-            $longitude = $pointDest->x; // 변환된 경도
+            $coords = ['latitude' => $pointDest->y, 'longitude' => $pointDest->x];
+            cache()->save($coordsCacheKey, $coords, 3600);
         }
 
-        // 편의시설 정보를 추가
-        $nearbyFacilities = $hospitalModel->getNearbyFacilities($hospital['Coordinate_X'], $hospital['Coordinate_Y']);
+        // 주변 시설 정보 캐시 및 가져오기
+        $nearbyCacheKey = "nearby_facilities_{$id}";
+        $nearbyFacilities = cache()->get($nearbyCacheKey);
+        
+        if (!$nearbyFacilities) {
+            $nearbyFacilities = $hospitalModel->getNearbyFacilities($coords['latitude'], $coords['longitude']);
+            cache()->save($nearbyCacheKey, $nearbyFacilities, 3600);
+        }
 
         return view('hospital/detail', [
             'hospital' => $hospital,
             'reviews' => $reviews,
+            'ratingSummary' => $ratingSummary,
             'nearbyFacilities' => $nearbyFacilities,
-            'latitude' => $latitude,
-            'longitude' => $longitude
+            'latitude' => $coords['latitude'],
+            'longitude' => $coords['longitude']
         ]);
     }
 
     public function addReview()
     {
         $reviewModel = new ReviewModel();
+
         $data = [
             'hospital_id' => $this->request->getPost('hospital_id'),
             'user_name'   => $this->request->getPost('user_name'),
             'rating'      => $this->request->getPost('rating'),
             'comment'     => $this->request->getPost('comment'),
         ];
-        
+
         $reviewModel->save($data);
+
+        // 리뷰 저장 후 캐시 삭제
+        cache()->delete("hospital_detail_{$data['hospital_id']}_reviews");
+
         return redirect()->to('/hospital/detail/' . $data['hospital_id']);
     }
 }
