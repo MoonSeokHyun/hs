@@ -14,56 +14,54 @@
 # ENVIRONMENT
 #--------------------------------------------------------------------
 
-# CI_ENVIRONMENT = production
+CI_ENVIRONMENT = development
 
 #--------------------------------------------------------------------
 # APP
 #--------------------------------------------------------------------
+
 app.baseURL = 'https://easehub.co.kr/'
 
-# If you have trouble with `.`, you could also use `_`.
-# app_baseURL = ''
-# app.forceGlobalSecureRequests = false
-# app.CSPEnabled = false
+# 강제로 HTTPS를 사용하도록 설정하려면 true로 설정
+app.forceGlobalSecureRequests = true
 
 #--------------------------------------------------------------------
 # DATABASE
 #--------------------------------------------------------------------
 
-# database.default.hostname = localhost
-# database.default.database = ci4
-# database.default.username = root
-# database.default.password = root
-# database.default.DBDriver = MySQLi
-# database.default.DBPrefix =
-# database.default.port = 3306
-
-# If you use MySQLi as tests, first update the values of Config\Database::$tests.
-# database.tests.hostname = localhost
-# database.tests.database = ci4_test
-# database.tests.username = root
-# database.tests.password = root
-# database.tests.DBDriver = MySQLi
-# database.tests.DBPrefix =
-# database.tests.charset = utf8mb4
-# database.tests.DBCollat = utf8mb4_general_ci
-# database.tests.port = 3306
+database.default.hostname = localhost
+database.default.database = ci4  # 실제 데이터베이스 이름으로 변경
+database.default.username = root  # 실제 사용자 이름으로 변경
+database.default.password = root  # 실제 비밀번호로 변경
+database.default.DBDriver = MySQLi
+database.default.DBPrefix =
+database.default.port = 3306
 
 #--------------------------------------------------------------------
 # ENCRYPTION
 #--------------------------------------------------------------------
 
-# encryption.key =
+# 앱의 데이터 암호화를 위해 고유한 키를 추가하십시오.
+encryption.key = 'your-encryption-key-here'
 
 #--------------------------------------------------------------------
 # SESSION
 #--------------------------------------------------------------------
 
-# session.driver = 'CodeIgniter\Session\Handlers\FileHandler'
-# session.savePath = null
+session.driver = 'CodeIgniter\Session\Handlers\FileHandler'
+session.savePath = 'writable/session'  # 세션 데이터를 저장할 폴더 지정
 
 #--------------------------------------------------------------------
 # LOGGER
 #--------------------------------------------------------------------
 
-# logger.threshold = 4
+# 로깅 수준을 설정합니다.
+# 1 = Error, 2 = Warning, 3 = Debug, 4 = Info, 5 = All messages
+logger.threshold = 4
+
+#--------------------------------------------------------------------
+# 기타 설정
+#--------------------------------------------------------------------
+
+# 오류 페이지가 제대로 보이지 않을 경우, 캐시 문제 해결을 위해 app.CSPEnabled을 false로 설정
+app.CSPEnabled = false
