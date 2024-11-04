@@ -25,7 +25,8 @@
     <meta name="twitter:title" content="Ease Hub - 편의시설 정보">
     <meta name="twitter:description" content="서울 지역  편의시설 정보, 최신 리뷰와 인기 시설을 확인하세요.">
     <meta name="twitter:image" content="YOUR_IMAGE_URL_HERE">
-
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
+    crossorigin="anonymous"></script>
     <style>
         /* Body and container styles */
         body {
