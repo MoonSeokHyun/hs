@@ -9,15 +9,21 @@
     <meta name="description" content="<?= esc($hospital['BusinessName']); ?>에 대한 병원 정보 및 리뷰를 제공합니다. 병원 위치, 운영 상태, 의료 기관 유형, 연락처 등 상세 정보 확인.">
     <meta name="keywords" content="<?= esc($hospital['BusinessName']); ?>, 병원 정보, 의료기관, 리뷰, 연락처, 주소">
     <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph for social media -->
     <meta property="og:title" content="Ease Hub - <?= esc($hospital['BusinessName']); ?> 정보">
     <meta property="og:description" content="<?= esc($hospital['BusinessName']); ?>에 대한 병원 정보 및 리뷰. 위치, 운영 상태, 의료 기관 유형, 연락처 등 상세 정보 제공.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://easehub.co.kr/hospital/detail/<?= esc($hospital['ID']); ?>">
-    <meta property="og:image" content="https://easehub.co.kr/images/hospital.jpg"> <!-- 이미지 URL 예시 -->
+    <meta property="og:image" content="https://easehub.co.kr/hospital-project/public/img/logo.png">
+
+    <!-- Twitter Card for Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Ease Hub - <?= esc($hospital['BusinessName']); ?> 정보">
     <meta name="twitter:description" content="<?= esc($hospital['BusinessName']); ?> 병원 정보 및 리뷰 확인">
+    <meta name="twitter:image" content="https://easehub.co.kr/hospital-project/public/img/logo.png">
 
+    <!-- Naver 지도 API -->
     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
 
     <style>

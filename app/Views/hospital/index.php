@@ -14,19 +14,22 @@
     <meta name="author" content="Ease Hub">
     
     <!-- Open Graph for social media -->
-    <meta property="og:title" content="Ease Hub -  편의시설 정보">
-    <meta property="og:description" content="서울 지역  편의시설 정보, 최신 리뷰와 인기 시설을 확인하세요.">
-    <meta property="og:image" content="">
-    <meta property="og:url" content="https://easehub.co.kr/>
+    <meta property="og:title" content="Ease Hub - 편의시설 정보">
+    <meta property="og:description" content="서울 지역 편의시설 정보, 최신 리뷰와 인기 시설을 확인하세요.">
+    <meta property="og:image" content="https://easehub.co.kr/hospital-project/public/img/logo.png">
+    <meta property="og:url" content="https://easehub.co.kr">
     <meta property="og:type" content="website">
 
     <!-- Twitter Card for Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Ease Hub - 편의시설 정보">
-    <meta name="twitter:description" content="서울 지역  편의시설 정보, 최신 리뷰와 인기 시설을 확인하세요.">
-    <meta name="twitter:image" content="YOUR_IMAGE_URL_HERE">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
-    crossorigin="anonymous"></script>
+    <meta name="twitter:description" content="서울 지역 편의시설 정보, 최신 리뷰와 인기 시설을 확인하세요.">
+    <meta name="twitter:image" content="https://easehub.co.kr/hospital-project/public/img/logo.png">
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464" crossorigin="anonymous"></script>
+    <!-- CSS and other styles go here -->
+</head>
+
     <style>
         /* Body and container styles */
         body {
@@ -133,7 +136,6 @@
             window.location.href = url;
         }
     </script>
-</head>
 <body>
     <div class="container">
         <h1>Ease Hub</h1>
