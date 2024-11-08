@@ -272,7 +272,7 @@
             </form>
         </div>
         <div class="social-share" style="text-align: center; margin-top: 20px;">
-    <p>이 병원 정보를 공유하세요:</p>
+    <p>이 편의시설 정보를 공유하세요:</p>
     
     <!-- Facebook 공유 버튼 -->
     <a href="https://facebook.com/sharer/sharer.php?u=https://easehub.co.kr/hospital/detail/<?= esc($hospital['ID']); ?>" target="_blank" style="display: inline-block; margin-right: 10px;">
