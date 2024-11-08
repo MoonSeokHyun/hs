@@ -271,6 +271,20 @@
                 <button type="submit">리뷰 작성</button>
             </form>
         </div>
+        <div class="social-share" style="text-align: center; margin-top: 20px;">
+    <p>이 병원 정보를 공유하세요:</p>
+    
+    <!-- Facebook 공유 버튼 -->
+    <a href="https://facebook.com/sharer/sharer.php?u=https://easehub.co.kr/hospital/detail/<?= esc($hospital['ID']); ?>" target="_blank" style="display: inline-block; margin-right: 10px;">
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook 공유" style="width: 40px; height: 40px;">
+    </a>
+    
+    <!-- Twitter 공유 버튼 -->
+    <a href="https://twitter.com/share?url=https://easehub.co.kr/hospital/detail/<?= esc($hospital['ID']); ?>" target="_blank" style="display: inline-block;">
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter 공유" style="width: 40px; height: 40px;">
+    </a>
+</div>
+
 
         <div class="footer">
             본 데이터는 <a href="https://www.data.go.kr" target="_blank">www.data.go.kr</a>에서 제공한 자료를 기반으로 하였습니다.<br>
