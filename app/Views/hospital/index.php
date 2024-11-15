@@ -129,6 +129,91 @@
         .footer a:hover {
             text-decoration: underline;
         }
+        /* 검색 섹션 전체 스타일 */
+.section {
+    margin-bottom: 40px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 섹션 제목 스타일 */
+.section h2 {
+    font-size: 1.5em;
+    color: #333;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+}
+
+/* 검색 폼 스타일 */
+.search-form {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.search-form input[type="text"] {
+    padding: 10px;
+    font-size: 1em;
+    width: 80%;
+    max-width: 400px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: box-shadow 0.2s;
+}
+
+.search-form input[type="text"]:focus {
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+    border-color: #007bff;
+}
+
+.search-form button {
+    padding: 10px 20px;
+    font-size: 1em;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.search-form button:hover {
+    background-color: #0056b3;
+}
+
+/* 검색 결과 스타일 */
+.search-item {
+    padding: 15px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.search-item:hover {
+    background-color: #f0f8ff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 검색 결과 제목 */
+.search-item h3 {
+    margin: 0;
+    color: #007bff;
+    font-size: 1.2em;
+}
+
+/* 검색 결과 주소 */
+.search-item p {
+    margin: 5px 0;
+    color: #555;
+    font-size: 0.9em;
+}
+
     </style>
 
     <script>
@@ -139,6 +224,27 @@
 <body>
     <div class="container">
         <h1>Ease Hub</h1>
+        <div class="section">
+            <h2>편의시설 검색</h2>
+            <form class="search-form" method="get" action="/hospital/search">
+                <input type="text" name="query" placeholder="편의시설 이름을 입력하세요" value="<?= esc($searchQuery ?? '') ?>">
+                <button type="submit">검색</button>
+            </form>
+
+            <?php if (!empty($searchResults)): ?>
+                <div>
+                    <h3>검색 결과</h3>
+                    <?php foreach ($searchResults as $result): ?>
+                        <div class="search-item" onclick="navigateTo('/hospital/detail/<?= esc($result['ID']); ?>')">
+                            <h3><?= esc($result['BusinessName']); ?></h3>
+                            <p>주소: <?= esc($result['FullAddress']); ?></p>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php elseif (isset($searchQuery)): ?>
+                <p>검색 결과가 없습니다.</p>
+            <?php endif; ?>
+        </div>
 
         <!-- 인기 있는 편의시설 섹션 -->
         <div class="section">

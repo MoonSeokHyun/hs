@@ -15,3 +15,5 @@ $routes->post('/hospital/addReview', 'HospitalController::addReview');
 
 $routes->get('facility/detail/(:num)', 'FacilityController::detail/$1');
 $routes->post('facility/addReview', 'FacilityController::addReview');
+
+$routes->get('hospital/search', 'HospitalController::search');

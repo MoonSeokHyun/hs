@@ -150,4 +150,20 @@ class HospitalController extends BaseController
 
         return redirect()->to('/hospital/detail/' . $data['hospital_id']);
     }
+    public function search()
+    {
+        $hospitalModel = new HospitalModel();
+        $query = $this->request->getGet('query');
+    
+        $results = [];
+        if (!empty($query)) {
+            $results = $hospitalModel->searchHospitalsByName($query, 20);
+        }
+    
+        return view('hospital/search', [
+            'results' => $results,
+            'searchQuery' => $query
+        ]);
+    }
+    
 }

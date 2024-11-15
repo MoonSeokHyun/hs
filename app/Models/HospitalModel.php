@@ -83,4 +83,13 @@ class HospitalModel extends Model
 
         return $query->getResultArray();
     }
+    public function searchHospitalsByName($name, $limit = 10, $offset = 0)
+{
+    return $this->select('ID, BusinessName, FullAddress')
+                ->like('BusinessName', $name)
+                ->orderBy('ID', 'ASC')
+                ->limit($limit, $offset)
+                ->findAll();
+}
+
 }
