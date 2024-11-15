@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>병원 검색 결과</title>
+    <title>편의시설 검색 결과</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -78,9 +78,9 @@
 </head>
 <body>
     <div class="container">
-        <h1>병원 검색</h1>
+        <h1>편의시설 검색</h1>
         <form class="search-form" method="get" action="/hospital/search">
-            <input type="text" name="query" placeholder="병원 이름을 입력하세요" value="<?= esc($searchQuery ?? '') ?>">
+            <input type="text" name="query" placeholder="편의시설 이름을 입력하세요" value="<?= esc($searchQuery ?? '') ?>">
             <button type="submit">검색</button>
         </form>
 
