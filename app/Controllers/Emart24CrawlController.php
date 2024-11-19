@@ -15,7 +15,7 @@ class Emart24CrawlController extends BaseController
 
     public function crawlEmart24()
     {
-        ini_set('max_execution_time', 3000); // 최대 실행 시간 300초
+        ini_set('max_execution_time', 3000); // 최대 실행 시간 3000초
         $baseUrl = 'https://pyony.com/brands/emart24/';
         $page = 1;
         $totalInserted = 0;
@@ -75,7 +75,12 @@ class Emart24CrawlController extends BaseController
             $price = str_replace(['원', ',', ' '], '', $priceRaw);
             $originalPriceRaw = $xpath->query('.//span[@class="text-muted small"]', $item)->item(0);
             $originalPrice = $originalPriceRaw ? str_replace(['(', ')', '원', ',', ' '], '', $originalPriceRaw->nodeValue) : null;
-            $imageUrl = 'https:' . $xpath->query('.//img', $item)->item(0)->getAttribute('src');
+            $imageElement = $xpath->query('.//img', $item)->item(0);
+            $imageUrl = $imageElement ? $imageElement->getAttribute('src') : null;
+
+            if ($imageUrl) {
+                $imageUrl = strpos($imageUrl, 'http') === 0 ? $imageUrl : 'https:' . $imageUrl;
+            }
 
             $data[] = [
                 'brand' => $brand,
@@ -93,7 +98,11 @@ class Emart24CrawlController extends BaseController
 
     private function saveImage($url, $folder)
     {
-        // 폴더가 없으면 생성
+        if (!$url) {
+            echo "이미지 URL이 비어 있습니다. 건너뜀.<br>";
+            return null;
+        }
+
         if (!is_dir($folder)) {
             mkdir($folder, 0777, true);
         }
@@ -105,14 +114,18 @@ class Emart24CrawlController extends BaseController
         }
 
         $ch = curl_init($url);
-        $fp = fopen($filename, 'wb');
-        curl_setopt($ch, CURLOPT_FILE, $fp);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, 300);
         curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible; PHP cURL)');
-        curl_exec($ch);
+        $imageData = curl_exec($ch);
         curl_close($ch);
-        fclose($fp);
 
+        if (!$imageData) {
+            echo "이미지 다운로드 실패: $url<br>";
+            return null;
+        }
+
+        file_put_contents($filename, $imageData);
         echo "이미지 저장 완료: $filename<br>";
         return $filename;
     }
@@ -124,26 +137,22 @@ class Emart24CrawlController extends BaseController
         $imageFolder = 'public/img/emart24/';
 
         foreach ($data as $event) {
-            // 기존 데이터 확인
             $existing = $this->eventModel
                 ->where('brand', $event['brand'])
                 ->where('product_name', $event['product_name'])
                 ->first();
 
             if ($existing) {
-                // 데이터가 변경되었는지 확인
                 if (
                     $existing['event_type'] !== $event['event_type'] ||
                     $existing['price'] !== $event['price'] ||
                     $existing['original_price'] !== $event['original_price']
                 ) {
-                    // 변경된 데이터 업데이트
                     $event['image_url'] = $this->saveImage($event['image_url'], $imageFolder);
                     $this->eventModel->update($existing['id'], $event);
                     $updated++;
                 }
             } else {
-                // 새 데이터 삽입
                 $event['image_url'] = $this->saveImage($event['image_url'], $imageFolder);
                 $this->eventModel->insert($event);
                 $inserted++;

@@ -15,7 +15,7 @@ class GSCrawlController extends BaseController
 
     public function crawlGS25()
     {
-        ini_set('max_execution_time', 300); // 최대 실행 시간 300초
+        ini_set('max_execution_time', 3000); // 최대 실행 시간 300초
         $baseUrl = 'https://pyony.com/brands/gs25/';
         $page = 1;
         $totalInserted = 0;
@@ -74,7 +74,12 @@ class GSCrawlController extends BaseController
             $price = str_replace(['원', ',', ' '], '', $priceRaw);
             $originalPriceRaw = $xpath->query('.//span[@class="text-muted small"]', $item)->item(0);
             $originalPrice = $originalPriceRaw ? str_replace(['(', ')', '원', ',', ' '], '', $originalPriceRaw->nodeValue) : null;
-            $imageUrl = 'https:' . $xpath->query('.//img', $item)->item(0)->getAttribute('src');
+            $imageUrl = $xpath->query('.//img', $item)->item(0);
+            $imageUrl = $imageUrl ? $imageUrl->getAttribute('src') : null;
+
+            if ($imageUrl) {
+                $imageUrl = strpos($imageUrl, 'http') === 0 ? $imageUrl : 'https:' . $imageUrl;
+            }
 
             $data[] = [
                 'brand' => $brand,
@@ -92,6 +97,11 @@ class GSCrawlController extends BaseController
 
     private function saveImage($url, $folder)
     {
+        if (!$url) {
+            echo "이미지 URL이 비어 있습니다. 건너뜀.<br>";
+            return null;
+        }
+
         if (!is_dir($folder)) {
             mkdir($folder, 0777, true);
         }
@@ -103,14 +113,18 @@ class GSCrawlController extends BaseController
         }
 
         $ch = curl_init($url);
-        $fp = fopen($filename, 'wb');
-        curl_setopt($ch, CURLOPT_FILE, $fp);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, 300);
         curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible; PHP cURL)');
-        curl_exec($ch);
+        $imageData = curl_exec($ch);
         curl_close($ch);
-        fclose($fp);
 
+        if (!$imageData) {
+            echo "이미지 다운로드 실패: $url<br>";
+            return null;
+        }
+
+        file_put_contents($filename, $imageData);
         echo "이미지 저장 완료: $filename<br>";
         return $filename;
     }
