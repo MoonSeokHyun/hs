@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Models\EventModel;
 
-class GSCrawlController extends BaseController
+class SevenCrawlController extends BaseController
 {
     protected $eventModel;
 
@@ -13,10 +13,10 @@ class GSCrawlController extends BaseController
         $this->eventModel = new EventModel();
     }
 
-    public function crawlGS25()
+    public function crawlSeven()
     {
         ini_set('max_execution_time', 300); // 최대 실행 시간 300초
-        $baseUrl = 'https://pyony.com/brands/gs25/';
+        $baseUrl = 'https://pyony.com/brands/seven/';
         $page = 1;
         $totalInserted = 0;
         $totalUpdated = 0;
@@ -42,6 +42,7 @@ class GSCrawlController extends BaseController
         }
 
         echo "크롤링 완료: 총 $totalInserted 건 삽입, $totalUpdated 건 업데이트.<br>";
+        exit; // 완료 시 즉시 종료
     }
 
     private function fetchPageContent($url)
@@ -67,9 +68,9 @@ class GSCrawlController extends BaseController
 
         $items = $xpath->query('//div[contains(@class, "col-md-6")]');
         foreach ($items as $item) {
-            $brand = 'GS25';
+            $brand = '7-Eleven';
             $productName = trim($xpath->query('.//strong', $item)->item(0)->nodeValue);
-            $eventType = trim($xpath->query('.//span[contains(@class, "badge bg-gs25")]', $item)->item(0)->nodeValue);
+            $eventType = trim($xpath->query('.//span[contains(@class, "badge bg-seven")]', $item)->item(0)->nodeValue);
             $priceRaw = trim($xpath->query('.//i[contains(@class, "fa-coins")]/following-sibling::text()[1]', $item)->item(0)->nodeValue);
             $price = str_replace(['원', ',', ' '], '', $priceRaw);
             $originalPriceRaw = $xpath->query('.//span[@class="text-muted small"]', $item)->item(0);
@@ -92,6 +93,7 @@ class GSCrawlController extends BaseController
 
     private function saveImage($url, $folder)
     {
+        // 폴더가 없으면 생성
         if (!is_dir($folder)) {
             mkdir($folder, 0777, true);
         }
@@ -119,25 +121,29 @@ class GSCrawlController extends BaseController
     {
         $inserted = 0;
         $updated = 0;
-        $imageFolder = 'public/img/gs25/';
+        $imageFolder = 'public/img/seven/';
 
         foreach ($data as $event) {
+            // 기존 데이터 확인
             $existing = $this->eventModel
                 ->where('brand', $event['brand'])
                 ->where('product_name', $event['product_name'])
                 ->first();
 
             if ($existing) {
+                // 데이터가 변경되었는지 확인
                 if (
                     $existing['event_type'] !== $event['event_type'] ||
                     $existing['price'] !== $event['price'] ||
                     $existing['original_price'] !== $event['original_price']
                 ) {
+                    // 변경된 데이터 업데이트
                     $event['image_url'] = $this->saveImage($event['image_url'], $imageFolder);
                     $this->eventModel->update($existing['id'], $event);
                     $updated++;
                 }
             } else {
+                // 새 데이터 삽입
                 $event['image_url'] = $this->saveImage($event['image_url'], $imageFolder);
                 $this->eventModel->insert($event);
                 $inserted++;
