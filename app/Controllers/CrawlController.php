@@ -2,53 +2,66 @@
 
 namespace App\Controllers;
 
-use App\Models\EventModel;
 use CodeIgniter\CLI\CLI;
-use CodeIgniter\Database\ConnectionInterface;
 
 class CrawlController extends BaseController
 {
-    protected $eventModel;
     protected $db;
 
     public function __construct()
     {
-        $this->eventModel = new EventModel();
+        ini_set('memory_limit', '2G'); // PHP 메모리 할당 2GB
         $this->db = \Config\Database::connect(); // DB 연결
     }
 
-    public function crawlCU()
+    public function crawlSearch()
     {
-        ini_set('max_execution_time', 3000); // 최대 실행 시간 300초
-        $baseUrl = 'https://pyony.com/brands/cu/';
+        ini_set('max_execution_time', 0); // 실행 시간 제한 해제
+        $baseUrl = 'https://pyony.com/search/'; // 크롤링 대상 URL
         $page = 1;
-        $totalInserted = 0;
-        $totalUpdated = 0;
+        $totalPages = 355; // 총 예상 페이지 수
+        $batchSize = 1; // 한 번에 처리할 페이지 수
 
-        while (true) {
+        $statusSummary = [
+            'inserted' => 0,
+            'updated' => 0,
+            'skipped' => 0,
+        ];
+
+        CLI::write("Search 크롤링 시작...", 'green');
+
+        while ($page <= $totalPages) {
             $url = $baseUrl . "?page=" . $page;
-            CLI::write("크롤링 중: $url", 'green');
+            CLI::write("\n크롤링 중: $url", 'green');
 
+            // HTML 가져오기
             $html = $this->fetchPageContent($url);
+
+            // 데이터 파싱
             $eventData = $this->parseEventData($html);
 
-            if (empty($eventData)) {
-                CLI::write("마지막 페이지 도달. 크롤링 종료.", 'yellow');
-                break;
+            // 데이터 저장 및 업데이트
+            if (!empty($eventData)) {
+                $status = $this->saveOrUpdateEventData($eventData);
+                $statusSummary['inserted'] += $status['inserted'];
+                $statusSummary['updated'] += $status['updated'];
+                $statusSummary['skipped'] += $status['skipped'];
+
+                CLI::write(
+                    "페이지 {$page} 완료 - 삽입: {$status['inserted']}, 업데이트: {$status['updated']}, 건너뜀: {$status['skipped']}",
+                    'blue'
+                );
+            } else {
+                CLI::write("페이지 {$page}에 데이터 없음. 스킵.", 'yellow');
             }
 
-            [$inserted, $updated] = $this->saveOrUpdateEventData($eventData);
-            $totalInserted += $inserted;
-            $totalUpdated += $updated;
-
-            CLI::write("페이지 $page 크롤링 완료: $inserted 건 삽입, $updated 건 업데이트됨.", 'blue');
             $page++;
         }
 
-        // 완료 시간 기록
-        $this->logCrawlCompletion('CU');
-
-        CLI::write("크롤링 완료: 총 $totalInserted 건 삽입, $totalUpdated 건 업데이트.", 'blue');
+        CLI::write("\n크롤링 완료 요약:", 'green');
+        CLI::write("삽입: {$statusSummary['inserted']}", 'blue');
+        CLI::write("업데이트: {$statusSummary['updated']}", 'blue');
+        CLI::write("건너뜀: {$statusSummary['skipped']}", 'blue');
     }
 
     private function fetchPageContent($url)
@@ -62,34 +75,54 @@ class CrawlController extends BaseController
         $content = curl_exec($ch);
         curl_close($ch);
 
-        return mb_convert_encoding($content, 'HTML-ENTITIES', 'auto');
+        return mb_convert_encoding($content, 'HTML-ENTITIES', 'UTF-8'); // HTML-ENTITIES 변환
     }
 
     private function parseEventData($html)
     {
         $dom = new \DOMDocument('1.0', 'UTF-8');
-        @$dom->loadHTML($html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        @$dom->loadHTML('<?xml encoding="UTF-8">' . $html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
         $xpath = new \DOMXPath($dom);
         $data = [];
 
         $items = $xpath->query('//div[contains(@class, "col-md-6")]');
         foreach ($items as $item) {
-            $brand = 'CU';
+            $brandElement = $xpath->query('.//small[contains(@class, "font-")]', $item);
+            $brand = $brandElement->length > 0 ? trim($brandElement->item(0)->nodeValue) : 'Unknown';
+
             $productName = trim($xpath->query('.//strong', $item)->item(0)->nodeValue);
-            $eventType = trim($xpath->query('.//span[contains(@class, "badge bg-cu")]', $item)->item(0)->nodeValue);
-            $priceRaw = trim($xpath->query('.//i[contains(@class, "fa-coins")]/following-sibling::text()[1]', $item)->item(0)->nodeValue);
-            $price = str_replace(['원', ',', ' '], '', $priceRaw);
-            $originalPriceRaw = $xpath->query('.//span[@class="text-muted small"]', $item)->item(0);
-            $originalPrice = $originalPriceRaw ? str_replace(['(', ')', '원', ',', ' '], '', $originalPriceRaw->nodeValue) : null;
-            $imageUrl = 'https:' . $xpath->query('.//img', $item)->item(0)->getAttribute('src');
+
+            $priceRaw = $xpath->query('.//i[contains(@class, "fa-coins")]/following-sibling::text()', $item);
+            $price = $priceRaw->length > 0 ? str_replace(['원', ',', ' '], '', trim($priceRaw->item(0)->nodeValue)) : null;
+            $price = is_numeric($price) ? (float)$price : null;
+
+            $originalPriceElement = $xpath->query('.//span[@class="text-muted small"]', $item);
+            $originalPrice = $originalPriceElement->length > 0
+                ? str_replace(['(', ')', '원', ',', ' '], '', trim($originalPriceElement->item(0)->nodeValue))
+                : null;
+            $originalPrice = is_numeric($originalPrice) ? (float)$originalPrice : null;
+
+            $discountRate = null;
+            if ($price !== null && $originalPrice !== null && $originalPrice > 0) {
+                $discountRate = round((($originalPrice - $price) / $originalPrice) * 100, 2);
+            }
+
+            $imageUrlElement = $xpath->query('.//img', $item);
+            $imageUrl = $imageUrlElement->length > 0 ? $imageUrlElement->item(0)->getAttribute('src') : null;
+            if (!str_starts_with($imageUrl, 'http')) {
+                $imageUrl = 'https:' . $imageUrl;
+            }
+
+            $eventTypeElement = $xpath->query('.//span[contains(@class, "badge")]', $item);
+            $eventType = $eventTypeElement->length > 0 ? trim($eventTypeElement->item(0)->nodeValue) : 'Unknown';
 
             $data[] = [
                 'brand' => $brand,
                 'product_name' => $productName,
+                'price' => $price,
+                'original_price' => $originalPrice,
+                'discount_rate' => $discountRate,
                 'event_type' => $eventType,
-                'price' => $price ? (float)$price : null,
-                'original_price' => $originalPrice ? (float)$originalPrice : null,
-                'discount_rate' => null,
                 'image_url' => $imageUrl,
             ];
         }
@@ -97,72 +130,73 @@ class CrawlController extends BaseController
         return $data;
     }
 
-    private function saveImage($url, $folder)
-    {
-        if (!is_dir($folder)) {
-            mkdir($folder, 0777, true);
-        }
-
-        $filename = $folder . basename($url);
-        if (file_exists($filename)) {
-            CLI::write("이미지 존재: $filename. 다운로드 건너뜀.", 'yellow');
-            return $filename;
-        }
-
-        $ch = curl_init($url);
-        $fp = fopen($filename, 'wb');
-        curl_setopt($ch, CURLOPT_FILE, $fp);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 300);
-        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible; PHP cURL)');
-        curl_exec($ch);
-        curl_close($ch);
-        fclose($fp);
-
-        CLI::write("이미지 저장 완료: $filename", 'green');
-        return $filename;
-    }
-
     private function saveOrUpdateEventData($data)
     {
         $inserted = 0;
         $updated = 0;
-        $imageFolder = 'public/img/cu/';
+        $skipped = 0;
+        $builder = $this->db->table('events_ease');
+        $historyBuilder = $this->db->table('price_history');
 
         foreach ($data as $event) {
-            $existing = $this->eventModel
-                ->where('brand', $event['brand'])
+            $existingQuery = $builder->where('brand', $event['brand'])
                 ->where('product_name', $event['product_name'])
-                ->first();
+                ->get();
+
+            if ($existingQuery === false) {
+                CLI::error("쿼리 실패: " . $this->db->error()['message']);
+                continue;
+            }
+
+            $existing = $existingQuery->getRow();
 
             if ($existing) {
+                $shouldUpdate = false;
+
+                if ($existing->price !== $event['price']) {
+                    $historyBuilder->insert([
+                        'product_id' => $existing->id,
+                        'price' => $event['price'],
+                        'change_date' => date('Y-m-d H:i:s'),
+                    ]);
+                    $shouldUpdate = true;
+                }
+
                 if (
-                    $existing['event_type'] !== $event['event_type'] ||
-                    $existing['price'] !== $event['price'] ||
-                    $existing['original_price'] !== $event['original_price']
+                    $existing->event_type !== $event['event_type'] ||
+                    $existing->original_price !== $event['original_price']
                 ) {
-                    $event['image_url'] = $this->saveImage($event['image_url'], $imageFolder);
-                    $this->eventModel->update($existing['id'], $event);
+                    $shouldUpdate = true;
+                }
+
+                if ($shouldUpdate) {
+                    $builder->where('id', $existing->id)->update([
+                        'event_type' => $event['event_type'],
+                        'price' => $event['price'],
+                        'original_price' => $event['original_price'],
+                        'discount_rate' => $event['discount_rate'],
+                        'image_url' => $event['image_url'],
+                        'created_at' => date('Y-m-d H:i:s'),
+                    ]);
                     $updated++;
+                } else {
+                    $skipped++;
                 }
             } else {
-                $event['image_url'] = $this->saveImage($event['image_url'], $imageFolder);
-                $this->eventModel->insert($event);
+                $builder->insert([
+                    'brand' => $event['brand'],
+                    'product_name' => $event['product_name'],
+                    'event_type' => $event['event_type'],
+                    'price' => $event['price'],
+                    'original_price' => $event['original_price'],
+                    'discount_rate' => $event['discount_rate'],
+                    'image_url' => $event['image_url'],
+                    'created_at' => date('Y-m-d H:i:s'),
+                ]);
                 $inserted++;
             }
         }
 
-        return [$inserted, $updated];
-    }
-
-    private function logCrawlCompletion($brand)
-    {
-        $builder = $this->db->table('crawl_logs_ease');
-
-        $builder->insert([
-            'brand' => $brand,
-            'completed_at' => date('Y-m-d H:i:s'),
-        ]);
-
-        CLI::write("크롤링 완료 시간 기록: " . date('Y-m-d H:i:s'), 'green');
+        return ['inserted' => $inserted, 'updated' => $updated, 'skipped' => $skipped];
     }
 }

@@ -27,4 +27,5 @@ $routes->get('crawl/gs25', 'GSCrawlController::crawlGS25');
 $routes->get('/crawl/seven', 'SevenCrawlController::crawlSeven');
 $routes->get('/crawl/emart24', 'Emart24CrawlController::crawlEmart24');
 $routes->get('/crawl/cspace', 'CspaceCrawlController::crawlCspace');
+$routes->get('crawl/search', 'SearchCrawlController::crawlSearch');
 
