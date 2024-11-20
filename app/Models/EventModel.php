@@ -19,4 +19,14 @@ class EventModel extends Model
         'created_at',
         'category', // 추가된 필드
     ]; // 허용된 필드
+
+    public function getConvenienceStoreItems()
+{
+    return $this->select(['id', 'name', 'price', 'brand', 'created_at'])
+                ->select("(CASE WHEN brand = '7-ELEVEn' THEN '' ELSE image_url END) as image_url")
+                ->orderBy('created_at', 'DESC')
+                ->limit(10)
+                ->findAll();
+}
+
 }
