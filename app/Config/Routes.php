@@ -33,3 +33,6 @@ $routes->get('crawl/search', 'SearchCrawlController::crawlSearch');
 $routes->get('events', 'EventController::index');
 $routes->get('events/page/(:num)', 'EventController::index');
 
+$routes->get('events', 'EventController::index');
+$routes->get('events/(:segment)', 'EventController::index/$1');
+
