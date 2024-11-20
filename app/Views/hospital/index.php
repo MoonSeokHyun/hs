@@ -168,7 +168,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>편의점 할인 정보는 편잇</h1>
+        <h1>편의점 할인은 편잇!</h1>
 
         <!-- Floating menu bar -->
         <div class="menu-bar">
@@ -176,7 +176,7 @@
     <a href="/events/gs25" class="menu-gs25">GS25</a>
     <a href="/events/7-ELEVEn" class="menu-seven">세븐일레븐</a>
     <a href="/events/emart24" class="menu-emart">이마트24</a>
-    <a href="/events/cspace" class="menu-cspace">씨스페이스</a>
+    <a href="/events/C·SPACE" class="menu-cspace">씨스페이스</a>
 </div>
 
         <div class="section search-container">
