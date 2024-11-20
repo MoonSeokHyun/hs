@@ -19,8 +19,7 @@ class CrawlController extends BaseController
         ini_set('max_execution_time', 0); // 실행 시간 제한 해제
         $baseUrl = 'https://pyony.com/search/'; // 크롤링 대상 URL
         $page = 1;
-        $totalPages = 355; // 총 예상 페이지 수
-        $batchSize = 1; // 한 번에 처리할 페이지 수
+        $totalPages = 380; // 총 예상 페이지 수
 
         $statusSummary = [
             'inserted' => 0,
@@ -92,6 +91,7 @@ class CrawlController extends BaseController
 
             $productName = trim($xpath->query('.//strong', $item)->item(0)->nodeValue);
 
+            // 가격 정보 파싱
             $priceRaw = $xpath->query('.//i[contains(@class, "fa-coins")]/following-sibling::text()', $item);
             $price = $priceRaw->length > 0 ? str_replace(['원', ',', ' '], '', trim($priceRaw->item(0)->nodeValue)) : null;
             $price = is_numeric($price) ? (float)$price : null;
@@ -102,10 +102,15 @@ class CrawlController extends BaseController
                 : null;
             $originalPrice = is_numeric($originalPrice) ? (float)$originalPrice : null;
 
+            // 할인율 계산
             $discountRate = null;
             if ($price !== null && $originalPrice !== null && $originalPrice > 0) {
                 $discountRate = round((($originalPrice - $price) / $originalPrice) * 100, 2);
             }
+
+            // 카테고리 정보 파싱
+            $categoryElement = $xpath->query('.//small[contains(@class, "float-right font-weight-bold")]', $item);
+            $category = $categoryElement->length > 0 ? trim($categoryElement->item(0)->nodeValue) : 'Unknown';
 
             $imageUrlElement = $xpath->query('.//img', $item);
             $imageUrl = $imageUrlElement->length > 0 ? $imageUrlElement->item(0)->getAttribute('src') : null;
@@ -122,6 +127,7 @@ class CrawlController extends BaseController
                 'price' => $price,
                 'original_price' => $originalPrice,
                 'discount_rate' => $discountRate,
+                'category' => $category, // 카테고리 추가
                 'event_type' => $eventType,
                 'image_url' => $imageUrl,
             ];
@@ -164,7 +170,8 @@ class CrawlController extends BaseController
 
                 if (
                     $existing->event_type !== $event['event_type'] ||
-                    $existing->original_price !== $event['original_price']
+                    $existing->original_price !== $event['original_price'] ||
+                    $existing->category !== $event['category'] // 카테고리 변경 확인
                 ) {
                     $shouldUpdate = true;
                 }
@@ -175,6 +182,7 @@ class CrawlController extends BaseController
                         'price' => $event['price'],
                         'original_price' => $event['original_price'],
                         'discount_rate' => $event['discount_rate'],
+                        'category' => $event['category'], // 카테고리 업데이트
                         'image_url' => $event['image_url'],
                         'created_at' => date('Y-m-d H:i:s'),
                     ]);
@@ -190,6 +198,7 @@ class CrawlController extends BaseController
                     'price' => $event['price'],
                     'original_price' => $event['original_price'],
                     'discount_rate' => $event['discount_rate'],
+                    'category' => $event['category'], // 카테고리 삽입
                     'image_url' => $event['image_url'],
                     'created_at' => date('Y-m-d H:i:s'),
                 ]);

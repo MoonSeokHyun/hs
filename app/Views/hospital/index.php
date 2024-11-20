@@ -216,6 +216,28 @@
 
     </style>
 
+<style>
+        .brand-gs25 { border-color: #007bff; }
+        .brand-gs25 .card-header { background-color: #007bff; color: #fff; }
+        
+        .brand-cu { border-color: #28a745; }
+        .brand-cu .card-header { background-color: #28a745; color: #fff; }
+        
+        .brand-emart24 { border-color: #ffc107; }
+        .brand-emart24 .card-header { background-color: #ffc107; color: #212529; }
+        
+        .brand-seveneleven { border-color: #dc3545; }
+        .brand-seveneleven .card-header { background-color: #dc3545; color: #fff; }
+        
+        .brand-unknown { border-color: #6c757d; }
+        .brand-unknown .card-header { background-color: #6c757d; color: #fff; }
+        
+        .card img {
+            max-height: 100px;
+            object-fit: cover;
+        }
+</style>
+
     <script>
         function navigateTo(url) {
             window.location.href = url;
@@ -245,6 +267,50 @@
                 <p>검색 결과가 없습니다.</p>
             <?php endif; ?>
         </div>
+
+        <div class="container mt-5">
+        <h1 class="text-center mb-4">최신 편의점 상품</h1>
+        <div class="row">
+            <?php foreach ($latestConvenienceStoreItems as $item): ?>
+                <?php
+                    // 브랜드별 클래스 결정
+                    $brandClass = 'brand-unknown'; // 기본값
+                    if (stripos($item['brand'], 'gs25') !== false) {
+                        $brandClass = 'brand-gs25';
+                    } elseif (stripos($item['brand'], 'cu') !== false) {
+                        $brandClass = 'brand-cu';
+                    } elseif (stripos($item['brand'], 'emart24') !== false) {
+                        $brandClass = 'brand-emart24';
+                    } elseif (stripos($item['brand'], 'seven') !== false || stripos($item['brand'], '11') !== false) {
+                        $brandClass = 'brand-seveneleven';
+                    }
+                ?>
+                <div class="col-md-4 mb-4">
+                    <div class="card <?= $brandClass ?>">
+                        <div class="card-header">
+                            <small class="float-left font-weight-bold"><?= esc($item['brand']) ?></small>
+                            <small class="float-right"><?= esc($item['event_type']) ?></small>
+                        </div>
+                        <div class="card-body">
+                            <div class="text-center">
+                                <img src="<?= esc($item['image_url']) ?>" class="img-fluid" alt="Product Image">
+                            </div>
+                            <h5 class="card-title mt-3"><?= esc($item['product_name']) ?></h5>
+                            <p>
+                                <strong>가격:</strong> <?= number_format($item['price'], 2) ?> 원<br>
+                                <?php if (!empty($item['original_price'])): ?>
+                                    <small class="text-muted">원래 가격: <?= number_format($item['original_price'], 2) ?> 원</small><br>
+                                <?php endif; ?>
+                                <?php if (!empty($item['discount_rate'])): ?>
+                                    <small class="text-danger">할인율: <?= esc($item['discount_rate']) ?>%</small>
+                                <?php endif; ?>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
 
         <!-- 인기 있는 편의시설 섹션 -->
         <div class="section">

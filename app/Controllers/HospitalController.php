@@ -4,9 +4,7 @@ namespace App\Controllers;
 
 use App\Models\HospitalModel;
 use App\Models\ReviewModel;
-use proj4php\Proj4php;
-use proj4php\Proj;
-use proj4php\Point;
+use App\Models\EventModel;
 
 class HospitalController extends BaseController
 {
@@ -14,6 +12,7 @@ class HospitalController extends BaseController
     {
         $hospitalModel = new HospitalModel();
         $reviewModel = new ReviewModel();
+        $eventModel = new EventModel(); // EventModel 추가
 
         // 병원 카테고리 정의
         $categories = [
@@ -38,6 +37,11 @@ class HospitalController extends BaseController
         // 최근 리뷰 캐시 설정
         $data['latestReviews'] = cache()->remember('latestReviews', 600, function() use ($reviewModel) {
             return $reviewModel->getLatestReviews(5);
+        });
+
+        // 편의점 상품 데이터 추가
+        $data['latestConvenienceStoreItems'] = cache()->remember('latestConvenienceStoreItems', 600, function() use ($eventModel) {
+            return $eventModel->orderBy('created_at', 'DESC')->findAll(10); // 최신순 10개 상품
         });
 
         return view('hospital/index', $data);

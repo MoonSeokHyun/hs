@@ -29,3 +29,7 @@ $routes->get('/crawl/emart24', 'Emart24CrawlController::crawlEmart24');
 $routes->get('/crawl/cspace', 'CspaceCrawlController::crawlCspace');
 $routes->get('crawl/search', 'SearchCrawlController::crawlSearch');
 
+// 이벤트
+$routes->get('events', 'EventController::index');
+$routes->get('events/page/(:num)', 'EventController::index');
+
