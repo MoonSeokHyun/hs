@@ -2,6 +2,11 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="Vg6LnwCg2ciJr3emetShc4yHm1AYLLPKWrg3UdFYpDg" />
     <meta name="naver-site-verification" content="da4595e04224f83fa6c03f3136fc09f0094ef7a7" />
@@ -217,27 +222,42 @@
     </style>
 
 <style>
-        .brand-gs25 { border-color: #007bff; }
-        .brand-gs25 .card-header { background-color: #007bff; color: #fff; }
-        
-        .brand-cu { border-color: #28a745; }
-        .brand-cu .card-header { background-color: #28a745; color: #fff; }
-        
-        .brand-emart24 { border-color: #ffc107; }
-        .brand-emart24 .card-header { background-color: #ffc107; color: #212529; }
-        
-        .brand-seveneleven { border-color: #dc3545; }
-        .brand-seveneleven .card-header { background-color: #dc3545; color: #fff; }
-        
-        .brand-unknown { border-color: #6c757d; }
-        .brand-unknown .card-header { background-color: #6c757d; color: #fff; }
-        
-        .card img {
-            max-height: 100px;
-            object-fit: cover;
-        }
-</style>
+    .card {
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    .card img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        display: block;
+        border-radius: 4px;
+    }
+    .deco-none {
+        text-decoration: none;
+        color: inherit;
+    }
+    .badge {
+        font-size: 0.8rem;
+        margin-top: 5px;
+    }
 
+    /* 브랜드별 스타일 */
+    .brand-gs25 { border-color: #007bff; }
+    .brand-gs25 .card-header { background-color: #007bff; color: #fff; }
+
+    .brand-cu { border-color: #28a745; }
+    .brand-cu .card-header { background-color: #28a745; color: #fff; }
+
+    .brand-emart24 { border-color: #ffc107; }
+    .brand-emart24 .card-header { background-color: #ffc107; color: #212529; }
+
+    .brand-seveneleven { border-color: #dc3545; }
+    .brand-seveneleven .card-header { background-color: #dc3545; color: #fff; }
+
+    .brand-unknown { border-color: #6c757d; }
+    .brand-unknown .card-header { background-color: #6c757d; color: #fff; }
+</style>
     <script>
         function navigateTo(url) {
             window.location.href = url;
@@ -267,50 +287,58 @@
                 <p>검색 결과가 없습니다.</p>
             <?php endif; ?>
         </div>
-
         <div class="container mt-5">
-        <h1 class="text-center mb-4">최신 편의점 상품</h1>
-        <div class="row">
-            <?php foreach ($latestConvenienceStoreItems as $item): ?>
-                <?php
-                    // 브랜드별 클래스 결정
-                    $brandClass = 'brand-unknown'; // 기본값
-                    if (stripos($item['brand'], 'gs25') !== false) {
-                        $brandClass = 'brand-gs25';
-                    } elseif (stripos($item['brand'], 'cu') !== false) {
-                        $brandClass = 'brand-cu';
-                    } elseif (stripos($item['brand'], 'emart24') !== false) {
-                        $brandClass = 'brand-emart24';
-                    } elseif (stripos($item['brand'], 'seven') !== false || stripos($item['brand'], '11') !== false) {
-                        $brandClass = 'brand-seveneleven';
-                    }
-                ?>
-                <div class="col-md-4 mb-4">
-                    <div class="card <?= $brandClass ?>">
-                        <div class="card-header">
+    <h1 class="text-center mb-4">최신 편의점 상품</h1>
+    <div class="row">
+        <?php foreach ($latestConvenienceStoreItems as $item): ?>
+            <?php
+                // 브랜드별 클래스 결정
+                $brandClass = 'brand-unknown';
+                if (stripos($item['brand'], 'gs25') !== false) {
+                    $brandClass = 'brand-gs25';
+                } elseif (stripos($item['brand'], 'cu') !== false) {
+                    $brandClass = 'brand-cu';
+                } elseif (stripos($item['brand'], 'emart24') !== false) {
+                    $brandClass = 'brand-emart24';
+                } elseif (stripos($item['brand'], 'seven') !== false || stripos($item['brand'], '11') !== false) {
+                    $brandClass = 'brand-seveneleven';
+                }
+            ?>
+            <div class="col-md-6 mb-3">
+                <a href="#" class="deco-none">
+                    <div class="card border-<?= $brandClass ?> mt-2 mb-2">
+                        <div class="card-header bg-<?= $brandClass ?> text-white px-2 py-1">
                             <small class="float-left font-weight-bold"><?= esc($item['brand']) ?></small>
-                            <small class="float-right"><?= esc($item['event_type']) ?></small>
+                            <small class="float-right font-weight-bold"><?= esc($item['category'] ?? '기타') ?></small>
+                            <small class="float-right text-white mr-3"><i class="fa fa-sync-alt"></i> <?= date('m.d') ?></small>
                         </div>
-                        <div class="card-body">
-                            <div class="text-center">
-                                <img src="<?= esc($item['image_url']) ?>" class="img-fluid" alt="Product Image">
+                        <div class="card-body px-2 py-2 d-flex align-items-center">
+                            <div class="prod_img_div float-left text-center mr-2">
+                                <img src="<?= esc($item['image_url']) ?>" class="prod_img" alt="Product Image"
+                                     onerror="this.src='/path/to/default/image.jpg'; this.style.display='block';">
                             </div>
-                            <h5 class="card-title mt-3"><?= esc($item['product_name']) ?></h5>
-                            <p>
-                                <strong>가격:</strong> <?= number_format($item['price'], 2) ?> 원<br>
+                            <div>
+                                <strong><?= esc($item['product_name']) ?></strong>
+                                <br>
+                                <i class="fa fa-coins text-warning pr-1"></i> <?= number_format($item['price'], 0) ?> 원
                                 <?php if (!empty($item['original_price'])): ?>
-                                    <small class="text-muted">원래 가격: <?= number_format($item['original_price'], 2) ?> 원</small><br>
+                                    <span class="text-muted small">(<?= number_format($item['original_price'], 0) ?>원)</span>
                                 <?php endif; ?>
-                                <?php if (!empty($item['discount_rate'])): ?>
-                                    <small class="text-danger">할인율: <?= esc($item['discount_rate']) ?>%</small>
+                                <br>
+                                <?php if (!empty($item['event_type'])): ?>
+                                    <span class="badge bg-<?= $brandClass ?> text-white"><?= esc($item['event_type']) ?></span>
                                 <?php endif; ?>
-                            </p>
+                                <span class="badge bg-primary text-white"><i class="fa fa-smile-beam"></i> 개이득</span>
+                                <span class="badge bg-dark text-white"><i class="fa fa-comment-dots"></i> 댓글(<?= esc($item['comment_count'] ?? 0) ?>)</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-            <?php endforeach; ?>
-        </div>
+                </a>
+            </div>
+        <?php endforeach; ?>
     </div>
+</div>
+
 
         <!-- 인기 있는 편의시설 섹션 -->
         <div class="section">
