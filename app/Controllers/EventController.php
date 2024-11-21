@@ -11,20 +11,49 @@ class EventController extends Controller
     {
         $model = new EventModel();
 
-        // Pagination 설정
-        $perPage = 20;
+        // GET 요청에서 필터링 값 가져오기
+        $eventType = $this->request->getGet('event_type');
+        $category = $this->request->getGet('category');
+        $itemsPerPage = $this->request->getGet('item') ?? 20; // 기본 20개
+        $sort = $this->request->getGet('sort');
+        $price = $this->request->getGet('price');
+        $query = $this->request->getGet('q');
         $currentPage = $this->request->getVar('page') ?? 1;
-        $offset = ($currentPage - 1) * $perPage;
 
-        // 브랜드별 필터링 처리
+        // 기본 쿼리 설정
+        $builder = $model->select('*');
+
+        // 브랜드 필터링
         if ($brand) {
-            $brand = urldecode($brand); // URL 디코딩
-            $total = $model->countEventsByBrand($brand);
-            $events = $model->getEventsByBrand($brand, $perPage, $offset);
-        } else {
-            $total = $model->countAllResults();
-            $events = $model->orderBy('created_at', 'DESC')->findAll($perPage, $offset);
+            $builder->where('brand', urldecode($brand));
         }
+
+        // 필터링 조건 추가
+        if ($eventType) {
+            $builder->where('event_type', $eventType);
+        }
+        if ($category) {
+            $builder->where('category', $category);
+        }
+        if ($price) {
+            $builder->where('price <=', $price);
+        }
+        if ($query) {
+            $builder->like('product_name', $query);
+        }
+
+        // 정렬 조건 추가
+        if ($sort == '1') {
+            $builder->orderBy('price', 'ASC'); // 낮은 가격순
+        } elseif ($sort == '2') {
+            $builder->orderBy('price', 'DESC'); // 높은 가격순
+        } else {
+            $builder->orderBy('created_at', 'DESC'); // 최신순
+        }
+
+        // Pagination 설정
+        $events = $builder->paginate($itemsPerPage, 'default', $currentPage);
+        $total = $builder->countAllResults(false); // 조건 만족 데이터 개수
 
         // 브랜드가 7-ELEVEn인 경우 image_url을 지정된 URL로 설정
         foreach ($events as &$event) {
@@ -38,8 +67,34 @@ class EventController extends Controller
 
         return view('events_view', [
             'events' => $events,
-            'pager' => $pager->makeLinks($currentPage, $perPage, $total, 'default_full'),
+            'pager' => $pager, // pager 객체 전달
             'brand' => $brand,
+            'eventType' => $eventType,
+            'category' => $category,
+            'itemsPerPage' => $itemsPerPage,
+            'sort' => $sort,
+            'price' => $price,
+            'query' => $query,
         ]);
     }
+    public function detail($id)
+{
+    $model = new EventModel();
+
+    // 이벤트 데이터 가져오기
+    $event = $model->find($id);
+
+    // 이벤트가 없을 경우 404 에러 처리
+    if (!$event) {
+        throw new \CodeIgniter\Exceptions\PageNotFoundException('Event not found');
+    }
+
+    // 브랜드가 7-ELEVEn인 경우 기본 이미지 설정
+    if ($event['brand'] === '7-ELEVEn' && empty($event['image_url'])) {
+        $event['image_url'] = 'https://www.migadesign.co.kr/app/dubu_board/docs/imgs/y/y14853344626785_lg_s14558698625380_image.jpg';
+    }
+
+    return view('event_detail', ['event' => $event]);
+}
+
 }

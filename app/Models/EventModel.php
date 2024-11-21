@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class EventModel extends Model
 {
-    protected $table = 'events_ease';
+    protected $table = 'events_ease'; // 테이블 이름
     protected $primaryKey = 'id';
     protected $allowedFields = [
         'brand', 'product_name', 'event_type', 'price', 'original_price',

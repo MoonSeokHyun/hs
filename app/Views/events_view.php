@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event List</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    
     <style>
         body {
             background-color: #f8f9fa;
@@ -64,13 +65,6 @@
         .header-emart { background-color: #f1c40f; color: #333; }
         .header-cspace { background-color: #e67e22; color: white; }
 
-        .badge-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
         .category-badge {
             display: inline-block;
             padding: 5px 10px;
@@ -92,6 +86,7 @@
             color: white;
             font-size: 0.9em;
             font-weight: bold;
+            margin-top: 10px;
         }
 
         @media (max-width: 768px) {
@@ -104,6 +99,41 @@
                 padding: 8px 15px;
             }
         }
+
+        <style>
+.pagination {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.pagination li {
+    margin: 0 5px;
+}
+
+.pagination a {
+    text-decoration: none;
+    color: #007bff;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.pagination a:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.pagination .active a {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}
+</style>
+
     </style>
 </head>
 <body>
@@ -120,83 +150,136 @@
             <a href="/events/C·SPACE" class="menu-cspace">씨스페이스</a>
         </div>
 
-        <div class="row row-cols-1 row-cols-md-2">
-            <?php if (!empty($events)): ?>
-                <?php foreach ($events as $event): ?>
-                    <?php
-                    // Determine the card and header class based on the brand
-                    $cardClass = 'card-all';
-                    $headerClass = 'header-all';
-                    switch (trim($event['brand'])) {
-                        case 'CU':
-                            $cardClass = 'card-cu';
-                            $headerClass = 'header-cu';
-                            break;
-                        case 'GS25':
-                            $cardClass = 'card-gs25';
-                            $headerClass = 'header-gs25';
-                            break;
-                        case '7-ELEVEn':
-                            $cardClass = 'card-seven';
-                            $headerClass = 'header-seven';
-                            break;
-                        case 'emart24':
-                            $cardClass = 'card-emart';
-                            $headerClass = 'header-emart';
-                            break;
-                        case 'C·SPACE':
-                            $cardClass = 'card-cspace';
-                            $headerClass = 'header-cspace';
-                            break;
-                    }
+        <!-- Filters -->
+        <form method="get" action="<?= current_url() ?>" class="mb-4">
+            <div class="form-row form-group">
+                <div class="col">
+                    <select name="event_type" class="form-control" id="id_event_type">
+                        <option value="" <?= $eventType == '' ? 'selected' : '' ?>>행사-전체</option>
+                        <option value="1+1" <?= $eventType == '1+1' ? 'selected' : '' ?>>1+1</option>
+                        <option value="2+1" <?= $eventType == '2+1' ? 'selected' : '' ?>>2+1</option>
+                        <option value="3+1" <?= $eventType == '3+1' ? 'selected' : '' ?>>3+1</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <select name="category" class="form-control" id="id_category">
+                        <option value="" <?= $category == '' ? 'selected' : '' ?>>분류-전체</option>
+                        <option value="음료" <?= $category == '음료' ? 'selected' : '' ?>>음료</option>
+                        <option value="식품" <?= $category == '식품' ? 'selected' : '' ?>>식품</option>
+                        <option value="과자류" <?= $category == '과자류' ? 'selected' : '' ?>>과자류</option>
+                        <option value="아이스크림" <?= $category == '아이스크림' ? 'selected' : '' ?>>아이스크림</option>
+                        <option value="생활용품" <?= $category == '생활용품' ? 'selected' : '' ?>>생활용품</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row form-group">
+                <div class="col">
+                    <select name="item" class="form-control" id="id_item">
+                        <option value="20" <?= $itemsPerPage == 20 ? 'selected' : '' ?>>상품수-20개</option>
+                        <option value="60" <?= $itemsPerPage == 60 ? 'selected' : '' ?>>60개</option>
+                        <option value="100" <?= $itemsPerPage == 100 ? 'selected' : '' ?>>100개</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <select name="sort" class="form-control" id="id_sort">
+                        <option value="" <?= $sort == '' ? 'selected' : '' ?>>정렬-상품명</option>
+                        <option value="1" <?= $sort == '1' ? 'selected' : '' ?>>낮은가격순</option>
+                        <option value="2" <?= $sort == '2' ? 'selected' : '' ?>>높은가격순</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row form-group">
+                <div class="col">
+                    <input type="number" name="price" class="form-control" placeholder="상품가격" value="<?= esc($price) ?>" id="id_price">
+                </div>
+                <div class="col">
+                    <div class="input-group">
+                        <input type="text" name="q" class="form-control" placeholder="상품명 검색" value="<?= esc($query) ?>" id="id_q">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit">검색</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
 
-                    // Determine category badge class
-                    $categoryClass = 'category-etc'; // Default
-                    if (isset($event['category'])) {
-                        if ($event['category'] === '식품') $categoryClass = 'category-food';
-                        elseif ($event['category'] === '음료') $categoryClass = 'category-drink';
-                    }
-                    ?>
-                    <div class="col mb-4">
-                        <div class="card <?= $cardClass ?>">
-                            <div class="card-header <?= $headerClass ?>">
-                                <small class="float-left font-weight-bold"><?= esc($event['brand']) ?></small>
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-4">
-                                        <img src="<?= esc($event['image_url']) ?>" class="img-fluid" alt="Product Image">
-                                    </div>
-                                    <div class="col-8">
-                                        <h5 class="card-title"><?= esc($event['product_name']) ?></h5>
-                                        <p>
-                                            <strong>가격:</strong> <?= number_format($event['price']) ?> 원<br>
-                                            <?php if (!empty($event['original_price'])): ?>
-                                                <small class="text-muted">개당 가격: <?= number_format($event['original_price']) ?> 원</small><br>
-                                            <?php endif; ?>
-                                        </p>
-                                        <div class="badge-row">
-                                            <?php if (!empty($event['event_type'])): ?>
-                                                <div class="event-badge"><?= esc($event['event_type']) ?></div>
-                                            <?php endif; ?>
-                                            <span class="category-badge <?= $categoryClass ?>"><?= esc($event['category'] ?? '기타') ?></span>
-                                        </div>
+        <!-- Event List -->
+        <div class="row row-cols-1 row-cols-md-2">
+    <?php if (!empty($events)): ?>
+        <?php foreach ($events as $event): ?>
+            <?php
+            $cardClass = 'card-all';
+            $headerClass = 'header-all';
+            switch (trim($event['brand'])) {
+                case 'CU': $cardClass = 'card-cu'; $headerClass = 'header-cu'; break;
+                case 'GS25': $cardClass = 'card-gs25'; $headerClass = 'header-gs25'; break;
+                case '7-ELEVEn': $cardClass = 'card-seven'; $headerClass = 'header-seven'; break;
+                case 'emart24': $cardClass = 'card-emart'; $headerClass = 'header-emart'; break;
+                case 'C·SPACE': $cardClass = 'card-cspace'; $headerClass = 'header-cspace'; break;
+            }
+
+            // 이벤트 타입 색상
+            $eventTypeClass = 'badge-secondary'; // Default
+            switch (trim($event['event_type'])) {
+                case '1+1': $eventTypeClass = 'badge-warning'; break; // 노란색
+                case '2+1': $eventTypeClass = 'badge-danger'; break;  // 빨간색
+                case '3+1': $eventTypeClass = 'badge-info'; break;    // 파란색
+                case '4+1': $eventTypeClass = 'badge-success'; break; // 초록색
+            }
+
+            // 카테고리 색상
+            $categoryClass = 'badge-dark'; // Default
+            switch (trim($event['category'])) {
+                case '음료': $categoryClass = 'badge-primary'; break; // 파란색
+                case '식품': $categoryClass = 'badge-success'; break; // 초록색
+                case '과자류': $categoryClass = 'badge-warning'; break; // 노란색
+                case '아이스크림': $categoryClass = 'badge-info'; break; // 밝은 파란색
+                case '생활용품': $categoryClass = 'badge-secondary'; break; // 회색
+            }
+            ?>
+            <!-- 카드 클릭 시 디테일 페이지로 이동 -->
+            <a href="/events/detail/<?= esc($event['id']) ?>" class="text-decoration-none text-reset">
+                <div class="col mb-4">
+                    <div class="card <?= $cardClass ?> clickable-card">
+                        <div class="card-header <?= $headerClass ?>">
+                            <small class="float-left font-weight-bold"><?= esc($event['brand']) ?></small>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-4">
+                                    <img src="<?= esc($event['image_url']) ?>" class="img-fluid" alt="Product Image">
+                                </div>
+                                <div class="col-8">
+                                    <h5 class="card-title"><?= esc($event['product_name']) ?></h5>
+                                    <p>
+                                        <strong>판매가격:</strong> <?= number_format($event['price']) ?> 원<br>
+                                        <?php if (!empty($event['original_price'])): ?>
+                                            <small class="text-muted">원래가격: <?= number_format($event['original_price']) ?> 원</small><br>
+                                        <?php endif; ?>
+                                    </p>
+                                    <!-- 이벤트 타입과 카테고리를 한 줄에 배지로 표시 -->
+                                    <div class="d-flex gap-2">
+                                        <span class="badge <?= $eventTypeClass ?>"><?= esc($event['event_type'] ?? '기타') ?></span>
+                                        <span class="badge <?= $categoryClass ?>"><?= esc($event['category'] ?? '기타') ?></span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <div class="col-12">
-                    <p class="text-center">No events available.</p>
                 </div>
-            <?php endif; ?>
+            </a>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <div class="col-12">
+            <p class="text-center">검색 결과가 없습니다.</p>
         </div>
+    <?php endif; ?>
+</div>
 
-        <div class="d-flex justify-content-center">
-            <?= $pager ?>
-        </div>
+<div class="d-flex justify-content-center">
+    <?= $pager->links('default', 'default_full') ?>
+</div>
+
     </div>
 </body>
 </html>

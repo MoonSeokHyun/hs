@@ -36,3 +36,4 @@ $routes->get('events/page/(:num)', 'EventController::index');
 $routes->get('events', 'EventController::index');
 $routes->get('events/(:segment)', 'EventController::index/$1');
 
+$routes->get('events/detail/(:num)', 'EventController::detail/$1');
