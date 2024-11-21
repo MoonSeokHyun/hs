@@ -2,17 +2,11 @@
 
 namespace Config;
 
-use CodeIgniter\Commands\Autoload;
-
-class Commands extends Autoload
+class Commands
 {
-    public function init()
-    {
-        parent::init();
-
-        // 커맨드 등록
-        $this->commands = array_merge($this->commands, [
-            'crawl:search' => \App\Commands\CrawlSearchCommand::class,
-        ]);
-    }
+    public $commands = [
+        'crawl:search' => \App\Commands\CrawlSearchCommand::class,
+        'crawl:event' => \App\Commands\CrawlCommand::class,
+        'crawl:emart24' => \App\Commands\CrawlEmart24Command::class,
+    ];
 }

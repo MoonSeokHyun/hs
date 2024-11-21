@@ -180,6 +180,91 @@
             }
         }
     </style>
+
+<style>
+        .section-title {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            color: #007bff;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: space-between;
+        }
+
+        .card {
+            flex: 1 1 calc(20% - 10px); /* 한 줄에 5개씩 */
+            display: flex;
+            flex-direction: column;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            background-color: #fff;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-img-top {
+            height: 150px; /* 이미지 높이를 고정 */
+            object-fit: cover; /* 비율을 유지하면서 잘라내기 */
+        }
+
+        .card-body {
+            padding: 10px;
+            text-align: center;
+        }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .card-text {
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        @media (max-width: 992px) {
+            .card {
+                flex: 1 1 calc(33.33% - 10px); /* 태블릿: 한 줄에 3개 */
+            }
+
+            .card-img-top {
+                height: 120px; /* 이미지 크기 조정 */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .card {
+                flex: 1 1 calc(50% - 10px); /* 모바일: 한 줄에 2개 */
+            }
+
+            .card-img-top {
+                height: 100px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .card {
+                flex: 1 1 100%; /* 작은 화면: 한 줄에 1개 */
+            }
+
+            .card-img-top {
+                height: 120px;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -212,7 +297,28 @@
                 </form>
             </div>
         </div>
-
+    <!-- 이벤트 섹션 -->
+    <div class="container mt-4">
+        <h2 class="section-title">진행 중인 이벤트</h2>
+        <div class="card-container">
+            <?php if (!empty($events)): ?>
+                <?php foreach ($events as $event): ?>
+                    <div class="card">
+                        <img src="<?= esc($event['image_url']) ?>" class="card-img-top" alt="<?= esc($event['title']) ?>">
+                        <div class="card-body">
+                            <h5 class="card-title"><?= esc($event['title']) ?></h5>
+                            <p class="card-text">
+                                <strong>기간:</strong> <?= esc($event['event_period']) ?><br>
+                                <strong>브랜드:</strong> <?= esc($event['brand']) ?>
+                            </p>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p class="text-center">현재 진행 중인 이벤트가 없습니다.</p>
+            <?php endif; ?>
+        </div>
+    </div>
         <!-- Footer -->
         <div class="footer">
             본 데이터는 <a href="https://www.data.go.kr" target="_blank">www.data.go.kr</a>에서 제공한 자료를 기반으로 하였습니다.<br>

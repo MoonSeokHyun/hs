@@ -37,3 +37,7 @@ $routes->get('events', 'EventController::index');
 $routes->get('events/(:segment)', 'EventController::index/$1');
 
 $routes->get('events/detail/(:num)', 'EventController::detail/$1');
+
+
+$routes->get('/eventcrawler', 'EventCrawler::index');
+$routes->get('/eventcrawler/crawl/(:num)', 'EventCrawler::crawl/$1');

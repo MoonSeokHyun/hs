@@ -7,41 +7,52 @@ use App\Models\ReviewModel;
 use proj4php\Proj4php;
 use proj4php\Proj;
 use proj4php\Point;
+use App\Models\EventCrawlingModel;
 
 class HospitalController extends BaseController
 {
     public function index()
-    {
-        $hospitalModel = new HospitalModel();
-        $reviewModel = new ReviewModel();
+{
+    $hospitalModel = new HospitalModel();
+    $reviewModel = new ReviewModel();
+    $eventModel = new EventCrawlingModel();
 
-        // 병원 카테고리 정의
-        $categories = [
-            '부속의료기관', '안전상비의약품 판매업소', 
-            '응급환자이송업', '의료유사업'
-        ];
+    // 진행 중인 이벤트 데이터 가져오기
+    $events = cache()->remember('ongoing_events', 600, function () use ($eventModel) {
+        return $eventModel->where('status', '진행중')
+            ->orderBy('updated_at', 'DESC')
+            ->findAll(10);
+    });
 
-        $data = [];
+    // 병원 카테고리 정의
+    $categories = [
+        '부속의료기관', '안전상비의약품 판매업소',
+        '응급환자이송업', '의료유사업'
+    ];
 
-        // 카테고리별 병원 조회 및 캐시 처리
-        $data['hospitalsByCategory'] = $this->fetchHospitalsByCategory($hospitalModel, $reviewModel, $categories);
+    $data = [
+        'events' => $events,
+    ];
 
-        // 인기 있는 시설과 최근 추가된 시설 캐싱된 데이터 가져오기
-        $data['popularFacilities'] = cache()->remember('popularFacilities', 3600, function() use ($hospitalModel) {
-            return $hospitalModel->getPopularFacilitiesByRating(10);
-        });
+    // 카테고리별 병원 조회 및 캐시 처리
+    $data['hospitalsByCategory'] = $this->fetchHospitalsByCategory($hospitalModel, $reviewModel, $categories);
 
-        $data['recentlyAddedFacilities'] = cache()->remember('recentlyAddedFacilities', 3600, function() use ($hospitalModel) {
-            return $hospitalModel->getRecentlyAddedFacilities(10);
-        });
+    // 인기 있는 시설과 최근 추가된 시설 캐싱된 데이터 가져오기
+    $data['popularFacilities'] = cache()->remember('popularFacilities', 3600, function () use ($hospitalModel) {
+        return $hospitalModel->getPopularFacilitiesByRating(10);
+    });
 
-        // 최근 리뷰 캐시 설정
-        $data['latestReviews'] = cache()->remember('latestReviews', 600, function() use ($reviewModel) {
-            return $reviewModel->getLatestReviews(5);
-        });
+    $data['recentlyAddedFacilities'] = cache()->remember('recentlyAddedFacilities', 3600, function () use ($hospitalModel) {
+        return $hospitalModel->getRecentlyAddedFacilities(10);
+    });
 
-        return view('hospital/index', $data);
-    }
+    // 최근 리뷰 캐시 설정
+    $data['latestReviews'] = cache()->remember('latestReviews', 600, function () use ($reviewModel) {
+        return $reviewModel->getLatestReviews(5);
+    });
+
+    return view('hospital/index', $data);
+}
 
     // 카테고리별 병원을 캐시하고 리뷰 모델과 함께 가져오는 메서드
     private function fetchHospitalsByCategory($hospitalModel, $reviewModel, $categories)
