@@ -42,6 +42,7 @@
             justify-content: center;
             margin: 20px 0;
             gap: 15px;
+            flex-wrap: wrap;
         }
 
         .menu-bar a {
@@ -60,7 +61,8 @@
             box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
         }
 
-        .menu-cu { background-color: #28a745; }
+        .menu-cu { background-color: #6c757d; }
+        .menu-all { background-color: #28a745; }
         .menu-gs25 { background-color: #007bff; }
         .menu-seven { background-color: #e74c3c; }
         .menu-emart { background-color: #f1c40f; color: #333; }
@@ -113,10 +115,11 @@
         .search-form input[type="text"] {
             padding: 12px;
             font-size: 1.1em;
-            width: 90%;
+            width: calc(100% - 30px);
             border: 2px solid #ddd;
             border-radius: 5px;
             transition: border-color 0.3s, box-shadow 0.3s;
+            margin-bottom: 10px;
         }
 
         .search-form input[type="text"]:focus {
@@ -133,7 +136,6 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
-            margin-top: 10px;
         }
 
         .search-form button:hover {
@@ -163,6 +165,19 @@
             .search-container {
                 flex-direction: column;
             }
+
+            .search-box {
+                padding: 15px;
+            }
+
+            .search-form input[type="text"] {
+                font-size: 1em;
+            }
+
+            .search-form button {
+                font-size: 1em;
+                padding: 10px 20px;
+            }
         }
     </style>
 </head>
@@ -172,13 +187,15 @@
 
         <!-- Floating menu bar -->
         <div class="menu-bar">
-    <a href="/events/cu" class="menu-cu">CU</a>
-    <a href="/events/gs25" class="menu-gs25">GS25</a>
-    <a href="/events/7-ELEVEn" class="menu-seven">세븐일레븐</a>
-    <a href="/events/emart24" class="menu-emart">이마트24</a>
-    <a href="/events/C·SPACE" class="menu-cspace">씨스페이스</a>
-</div>
+            <a href="/events" class="menu-all">전체</a>
+            <a href="/events/cu" class="menu-cu">CU</a>
+            <a href="/events/gs25" class="menu-gs25">GS25</a>
+            <a href="/events/7-ELEVEn" class="menu-seven">세븐일레븐</a>
+            <a href="/events/emart24" class="menu-emart">이마트24</a>
+            <a href="/events/C·SPACE" class="menu-cspace">씨스페이스</a>
+        </div>
 
+        <!-- Search sections -->
         <div class="section search-container">
             <div class="search-box">
                 <h2>편의시설 검색</h2>
@@ -189,13 +206,14 @@
             </div>
             <div class="search-box">
                 <h2>상품 검색</h2>
-                <form class="search-form" method="get" action="/product/search">
-                    <input type="text" name="product_query" placeholder="ex) 비빔밥" value="<?= esc($productQuery ?? '') ?>">
+                <form class="search-form" method="get" action="/events">
+                    <input type="text" name="q" placeholder="ex) 비빔밥" value="<?= esc($query ?? '') ?>">
                     <button type="submit">검색</button>
                 </form>
             </div>
         </div>
 
+        <!-- Footer -->
         <div class="footer">
             본 데이터는 <a href="https://www.data.go.kr" target="_blank">www.data.go.kr</a>에서 제공한 자료를 기반으로 하였습니다.<br>
             이 웹 사이트는 영리 목적으로 만들어졌습니다.<br>

@@ -78,23 +78,34 @@ class EventController extends Controller
         ]);
     }
     public function detail($id)
-{
-    $model = new EventModel();
-
-    // 이벤트 데이터 가져오기
-    $event = $model->find($id);
-
-    // 이벤트가 없을 경우 404 에러 처리
-    if (!$event) {
-        throw new \CodeIgniter\Exceptions\PageNotFoundException('Event not found');
+    {
+        $db = \Config\Database::connect();
+    
+        // 제품 정보 가져오기
+        $eventModel = new EventModel();
+        $event = $eventModel->find($id);
+    
+        if (!$event) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException("Event with ID {$id} not found.");
+        }
+    
+        // 추천 상품 가져오기 (카테고리와 ±10% 가격 범위)
+        $priceRangeLow = $event['price'] * 0.9; // 가격 하한
+        $priceRangeHigh = $event['price'] * 1.1; // 가격 상한
+    
+        $recommendedProducts = $eventModel->where('category', $event['category'])
+            ->where('id !=', $event['id']) // 현재 상품 제외
+            ->where('price >=', $priceRangeLow)
+            ->where('price <=', $priceRangeHigh)
+            ->orderBy('RAND()') // 랜덤 정렬
+            ->limit(5)
+            ->findAll();
+    
+        // View에 데이터 전달
+        return view('event_detail', [
+            'event' => $event,
+            'recommendedProducts' => $recommendedProducts,
+        ]);
     }
-
-    // 브랜드가 7-ELEVEn인 경우 기본 이미지 설정
-    if ($event['brand'] === '7-ELEVEn' && empty($event['image_url'])) {
-        $event['image_url'] = 'https://www.migadesign.co.kr/app/dubu_board/docs/imgs/y/y14853344626785_lg_s14558698625380_image.jpg';
-    }
-
-    return view('event_detail', ['event' => $event]);
-}
-
+    
 }
