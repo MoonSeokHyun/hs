@@ -96,7 +96,7 @@ class SitemapController extends Controller
 
         foreach ($events as $event) {
             $url = base_url("events/detail/{$event['id']}");
-            $lastMod = date('Y-m-d', strtotime($event['last_updated']));
+            $lastMod = date('Y-m-d', strtotime($event['created_at'])); // 'created_at' 기준
 
             $xml .= "<url>\n";
             $xml .= "<loc>{$url}</loc>\n";

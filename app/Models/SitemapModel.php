@@ -30,7 +30,7 @@ class SitemapModel extends Model
     public function getEventsForSitemap($limit, $offset)
     {
         return $this->db->table('events_ease')
-                        ->select('id, last_updated')
+                        ->select('id, created_at') // 'created_at' 사용
                         ->orderBy('id', 'ASC')
                         ->limit($limit, $offset)
                         ->get()
