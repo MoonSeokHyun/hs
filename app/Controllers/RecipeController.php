@@ -25,11 +25,17 @@ class RecipeController extends BaseController
     public function detail($id)
     {
         $recipeModel = new RecipeModel();
+
+        // 레시피 조회
         $recipe = $recipeModel->find($id);
 
         if (!$recipe) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound("Recipe with ID $id not found.");
         }
+
+        // 조회수 증가 로직
+        $recipe['views'] = $recipe['views'] + 1; // 조회수 1 증가
+        $recipeModel->update($id, ['views' => $recipe['views']]);
 
         return view('recipe/detail', ['recipe' => $recipe]);
     }
