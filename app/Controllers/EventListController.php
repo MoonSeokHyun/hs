@@ -2,38 +2,34 @@
 
 namespace App\Controllers;
 
-use App\Models\RecipeModel;
+use App\Models\EventCrawlingModel;
 
-class RecipeController extends BaseController
+class EventListController extends BaseController
 {
     public function index()
     {
-        $recipeModel = new RecipeModel();
+        $eventModel = new EventCrawlingModel();
 
-        // 레시피 목록 가져오기 (페이징)
-        $recipes = $recipeModel->orderBy('created_at', 'DESC')->paginate(6);
+        // 모든 이벤트 가져오기 (페이징 포함)
+        $allEvents = $eventModel->orderBy('updated_at', 'DESC')->paginate(4);
 
-        // 페이징 객체
-        $pager = $recipeModel->pager;
+        // 페이징 객체 가져오기
+        $pager = $eventModel->pager;
 
-        return view('recipe/index', [
-            'recipes' => $recipes,
+        return view('event/index', [
+            'allEvents' => $allEvents,
             'pager' => $pager,
         ]);
     }
-
     public function detail($id)
     {
-        $recipeModel = new RecipeModel();
-        $recipe = $recipeModel->find($id);
+        $eventModel = new EventCrawlingModel();
+        $event = $eventModel->find($id);
 
-        if (!$recipe) {
-            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound("Recipe with ID $id not found.");
+        if (!$event) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound("Event with ID $id not found.");
         }
 
-        // 조회수 증가
-        $recipeModel->update($id, ['views' => $recipe['views'] + 1]);
-
-        return view('recipe/detail', ['recipe' => $recipe]);
+        return view('event/detail', ['event' => $event]);
     }
 }
