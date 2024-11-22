@@ -185,7 +185,6 @@
     </style>
 
 <style>
-
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -206,8 +205,14 @@
             justify-content: space-between;
         }
 
-        .card {
+        .card-link {
             flex: 1 1 calc(20% - 10px); /* PC: 한 줄에 5개 */
+            text-decoration: none; /* 링크 밑줄 제거 */
+            color: inherit; /* 글자 색상 유지 */
+            display: block; /* 전체 클릭 가능 */
+        }
+
+        .card {
             display: flex;
             flex-direction: column;
             border: none;
@@ -247,7 +252,7 @@
         }
 
         @media (max-width: 992px) {
-            .card {
+            .card-link {
                 flex: 1 1 calc(33.33% - 10px); /* 태블릿: 한 줄에 3개 */
             }
 
@@ -257,7 +262,7 @@
         }
 
         @media (max-width: 768px) {
-            .card {
+            .card-link {
                 flex: 1 1 calc(50% - 10px); /* 모바일: 한 줄에 2개 */
             }
 
@@ -267,7 +272,7 @@
         }
 
         @media (max-width: 576px) {
-            .card {
+            .card-link {
                 flex: 1 1 calc(50% - 10px); /* 작은 화면: 여전히 2개 */
             }
 
@@ -309,22 +314,23 @@
     <div class="card-container">
         <?php if (!empty($events)): ?>
             <?php foreach ($events as $event): ?>
-                <div class="card">
-                    <img src="<?= esc($event['image_url']) ?>" class="card-img-top" alt="<?= esc($event['title']) ?>">
-                    <div class="card-body">
-                        <h5 class="card-title"><?= esc($event['title']) ?></h5>
-                        <p class="card-text">
-                            <strong>기간:</strong> <?= esc($event['event_period']) ?><br>
-                            <strong>브랜드:</strong> <?= esc($event['brand']) ?>
-                        </p>
+                <a href="/event/<?= esc($event['id']) ?>" class="card-link">
+                    <div class="card">
+                        <img src="<?= esc($event['image_url']) ?>" class="card-img-top" alt="<?= esc($event['title']) ?>">
+                        <div class="card-body">
+                            <h5 class="card-title"><?= esc($event['title']) ?></h5>
+                            <p class="card-text">
+                            </p>
+                        </div>
                     </div>
-                </div>
+                </a>
             <?php endforeach; ?>
         <?php else: ?>
             <p class="text-center">현재 진행 중인 이벤트가 없습니다.</p>
         <?php endif; ?>
     </div>
 </div>
+
 
 <!-- 최신 레시피 섹션 -->
 <div class="container mt-4">
