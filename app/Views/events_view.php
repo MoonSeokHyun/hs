@@ -64,6 +64,8 @@
         .header-seven { background-color: #e74c3c; color: white; }
         .header-emart { background-color: #f1c40f; color: #333; }
         .header-cspace { background-color: #e67e22; color: white; }
+        .menu-recipe { background-color: #FFA07A; }
+        .menu-event { background-color: #FF4500; }
 
         .category-badge {
             display: inline-block;

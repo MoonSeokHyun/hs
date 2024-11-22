@@ -10,6 +10,39 @@
             background-color: #f8f9fa;
         }
 
+        /* 메뉴바 스타일 */
+        .menu-bar {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .menu-bar a {
+            text-decoration: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .menu-cu { background-color: #6c757d; }
+        .menu-all { background-color: #28a745; }
+        .menu-gs25 { background-color: #007bff; }
+        .menu-seven { background-color: #e74c3c; }
+        .menu-emart { background-color: #f1c40f; color: #333; }
+        .menu-cspace { background-color: #e67e22; }
+        .menu-recipe { background-color: #FFA07A; }
+        .menu-event { background-color: #FF4500; }
+
+        .menu-bar a:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+        }
+
         .card {
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -82,9 +115,21 @@
     </style>
 </head>
 <body>
+    <!-- 메뉴바 -->
+
+
     <div class="container mt-5">
         <h1 class="text-center mb-4"><?= esc($event['product_name']) ?></h1>
-        
+        <div class="menu-bar">
+        <a href="/events" class="menu-all">전체</a>
+        <a href="/events/cu" class="menu-cu">CU</a>
+        <a href="/events/gs25" class="menu-gs25">GS25</a>
+        <a href="/events/7-ELEVEn" class="menu-seven">세븐일레븐</a>
+        <a href="/events/emart24" class="menu-emart">이마트24</a>
+        <a href="/events/C·SPACE" class="menu-cspace">씨스페이스</a>
+        <a href="/recipes" class="menu-recipe">레시피</a>
+        <a href="/event" class="menu-event">이벤트</a>
+    </div>
         <!-- 상품 상세 정보 -->
         <div class="card mx-auto" style="max-width: 600px;">
             <img src="<?= esc($event['image_url']) ?>" class="card-img-top" alt="Product Image">
