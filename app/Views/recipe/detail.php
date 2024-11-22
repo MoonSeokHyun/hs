@@ -193,10 +193,10 @@
             <a href="/events/7-ELEVEn" class="menu-seven">세븐일레븐</a>
             <a href="/events/emart24" class="menu-emart">이마트24</a>
             <a href="/events/C·SPACE" class="menu-cspace">씨스페이스</a>
-            <a href="/recipe" class="menu-recipe">레시피</a>
+            <a href="/recipes" class="menu-recipe">레시피</a>
             <a href="/event" class="menu-event">이벤트</a>
         </div>
-        
+
         <!-- 완성 사진 -->
         <img src="<?= esc($recipe['image_url']) ?>" alt="완성 사진" class="recipe-image">
 

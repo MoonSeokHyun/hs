@@ -84,7 +84,7 @@
 <body>
     <div class="container mt-5">
         <h1 class="text-center mb-4"><?= esc($event['product_name']) ?></h1>
-
+        
         <!-- 상품 상세 정보 -->
         <div class="card mx-auto" style="max-width: 600px;">
             <img src="<?= esc($event['image_url']) ?>" class="card-img-top" alt="Product Image">
