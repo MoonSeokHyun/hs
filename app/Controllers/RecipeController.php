@@ -31,9 +31,6 @@ class RecipeController extends BaseController
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound("Recipe with ID $id not found.");
         }
 
-        // 조회수 증가
-        $recipeModel->update($id, ['views' => $recipe['views'] + 1]);
-
         return view('recipe/detail', ['recipe' => $recipe]);
     }
 }

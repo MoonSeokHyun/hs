@@ -294,7 +294,7 @@
             <a href="/events/7-ELEVEn" class="menu-seven">세븐일레븐</a>
             <a href="/events/emart24" class="menu-emart">이마트24</a>
             <a href="/events/C·SPACE" class="menu-cspace">씨스페이스</a>
-            <a href="/recipe" class="menu-recipe">레시피</a>
+            <a href="/recipes" class="menu-recipe">레시피</a>
             <a href="/event" class="menu-event">이벤트</a>
         </div>
 
@@ -338,18 +338,22 @@
     <div class="card-container">
         <?php if (!empty($recipes)): ?>
             <?php foreach ($recipes as $recipe): ?>
-                <div class="card">
-                    <img src="<?= esc($recipe['image_url']) ?>" class="card-img-top" alt="<?= esc($recipe['title']) ?>">
-                    <div class="card-body">
-                        <h5 class="card-title"><?= esc($recipe['title']) ?></h5>
+                <!-- 링크로 감싸기 -->
+                <a href="/recipes/<?= esc($recipe['id']) ?>" class="card-link">
+                    <div class="card">
+                        <img src="<?= esc($recipe['image_url']) ?>" class="card-img-top" alt="<?= esc($recipe['title']) ?>">
+                        <div class="card-body">
+                            <h5 class="card-title"><?= esc($recipe['title']) ?></h5>
+                        </div>
                     </div>
-                </div>
+                </a>
             <?php endforeach; ?>
         <?php else: ?>
             <p class="text-center">레시피가 없습니다.</p>
         <?php endif; ?>
     </div>
 </div>
+
 
         <!-- Footer -->
         <div class="footer">

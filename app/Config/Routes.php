@@ -42,3 +42,7 @@ $routes->get('/event/(:num)', 'EventListController::detail/$1');
 // 크롤링 이벤트 라우트
 $routes->get('/eventcrawler', 'EventCrawler::index');
 $routes->get('/eventcrawler/crawl/(:num)', 'EventCrawler::crawl/$1');
+
+//레시피 관련
+$routes->get('/recipes', 'RecipeController::index');
+$routes->get('/recipes/(:num)', 'RecipeController::detail/$1');
