@@ -362,5 +362,14 @@
             잘못된 정보는 <a href="mailto:gjqmaoslwj@naver.com">gjqmaoslwj@naver.com</a>으로 문의해 주세요.
         </div>
     </div>
+
+    <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
+<script type="text/javascript">
+if(!wcs_add) var wcs_add = {};
+wcs_add["wa"] = "8adec19974bed8";
+if(window.wcs) {
+  wcs_do();
+}
+</script>
 </body>
 </html>

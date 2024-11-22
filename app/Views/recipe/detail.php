@@ -228,5 +228,13 @@
         <!-- 뒤로가기 버튼 -->
         <a href="/recipes" class="back-button">목록으로 돌아가기</a>
     </div>
+    <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
+<script type="text/javascript">
+if(!wcs_add) var wcs_add = {};
+wcs_add["wa"] = "8adec19974bed8";
+if(window.wcs) {
+  wcs_do();
+}
+</script>
 </body>
 </html>
