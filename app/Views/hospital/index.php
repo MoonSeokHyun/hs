@@ -67,6 +67,9 @@
         .menu-seven { background-color: #e74c3c; }
         .menu-emart { background-color: #f1c40f; color: #333; }
         .menu-cspace { background-color: #e67e22; }
+        .menu-recipe { background-color: #FFA07A; } /* 살몬 핑크 */
+        .menu-event { background-color: #FF4500; } /* 오렌지 레드 */
+
 
         @media (max-width: 768px) {
             .menu-bar {
@@ -182,6 +185,13 @@
     </style>
 
 <style>
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
         .section-title {
             text-align: center;
             margin-bottom: 20px;
@@ -197,7 +207,7 @@
         }
 
         .card {
-            flex: 1 1 calc(20% - 10px); /* 한 줄에 5개씩 */
+            flex: 1 1 calc(20% - 10px); /* PC: 한 줄에 5개 */
             display: flex;
             flex-direction: column;
             border: none;
@@ -206,6 +216,7 @@
             overflow: hidden;
             background-color: #fff;
             transition: transform 0.3s, box-shadow 0.3s;
+            margin-bottom: 10px;
         }
 
         .card:hover {
@@ -257,7 +268,7 @@
 
         @media (max-width: 576px) {
             .card {
-                flex: 1 1 100%; /* 작은 화면: 한 줄에 1개 */
+                flex: 1 1 calc(50% - 10px); /* 작은 화면: 여전히 2개 */
             }
 
             .card-img-top {
@@ -278,17 +289,12 @@
             <a href="/events/7-ELEVEn" class="menu-seven">세븐일레븐</a>
             <a href="/events/emart24" class="menu-emart">이마트24</a>
             <a href="/events/C·SPACE" class="menu-cspace">씨스페이스</a>
+            <a href="/recipe" class="menu-recipe">레시피</a>
+            <a href="/event" class="menu-event">이벤트</a>
         </div>
 
         <!-- Search sections -->
         <div class="section search-container">
-            <div class="search-box">
-                <h2>편의시설 검색</h2>
-                <form class="search-form" method="get" action="/hospital/search">
-                    <input type="text" name="query" placeholder="ex) 세븐일레븐 강남점" value="<?= esc($searchQuery ?? '') ?>">
-                    <button type="submit">검색</button>
-                </form>
-            </div>
             <div class="search-box">
                 <h2>상품 검색</h2>
                 <form class="search-form" method="get" action="/events">
@@ -299,26 +305,50 @@
         </div>
     <!-- 이벤트 섹션 -->
     <div class="container mt-4">
-        <h2 class="section-title">진행 중인 이벤트</h2>
-        <div class="card-container">
-            <?php if (!empty($events)): ?>
-                <?php foreach ($events as $event): ?>
-                    <div class="card">
-                        <img src="<?= esc($event['image_url']) ?>" class="card-img-top" alt="<?= esc($event['title']) ?>">
-                        <div class="card-body">
-                            <h5 class="card-title"><?= esc($event['title']) ?></h5>
-                            <p class="card-text">
-                                <strong>기간:</strong> <?= esc($event['event_period']) ?><br>
-                                <strong>브랜드:</strong> <?= esc($event['brand']) ?>
-                            </p>
-                        </div>
+    <h2 class="section-title">진행 중인 편의점 이벤트</h2>
+    <div class="card-container">
+        <?php if (!empty($events)): ?>
+            <?php foreach ($events as $event): ?>
+                <div class="card">
+                    <img src="<?= esc($event['image_url']) ?>" class="card-img-top" alt="<?= esc($event['title']) ?>">
+                    <div class="card-body">
+                        <h5 class="card-title"><?= esc($event['title']) ?></h5>
+                        <p class="card-text">
+                            <strong>기간:</strong> <?= esc($event['event_period']) ?><br>
+                            <strong>브랜드:</strong> <?= esc($event['brand']) ?>
+                        </p>
                     </div>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <p class="text-center">현재 진행 중인 이벤트가 없습니다.</p>
-            <?php endif; ?>
-        </div>
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <p class="text-center">현재 진행 중인 이벤트가 없습니다.</p>
+        <?php endif; ?>
     </div>
+</div>
+
+<!-- 최신 레시피 섹션 -->
+<div class="container mt-4">
+    <h2 class="section-title">편의점 레시피</h2>
+    <div class="card-container">
+        <?php if (!empty($recipes)): ?>
+            <?php foreach ($recipes as $recipe): ?>
+                <div class="card">
+                    <img src="<?= esc($recipe['image_url']) ?>" class="card-img-top" alt="<?= esc($recipe['title']) ?>">
+                    <div class="card-body">
+                        <h5 class="card-title"><?= esc($recipe['title']) ?></h5>
+                        <p class="card-text">
+                            <strong>작성자:</strong> <?= esc($recipe['author']) ?><br>
+                            <strong>조회수:</strong> <?= esc($recipe['views']) ?>
+                        </p>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <p class="text-center">레시피가 없습니다.</p>
+        <?php endif; ?>
+    </div>
+</div>
+
         <!-- Footer -->
         <div class="footer">
             본 데이터는 <a href="https://www.data.go.kr" target="_blank">www.data.go.kr</a>에서 제공한 자료를 기반으로 하였습니다.<br>
