@@ -336,10 +336,6 @@
                     <img src="<?= esc($recipe['image_url']) ?>" class="card-img-top" alt="<?= esc($recipe['title']) ?>">
                     <div class="card-body">
                         <h5 class="card-title"><?= esc($recipe['title']) ?></h5>
-                        <p class="card-text">
-                            <strong>작성자:</strong> <?= esc($recipe['author']) ?><br>
-                            <strong>조회수:</strong> <?= esc($recipe['views']) ?>
-                        </p>
                     </div>
                 </div>
             <?php endforeach; ?>
