@@ -20,7 +20,9 @@ $routes->post('facility/addReview', 'FacilityController::addReview');
 
 // 사이트맵 라우트
 $routes->get('sitemap', 'SitemapController::index');
-$routes->get('sitemap/page/(:num)', 'SitemapController::page/$1');
+$routes->get('sitemap/hospitals/(:num)', 'SitemapController::hospitals/$1');
+$routes->get('sitemap/events/(:num)', 'SitemapController::events/$1');
+
 
 // 크롤링 관련 라우트
 $routes->cli('crawl/cu', 'CrawlController::crawlCU');

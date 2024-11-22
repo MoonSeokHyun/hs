@@ -3,7 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= esc($event['title']) ?> - 편잇</title>
+    <title><?= esc($event['title']) ?> - 편의점 할인 정보 & 이벤트 | 편잇</title>
+    <meta name="description" content="<?= esc($event['title']) ?>에 대한 상세 정보와 할인 이벤트 기간, 브랜드, 상태 등을 확인하세요. 편의점 할인 정보와 레시피는 편잇에서 확인하세요!">
+    <meta name="keywords" content="편의점 할인, <?= esc($event['brand']) ?>, <?= esc($event['title']) ?>, 1+1 이벤트, 2+1 할인, 편의점 이벤트">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="편잇">
+    <meta property="og:title" content="<?= esc($event['title']) ?> - 편의점 할인 정보 & 이벤트 | 편잇">
+    <meta property="og:description" content="<?= esc($event['title']) ?>에 대한 상세 정보와 할인 이벤트 기간, 브랜드, 상태 등을 확인하세요.">
+    <meta property="og:image" content="<?= esc($event['image_url']) ?>">
+    <meta property="og:url" content="<?= current_url() ?>">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<?= esc($event['title']) ?> - 편의점 할인 정보 & 이벤트 | 편잇">
+    <meta name="twitter:description" content="<?= esc($event['title']) ?>에 대한 상세 정보와 할인 이벤트 기간, 브랜드, 상태 등을 확인하세요.">
+    <meta name="twitter:image" content="<?= esc($event['image_url']) ?>">
+
     <style>
         body {
             font-family: 'Arial', sans-serif;

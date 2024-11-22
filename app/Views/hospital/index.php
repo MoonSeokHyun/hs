@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="Vg6LnwCg2ciJr3emetShc4yHm1AYLLPKWrg3UdFYpDg" />
     <meta name="naver-site-verification" content="da4595e04224f83fa6c03f3136fc09f0094ef7a7" />
-    <title>편의점 할인 정보는 편잇</title>
+    <title>편잇 - 편의점 할인정보 & 레시피 공유 플랫폼</title>
 
-    <meta name="description" content="Ease Hub에서 인기 있는 편의시설, 최근 추가된 시설 및 최신 리뷰를 확인하세요. 서울 지역의 병원 및 편의시설 정보를 제공합니다.">
-    <meta name="keywords" content="편의시설, Ease Hub 리뷰, 인기 시설, 최근 추가">
+    <meta name="description" content="편잇에서 1+1, 2+1 할인 정보와 다양한 편의점 레시피를 만나보세요. CU, GS25, 세븐일레븐 등 전국 편의점 정보와 할인 이벤트를 제공합니다.">
+    <meta name="keywords" content="편의점 할인, 1+1, 2+1, 편의점 레시피, CU, GS25, 세븐일레븐, 편의점 이벤트">
     <meta name="robots" content="index, follow">
-    <meta name="author" content="Ease Hub">
+    <meta name="author" content="편잇">
 
     <!-- CSS -->
     <style>

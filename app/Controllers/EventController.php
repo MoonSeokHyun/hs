@@ -101,11 +101,19 @@ class EventController extends Controller
             ->limit(5)
             ->findAll();
     
+        // 추천 상품의 이미지 URL 변경 ('7-ELEVEn' 브랜드인 경우)
+        foreach ($recommendedProducts as &$recommended) {
+            if ($recommended['brand'] === '7-ELEVEn') {
+                $recommended['image_url'] = 'https://www.migadesign.co.kr/app/dubu_board/docs/imgs/y/y14853344626785_lg_s14558698625380_image.jpg';
+            }
+        }
+    
         // View에 데이터 전달
         return view('event_detail', [
             'event' => $event,
             'recommendedProducts' => $recommendedProducts,
         ]);
     }
+    
     
 }
