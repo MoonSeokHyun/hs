@@ -12,6 +12,9 @@
     <meta name="robots" content="index, follow">
     <meta name="author" content="편잇">
 
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
+     crossorigin="anonymous"></script>
+     
     <!-- CSS -->
     <style>
         body {
