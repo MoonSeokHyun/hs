@@ -18,6 +18,9 @@
     <meta name="twitter:description" content="<?= esc($event['title']) ?>에 대한 상세 정보와 할인 이벤트 기간, 브랜드, 상태 등을 확인하세요.">
     <meta name="twitter:image" content="<?= esc($event['image_url']) ?>">
 
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
+     crossorigin="anonymous"></script>
+     
     <style>
         body {
             font-family: 'Arial', sans-serif;
