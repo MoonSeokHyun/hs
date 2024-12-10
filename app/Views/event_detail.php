@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
      crossorigin="anonymous"></script>
-    <title><?= esc($event['product_name']) ?> - <?= esc($event['brand']) ?> <?= date('n') ?>월 행사</title>
+     <?php
+        $brand = $event['brand'] === '7-ELEVEn' ? '세븐일레븐' : $event['brand'];
+        ?>
+<title><?= esc($event['product_name']) ?> - <?= esc($brand) ?> <?= date('n') ?>월 편의점 행사</title>
+
     <meta name="description" content="<?= esc($event['product_name']) ?> - <?= esc($event['brand']) ?>에서 진행하는 행사로 <?= esc($event['event_type'] ?? 'N/A') ?> 혜택과 가격 <?= number_format($event['price']) ?> 원!">
     <meta name="keywords" content="행사, <?= esc($event['brand']) ?>, <?= esc($event['category']) ?>, <?= esc($event['product_name']) ?>, 이벤트, 할인, <?= esc($event['event_type'] ?? '프로모션') ?>">
     <meta name="author" content="Your Site Name">
