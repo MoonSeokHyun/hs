@@ -55,12 +55,6 @@ class EventController extends Controller
         $events = $builder->paginate($itemsPerPage, 'default', $currentPage);
         $total = $builder->countAllResults(false); // 조건 만족 데이터 개수
 
-        // 브랜드가 7-ELEVEn인 경우 image_url을 지정된 URL로 설정
-        foreach ($events as &$event) {
-            if ($event['brand'] === '7-ELEVEn') {
-                $event['image_url'] = 'https://www.migadesign.co.kr/app/dubu_board/docs/imgs/y/y14853344626785_lg_s14558698625380_image.jpg';
-            }
-        }
 
         // Pagination 생성
         $pager = \Config\Services::pager();
