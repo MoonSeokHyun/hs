@@ -1,11 +1,52 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
      crossorigin="anonymous"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event List</title>
+    <title><?= $brand ? esc($brand) . ' 이벤트 리스트' : '모든 이벤트 리스트' ?></title>
+    <meta name="description" content="<?= $brand ? esc($brand) . '에서 진행 중인 다양한 이벤트를 확인하세요!' : '모든 브랜드의 최신 이벤트 리스트를 한눈에 볼 수 있습니다.' ?>">
+    <meta name="keywords" content="이벤트, 할인, <?= $brand ? esc($brand) . ',' : '' ?> 행사, 프로모션, 편의점 이벤트, 1+1, 2+1">
+    <meta name="author" content="Your Site Name">
+    <link rel="canonical" href="<?= current_url() ?>">
+
+    <!-- Open Graph Protocol -->
+    <meta property="og:title" content="<?= $brand ? esc($brand) . ' 이벤트 리스트' : '모든 이벤트 리스트' ?>">
+    <meta property="og:description" content="<?= $brand ? esc($brand) . '에서 진행 중인 다양한 이벤트를 확인하세요!' : '모든 브랜드의 최신 이벤트 리스트를 한눈에 볼 수 있습니다.' ?>">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<?= current_url() ?>">
+    <meta property="og:image" content="<?= base_url('path/to/default-image.jpg') ?>"> <!-- 기본 이미지 또는 대표 이미지 -->
+    <meta property="og:locale" content="ko_KR">
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<?= $brand ? esc($brand) . ' 이벤트 리스트' : '모든 이벤트 리스트' ?>">
+    <meta name="twitter:description" content="<?= $brand ? esc($brand) . '에서 진행 중인 다양한 이벤트를 확인하세요!' : '모든 브랜드의 최신 이벤트 리스트를 한눈에 볼 수 있습니다.' ?>">
+    <meta name="twitter:image" content="<?= base_url('path/to/default-image.jpg') ?>">
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "<?= $brand ? esc($brand) . ' 이벤트 리스트' : '모든 이벤트 리스트' ?>",
+        "description": "<?= $brand ? esc($brand) . '에서 진행 중인 다양한 이벤트를 확인하세요!' : '모든 브랜드의 최신 이벤트 리스트를 한눈에 볼 수 있습니다.' ?>",
+        "url": "<?= current_url() ?>",
+        "itemListElement": [
+            <?php foreach ($events as $index => $event): ?>
+            {
+                "@type": "ListItem",
+                "position": <?= $index + 1 ?>,
+                "url": "<?= base_url('/events/detail/' . $event['id']) ?>",
+                "name": "<?= esc($event['product_name']) ?>",
+                "image": "<?= esc($event['image_url']) ?>",
+                "brand": "<?= esc($event['brand']) ?>"
+            }<?= $index + 1 < count($events) ? ',' : '' ?>
+            <?php endforeach; ?>
+        ]
+    }
+    </script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     
     <style>

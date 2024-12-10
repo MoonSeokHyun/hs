@@ -6,9 +6,16 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
      crossorigin="anonymous"></script>
      <?php
-        $brand = $event['brand'] === '7-ELEVEn' ? '세븐일레븐' : $event['brand'];
+// 브랜드 이름 동적 처리
+        $brand = $event['brand'];
+        if ($brand === '7-ELEVEn') {
+            $brand = '세븐일레븐';
+        } elseif ($brand === 'emart24') {
+            $brand = '이마트24';
+        }
         ?>
-<title><?= esc($event['product_name']) ?> - <?= esc($brand) ?> <?= date('n') ?>월 편의점 행사</title>
+        <title><?= esc($event['product_name']) ?> - <?= esc($brand) ?> <?= date('n') ?>월 행사</title>
+
 
     <meta name="description" content="<?= esc($event['product_name']) ?> - <?= esc($event['brand']) ?>에서 진행하는 행사로 <?= esc($event['event_type'] ?? 'N/A') ?> 혜택과 가격 <?= number_format($event['price']) ?> 원!">
     <meta name="keywords" content="행사, <?= esc($event['brand']) ?>, <?= esc($event['category']) ?>, <?= esc($event['product_name']) ?>, 이벤트, 할인, <?= esc($event['event_type'] ?? '프로모션') ?>">
