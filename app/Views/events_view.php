@@ -248,9 +248,10 @@
             <a href="/events/detail/<?= esc($event['id']) ?>" class="text-decoration-none text-reset">
                 <div class="col mb-4">
                     <div class="card <?= $cardClass ?> clickable-card">
-                        <div class="card-header <?= $headerClass ?>">
-                            <small class="float-left font-weight-bold"><?= esc($event['brand']) ?></small>
-                        </div>
+                    <div class="card-header <?= $headerClass ?>">
+                        <small class="float-left font-weight-bold"><?= esc($event['brand']) ?></small>
+                        <small class="float-right font-weight-bold">업데이트 <?= date('Y-m-d') ?></small>
+                    </div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-4">
