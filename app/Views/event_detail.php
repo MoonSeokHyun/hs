@@ -1,11 +1,49 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
      crossorigin="anonymous"></script>
-    <title>Event Detail</title>
+    <title><?= esc($event['product_name']) ?> - <?= esc($event['brand']) ?> <?= date('n') ?>월 행사</title>
+    <meta name="description" content="<?= esc($event['product_name']) ?> - <?= esc($event['brand']) ?>에서 진행하는 행사로 <?= esc($event['event_type'] ?? 'N/A') ?> 혜택과 가격 <?= number_format($event['price']) ?> 원!">
+    <meta name="keywords" content="행사, <?= esc($event['brand']) ?>, <?= esc($event['category']) ?>, <?= esc($event['product_name']) ?>, 이벤트, 할인, <?= esc($event['event_type'] ?? '프로모션') ?>">
+    <meta name="author" content="Your Site Name">
+    <link rel="canonical" href="<?= current_url() ?>">
+
+    <!-- Open Graph Protocol -->
+    <meta property="og:title" content="<?= esc($event['product_name']) ?> - <?= esc($event['brand']) ?> <?= date('n') ?>월 행사">
+    <meta property="og:description" content="<?= esc($event['product_name']) ?> - <?= esc($event['brand']) ?>에서 진행하는 행사로 <?= esc($event['event_type'] ?? 'N/A') ?> 혜택과 가격 <?= number_format($event['price']) ?> 원!">
+    <meta property="og:image" content="<?= esc($event['image_url']) ?>">
+    <meta property="og:url" content="<?= current_url() ?>">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="ko_KR">
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<?= esc($event['product_name']) ?> - <?= esc($event['brand']) ?> <?= date('n') ?>월 행사">
+    <meta name="twitter:description" content="<?= esc($event['product_name']) ?> - <?= esc($event['brand']) ?>에서 진행하는 행사로 <?= esc($event['event_type'] ?? 'N/A') ?> 혜택과 가격 <?= number_format($event['price']) ?> 원!">
+    <meta name="twitter:image" content="<?= esc($event['image_url']) ?>">
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": "<?= esc($event['product_name']) ?>",
+        "brand": "<?= esc($event['brand']) ?>",
+        "image": "<?= esc($event['image_url']) ?>",
+        "description": "<?= esc($event['product_name']) ?> - <?= esc($event['brand']) ?>에서 진행하는 행사로 <?= esc($event['event_type'] ?? 'N/A') ?> 혜택과 가격 <?= number_format($event['price']) ?> 원!",
+        "offers": {
+            "@type": "Offer",
+            "price": "<?= $event['price'] ?>",
+            "priceCurrency": "KRW",
+            "availability": "https://schema.org/InStock",
+            "url": "<?= current_url() ?>"
+        }
+    }
+    </script>
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <style>
         body {

@@ -179,12 +179,71 @@
         .footer a:hover {
             text-decoration: underline;
         }
+
+                /* Floating menu bar styles */
+                .menu-bar {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .menu-bar a {
+            text-decoration: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-bar a:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-cu { background-color: #6c757d; }
+        .menu-all { background-color: #28a745; }
+        .menu-gs25 { background-color: #007bff; }
+        .menu-seven { background-color: #e74c3c; }
+        .menu-emart { background-color: #f1c40f; color: #333; }
+        .menu-cspace { background-color: #e67e22; }
+        .menu-recipe { background-color: #FFA07A; } /* 살몬 핑크 */
+        .menu-event { background-color: #FF4500; } /* 오렌지 레드 */
+
+
+        @media (max-width: 768px) {
+            .menu-bar {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .menu-bar a {
+                font-size: 0.9em;
+                padding: 8px 15px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1><?= esc($hospital['BusinessName']); ?></h1>
 
+
+<!-- Floating menu bar -->
+<div class="menu-bar">
+    <a href="/events" class="menu-all">전체</a>
+    <a href="/events/cu" class="menu-cu">CU</a>
+    <a href="/events/gs25" class="menu-gs25">GS25</a>
+    <a href="/events/7-ELEVEn" class="menu-seven">세븐일레븐</a>
+    <a href="/events/emart24" class="menu-emart">이마트24</a>
+    <a href="/events/C·SPACE" class="menu-cspace">씨스페이스</a>
+    <a href="/recipes" class="menu-recipe">레시피</a>
+    <a href="/event" class="menu-event">이벤트</a>
+</div>
         <div class="hospital-details">
             <div class="card">
                 <h2>기본 정보</h2>
