@@ -14,7 +14,7 @@
             $brand = '이마트24';
         }
         ?>
-        <title><?= esc($event['product_name']) ?> - <?= esc($brand) ?> <?= date('n') ?>월 행사</title>
+        <title><?= esc($event['product_name']) ?> - <?= esc($brand) ?> <?= date('n') ?>월 편의점 행사</title>
 
 
     <meta name="description" content="<?= esc($event['product_name']) ?> - <?= esc($event['brand']) ?>에서 진행하는 행사로 <?= esc($event['event_type'] ?? 'N/A') ?> 혜택과 가격 <?= number_format($event['price']) ?> 원!">
