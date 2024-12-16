@@ -1,257 +1,369 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
-    crossorigin="anonymous"></script>
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-WVK2PC5J');</script>
-    <!-- End Google Tag Manager -->
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Car Hub - 주유소 정보 및 리뷰</title>
     <meta name="description" content="Car Hub에서 최신 주유소 정보와 사용자 리뷰를 확인하세요. 주유소 위치, 리뷰, 평균 평점을 제공하여 쉽게 원하는 주유소를 찾을 수 있습니다.">
     <meta name="keywords" content="주유소, Car Hub, 주유소 리뷰, 주유소 위치, 주유소 평점, 서울 주유소">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    
-        <!-- Open Graph / Facebook -->
-        <meta property="og:type" content="website">
-    <meta property="og:title" content="Car Hub - 서울 정비소와 주유소 정보">
-    <meta property="og:description" content="서울 및 전국의 정비소와 주유소 정보를 최신 상태로 제공합니다. 고객 리뷰를 통해 신뢰할 수 있는 정비소를 찾으세요.">
-    <meta property="og:url" content="<?= current_url() ?>">
-    <meta property="og:image" content="URL_TO_IMAGE">
 
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Car Hub - 정비소 정보">
-    <meta name="twitter:description" content="서울과 전국의 최신 정비소 정보를 확인하세요. 사용자 리뷰로 신뢰도 높은 정보를 제공합니다.">
-    <meta name="twitter:image" content="URL_TO_IMAGE">
-
-    
-    <!-- Schema.org 마크업 -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "name": "Car Hub",
-      "description": "서울의 주유소와 최신 리뷰를 제공합니다.",
-      "url": "https://www.carhub.co.kr/gas_stations",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "서울",
-        "addressCountry": "KR"
-      },
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.5",
-        "reviewCount": "120"
-      },
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+82-2-123-4567",
-        "contactType": "Customer Service"
-      }
-    }
-    </script>
-
+    <!-- 스타일 변경 -->
     <style>
-        body { font-family: 'Arial', sans-serif; margin: 0; padding: 0; background-color: #f0f9ff; }
-        .container { width: 90%; max-width: 1200px; margin: auto; padding: 20px; }
-        header { background: linear-gradient(90deg, #0094ff, #00bfff); color: #fff; padding: 20px; text-align: center; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); margin-bottom: 20px; }
-        header h1 { font-size: 24px; margin: 0; }
-        nav ul { display: flex; justify-content: center; list-style: none; padding: 0; }
-        nav ul li { margin: 0 15px; }
-        nav ul li a { color: #fff; text-decoration: none; font-weight: bold; }
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+        }
 
-        /* 검색창 스타일 */
-        .search-box { margin: 20px 0; text-align: center; }
-        .search-box input[type="text"] { width: 70%; max-width: 400px; padding: 12px; font-size: 16px; border: 1px solid #0094ff; border-radius: 5px; outline: none; transition: border 0.3s; }
-        .search-box button { padding: 12px 18px; font-size: 16px; cursor: pointer; background-color: #007bff; color: #fff; border: none; border-radius: 5px; }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
-        /* 슬라이드 스타일 */
-        .recent-slides { display: flex; overflow: hidden; width: 100%; position: relative; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); background: #fff; }
-        .recent-slide { min-width: 100%; transition: transform 0.5s ease; }
-        .card { text-align: center; padding: 20px; }
-        .card h3 { font-size: 18px; color: #333; margin-bottom: 5px; }
-        .card p { color: #555; margin: 5px 0; }
+        header {
+            background: linear-gradient(90deg, #28a745, #007bff);
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
 
-        /* 섹션 및 테이블 스타일 */
-        section { margin-top: 40px; }
-        section h2 { font-size: 20px; margin-bottom: 20px; color: #333; }
-        table { width: 100%; border-collapse: collapse; background-color: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); margin-bottom: 20px; }
-        th, td { padding: 12px; text-align: center; border-bottom: 1px solid #ddd; }
-        th { background-color: #0094ff; color: #fff; font-size: 16px; }
-        .clickable-row { cursor: pointer; }
+        h1 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
 
-        /* 페이지네이션 */
-        .pager { display: flex; justify-content: center; margin: 20px 0; }
-        .pager a { margin: 0 5px; padding: 10px 15px; background-color: #0094ff; color: #fff; text-decoration: none; border-radius: 5px; }
-        
-        /* 지도 */
-        #map { width: 100%; height: 400px; margin-top: 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); }
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+            margin: 20px 0 0;
+        }
 
-        /* 리뷰 스타일 */
-        .reviews { margin: 20px 0; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); }
-        .review-card { border-bottom: 1px solid #ddd; padding: 10px 0; }
-        .review-card:last-child { border-bottom: none; }
-        .review-title { font-weight: bold; color: #0094ff; margin-bottom: 5px; }
-        .review-text { color: #555; }
-        .review-rating { color: #ffa500; font-weight: bold; }
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #ffc107;
+        }
+
+        .search-box {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .search-box input {
+            padding: 12px;
+            width: 70%;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .search-box button {
+            padding: 12px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .search-box button:hover {
+            background-color: #0056b3;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .section h2 {
+            font-size: 1.8rem;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        .recent-slides {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 10px 0;
+        }
+
+        .recent-slide {
+            flex: 0 0 300px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .recent-slide:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .recent-slide h3 {
+            font-size: 1.2rem;
+            margin: 0 0 10px;
+        }
+
+        .recent-slide p {
+            margin: 0;
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #007bff;
+            color: white;
+        }
+
+        .clickable-row {
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .clickable-row:hover {
+            background: #f1f1f1;
+        }
+
+        .reviews {
+            margin-top: 20px;
+        }
+
+        .review-card {
+            background: #f9f9f9;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .review-card:hover {
+            background: #f1f1f1;
+        }
+
+        .review-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #007bff;
+        }
+
+        .review-text {
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .review-rating {
+            color: #ffc107;
+            font-weight: bold;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+            background: #f8f9fa;
+            border-top: 1px solid #ddd;
+            color: #333;
+        }
+
+        .footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .menu-bar {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .menu-bar a {
+            text-decoration: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-bar a:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-parking { background-color: #007bff; }
+        .menu-gas-stations { background-color: #28a745; }
+        .menu-repair-shops { background-color: #e74c3c; }
+
+        @media (max-width: 768px) {
+            .menu-bar {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .menu-bar a {
+                font-size: 0.9em;
+                padding: 8px 15px;
+            }
+        }
+
     </style>
+</head>
+<body>
+        <h1>Car Hub</h1>
 
-    <script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
+
+
+    <div class="menu-bar">
+            <a href="/parking" class="menu-parking">주차장</a>
+            <a href="/gas_stations" class="menu-gas-stations">주유소</a>
+            <a href="/automobile_repair_shops" class="menu-repair-shops">정비소</a>
+        </div>
+
+    <div class="container">
+        <div class="search-box">
+            <form action="<?= base_url('gas_stations/search'); ?>" method="get">
+                <input type="text" name="search" placeholder="주유소 이름 검색..." required>
+                <button type="submit">검색</button>
+            </form>
+        </div>
+
+        <section class="section">
+            <h2>최근 추가된 주유소</h2>
+            <div class="recent-slides">
+                <?php foreach ($recentGasStations as $station): ?>
+                    <div class="recent-slide" onclick="goToDetail(<?= $station['id']; ?>)">
+                        <h3><?= esc($station['gas_station_name']); ?></h3>
+                        <p><?= esc($station['road_address']); ?></p>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>인기 주유소</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>주유소 이름</th>
+                        <th>주소</th>
+                        <th>리뷰 개수</th>
+                        <th>평균 평점</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($popularGasStations as $station): ?>
+                        <tr class="clickable-row" onclick="goToDetail(<?= $station['id']; ?>)">
+                            <td><?= esc($station['gas_station_name']); ?></td>
+                            <td><?= esc($station['road_address']); ?></td>
+                            <td><?= esc($station['review_count']); ?></td>
+                            <td><?= number_format($station['average_rating'], 1); ?> 점</td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="reviews">
+            <h2>최근 리뷰</h2>
+            <?php foreach ($recentReviews as $review): ?>
+                <div class="review-card" onclick="goToDetail(<?= isset($review['gas_station_id']) ? esc($review['gas_station_id']) : '0'; ?>)">
+                    <div class="review-title"> <?= isset($review['gas_station_name']) ? esc($review['gas_station_name']) : '정보 없음'; ?> -
+                        <span class="review-rating"> <?= isset($review['rating']) ? esc($review['rating']) : '0'; ?>점</span>
+                    </div>
+                    <div class="review-text"> <?= isset($review['comment_text']) ? esc($review['comment_text']) : '리뷰 없음'; ?> </div>
+                    <small> 작성일: <?= isset($review['created_at']) ? date('Y-m-d', strtotime($review['created_at'])) : '알 수 없음'; ?> </small>
+                </div>
+            <?php endforeach; ?>
+        </section>
+
+        <section class="section">
+            <h2>주유소 목록</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>주유소 이름</th>
+                        <th>주소</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($gasStations as $station): ?>
+                        <tr class="clickable-row" onclick="goToDetail(<?= $station['id']; ?>)">
+                            <td><?= esc($station['gas_station_name']); ?></td>
+                            <td><?= esc($station['road_address']); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </section>
+
+        <div class="pager">
+            <?= $pager->links('gasStationsGroup', 'default_full') ?>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>본 데이터는 <a href="https://www.data.go.kr" target="_blank">www.data.go.kr</a>에서 데이터 기반으로 만들어진 웹 사이트입니다.</p>
+        <p>이 웹 사이트는 영리 목적으로 만들어졌습니다.</p>
+        <p>잘못된 정보는 <a href="mailto:gjqmaoslwj@naver.com">gjqmaoslwj@naver.com</a>으로 문의해 주세요.</p>
+    </footer>
+
     <script>
         function goToDetail(id) {
             if (id) {
                 window.location.href = '/gas_stations/' + id;
             }
         }
-
-        let map;
-        function initMap() {
-            const mapOptions = {
-                center: new naver.maps.LatLng(37.5665, 126.978),
-                zoom: 14,
-                scaleControl: true,
-                mapTypeControl: true,
-                zoomControl: true,
-                logoControl: false
-            };
-            map = new naver.maps.Map('map', mapOptions);
-
-            const nearbyGasStations = [
-                { lat: 37.5705, lng: 126.980, name: '주유소 A', address: '서울시 강남구 역삼동 123', phone: '010-1234-5678' },
-                { lat: 37.5645, lng: 126.976, name: '주유소 B', address: '서울시 서초구 방배동 456', phone: '010-2345-6789' }
-            ];
-
-            nearbyGasStations.forEach(station => {
-                new naver.maps.Marker({
-                    position: new naver.maps.LatLng(station.lat, station.lng),
-                    map: map,
-                    title: station.name
-                });
-            });
-        }
-        document.addEventListener("DOMContentLoaded", initMap);
     </script>
-</head>
-<body>
-<header>
-    <h1>Car Hub</h1>
-    <nav>
-        <ul>
-            <li><a href="/gas_stations">주유소</a></li>
-            <li><a href="/automobile_repair_shops">정비소</a></li>
-            <li><a href="/">주차장</a></li>
-        </ul>
-    </nav>
-</header>
-
-<div class="container">
-    <!-- 검색창 -->
-    <div class="search-box">
-        <form action="<?= base_url('gas_stations/search'); ?>" method="get">
-            <input type="text" name="search" placeholder="주유소 이름 검색..." required>
-            <button type="submit">검색</button>
-        </form>
-    </div>
-
-    <!-- 지도 -->
-    <div id="map"></div>
-
-    <!-- 최근 추가된 주유소 섹션 -->
-    <section>
-        <h2>최근 추가된 주유소</h2>
-        <div class="recent-slides">
-            <?php foreach ($recentGasStations as $station): ?>
-                <div class="recent-slide card" onclick="goToDetail(<?= $station['id']; ?>)">
-                    <h3><?= esc($station['gas_station_name']); ?></h3>
-                    <p><?= esc($station['road_address']); ?></p>
-                </div>
-            <?php endforeach; ?>
-        </div>
-    </section>
-
-    <!-- 인기 주유소 섹션 -->
-    <section>
-        <h2>인기 주유소</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>주유소 이름</th>
-                    <th>주소</th>
-                    <th>리뷰 개수</th>
-                    <th>평균 평점</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($popularGasStations as $station): ?>
-                    <tr class="clickable-row" onclick="goToDetail(<?= $station['id']; ?>)">
-                        <td><?= esc($station['gas_station_name']); ?></td>
-                        <td><?= esc($station['road_address']); ?></td>
-                        <td><?= esc($station['review_count']); ?></td>
-                        <td><?= number_format($station['average_rating'], 1); ?> 점</td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </section>
-
-    <!-- 최근 리뷰 섹션 -->
-    <section class="reviews">
-        <h2>최근 리뷰</h2>
-        <?php foreach ($recentReviews as $review): ?>
-            <div class="review-card" onclick="goToDetail(<?= isset($review['gas_station_id']) ? esc($review['gas_station_id']) : '0'; ?>)">
-                <div class="review-title"><?= isset($review['gas_station_name']) ? esc($review['gas_station_name']) : '정보 없음'; ?> - 
-                    <span class="review-rating"><?= isset($review['rating']) ? esc($review['rating']) : '0'; ?>점</span>
-                </div>
-                <div class="review-text"><?= isset($review['comment_text']) ? esc($review['comment_text']) : '리뷰 없음'; ?></div>
-                <small>작성일: <?= isset($review['created_at']) ? date('Y-m-d', strtotime($review['created_at'])) : '알 수 없음'; ?></small>
-            </div>
-        <?php endforeach; ?>
-    </section>
-
-    <!-- 주유소 목록 섹션 -->
-    <section>
-        <h2>주유소 목록</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>주유소 이름</th>
-                    <th>주소</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($gasStations as $station): ?>
-                    <tr class="clickable-row" onclick="goToDetail(<?= $station['id']; ?>)">
-                        <td><?= esc($station['gas_station_name']); ?></td>
-                        <td><?= esc($station['road_address']); ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </section>
-
-    <!-- 페이지네이션 -->
-    <div class="pager">
-        <?= $pager->links('gasStationsGroup', 'default_full') ?>
-    </div>
-</div>
-
-<!-- 풀 화면 푸터 -->
-<footer style="background-color: #f8f9fa; padding: 20px; text-align: center; font-size: 14px; color: #6c757d;">
-    <p>본 데이터는 <a href="https://www.data.go.kr" target="_blank" style="color: #007bff; text-decoration: none;">www.data.go.kr</a>에서 데이터 기반으로 만들어진 웹 사이트입니다.</p>
-    <p>이 웹 사이트는 영리 목적으로 만들어진 사이트입니다.</p>
-    <p>잘못된 정보는 <a href="mailto:gjqmaoslwj@naver.com" style="color: #007bff; text-decoration: none;">gjqmaoslwj@naver.com</a>으로 문의해 주세요.</p>
-</footer>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
-crossorigin="anonymous"></script>
-<script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
-<script type="text/javascript">
-if(!wcs_add) var wcs_add = {};
-wcs_add["wa"] = "d453c02d83e61";
-if(window.wcs) { wcs_do(); }
-</script>
-
 </body>
 </html>
