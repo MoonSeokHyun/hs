@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\GasStationModel;
 use App\Models\SitemapModel;
+use App\Models\ParkingLotModel;
 use CodeIgniter\Controller;
 
 class SitemapController extends Controller
@@ -12,10 +13,12 @@ class SitemapController extends Controller
     {
         $sitemapModel = new SitemapModel();
         $gasStationModel = new GasStationModel();
+        $parkingLotModel = new ParkingLotModel();
 
-        // 이벤트 데이터
+        // 데이터 총 개수
         $totalEvents = $sitemapModel->countAllEvents();
         $totalGasStations = $gasStationModel->countAll();
+        $totalParkingLots = $parkingLotModel->getTotalParkingLots();
 
         // 한 페이지에 10,000개 항목
         $itemsPerPage = 10000;
@@ -23,6 +26,7 @@ class SitemapController extends Controller
         // 페이지 계산
         $eventPages = ceil($totalEvents / $itemsPerPage);
         $gasStationPages = ceil($totalGasStations / $itemsPerPage);
+        $parkingLotPages = ceil($totalParkingLots / $itemsPerPage);
 
         // XML 시작
         $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
@@ -40,6 +44,14 @@ class SitemapController extends Controller
         for ($i = 1; $i <= $gasStationPages; $i++) {
             $xml .= "<sitemap>\n";
             $xml .= "<loc>" . base_url("sitemap/gasstations/{$i}") . "</loc>\n";
+            $xml .= "<lastmod>" . date('Y-m-d') . "</lastmod>\n";
+            $xml .= "</sitemap>\n";
+        }
+
+        // 주차장 사이트맵
+        for ($i = 1; $i <= $parkingLotPages; $i++) {
+            $xml .= "<sitemap>\n";
+            $xml .= "<loc>" . base_url("sitemap/parkinglots/{$i}") . "</loc>\n";
             $xml .= "<lastmod>" . date('Y-m-d') . "</lastmod>\n";
             $xml .= "</sitemap>\n";
         }
@@ -97,6 +109,37 @@ class SitemapController extends Controller
         foreach ($gasStations as $station) {
             $url = base_url("gas_stations/{$station['id']}");
             $lastMod = date('Y-m-d', strtotime($station['data_reference_date'])); // 'data_reference_date' 기준
+
+            $xml .= "<url>\n";
+            $xml .= "<loc>{$url}</loc>\n";
+            $xml .= "<lastmod>{$lastMod}</lastmod>\n";
+            $xml .= "<changefreq>daily</changefreq>\n";
+            $xml .= "<priority>0.7</priority>\n";
+            $xml .= "</url>\n";
+        }
+
+        $xml .= "</urlset>";
+
+        return $this->response
+            ->setHeader('Content-Type', 'application/xml; charset=utf-8')
+            ->setBody($xml);
+    }
+
+    public function parkinglots($pageNumber)
+    {
+        $parkingLotModel = new ParkingLotModel();
+        $itemsPerPage = 10000;
+        $offset = ($pageNumber - 1) * $itemsPerPage;
+
+        $parkingLots = $parkingLotModel->getSitemapData($itemsPerPage, $offset);
+
+        // XML 시작
+        $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+        $xml .= "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
+
+        foreach ($parkingLots as $lot) {
+            $url = base_url("parking/detail/{$lot['id']}");
+            $lastMod = date('Y-m-d', strtotime($lot['data_reference_date'])); // 'data_reference_date' 기준
 
             $xml .= "<url>\n";
             $xml .= "<loc>{$url}</loc>\n";
