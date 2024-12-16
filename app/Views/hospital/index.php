@@ -75,6 +75,7 @@
         .menu-cspace { background-color: #e67e22; }
         .menu-recipe { background-color: #FFA07A; } /* 살몬 핑크 */
         .menu-event { background-color: #FF4500; } /* 오렌지 레드 */
+        .menu-parking { background-color: #8A2BE2 ; } /* 오렌지 레드 */
 
 
         @media (max-width: 768px) {
@@ -302,6 +303,7 @@
             <a href="/events/C·SPACE" class="menu-cspace">씨스페이스</a>
             <a href="/recipes" class="menu-recipe">레시피</a>
             <a href="/event" class="menu-event">이벤트</a>
+            <a href="/parking" class="menu-parking">카허브</a>
         </div>
 
         <!-- Search sections -->
