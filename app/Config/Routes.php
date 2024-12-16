@@ -22,6 +22,7 @@ $routes->post('facility/addReview', 'FacilityController::addReview');
 $routes->get('sitemap', 'SitemapController::index');
 $routes->get('sitemap/hospitals/(:num)', 'SitemapController::hospitals/$1');
 $routes->get('sitemap/events/(:num)', 'SitemapController::events/$1');
+$routes->get('sitemap/gasstations/(:num)', 'SitemapController::gasstations/$1');
 
 
 // 크롤링 관련 라우트

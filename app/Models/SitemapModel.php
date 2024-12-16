@@ -42,4 +42,21 @@ class SitemapModel extends Model
     {
         return $this->db->table('events_ease')->countAllResults();
     }
+
+    // 주유소 데이터를 가져오는 메서드
+    public function getGasStationsForSitemap($limit, $offset)
+    {
+        return $this->db->table('gas_station_info')
+                        ->select('id, data_reference_date')
+                        ->orderBy('id', 'ASC')
+                        ->limit($limit, $offset)
+                        ->get()
+                        ->getResultArray();
+    }
+
+    // 주유소 총 개수 가져오기
+    public function countAllGasStations()
+    {
+        return $this->db->table('gas_station_info')->countAllResults();
+    }
 }
