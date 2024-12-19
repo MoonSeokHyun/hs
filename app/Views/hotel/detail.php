@@ -12,8 +12,9 @@
     <meta property="og:image" content="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAChCAMAAABkv1NnAAAA">
     <meta property="og:url" content="<?= current_url() ?>">
     <meta property="og:type" content="website">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
-    crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464" crossorigin="anonymous"></script>
+    <!-- Naver 지도 API -->
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
     <title><?= esc($hotel['business_name']); ?> - 호텔허브</title>
     <style>
         body {
@@ -61,17 +62,6 @@
             transform: translateY(-5px);
             box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
         }
-
-        .menu-cu { background-color: #6c757d; }
-        .menu-all { background-color: #28a745; }
-        .menu-gs25 { background-color: #007bff; }
-        .menu-seven { background-color: #e74c3c; }
-        .menu-emart { background-color: #f1c40f; color: #333; }
-        .menu-cspace { background-color: #e67e22; }
-        .menu-recipe { background-color: #FFA07A; }
-        .menu-event { background-color: #FF4500; }
-        .menu-parking { background-color: #8A2BE2; }
-        .menu-accommodation { background-color: #17a2b8; }
 
         .detail-container {
             margin-top: 20px;
@@ -127,15 +117,30 @@
             color: #555;
         }
 
-        .card a {
-            font-size: 0.9em;
-            color: #007bff;
-            text-decoration: none;
+        .map-container {
+            margin-top: 20px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        .card a:hover {
-            text-decoration: underline;
+        #map {
+            width: 100%;
+            height: 400px;
         }
+
+
+        .menu-all { background-color: #28a745; } /* 초록색 */
+        .menu-cu { background-color: #6c757d; } /* 회색 */
+        .menu-gs25 { background-color: #007bff; } /* 파란색 */
+        .menu-seven { background-color: #e74c3c; } /* 빨간색 */
+        .menu-emart { background-color: #f1c40f; color: #333; } /* 노란색 */
+        .menu-recipe { background-color: #FFA07A; } /* 살몬 핑크 */
+        .menu-event { background-color: #FF4500; } /* 오렌지 레드 */
+        .menu-parking { background-color: #8A2BE2; } /* 보라색 */
+        .menu-accommodation { background-color: #17a2b8; } /* 청록색 */
+
     </style>
 </head>
 <body>
@@ -195,14 +200,27 @@
                 <?php endforeach; ?>
             </div>
         </div>
+
+        <!-- 지도 -->
+        <div class="map-container">
+            <h2 class="section-title">지도</h2>
+            <div id="map"></div>
+        </div>
     </div>
-    <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
-<script type="text/javascript">
-if(!wcs_add) var wcs_add = {};
-wcs_add["wa"] = "8adec19974bed8";
-if(window.wcs) {
-  wcs_do();
-}
-</script>
+
+    <script>
+        // Naver 지도 초기화
+        var map = new naver.maps.Map('map', {
+            center: new naver.maps.LatLng(<?= esc($hotel['coordinate_y']); ?>, <?= esc($hotel['coordinate_x']); ?>),
+            zoom: 15
+        });
+
+        // 마커 추가
+        var marker = new naver.maps.Marker({
+            position: new naver.maps.LatLng(<?= esc($hotel['coordinate_y']); ?>, <?= esc($hotel['coordinate_x']); ?>),
+            map: map,
+            title: "<?= esc($hotel['business_name']); ?>"
+        });
+    </script>
 </body>
 </html>
