@@ -24,7 +24,7 @@ $routes->get('sitemap/hospitals/(:num)', 'SitemapController::hospitals/$1');
 $routes->get('sitemap/events/(:num)', 'SitemapController::events/$1');
 $routes->get('sitemap/gasstations/(:num)', 'SitemapController::gasstations/$1');
 $routes->get('sitemap/parkinglots/(:num)', 'SitemapController::parkinglots/$1');
-
+$routes->get('sitemap/hotel/(:num)', 'SitemapController::hotel/$1');
 
 
 // 크롤링 관련 라우트
@@ -84,3 +84,9 @@ $routes->post('parking/saveComment', 'ParkingController::saveComment');
 $routes->post('/gas_station/saveComment', 'GasStationController::saveComment');
 // 정비소 댓글
 $routes->post('automobile_repair_shop/saveReview', 'AutomobileRepairShopController::saveReview');
+
+
+//호텔
+$routes->get('/hotel', 'HotelController::index'); // 목록 페이지
+$routes->get('/hotel/detail/(:num)', 'HotelController::detail/$1'); // 뷰페이지
+$routes->get('/hotel/search', 'HotelController::search');

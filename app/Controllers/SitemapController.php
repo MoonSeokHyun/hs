@@ -19,6 +19,7 @@ class SitemapController extends Controller
         $totalEvents = $sitemapModel->countAllEvents();
         $totalGasStations = $gasStationModel->countAll();
         $totalParkingLots = $parkingLotModel->getTotalParkingLots();
+        $totalHotels = $sitemapModel->countAllHotels();
 
         // 한 페이지에 10,000개 항목
         $itemsPerPage = 10000;
@@ -27,6 +28,7 @@ class SitemapController extends Controller
         $eventPages = ceil($totalEvents / $itemsPerPage);
         $gasStationPages = ceil($totalGasStations / $itemsPerPage);
         $parkingLotPages = ceil($totalParkingLots / $itemsPerPage);
+        $hotelPages = ceil($totalHotels / $itemsPerPage);
 
         // XML 시작
         $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
@@ -56,6 +58,14 @@ class SitemapController extends Controller
             $xml .= "</sitemap>\n";
         }
 
+        // 호텔 사이트맵
+        for ($i = 1; $i <= $hotelPages; $i++) {
+            $xml .= "<sitemap>\n";
+            $xml .= "<loc>" . base_url("sitemap/hotel/{$i}") . "</loc>\n";
+            $xml .= "<lastmod>" . date('Y-m-d') . "</lastmod>\n";
+            $xml .= "</sitemap>\n";
+        }
+
         $xml .= "</sitemapindex>";
 
         return $this->response
@@ -77,7 +87,7 @@ class SitemapController extends Controller
 
         foreach ($events as $event) {
             $url = base_url("events/detail/{$event['id']}");
-            $lastMod = date('Y-m-d', strtotime($event['created_at'])); // 'created_at' 기준
+            $lastMod = date('Y-m-d', strtotime($event['created_at']));
 
             $xml .= "<url>\n";
             $xml .= "<loc>{$url}</loc>\n";
@@ -94,58 +104,27 @@ class SitemapController extends Controller
             ->setBody($xml);
     }
 
-    public function gasstations($pageNumber)
+    public function hotel($pageNumber)
     {
-        $gasStationModel = new GasStationModel();
+        $sitemapModel = new SitemapModel();
         $itemsPerPage = 10000;
         $offset = ($pageNumber - 1) * $itemsPerPage;
 
-        $gasStations = $gasStationModel->getSitemapData($itemsPerPage, $offset);
+        $hotels = $sitemapModel->getHotelsForSitemap($itemsPerPage, $offset);
 
         // XML 시작
         $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
         $xml .= "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
 
-        foreach ($gasStations as $station) {
-            $url = base_url("gas_stations/{$station['id']}");
-            $lastMod = date('Y-m-d', strtotime($station['data_reference_date'])); // 'data_reference_date' 기준
+        foreach ($hotels as $hotel) {
+            $url = base_url("hotel/detail/{$hotel['id']}");
+            $lastMod = date('Y-m-d', strtotime($hotel['last_update_time']));
 
             $xml .= "<url>\n";
             $xml .= "<loc>{$url}</loc>\n";
             $xml .= "<lastmod>{$lastMod}</lastmod>\n";
             $xml .= "<changefreq>daily</changefreq>\n";
-            $xml .= "<priority>0.7</priority>\n";
-            $xml .= "</url>\n";
-        }
-
-        $xml .= "</urlset>";
-
-        return $this->response
-            ->setHeader('Content-Type', 'application/xml; charset=utf-8')
-            ->setBody($xml);
-    }
-
-    public function parkinglots($pageNumber)
-    {
-        $parkingLotModel = new ParkingLotModel();
-        $itemsPerPage = 10000;
-        $offset = ($pageNumber - 1) * $itemsPerPage;
-
-        $parkingLots = $parkingLotModel->getSitemapData($itemsPerPage, $offset);
-
-        // XML 시작
-        $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-        $xml .= "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
-
-        foreach ($parkingLots as $lot) {
-            $url = base_url("parking/detail/{$lot['id']}");
-            $lastMod = date('Y-m-d', strtotime($lot['data_reference_date'])); // 'data_reference_date' 기준
-
-            $xml .= "<url>\n";
-            $xml .= "<loc>{$url}</loc>\n";
-            $xml .= "<lastmod>{$lastMod}</lastmod>\n";
-            $xml .= "<changefreq>daily</changefreq>\n";
-            $xml .= "<priority>0.7</priority>\n";
+            $xml .= "<priority>0.9</priority>\n";
             $xml .= "</url>\n";
         }
 

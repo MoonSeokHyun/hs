@@ -12,8 +12,9 @@
     <meta property="og:image" content="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAChCAMAAABkv1NnAAAA">
     <meta property="og:url" content="<?= current_url() ?>">
     <meta property="og:type" content="website">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
+    crossorigin="anonymous"></script>
     <title><?= esc($hotel['business_name']); ?> - 호텔허브</title>
-    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -135,14 +136,6 @@
         .card a:hover {
             text-decoration: underline;
         }
-
-        #map {
-            width: 100%;
-            height: 400px;
-            margin: 20px 0;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
     </style>
 </head>
 <body>
@@ -167,10 +160,9 @@
             <p><strong>연락처:</strong> <?= esc($hotel['contact_number']); ?></p>
             <p><strong>체크인 시간:</strong> 15:00</p>
             <p><strong>체크아웃 시간:</strong> 11:00</p>
+            <p><strong>객실 정보:</strong> 한실 <?= esc($hotel['han_room_count'] ?? '정보 없음'); ?>개, 양실 <?= esc($hotel['western_room_count'] ?? '정보 없음'); ?>개</p>
+            <p><strong>건물 층수:</strong> 지상 <?= esc($hotel['building_above_ground'] ?? '정보 없음'); ?>층, 지하 <?= esc($hotel['building_below_ground'] ?? '정보 없음'); ?>층</p>
         </div>
-
-        <!-- 네이버 지도 -->
-        <div id="map"></div>
 
         <!-- 근처 맛집 -->
         <div class="detail-container">
@@ -188,26 +180,29 @@
             </div>
         </div>
 
-        <script>
-            var map = new naver.maps.Map('map', {
-                center: new naver.maps.LatLng(<?= esc($hotel['coordinate_y']); ?>, <?= esc($hotel['coordinate_x']); ?>),
-                zoom: 15
-            });
-
-            var marker = new naver.maps.Marker({
-                position: new naver.maps.LatLng(<?= esc($hotel['coordinate_y']); ?>, <?= esc($hotel['coordinate_x']); ?>),
-                map: map,
-                title: "<?= esc($hotel['business_name']); ?>"
-            });
-
-            var infoWindow = new naver.maps.InfoWindow({
-                content: `<div style="padding:10px;">${"<?= esc($hotel['business_name']); ?>"}</div>`
-            });
-
-            naver.maps.Event.addListener(marker, "click", function () {
-                infoWindow.open(map, marker);
-            });
-        </script>
+        <!-- 주변 관광지 -->
+        <div class="detail-container">
+            <h2 class="section-title">주변 관광지</h2>
+            <div class="card-slider">
+                <?php foreach ($results_tour as $item): ?>
+                    <div class="card">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAChCAMAAABkv1NnAAAA" alt="이미지">
+                        <h3><?= esc($item['title']); ?></h3>
+                        <p><?= esc($item['roadAddress']); ?></p>
+                        <p><?= esc($item['telephone'] ?? '정보 없음'); ?></p>
+                        <a href="<?= esc($item['link']); ?>" target="_blank">자세히 보기</a>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
     </div>
+    <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
+<script type="text/javascript">
+if(!wcs_add) var wcs_add = {};
+wcs_add["wa"] = "8adec19974bed8";
+if(window.wcs) {
+  wcs_do();
+}
+</script>
 </body>
 </html>

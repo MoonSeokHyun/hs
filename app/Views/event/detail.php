@@ -67,15 +67,17 @@
             transform: translateY(-5px);
             box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
         }
-
         .menu-cu { background-color: #6c757d; }
         .menu-all { background-color: #28a745; }
         .menu-gs25 { background-color: #007bff; }
         .menu-seven { background-color: #e74c3c; }
         .menu-emart { background-color: #f1c40f; color: #333; }
         .menu-cspace { background-color: #e67e22; }
-        .menu-recipe { background-color: #FFA07A; }
-        .menu-event { background-color: #FF4500; }
+        .menu-recipe { background-color: #FFA07A; } /* 살몬 핑크 */
+        .menu-event { background-color: #FF4500; } /* 오렌지 레드 */
+        .menu-parking { background-color: #8A2BE2; } /* 오렌지 레드 */
+        .menu-accommodation { background-color: #17a2b8; }
+
 
         .detail-container {
             margin-top: 20px;
@@ -125,10 +127,12 @@
             <a href="/events/gs25" class="menu-gs25">GS25</a>
             <a href="/events/7-ELEVEn" class="menu-seven">세븐일레븐</a>
             <a href="/events/emart24" class="menu-emart">이마트24</a>
-            <a href="/events/C·SPACE" class="menu-cspace">씨스페이스</a>
             <a href="/recipes" class="menu-recipe">레시피</a>
             <a href="/event" class="menu-event">이벤트</a>
+            <a href="/parking" class="menu-parking">카허브</a>
+            <a href="/hotel" class="menu-accommodation">숙박</a>
         </div>
+
 
         <div class="detail-container">
             <img src="<?= esc($event['image_url']) ?>" alt="<?= esc($event['title']) ?>" class="event-image">
