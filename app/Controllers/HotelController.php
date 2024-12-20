@@ -8,30 +8,43 @@ use CodeIgniter\Controller;
 class HotelController extends Controller
 {
     public function index()
-    {
-        $hotelModel = new HotelModel();
+{
+    $hotelModel = new HotelModel();
 
-        // Pagination 설정
-        $perPage = 10; // 페이지당 항목 수
-        $currentPage = $this->request->getVar('page') ?? 1;
+    // Pagination 설정
+    $perPage = 10; // 페이지당 항목 수
+    $currentPage = $this->request->getVar('page') ?? 1;
 
-        // 데이터 조회
-        $data['hotels'] = $hotelModel
-            ->orderBy('id', 'desc')
-            ->paginate($perPage, 'default', $currentPage);
+    // 데이터 조회
+    $hotels = $hotelModel
+        ->orderBy('id', 'desc')
+        ->paginate($perPage);
 
-        // 최근 추가된 숙박업소 5개 가져오기
-        $data['recentHotels'] = $hotelModel
-            ->orderBy('id', 'desc')
-            ->limit(5)
-            ->find();
-
-        // 페이징 링크 추가
-        $data['pager'] = $hotelModel->pager;
-
-        // 뷰 페이지 반환
-        return view('hotel/index', $data);
+    // 이미지 URL 설정
+    foreach ($hotels as &$hotel) {
+        if (strpos($hotel['business_name'], '호텔') !== false) {
+            $hotel['map_image_url'] = 'https://wrtn-image-user-output.s3.ap-northeast-2.amazonaws.com/645ad60aac512fd38c18657e/2f50b7b9-4279-4b46-9f18-af3206e45bcf.png';
+        } elseif (strpos($hotel['business_name'], '모텔') !== false) {
+            $hotel['map_image_url'] = 'https://wrtn-image-user-output.s3.ap-northeast-2.amazonaws.com/645ad60aac512fd38c18657e/636d8105-e2fc-408e-99bd-b980ce681a92.png';
+        } else {
+            $hotel['map_image_url'] = 'https://wrtn-image-user-output.s3.ap-northeast-2.amazonaws.com/645ad60aac512fd38c18657e/982a97f4-9a66-4b9c-9d45-7df565bbf0d1.png';
+        }
     }
+
+    // 최근 추가된 호텔 5개
+    $recentHotels = $hotelModel
+        ->orderBy('id', 'desc')
+        ->limit(5)
+        ->find();
+
+    $data['hotels'] = $hotels;
+    $data['pager'] = $hotelModel->pager;
+    $data['recentHotels'] = $recentHotels;
+
+    return view('hotel/index', $data);
+}
+
+
 
     public function search()
     {
