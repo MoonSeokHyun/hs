@@ -1,213 +1,447 @@
+<?php
+// 정비소의 도로명 주소 예시
+$road_address = esc($repair_shop['road_address']);
+
+// 구 이름이나 읍 이름을 추출하기 위한 정규 표현식
+preg_match('/([가-힣]+구|[가-힣]+읍)/', $road_address, $matches);
+
+// 구 또는 읍 이름을 추출
+$district_name = isset($matches[0]) ? $matches[0] : '정비소';
+?>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
+crossorigin="anonymous"></script>
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WVK2PC5J');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="<?= esc($hotel['business_name']); ?>의 상세 정보 및 근처 맛집과 관광지">
-    <meta name="keywords" content="호텔, 관광지, 맛집, <?= esc($hotel['business_name']); ?>, 숙박 정보">
+    <title><?= esc($repair_shop['repair_shop_name']); ?> - <?= esc($district_name); ?> 전문 자동차 정비소</title>
+    <meta name="description" content="<?= esc($repair_shop['repair_shop_name']); ?>는 <?= esc($district_name); ?>에 위치한 믿을 수 있는 자동차 정비소로, 전문가의 손길로 신속하고 안전한 자동차 수리를 제공합니다. 전화번호, 영업시간 등 모든 정보를 확인해보세요.">
+    <meta name="keywords" content="자동차 정비소, <?= esc($repair_shop['repair_shop_name']); ?>, <?= esc($district_name); ?> 정비소, 자동차 수리, <?= esc($repair_shop['provider_name']); ?>">
     <meta name="robots" content="index, follow">
-    <meta name="author" content="호텔허브">
-    <meta property="og:title" content="<?= esc($hotel['business_name']); ?> - 호텔허브">
-    <meta property="og:description" content="<?= esc($hotel['business_name']); ?>의 상세 정보와 근처 맛집 및 관광지를 확인하세요.">
-    <meta property="og:image" content="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAChCAMAAABkv1NnAAAA">
-    <meta property="og:url" content="<?= current_url() ?>">
+    <link rel="canonical" href="<?= current_url() ?>" />
+
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <title><?= esc($hotel['business_name']); ?> - 호텔허브</title>
+    <meta property="og:title" content="<?= esc($repair_shop['repair_shop_name']); ?> - <?= esc($district_name); ?> 전문 정비소">
+    <meta property="og:description" content="서울 <?= esc($district_name); ?> 지역에 위치한 <?= esc($repair_shop['repair_shop_name']); ?>에서 안전하고 전문적인 자동차 정비 서비스를 경험하세요.">
+    <meta property="og:url" content="<?= current_url() ?>">
+    <meta property="og:image" content="URL_TO_IMAGE">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<?= esc($repair_shop['repair_shop_name']); ?> - 자동차 정비소 정보">
+    <meta name="twitter:description" content="서울 <?= esc($district_name); ?>에 위치한 신뢰할 수 있는 자동차 정비소, <?= esc($repair_shop['repair_shop_name']); ?>의 상세 정보와 리뷰를 확인하세요.">
+    <meta name="twitter:image" content="URL_TO_IMAGE">
+
+    <!-- Schema.org JSON-LD 구조화 데이터 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "AutoRepair",
+      "name": "<?= esc($repair_shop['repair_shop_name']); ?>",
+      "image": "URL_TO_IMAGE",
+      "description": "<?= esc($repair_shop['repair_shop_name']); ?>는 <?= esc($district_name); ?>에 위치한 전문 자동차 정비소입니다.",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "<?= esc($repair_shop['road_address']); ?>",
+        "addressLocality": "<?= esc($district_name); ?>",
+        "addressCountry": "KR"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "<?= esc($repair_shop['latitude']); ?>",
+        "longitude": "<?= esc($repair_shop['longitude']); ?>"
+      },
+      "telephone": "<?= esc($repair_shop['phone_number']); ?>",
+      "url": "<?= current_url() ?>"
+    }
+    </script>
     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: Arial, sans-serif;
+            background-color: #e6f0ff;
             margin: 0;
             padding: 0;
-            background-color: #f8f9fa;
-            color: #333;
         }
-
         .container {
             width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
+            max-width: 800px;
+            margin: 20px auto;
             padding: 20px;
-        }
-
-        h1 {
-            text-align: center;
-            color: #007bff;
-            margin-bottom: 20px;
-            font-size: 2.5em;
-        }
-
-        .menu-bar {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .menu-bar a {
-            text-decoration: none;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-size: 1.1em;
-            font-weight: bold;
-            transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .menu-bar a:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .menu-cu { background-color: #6c757d; }
-        .menu-all { background-color: #28a745; }
-        .menu-gs25 { background-color: #007bff; }
-        .menu-seven { background-color: #e74c3c; }
-        .menu-emart { background-color: #f1c40f; color: #333; }
-        .menu-cspace { background-color: #e67e22; }
-        .menu-recipe { background-color: #FFA07A; }
-        .menu-event { background-color: #FF4500; }
-        .menu-parking { background-color: #8A2BE2; }
-        .menu-accommodation { background-color: #17a2b8; }
-
-        .detail-container {
-            margin-top: 20px;
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .section-title {
-            font-size: 1.5em;
-            color: #333;
-            border-bottom: 2px solid #007bff;
-            padding-bottom: 5px;
-            margin-top: 20px;
-            margin-bottom: 15px;
-        }
-
-        .card-slider {
-            display: flex;
-            gap: 15px;
-            overflow-x: auto;
-            padding: 10px;
-        }
-
-        .card {
-            flex: 0 0 auto;
-            width: 200px;
-            background: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            text-align: center;
-            padding: 15px;
-        }
-
-        .card img {
-            width: 100%;
-            height: 120px;
+            background: #fff;
+            border: 1px solid #007bff;
             border-radius: 5px;
-            object-fit: cover;
-            margin-bottom: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
-
-        .card h3 {
-            font-size: 1.2em;
-            margin-bottom: 5px;
+        header {
+            text-align: center;
+            padding: 20px;
+            background: #007bff;
+            color: #fff;
+            border-radius: 5px 5px 0 0;
+        }
+        .info, .nearby-info {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #007bff;
+            background: #f0f8ff;
+            border-radius: 5px;
+        }
+        .info h2, .nearby-info h2 {
+            margin-top: 0;
             color: #007bff;
         }
-
-        .card p {
-            font-size: 0.9em;
-            margin: 3px 0;
-            color: #555;
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
         }
-
-        .card a {
-            font-size: 0.9em;
+        .info-table td, .info-table th {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .info-table th {
+            background: #e6f7ff;
             color: #007bff;
-            text-decoration: none;
         }
-
-        .card a:hover {
-            text-decoration: underline;
-        }
-
         #map {
             width: 100%;
             height: 400px;
             margin: 20px 0;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid #007bff;
+            border-radius: 5px;
+        }
+        .back-button {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+        nav {
+            margin-top: 20px;
+            text-align: center;
+        }
+        nav a {
+            text-decoration: none;
+            color: #007bff;
+            margin: 10px;
+        }
+
+        /* 리뷰 스타일 */
+        .comments-section {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #007bff;
+            background: #f0f8ff;
+            border-radius: 5px;
+        }
+        .rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .rating-label {
+            margin-right: 10px;
+            font-weight: bold;
+            color: #007bff;
+        }
+        .star {
+            font-size: 24px;
+            color: #ddd;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .star.selected {
+            color: #ffd700;
+        }
+        .comment-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .comment-textarea {
+            width: 100%;
+            height: 80px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            resize: none;
+            font-size: 14px;
+        }
+        .submit-button {
+            align-self: flex-end;
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .submit-button:hover {
+            background-color: #0056b3;
+        }
+        .comments-list {
+            margin-top: 20px;
+        }
+        .comment-item {
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            background-color: #f9f9f9;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 8px;
+        }
+        .comment-rating {
+            font-weight: bold;
+            color: #007bff;
+        }
+        .comment-text {
+            font-size: 16px;
+            color: #333;
+            line-height: 1.4;
+        }
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: -10px;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
+    <header>
+        <h1><?= esc($repair_shop['repair_shop_name']); ?> - <?= esc($district_name); ?> 정비소</h1>
+    </header>
     <div class="container">
-        <h1><?= esc($hotel['business_name']); ?></h1>
+        <!-- 정비소 기본 정보 출력 -->
+        <div class="info">
+        <h2>정비소 기본 정보</h2>
+            <table class="info-table">
+                <tr>
+                    <th>정비소명</th>
+                    <td><?= esc($repair_shop['repair_shop_name']); ?></td>
+                </tr>
+                <tr>
+                    <th>정비소 종류</th>
+                    <td><?= esc($repair_shop['repair_shop_type']); ?>급 정비소</td>
+                </tr>
+                <tr>
+                    <th>도로명 주소</th>
+                    <td><?= esc($repair_shop['road_address']); ?></td>
+                </tr>
+                <tr>
+                    <th>지번 주소</th>
+                    <td><?= esc($repair_shop['land_lot_address']); ?></td>
+                </tr>
+                <tr>
+                    <th>전화번호</th>
+                    <td><?= esc($repair_shop['phone_number']); ?></td>
+                </tr>
+                <tr>
+                    <th>등록일</th>
+                    <td><?= esc($repair_shop['registration_date']); ?></td>
+                </tr>
+                <tr>
+                    <th>영업 상태</th>
+                    <td>
+                        <?php 
+                            echo ($repair_shop['business_status'] == 1) ? '영업중' : (($repair_shop['business_status'] == 2) ? '폐업' : '알 수 없음');
+                        ?>
+                    </td>
+                </tr>
 
-        <!-- 메뉴바 -->
-        <div class="menu-bar">
-            <a href="/events" class="menu-all">전체</a>
-            <a href="/events/cu" class="menu-cu">CU</a>
-            <a href="/events/gs25" class="menu-gs25">GS25</a>
-            <a href="/events/7-ELEVEn" class="menu-seven">세븐일레븐</a>
-            <a href="/events/emart24" class="menu-emart">이마트24</a>
-            <a href="/parking" class="menu-parking">카허브</a>
-            <a href="/accommodation" class="menu-accommodation">숙박</a>
+                <tr>
+                    <th>휴무일</th>
+                    <td>법정 공휴일 휴무</td>
+                </tr>
+                <tr>
+                    <th>점심시간</th>
+                    <td>12:00 ~ 13:00</td>
+                </tr>
+                <tr>
+                    <th>영업시간</th>
+                    <td>09:00 ~ 18:00</td>
+                </tr>
+                <tr>
+                    <th>관리기관명</th>
+                    <td><?= esc($repair_shop['management_agency_name']); ?></td>
+                </tr>
+                <tr>
+                    <th>제공업체명</th>
+                    <td><?= esc($repair_shop['provider_name']); ?></td>
+                </tr>
+            </table>
         </div>
-
-        <!-- 호텔 정보 -->
-        <div class="detail-container">
-            <h2 class="section-title">호텔 정보</h2>
-            <p><strong>주소:</strong> <?= esc($hotel['site_full_address']); ?></p>
-            <p><strong>연락처:</strong> <?= esc($hotel['contact_number']); ?></p>
-            <p><strong>체크인 시간:</strong> 15:00</p>
-            <p><strong>체크아웃 시간:</strong> 11:00</p>
-        </div>
-
+        <!-- 돌아가기 버튼 -->
+        <a href="<?= site_url('/automobile_repair_shops') ?>" class="back-button">목록으로 돌아가기</a>
+        
         <!-- 네이버 지도 -->
         <div id="map"></div>
 
-        <!-- 근처 맛집 -->
-        <div class="detail-container">
-            <h2 class="section-title">근처 맛집</h2>
-            <div class="card-slider">
-                <?php foreach ($results_food as $item): ?>
-                    <div class="card">
-                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAChCAMAAABkv1NnAAAA" alt="이미지">
-                        <h3><?= esc($item['title']); ?></h3>
-                        <p><?= esc($item['roadAddress']); ?></p>
-                        <p><?= esc($item['telephone'] ?? '정보 없음'); ?></p>
-                        <a href="<?= esc($item['link']); ?>" target="_blank">자세히 보기</a>
+        <div class="nearby-info">
+    <h2>1km 이내 정비소 정보</h2>
+    <table class="info-table">
+        <thead>
+            <tr>
+                <th>정비소명</th>
+                <th>주소</th>
+                <th>전화번호</th>
+                <th>거리 (km)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php 
+            if (empty($nearby_shops)) : ?>
+                <tr><td colspan="4">근처 정비소 정보가 없습니다.</td></tr>
+            <?php else : 
+                // 처음 5개의 정비소만 출력하도록 제한
+                $nearby_shops = array_slice($nearby_shops, 0, 5); 
+                foreach ($nearby_shops as $shop) : ?>
+                    <tr onclick="window.location.href='/automobile_repair_shop/<?= esc($shop['id']) ?>'">
+                        <td><?= esc($shop['repair_shop_name']); ?></td>
+                        <td><?= esc($shop['road_address']); ?></td>
+                        <td><?= esc($shop['phone_number']); ?></td>
+                        <td><?= round($shop['distance'], 1); ?> km</td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </tbody>
+    </table>
+</div>
+
+
+        <!-- 리뷰 및 평점 기능 -->
+        <div class="comments-section">
+            <h2>리뷰 남기기 <span>(평균 평점: <?= round($averageRating, 1) ?>)</span></h2>
+            <form action="/automobile_repair_shop/saveReview" method="post" class="comment-form" onsubmit="return validateForm()">
+                <input type="hidden" name="repair_shop_id" value="<?= esc($repair_shop['id']); ?>">
+                <div class="rating" id="star-rating">
+                    <span class="rating-label">평점:</span>
+                    <?php for ($i = 1; $i <= 5; $i++): ?>
+                        <span class="star" data-value="<?= $i; ?>">&#9733;</span>
+                    <?php endfor; ?>
+                    <input type="hidden" name="rating" id="rating-value">
+                </div>
+                <textarea name="comment_text" placeholder="리뷰를 등록해주세요!" required class="comment-textarea" id="comment-text"></textarea>
+                <button type="submit" class="submit-button">리뷰 등록</button>
+            </form>
+
+            <h3>리뷰 목록</h3>
+            <div class="comments-list">
+                <?php foreach ($reviews as $review): ?>
+                    <div class="comment-item">
+                        <div class="comment-header">
+                            <span class="comment-rating">
+                                <?php for ($i = 1; $i <= 5; $i++): 
+                                    echo ($i <= $review['rating']) ? '<span class="star selected">&#9733;</span>' : '<span class="star">&#9733;</span>';
+                                endfor; ?>
+                            </span>
+                            <span class="comment-date"><?= date('Y-m-d H:i', strtotime($review['created_at'])); ?></span>
+                        </div>
+                        <p class="comment-text"><?= esc($review['comment_text']); ?></p>
                     </div>
                 <?php endforeach; ?>
             </div>
         </div>
-
-        <script>
-            var map = new naver.maps.Map('map', {
-                center: new naver.maps.LatLng(<?= esc($hotel['coordinate_y']); ?>, <?= esc($hotel['coordinate_x']); ?>),
-                zoom: 15
-            });
-
-            var marker = new naver.maps.Marker({
-                position: new naver.maps.LatLng(<?= esc($hotel['coordinate_y']); ?>, <?= esc($hotel['coordinate_x']); ?>),
-                map: map,
-                title: "<?= esc($hotel['business_name']); ?>"
-            });
-
-            var infoWindow = new naver.maps.InfoWindow({
-                content: `<div style="padding:10px;">${"<?= esc($hotel['business_name']); ?>"}</div>`
-            });
-
-            naver.maps.Event.addListener(marker, "click", function () {
-                infoWindow.open(map, marker);
-            });
-        </script>
     </div>
+
+    <footer style="background-color: #f8f9fa; padding: 20px; text-align: center; font-size: 14px; color: #6c757d;">
+    <p>본 데이터는 <a href="https://www.data.go.kr" target="_blank" style="color: #007bff; text-decoration: none;">www.data.go.kr</a>에서 데이터 기반으로 만들어진 웹 사이트입니다.</p>
+    <p>이 웹 사이트는 영리 목적으로 만들어진 사이트입니다.</p>
+    <p>잘못된 정보는 <a href="mailto:gjqmaoslwj@naver.com" style="color: #007bff; text-decoration: none;">gjqmaoslwj@naver.com</a>으로 문의해 주세요.</p>
+</footer>
+
+
+    <script>
+    var map = new naver.maps.Map('map', {
+        center: new naver.maps.LatLng(<?= esc($repair_shop['latitude']); ?>, <?= esc($repair_shop['longitude']); ?>),
+        zoom: 16
+    });
+    
+    // 현재 정비소 마커
+    var mainMarker = new naver.maps.Marker({
+        position: new naver.maps.LatLng(<?= esc($repair_shop['latitude']); ?>, <?= esc($repair_shop['longitude']); ?>),
+        map: map,
+        title: '<?= esc($repair_shop['repair_shop_name']); ?>'
+    });
+
+    // 주변 정비소 데이터 (PHP 데이터를 JavaScript로 전달)
+    var nearbyShops = <?php echo json_encode(array_slice($nearby_shops, 0, 5)); ?>;
+
+    // 주변 정비소 마커 표시
+    nearbyShops.forEach(function(shop) {
+        var marker = new naver.maps.Marker({
+            position: new naver.maps.LatLng(shop.latitude, shop.longitude),
+            map: map,
+            title: shop.repair_shop_name
+        });
+
+        // 정보창 생성
+        var infoWindow = new naver.maps.InfoWindow({
+            content: '<div style="padding:10px;"><b>' + shop.repair_shop_name + '</b><br>' +
+                     '주소: ' + shop.road_address + '<br>' +
+                     '전화번호: ' + shop.phone_number + '</div>'
+        });
+
+        // 마커에 클릭 이벤트 추가 (정보창 열기)
+        naver.maps.Event.addListener(marker, 'click', function() {
+            infoWindow.open(map, marker);
+        });
+    });
+
+    // 별점 선택 기능
+    document.querySelectorAll('#star-rating .star').forEach(star => {
+        star.addEventListener('click', function() {
+            const ratingValue = this.getAttribute('data-value');
+            document.getElementById('rating-value').value = ratingValue;
+            document.querySelectorAll('#star-rating .star').forEach(s => s.classList.remove('selected'));
+            for (let i = 0; i < ratingValue; i++) {
+                document.querySelectorAll('#star-rating .star')[i].classList.add('selected');
+            }
+        });
+    });
+
+    // 폼 유효성 검사
+    function validateForm() {
+        const ratingValue = document.getElementById("rating-value").value;
+        const commentText = document.getElementById("comment-text").value.trim();
+        return ratingValue && commentText;
+    }
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
+crossorigin="anonymous"></script>
+<script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
+<script type="text/javascript">
+if(!wcs_add) var wcs_add = {};
+wcs_add["wa"] = "d453c02d83e61";
+if(window.wcs) {
+wcs_do();
+}
+</script>
 </body>
 </html>
