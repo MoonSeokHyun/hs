@@ -6,74 +6,79 @@ use CodeIgniter\Model;
 
 class SitemapModel extends Model
 {
-    protected $table = 'hotel'; // 호텔 테이블 이름
-    protected $primaryKey = 'id';
-    protected $allowedFields = [
-        'id', 'business_name', 'last_update_time'
-    ];
+    protected $allowedFields = ['id', 'last_update_time'];
 
-    // 호텔 데이터를 가져오는 메서드
+    /**
+     * 공통 데이터 조회 메서드
+     */
+    private function getDataForSitemap($table, $columns, $limit, $offset)
+    {
+        return $this->db->table($table)
+            ->select($columns)
+            ->orderBy('id', 'ASC')
+            ->limit($limit, $offset)
+            ->get()
+            ->getResultArray();
+    }
+
+    /**
+     * 공통 데이터 카운트 메서드
+     */
+    private function countData($table)
+    {
+        return $this->db->table($table)->countAllResults();
+    }
+
+    /**
+     * 호텔 데이터 관련 메서드
+     */
     public function getHotelsForSitemap($limit, $offset)
     {
-        return $this->db->table($this->table)
-                        ->select('id, last_update_time') // 'last_update_time' 컬럼 사용
-                        ->orderBy('id', 'ASC')
-                        ->limit($limit, $offset)
-                        ->get()
-                        ->getResultArray();
+        return $this->getDataForSitemap('hotel', 'id, last_update_time', $limit, $offset);
     }
 
-    // 호텔 총 개수 가져오기
     public function countAllHotels()
     {
-        return $this->db->table($this->table)->countAllResults();
+        return $this->countData('hotel');
     }
 
-    // 기존 이벤트 메서드
+    /**
+     * 이벤트 데이터 관련 메서드
+     */
     public function getEventsForSitemap($limit, $offset)
     {
-        return $this->db->table('events_ease')
-                        ->select('id, created_at') // 이벤트 테이블
-                        ->orderBy('id', 'ASC')
-                        ->limit($limit, $offset)
-                        ->get()
-                        ->getResultArray();
+        return $this->getDataForSitemap('events_ease', 'id, created_at', $limit, $offset);
     }
 
     public function countAllEvents()
     {
-        return $this->db->table('events_ease')->countAllResults();
+        return $this->countData('events_ease');
     }
 
-    // 기존 주유소 메서드
+    /**
+     * 주유소 데이터 관련 메서드
+     */
     public function getGasStationsForSitemap($limit, $offset)
     {
-        return $this->db->table('gas_station_info')
-                        ->select('id, data_reference_date') // 주유소 테이블
-                        ->orderBy('id', 'ASC')
-                        ->limit($limit, $offset)
-                        ->get()
-                        ->getResultArray();
+        return $this->getDataForSitemap('gas_station_info', 'id, data_reference_date', $limit, $offset);
     }
 
     public function countAllGasStations()
     {
-        return $this->db->table('gas_station_info')->countAllResults();
+        return $this->countData('gas_station_info');
     }
 
-    // 기존 주차장 메서드
+    /**
+     * 주차장 데이터 관련 메서드
+     */
     public function getParkingLotsForSitemap($limit, $offset)
     {
-        return $this->db->table('parking_lot')
-                        ->select('id, data_reference_date') // 주차장 테이블
-                        ->orderBy('id', 'ASC')
-                        ->limit($limit, $offset)
-                        ->get()
-                        ->getResultArray();
+        return $this->getDataForSitemap('parking_lot', 'id, data_reference_date', $limit, $offset);
     }
 
     public function countAllParkingLots()
     {
-        return $this->db->table('parking_lot')->countAllResults();
+        return $this->countData('parking_lot');
     }
+    
 }

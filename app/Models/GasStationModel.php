@@ -159,5 +159,19 @@ class GasStationModel extends Model
             return $builder->get()->getResultArray();
         }
 
+        public function getGasStationsForSitemap($limit, $offset)
+{
+    return $this->db->table($this->table)
+        ->select('id, data_reference_date') // 필요한 컬럼만 선택
+        ->orderBy('id', 'ASC')              // id 기준 정렬
+        ->limit($limit, $offset)            // 페이징 처리
+        ->get()
+        ->getResultArray();                 // 결과를 배열로 반환
+}
+
+public function countAllGasStations()
+{
+    return $this->db->table($this->table)->countAllResults(); // 주유소 총 개수 반환
+}
 
 }

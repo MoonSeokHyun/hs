@@ -45,4 +45,18 @@ class AutomobileRepairShopModel extends Model
     {
         return $this->findAll(); // 모든 정비소 데이터 반환
     }
+    public function getRepairShopsForSitemap($limit, $offset)
+    {
+        return $this->db->table($this->table)
+            ->select('id, data_reference_date') // 필요한 컬럼만 선택
+            ->orderBy('id', 'ASC')              // id 기준 정렬
+            ->limit($limit, $offset)            // 페이징 처리
+            ->get()
+            ->getResultArray();                 // 결과를 배열로 반환
+    }
+
+    public function countAllRepairShops()
+    {
+        return $this->db->table($this->table)->countAllResults(); // 총 데이터 개수 반환
+    }
 }

@@ -67,4 +67,20 @@ class HotelModel extends Model
     protected $validationRules = [];
     protected $validationMessages = [];
     protected $skipValidation = false;
+
+    public function getHotelsForSitemap($limit, $offset)
+{
+    return $this->db->table($this->table)
+        ->select('id, last_update_time') // 필요한 컬럼만 선택
+        ->orderBy('id', 'ASC')          // id 기준 정렬
+        ->limit($limit, $offset)        // 페이징 처리
+        ->get()
+        ->getResultArray();
+}
+
+public function countAllHotels()
+{
+    return $this->db->table($this->table)->countAllResults(); // 호텔 총 개수 반환
+}
+
 }

@@ -50,7 +50,7 @@ class ParkingLotModel extends Model
     {
         return $this->paginate($perPage); // paginate 메서드를 사용하여 페이징 처리된 결과 반환
     }
-    
+
     // 전체 주차장 수 가져오기
     public function getTotalParkingLots()
     {
@@ -58,11 +58,16 @@ class ParkingLotModel extends Model
     }
 
     // 사이트맵용 데이터 가져오기
-    public function getSitemapData()
+    public function getParkingLotsForSitemap($limit, $offset)
     {
-        return $this->findAll(); // 모든 주차장 데이터 반환
+        return $this->db->table($this->table)
+            ->select('id, data_reference_date') // 필요한 데이터만 가져오기
+            ->orderBy('id', 'ASC')            // ID 기준으로 정렬
+            ->limit($limit, $offset)          // 페이징 처리
+            ->get()
+            ->getResultArray();
     }
-    
+
     // 주차장 정보를 Chunk로 처리 (대량 데이터에 유용)
     public function chunk(int $size, \Closure $callback)
     {
@@ -104,6 +109,7 @@ class ParkingLotModel extends Model
     
         return 'no_change';
     }
+
     // 기존 데이터와 새 데이터의 차이가 있는지 확인
     private function hasChanges($existingData, $newData)
     {
