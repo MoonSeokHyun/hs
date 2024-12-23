@@ -28,6 +28,7 @@ $routes->get('sitemap/repairshops/(:num)', 'SitemapController::repairshops/$1');
 
 
 
+
 // 크롤링 관련 라우트
 $routes->cli('crawl/cu', 'CrawlController::crawlCU');
 $routes->get('crawl/cu', 'CrawlController::crawlCU'); // 브라우저에서 실행 가능

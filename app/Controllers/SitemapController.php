@@ -3,8 +3,6 @@
 namespace App\Controllers;
 
 use App\Models\SitemapModel;
-use App\Models\GasStationModel;
-use App\Models\ParkingLotModel;
 use CodeIgniter\Controller;
 
 class SitemapController extends Controller
@@ -18,6 +16,7 @@ class SitemapController extends Controller
         $totalGasStations = $sitemapModel->countAllGasStations();
         $totalParkingLots = $sitemapModel->countAllParkingLots();
         $totalHotels = $sitemapModel->countAllHotels();
+        $totalRepairShops = $sitemapModel->countAllRepairShops();
 
         // 한 페이지에 10,000개 항목
         $itemsPerPage = 10000;
@@ -27,6 +26,7 @@ class SitemapController extends Controller
         $gasStationPages = ceil($totalGasStations / $itemsPerPage);
         $parkingLotPages = ceil($totalParkingLots / $itemsPerPage);
         $hotelPages = ceil($totalHotels / $itemsPerPage);
+        $repairShopPages = ceil($totalRepairShops / $itemsPerPage);
 
         // XML 시작
         $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
@@ -37,6 +37,7 @@ class SitemapController extends Controller
         $xml .= $this->addSitemapEntries('gasstations', $gasStationPages);
         $xml .= $this->addSitemapEntries('parkinglots', $parkingLotPages);
         $xml .= $this->addSitemapEntries('hotel', $hotelPages);
+        $xml .= $this->addSitemapEntries('repairshops', $repairShopPages);
 
         $xml .= "</sitemapindex>";
 
@@ -75,6 +76,11 @@ class SitemapController extends Controller
     public function hotel($pageNumber)
     {
         return $this->generateSitemap('getHotelsForSitemap', 'hotel/detail', 'last_update_time', $pageNumber, 'daily', 0.9);
+    }
+
+    public function repairshops($pageNumber)
+    {
+        return $this->generateSitemap('getRepairShopsForSitemap', 'automobile_repair_shop', 'data_reference_date', $pageNumber, 'daily', 0.7);
     }
 
     private function generateSitemap($method, $baseRoute, $dateField, $pageNumber, $changefreq, $priority)

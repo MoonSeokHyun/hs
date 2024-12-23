@@ -189,7 +189,7 @@
         <div class="menu-bar">
             <a href="/parking" class="menu-parking">주차장</a>
             <a href="/gas_stations" class="menu-gas-stations">주유소</a>
-            <a href="/repair_shops" class="menu-repair-shops">정비소</a>
+            <a href="/automobile_repair_shops" class="menu-repair-shops">정비소</a>
         </div>
 
         <!-- 검색창 -->
