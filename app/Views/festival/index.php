@@ -3,14 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
-     crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464" crossorigin="anonymous"></script>
     <title>편의점 이벤트 - 편잇</title>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
+        /* 기본 스타일 리셋 */
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
             background-color: #f8f9fa;
             color: #333;
         }
@@ -25,14 +29,16 @@
         h1 {
             text-align: center;
             color: #007bff;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             font-size: 2.5em;
+            font-weight: 600;
         }
 
+        /* 메뉴바 */
         .menu-bar {
             display: flex;
             justify-content: center;
-            margin: 20px 0 40px;
+            margin: 20px 0;
             gap: 15px;
             flex-wrap: wrap;
         }
@@ -40,7 +46,7 @@
         .menu-bar a {
             text-decoration: none;
             color: white;
-            padding: 10px 20px;
+            padding: 12px 25px;
             border-radius: 25px;
             font-size: 1.1em;
             font-weight: bold;
@@ -53,64 +59,76 @@
             box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
         }
 
+        /* 각 메뉴 스타일 */
         .menu-cu { background-color: #6c757d; }
         .menu-all { background-color: #28a745; }
         .menu-gs25 { background-color: #007bff; }
         .menu-seven { background-color: #e74c3c; }
         .menu-emart { background-color: #f1c40f; color: #333; }
         .menu-cspace { background-color: #e67e22; }
-        .menu-recipe { background-color: #FFA07A; } /* 살몬 핑크 */
-        .menu-event { background-color: #FF4500; } /* 오렌지 레드 */
-        .menu-parking { background-color: #8A2BE2; } /* 오렌지 레드 */
+        .menu-recipe { background-color: #FFA07A; }
+        .menu-event { background-color: #FF4500; }
+        .menu-parking { background-color: #8A2BE2; }
         .menu-accommodation { background-color: #17a2b8; }
         .menu-festival { background-color: #17e2b8; }
 
-
+        /* 카드 컨테이너 */
         .card-container {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr); /* 한 줄에 4개 */
-            gap: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 30px;
         }
 
+        /* 카드 스타일 */
         .card {
-            display: flex;
-            flex-direction: column;
-            border: none;
+            background-color: white;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             overflow: hidden;
-            background-color: #fff;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            flex: 0 0 calc(33.333% - 20px);
+            margin-bottom: 20px;
         }
 
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
 
-        .card-img-top {
-            height: 150px;
+        .card-img-top img {
+            height: 200px;
             object-fit: cover;
+            width: 100%;
+            border-bottom: 2px solid #ddd;
         }
 
         .card-body {
-            padding: 10px;
-            text-align: center;
+            padding: 15px;
+            background-color: #fff;
         }
 
         .card-title {
-            font-size: 1rem;
+            font-size: 1.3em;
             font-weight: bold;
-            margin-bottom: 5px;
             color: #333;
+            margin-bottom: 10px;
         }
 
+        .card-text {
+            font-size: 1em;
+            color: #555;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        /* 상태 스타일 */
         .status {
             font-weight: bold;
-            display: inline-block;
             padding: 5px 10px;
             border-radius: 5px;
-            margin-bottom: 10px;
+            margin-top: 10px;
+            display: inline-block;
         }
 
         .status-ongoing {
@@ -123,6 +141,7 @@
             color: white;
         }
 
+        /* 페이징 스타일 */
         .pagination {
             display: flex;
             justify-content: center;
@@ -132,7 +151,7 @@
         .pagination a {
             text-decoration: none;
             margin: 0 5px;
-            padding: 5px 10px;
+            padding: 8px 16px;
             border: 1px solid #ddd;
             color: #007bff;
             border-radius: 5px;
@@ -150,28 +169,28 @@
             border-color: #007bff;
         }
 
-        @media (max-width: 1024px) {
-            .card-container {
-                grid-template-columns: repeat(3, 1fr); /* 태블릿: 한 줄에 3개 */
-            }
-        }
-
+        /* 모바일 최적화 */
         @media (max-width: 768px) {
-            .card-container {
-                grid-template-columns: repeat(2, 1fr); /* 모바일: 한 줄에 2개 */
+            .menu-bar a {
+                font-size: 1em;
+                padding: 10px 20px;
+            }
+
+            .card {
+                flex: 0 0 100%;
             }
         }
 
-        @media (max-width: 576px) {
-            .card-container {
-                grid-template-columns: 1fr; /* 작은 화면: 한 줄에 1개 */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .card {
+                flex: 0 0 calc(50% - 20px);
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>편의점 할인은 편잇!</h1>
+        <h1>각종 공연 및 행사 정보는 편잇!</h1>
 
         <!-- Floating menu bar -->
         <div class="menu-bar">
@@ -189,20 +208,39 @@
 
         <!-- 이벤트 카드 -->
         <div class="card-container">
-            <?php if (!empty($allEvents)): ?>
-                <?php foreach ($allEvents as $event): ?>
-                    <a href="/event/<?= esc($event['id']) ?>" class="card-link">
+            <?php
+            function fetchPixabayImage($query) {
+                $apiKey = '47860392-10aec8c46b9a9243d45daefcf';
+                $query = urlencode($query);
+                $url = "https://pixabay.com/api/?key=$apiKey&q=$query&image_type=photo";
+
+                $response = file_get_contents($url);
+                $data = json_decode($response, true);
+
+                if (!empty($data['hits'][0]['webformatURL'])) {
+                    return $data['hits'][0]['webformatURL'];
+                }
+                return 'https://via.placeholder.com/300x200';
+            }
+            ?>
+
+            <?php if (!empty($festivals)): ?>
+                <?php foreach (array_slice($festivals, 0, 9) as $festival): ?>
+                    <?php $imageUrl = fetchPixabayImage($festival['Festival_Name']); ?>
+                    <a href="/festival-info/<?= esc($festival['id']) ?>" class="card-link">
                         <div class="card">
-                            <img src="<?= esc($event['image_url']) ?>" class="card-img-top" alt="<?= esc($event['title']) ?>">
+                            <div class="card-img-top">
+                                <img src="<?= $imageUrl ?>" alt="<?= esc($festival['Festival_Name']) ?>">
+                            </div>
                             <div class="card-body">
-                                <span class="status <?= $event['status'] === '진행중' ? 'status-ongoing' : 'status-ended' ?>">
-                                    <?= $event['status'] === '진행중' ? '[진행]' : '[종료]' ?>
-                                </span>
-                                <h5 class="card-title"><?= esc($event['title']) ?></h5>
+                                <h5 class="card-title"><?= esc($festival['Festival_Name']) ?></h5>
                                 <p class="card-text">
-                                    <strong>기간:</strong> <?= esc($event['event_period']) ?><br>
-                                    <strong>브랜드:</strong> <?= esc($event['brand']) ?>
+                                    <strong>기간:</strong> <?= esc($festival['Start_Date']) ?> ~ <?= esc($festival['End_Date']) ?><br>
+                                    <strong>장소:</strong> <?= esc($festival['Venue']) ?><br>
+                                    <strong>주최 기관:</strong> <?= esc($festival['Organizing_Agency']) ?><br>
+                                    <strong>웹사이트:</strong> <a href="<?= esc($festival['Website_URL']) ?>" target="_blank"><?= esc($festival['Website_URL']) ?></a><br>
                                 </p>
+                                <span class="status status-ongoing">진행 중</span>
                             </div>
                         </div>
                     </a>
@@ -216,12 +254,12 @@
         <?= $pager->links() ?>
     </div>
     <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
-<script type="text/javascript">
-if(!wcs_add) var wcs_add = {};
-wcs_add["wa"] = "8adec19974bed8";
-if(window.wcs) {
-  wcs_do();
-}
-</script>
+    <script type="text/javascript">
+        if(!wcs_add) var wcs_add = {};
+        wcs_add["wa"] = "8adec19974bed8";
+        if(window.wcs) {
+            wcs_do();
+        }
+    </script>
 </body>
 </html>

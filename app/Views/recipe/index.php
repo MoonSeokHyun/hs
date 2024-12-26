@@ -64,7 +64,7 @@
         .menu-event { background-color: #FF4500; } /* 오렌지 레드 */
         .menu-parking { background-color: #8A2BE2; } /* 오렌지 레드 */
         .menu-accommodation { background-color: #17a2b8; }
-
+        .menu-festival { background-color: #17e2b8; }
         /* Card styles */
         .card-container {
             display: grid;
@@ -173,6 +173,7 @@
             <a href="/event" class="menu-event">이벤트</a>
             <a href="/parking" class="menu-parking">카허브</a>
             <a href="/hotel" class="menu-accommodation">숙박</a>
+            <a href="/festival-info" class="menu-festival">행사/공연</a>
         </div>
 
         <div class="card-container">
