@@ -433,15 +433,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         return ratingValue && commentText;
     }
 </script>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
-crossorigin="anonymous"></script>
-<script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
-<script type="text/javascript">
-if(!wcs_add) var wcs_add = {};
-wcs_add["wa"] = "d453c02d83e61";
-if(window.wcs) {
-wcs_do();
-}
-</script>
+<?php
+
+$hostname = $_SERVER['HTTP_HOST'];
+
+if (!preg_match('/^localhost(:[0-9]*)?$/', $hostname)) {
+    
+?>
+
+    <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
+    <script type="text/javascript">
+        if(!wcs_add) var wcs_add = {};
+        wcs_add["wa"] = "8adec19974bed8";
+        if(window.wcs) {
+            wcs_do();
+        }
+    </script>
+    <?php }
+    ?>
 </body>
 </html>

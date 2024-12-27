@@ -22,6 +22,9 @@ use CodeIgniter\HotReloader\HotReloader;
  * Example:
  *      Events::on('create', [$myInstance, 'myMethod']);
  */
+Events::on('post_controller_constructor', function() {
+	helper(['render']);
+});
 
 Events::on('pre_system', static function (): void {
     if (ENVIRONMENT !== 'testing') {

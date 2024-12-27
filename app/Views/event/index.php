@@ -215,13 +215,23 @@
         <!-- 페이징 -->
         <?= $pager->links() ?>
     </div>
+    <?php
+
+$hostname = $_SERVER['HTTP_HOST'];
+
+if (!preg_match('/^localhost(:[0-9]*)?$/', $hostname)) {
+    
+?>
+
     <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
-<script type="text/javascript">
-if(!wcs_add) var wcs_add = {};
-wcs_add["wa"] = "8adec19974bed8";
-if(window.wcs) {
-  wcs_do();
-}
-</script>
+    <script type="text/javascript">
+        if(!wcs_add) var wcs_add = {};
+        wcs_add["wa"] = "8adec19974bed8";
+        if(window.wcs) {
+            wcs_do();
+        }
+    </script>
+    <?php }
+    ?>
 </body>
 </html>

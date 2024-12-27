@@ -30,22 +30,29 @@ class FestivalInfoController extends BaseController
     }
     
     // 상세 페이지를 보여주는 메서드
-    public function detail($id)
-    {
-        $model = new FestivalInfoModel();
-        
-        // 축제 ID로 데이터 조회
-        $festival = $model->find($id);
+public function detail($id)
+{
+    $model = new FestivalInfoModel();
 
-        // 데이터가 없으면 404 에러 처리
-        if (!$festival) {
-            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
-        }
+    // 현재 축제 데이터 조회
+    $festival = $model->find($id);
 
-        // 데이터를 뷰로 전달
-        $data['festival'] = $festival;
-
-        // 'hospital-project/app/Views/festival/detail.php' 뷰로 데이터를 전달
-        return view('festival/detail', $data);
+    // 데이터가 없으면 404 에러 처리
+    if (!$festival) {
+        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
     }
+
+    // 현재 축제와 관련된 다른 축제 데이터 조회
+    $relatedFestivals = $model->where('id !=', $id) // 현재 축제 제외
+                              ->where('End_Date >', date('Y-m-d')) // 종료일이 미래인 축제
+                              ->orderBy('Start_Date', 'ASC') // 시작일 기준 정렬
+                              ->findAll(3); // 최대 3개만 가져옴
+
+    // 데이터를 뷰로 전달
+    $data['festival'] = $festival;
+    $data['relatedFestivals'] = $relatedFestivals;
+
+    return view('festival/detail', $data);
+}
+
 }
