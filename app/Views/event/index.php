@@ -187,6 +187,15 @@
             <a href="/festival-info" class="menu-festival">행사/공연</a>
         </div>
 
+        <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6686738239613464"
+     data-ad-slot="1204098626"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
         <!-- 이벤트 카드 -->
         <div class="card-container">
             <?php if (!empty($allEvents)): ?>

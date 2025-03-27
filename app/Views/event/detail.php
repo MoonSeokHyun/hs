@@ -120,6 +120,7 @@
     <div class="container">
         <h1>편의점 할인은 편잇!</h1>
 
+
         <!-- Floating menu bar -->
         <div class="menu-bar">
             <a href="/events" class="menu-all">전체</a>
@@ -134,6 +135,15 @@
             <a href="/festival-info" class="menu-festival">행사/공연</a>
         </div>
 
+        <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6686738239613464"
+     data-ad-slot="1204098626"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 
         <div class="detail-container">
             <img src="<?= esc($event['image_url']) ?>" alt="<?= esc($event['title']) ?>" class="event-image">
@@ -150,6 +160,16 @@
             </div>
         </div>
     </div>
+
+    <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6686738239613464"
+     data-ad-slot="1204098626"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
     <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
     <?php
 

@@ -246,8 +246,17 @@
             <a href="/event" class="menu-event">이벤트</a>
             <a href="/parking" class="menu-parking">카허브</a>
             <a href="/hotel" class="menu-accommodation">숙박</a>
-            <a href="/festival-info" class="menu-festival">행사/공연</a>
         </div>
+
+    <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6686738239613464"
+     data-ad-slot="1204098626"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
         <div class="hospital-details">
             <div class="card">
                 <h2>기본 정보</h2>
@@ -271,6 +280,15 @@
 
         <div id="map"></div>
 
+        <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6686738239613464"
+     data-ad-slot="1204098626"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
         <div class="nearby-facilities">
             <h2>근처 편의시설 (5km 이내)</h2>
             <table>

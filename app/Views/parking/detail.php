@@ -67,12 +67,65 @@
         .comment-rating { font-weight: bold; color: #007bff; }
         .comment-text { font-size: 16px; color: #333; line-height: 1.4; }
         .error-message { color: red; font-size: 14px; margin-top: -10px; margin-bottom: 10px; }
+
+
+        .menu-bar {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .menu-bar a {
+            text-decoration: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-bar a:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-cu { background-color: #6c757d; }
+        .menu-all { background-color: #28a745; }
+        .menu-gs25 { background-color: #007bff; }
+        .menu-seven { background-color: #e74c3c; }
+        .menu-emart { background-color: #f1c40f; color: #333; }
+        .menu-cspace { background-color: #e67e22; }
+        .menu-recipe { background-color: #FFA07A; }
+        .menu-event { background-color: #FF4500; }
+        .menu-parking { background-color: #8A2BE2; }
+        .menu-accommodation { background-color: #17a2b8; }
+        .menu-festival { background-color: #17e2b8; }
     </style>
 </head>
 <body>
     <header>
         <h1><?= $district; ?> <?= esc($parkingLot['name']); ?> 주차장</h1>
+
+        
     </header>
+
+
+        <!-- 메뉴바 -->
+        <div class="menu-bar">
+            <a href="/events" class="menu-all">전체</a>
+            <a href="/events/cu" class="menu-cu">CU</a>
+            <a href="/events/gs25" class="menu-gs25">GS25</a>
+            <a href="/events/7-ELEVEn" class="menu-seven">세븐일레븐</a>
+            <a href="/events/emart24" class="menu-emart">이마트24</a>
+            <a href="/recipes" class="menu-recipe">레시피</a>
+            <a href="/event" class="menu-event">이벤트</a>
+            <a href="/parking" class="menu-parking">카허브</a>
+            <a href="/hotel" class="menu-accommodation">숙박</a>
+        </div>
     <div class="container">
         <!-- 돌아가기 버튼 -->
         <a href="/parking" class="back-button">돌아가기</a>

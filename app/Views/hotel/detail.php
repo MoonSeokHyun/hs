@@ -157,9 +157,17 @@
             <a href="/events/emart24" class="menu-emart">이마트24</a>
             <a href="/parking" class="menu-parking">카허브</a>
             <a href="/accommodation" class="menu-accommodation">숙박</a>
-            <a href="/festival-info" class="menu-festival">행사/공연</a>
         </div>
 
+        <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6686738239613464"
+     data-ad-slot="1204098626"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
         <!-- 호텔 정보 -->
         <div class="detail-container">
             <h2 class="section-title">호텔 정보</h2>
@@ -171,6 +179,15 @@
             <p><strong>건물 층수:</strong> 지상 <?= esc($hotel['building_above_ground'] ?? '정보 없음'); ?>층, 지하 <?= esc($hotel['building_below_ground'] ?? '정보 없음'); ?>층</p>
         </div>
 
+        <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6686738239613464"
+     data-ad-slot="1204098626"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
         <!-- 근처 맛집 -->
         <div class="detail-container">
             <h2 class="section-title">근처 맛집</h2>
@@ -187,6 +204,15 @@
             </div>
         </div>
 
+        <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6686738239613464"
+     data-ad-slot="1204098626"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
         <!-- 주변 관광지 -->
         <div class="detail-container">
             <h2 class="section-title">주변 관광지</h2>
@@ -210,6 +236,15 @@
         </div>
     </div>
 
+    <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6686738239613464"
+     data-ad-slot="1204098626"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
     <script>
         // Naver 지도 초기화
         var map = new naver.maps.Map('map', {

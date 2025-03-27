@@ -223,8 +223,6 @@
         <a href="/event" class="menu-event">이벤트</a>
         <a href="/parking" class="menu-parking">카허브</a>
         <a href="/hotel" class="menu-accommodation">숙박</a>
-        <a href="/festival-info" class="menu-festival">행사/공연</a>
-        
     </nav>
 
 
