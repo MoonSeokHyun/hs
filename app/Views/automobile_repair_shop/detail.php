@@ -237,6 +237,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <header>
         <h1><?= esc($repair_shop['repair_shop_name']); ?> - <?= esc($district_name); ?> 정비소</h1>
     </header>
+    <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6686738239613464"
+     data-ad-slot="1204098626"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
     <div class="container">
         <!-- 정비소 기본 정보 출력 -->
         <div class="info">
@@ -304,6 +313,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <div id="map"></div>
 
         <div class="nearby-info">
+        <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6686738239613464"
+     data-ad-slot="1204098626"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
     <h2>1km 이내 정비소 정보</h2>
     <table class="info-table">
         <thead>
@@ -369,7 +387,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             </div>
         </div>
     </div>
-
+    <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6686738239613464"
+     data-ad-slot="1204098626"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
     <footer style="background-color: #f8f9fa; padding: 20px; text-align: center; font-size: 14px; color: #6c757d;">
     <p>본 데이터는 <a href="https://www.data.go.kr" target="_blank" style="color: #007bff; text-decoration: none;">www.data.go.kr</a>에서 데이터 기반으로 만들어진 웹 사이트입니다.</p>
     <p>이 웹 사이트는 영리 목적으로 만들어진 사이트입니다.</p>

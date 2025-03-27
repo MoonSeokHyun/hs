@@ -3,56 +3,95 @@
 namespace App\Controllers;
 
 use App\Models\FestivalInfoModel;
+use App\Models\EventDataModel;
 
 class FestivalInfoController extends BaseController
 {
-    // index 페이지를 보여주는 메서드
     public function index()
     {
-        $model = new FestivalInfoModel(); // 모델 인스턴스 생성
-        
-        // 현재 날짜를 얻기 (Y-m-d 형식)
+        $festivalModel = new FestivalInfoModel();
+        $eventModel = new EventDataModel();
+
         $currentDate = date('Y-m-d');
-    
-        // 종료일이 오늘 날짜 이후인 축제만 필터링
-        $festivals = $model->where('End_Date >', $currentDate) // 종료일이 오늘 이후인 축제만
-                           ->paginate(9); // 페이지네이션 처리, 한 페이지당 9개씩
-    
-        // 페이지네이션 객체
+
+        // 축제 데이터
+        $festivals = $festivalModel->where('Start_Date <=', $currentDate)
+                                   ->where('End_Date >=', $currentDate)
+                                   ->findAll();
+
+        // 공연 데이터
+        $events = $eventModel->where('Event_Start_Date <=', $currentDate)
+                             ->where('Event_End_Date >=', $currentDate)
+                             ->findAll();
+
+        // 축제 및 공연 데이터 결합
+        $combinedData = [];
+        foreach ($festivals as $festival) {
+            if (isset($festival['id'])) {
+                $festival['type'] = 'festival';
+                $combinedData[] = $festival;
+            }
+        }
+        foreach ($events as $event) {
+            if (isset($event['ID'])) {
+                $event['type'] = 'event';
+                $combinedData[] = $event;
+            }
+        }
+
+        // 페이지네이션 처리
+        $currentPage = (int)($this->request->getGet('page') ?? 1);
+        $itemsPerPage = 9;
+        $totalItems = count($combinedData);
+        $pagedData = array_slice($combinedData, ($currentPage - 1) * $itemsPerPage, $itemsPerPage);
+
         $pager = \Config\Services::pager();
-    
-        // 데이터를 뷰로 전달
-        $data['festivals'] = $festivals;
-        $data['pager'] = $pager;
-    
-        // 'festival/index' 뷰로 데이터를 전달
+        $pager->makeLinks($currentPage, $itemsPerPage, $totalItems);
+
+        // 뷰로 데이터 전달
+        $data = [
+            'combinedData' => $pagedData,
+            'pager' => $pager,
+        ];
+
         return view('festival/index', $data);
     }
-    
-    // 상세 페이지를 보여주는 메서드
-public function detail($id)
-{
-    $model = new FestivalInfoModel();
 
-    // 현재 축제 데이터 조회
-    $festival = $model->find($id);
+    public function detail($id)
+    {
+        $festivalModel = new FestivalInfoModel();
+        $festival = $festivalModel->find($id);
 
-    // 데이터가 없으면 404 에러 처리
-    if (!$festival) {
-        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        if (!$festival) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+
+        $relatedFestivals = $festivalModel->where('id !=', $id)
+                                          ->where('End_Date >', date('Y-m-d'))
+                                          ->findAll(3);
+
+        return view('festival/detail', [
+            'festival' => $festival,
+            'relatedFestivals' => $relatedFestivals,
+        ]);
     }
 
-    // 현재 축제와 관련된 다른 축제 데이터 조회
-    $relatedFestivals = $model->where('id !=', $id) // 현재 축제 제외
-                              ->where('End_Date >', date('Y-m-d')) // 종료일이 미래인 축제
-                              ->orderBy('Start_Date', 'ASC') // 시작일 기준 정렬
-                              ->findAll(3); // 최대 3개만 가져옴
+    public function eventDetail($id)
+    {
+        $eventModel = new EventDataModel();
+        $event = $eventModel->find($id);
 
-    // 데이터를 뷰로 전달
-    $data['festival'] = $festival;
-    $data['relatedFestivals'] = $relatedFestivals;
+        if (!$event) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
 
-    return view('festival/detail', $data);
-}
+        $relatedEvents = $eventModel->where('ID !=', $id)
+                                    ->where('Event_End_Date >', date('Y-m-d'))
+                                    ->findAll(3);
 
+        return view('festival/eventdetail', [
+            'event' => $event,
+            'relatedEvents' => $relatedEvents,
+        ]);
+    }
 }

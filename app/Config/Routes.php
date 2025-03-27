@@ -93,8 +93,7 @@ $routes->get('/hotel', 'HotelController::index'); // 목록 페이지
 $routes->get('/hotel/detail/(:num)', 'HotelController::detail/$1'); // 뷰페이지
 $routes->get('/hotel/search', 'HotelController::search');
 
-//축제
-
-$routes->get('/festival-info', 'FestivalInfoController::index');
-$routes->get('/festival-info/(:num)', 'FestivalInfoController::detail/$1');
-
+// FestivalInfoController 관련 라우트
+$routes->get('festival-info', 'FestivalInfoController::index'); // 축제 및 공연 목록 페이지
+$routes->get('festival-info/(:num)', 'FestivalInfoController::detail/$1'); // 축제 상세 페이지
+$routes->get('festival-info/eventdetail/(:num)', 'FestivalInfoController::eventDetail/$1'); // 공연 상세 페이지
