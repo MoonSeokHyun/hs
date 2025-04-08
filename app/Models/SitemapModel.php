@@ -80,16 +80,30 @@ class SitemapModel extends Model
     {
         return $this->countData('parking_lot');
     }
-        /**
-    * 정비소 데이터 관련 메서드
-    */
-   public function getRepairShopsForSitemap($limit, $offset)
-   {
-       return $this->getDataForSitemap('automobile_repair_shop', 'id, data_reference_date', $limit, $offset);
-   }
 
-   public function countAllRepairShops()
-   {
-       return $this->countData('automobile_repair_shop');
-   }
+    /**
+     * 정비소 데이터 관련 메서드
+     */
+    public function getRepairShopsForSitemap($limit, $offset)
+    {
+        return $this->getDataForSitemap('automobile_repair_shop', 'id, data_reference_date', $limit, $offset);
+    }
+
+    public function countAllRepairShops()
+    {
+        return $this->countData('automobile_repair_shop');
+    }
+
+    /**
+     * 세차장 데이터 관련 메서드
+     */
+    public function getCarWashesForSitemap($limit, $offset)
+    {
+        return $this->getDataForSitemap('car_wash_info', 'ID, Data_Reference_Date', $limit, $offset);
+    }
+
+    public function countAllCarWashes()
+    {
+        return $this->countData('car_wash_info');
+    }
 }

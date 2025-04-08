@@ -78,6 +78,7 @@
         .menu-parking { background-color: #8A2BE2; } /* 오렌지 레드 */
         .menu-accommodation { background-color: #17a2b8; }
         .menu-festival { background-color: #17e2b8; }
+        .menu-carwash { background-color: #ff8c00; } /* 세차장 색상 (주황색) */
 
         @media (max-width: 768px) {
             .menu-bar {
@@ -296,16 +297,17 @@
 
         <!-- Floating menu bar -->
         <div class="menu-bar">
-            <a href="/events" class="menu-all">전체</a>
-            <a href="/events/cu" class="menu-cu">CU</a>
-            <a href="/events/gs25" class="menu-gs25">GS25</a>
-            <a href="/events/7-ELEVEn" class="menu-seven">세븐일레븐</a>
-            <a href="/events/emart24" class="menu-emart">이마트24</a>
-            <a href="/recipes" class="menu-recipe">레시피</a>
-            <a href="/event" class="menu-event">이벤트</a>
-            <a href="/parking" class="menu-parking">카허브</a>
-            <a href="/hotel" class="menu-accommodation">숙박</a>
-        </div>
+        <a href="/events" class="menu-all">전체</a>
+        <a href="/events/cu" class="menu-cu">CU</a>
+        <a href="/events/gs25" class="menu-gs25">GS25</a>
+        <a href="/events/7-ELEVEn" class="menu-seven">세븐일레븐</a>
+        <a href="/events/emart24" class="menu-emart">이마트24</a>
+        <a href="/recipes" class="menu-recipe">레시피</a>
+        <a href="/event" class="menu-event">이벤트</a>
+        <a href="/parking" class="menu-parking">카허브</a>
+        <a href="/hotel" class="menu-accommodation">숙박</a>
+        <a href="/carwash" class="menu-carwash">세차장</a> <!-- 세차장 메뉴 추가 -->
+    </div>
 
         <!-- Search sections -->
         <div class="section search-container">

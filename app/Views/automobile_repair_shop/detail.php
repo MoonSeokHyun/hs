@@ -267,6 +267,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         .menu-parking { background-color: #8A2BE2; }
         .menu-accommodation { background-color: #17a2b8; }
         .menu-festival { background-color: #17e2b8; }
+        .menu-carwash { background-color: #ff8c00; } /* 세차장 색상 (주황색) */
 
     </style>
 </head>
@@ -287,6 +288,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <a href="/event" class="menu-event">이벤트</a>
     <a href="/parking" class="menu-parking">카허브</a>
     <a href="/hotel" class="menu-accommodation">숙박</a>
+    <a href="/carwash" class="menu-carwash">세차장</a> <!-- 세차장 메뉴 추가 -->
 </div>
 
     <ins class="adsbygoogle"

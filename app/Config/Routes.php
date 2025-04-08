@@ -97,3 +97,11 @@ $routes->get('/hotel/search', 'HotelController::search');
 $routes->get('festival-info', 'FestivalInfoController::index'); // 축제 및 공연 목록 페이지
 $routes->get('festival-info/(:num)', 'FestivalInfoController::detail/$1'); // 축제 상세 페이지
 $routes->get('festival-info/eventdetail/(:num)', 'FestivalInfoController::eventDetail/$1'); // 공연 상세 페이지
+
+// 세차장
+
+$routes->get('carwash', 'CarwashController::index');
+$routes->get('carwash/details/(:num)', 'CarwashController::showDetail/$1');
+$routes->post('carwash/saveReview', 'CarwashController::saveReview');
+// app/config/Routes.php
+$routes->get('sitemap/carwashes/(:num)', 'SitemapController::carwashes/$1');
