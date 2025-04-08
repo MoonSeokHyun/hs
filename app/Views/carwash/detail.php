@@ -110,7 +110,15 @@
         <a href="/hotel" class="menu-accommodation">숙박</a>
         <a href="/carwash" class="menu-carwash">세차장</a>
     </div>
-
+    <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6686738239613464"
+     data-ad-slot="1204098626"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
     <div class="container">
         <a href="/carwash" class="back-button">세차장 목록으로 돌아가기</a>
 
@@ -129,7 +137,15 @@
         </div>
 
         <div id="map"></div> <!-- 네이버 지도 -->
-
+        <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6686738239613464"
+     data-ad-slot="1204098626"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
         <div class="comments-section">
             <h2>리뷰 남기기 <span>(평균 평점: <?= round($averageRating, 1) ?>)</span></h2>
             <form action="/carwash/saveReview" method="post" class="comment-form" onsubmit="return validateForm()">
@@ -144,7 +160,15 @@
                 <textarea name="comment_text" placeholder="리뷰를 등록해주세요!" required class="comment-textarea" id="comment-text"></textarea>
                 <button type="submit" class="submit-button">리뷰 등록</button>
             </form>
-
+            <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6686738239613464"
+     data-ad-slot="1204098626"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
             <h3>리뷰 목록</h3>
             <div class="comments-list">
                 <?php foreach ($reviews as $review): ?>
