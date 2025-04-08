@@ -17,6 +17,7 @@ class SitemapController extends Controller
         $totalParkingLots = $sitemapModel->countAllParkingLots();
         $totalHotels = $sitemapModel->countAllHotels();
         $totalRepairShops = $sitemapModel->countAllRepairShops();
+        $totalCarWashes = $sitemapModel->countAllCarWashes();  // 세차장 추가
 
         // 한 페이지에 10,000개 항목
         $itemsPerPage = 10000;
@@ -27,6 +28,7 @@ class SitemapController extends Controller
         $parkingLotPages = ceil($totalParkingLots / $itemsPerPage);
         $hotelPages = ceil($totalHotels / $itemsPerPage);
         $repairShopPages = ceil($totalRepairShops / $itemsPerPage);
+        $carWashPages = ceil($totalCarWashes / $itemsPerPage);  // 세차장 페이지 계산
 
         // XML 시작
         $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
@@ -38,7 +40,7 @@ class SitemapController extends Controller
         $xml .= $this->addSitemapEntries('parkinglots', $parkingLotPages);
         $xml .= $this->addSitemapEntries('hotel', $hotelPages);
         $xml .= $this->addSitemapEntries('repairshops', $repairShopPages);
-
+        $xml .= $this->addSitemapEntries('carwashes', $carWashPages);  // 세차장 추가
         $xml .= "</sitemapindex>";
 
         return $this->response
@@ -83,12 +85,19 @@ class SitemapController extends Controller
         return $this->generateSitemap('getRepairShopsForSitemap', 'automobile_repair_shop', 'data_reference_date', $pageNumber, 'daily', 0.7);
     }
 
+    // 세차장 사이트맵을 생성하는 메서드
+    public function carwashes($pageNumber)
+    {
+        return $this->generateSitemap('getCarWashesForSitemap', 'carwash/detail', 'Data_Reference_Date', $pageNumber, 'daily', 0.8);
+    }
+
     private function generateSitemap($method, $baseRoute, $dateField, $pageNumber, $changefreq, $priority)
     {
         $sitemapModel = new SitemapModel();
         $itemsPerPage = 10000;
         $offset = ($pageNumber - 1) * $itemsPerPage;
 
+        // 데이터 가져오기
         $data = $sitemapModel->$method($itemsPerPage, $offset);
 
         // XML 시작
@@ -96,7 +105,14 @@ class SitemapController extends Controller
         $xml .= "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
 
         foreach ($data as $item) {
-            $url = base_url("{$baseRoute}/{$item['id']}");
+            // 세차장의 경우 'ID'를 사용하고, 다른 데이터는 'id'를 사용
+            // 세차장의 경우 'ID'로 사용
+            if (isset($item['ID'])) {
+                $url = base_url("{$baseRoute}/{$item['ID']}");  // 세차장 데이터에서 'ID' 사용
+            } else {
+                $url = base_url("{$baseRoute}/{$item['id']}");  // 일반 데이터에서는 'id' 사용
+            }
+
             $lastMod = date('Y-m-d', strtotime($item[$dateField]));
 
             $xml .= "<url>\n";
