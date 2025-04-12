@@ -427,7 +427,15 @@ $district_name = isset($matches[0]) ? $matches[0] : '정비소';
             <td><?= esc($repair_shop['provider_name'] ?? ''); ?></td>
           </tr>
         </table>
-
+        <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6686738239613464"
+     data-ad-slot="1204098626"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
         <!-- 목록으로 돌아가기 버튼 -->
         <a href="<?= site_url('/automobile_repair_shops') ?>" class="back-button">
           목록으로 돌아가기
@@ -487,7 +495,15 @@ $district_name = isset($matches[0]) ? $matches[0] : '정비소';
       <textarea name="comment_text" class="comment-textarea" id="comment-text" placeholder="리뷰를 등록해주세요!" required></textarea>
       <button type="submit" class="submit-button">리뷰 등록</button>
     </form>
-
+    <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6686738239613464"
+     data-ad-slot="1204098626"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
     <h3>리뷰 목록</h3>
     <?php if (empty($reviews)): ?>
       <p style="font-size:14px; color:#555;">아직 리뷰가 없습니다.</p>
@@ -638,7 +654,15 @@ $district_name = isset($matches[0]) ? $matches[0] : '정비소';
 </section>
 
   </main>
-
+  <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6686738239613464"
+     data-ad-slot="1204098626"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
   <?= view_cell('\App\Cells\ExtraInfoCell::render') ?>
 
   <!-- 푸터 (footer.php) -->
