@@ -8,268 +8,245 @@
     <meta name="keywords" content="주유소, Car Hub, 주유소 리뷰, 주유소 위치, 주유소 평점, 서울 주유소">
 
     <!-- 스타일 변경 -->
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f8f9fa;
-            color: #333;
-        }
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+    }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+    }
 
-        header {
-            background: linear-gradient(90deg, #28a745, #007bff);
-            color: #fff;
-            padding: 20px;
-            text-align: center;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
+    .page-title {
+      font-size: 2em;
+      color: var(--main-color, #62D491);
+      text-align: center;
+      margin-bottom: 20px;
+    }
 
-        h1 {
-            text-align: center;
-            color: #007bff;
-            margin-bottom: 20px;
-            font-size: 2.5em;
-        }
+    .menu-bar {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
 
-        nav ul {
-            display: flex;
-            justify-content: center;
-            list-style: none;
-            padding: 0;
-            margin: 20px 0 0;
-        }
+    .menu-bar a {
+      padding: 10px 20px;
+      background-color: #62D491;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 20px;
+      font-weight: bold;
+      transition: all 0.2s ease-in-out;
+    }
 
-        nav ul li {
-            margin: 0 15px;
-        }
+    .menu-bar a:hover {
+      background-color: #3eaf7c;
+    }
 
-        nav ul li a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 1.1rem;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
+    .search-box {
+      text-align: center;
+      margin-bottom: 30px;
+    }
 
-        nav ul li a:hover {
-            color: #ffc107;
-        }
+    .search-box input {
+      padding: 10px;
+      width: 70%;
+      max-width: 400px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
 
-        .search-box {
-            margin: 20px 0;
-            text-align: center;
-        }
+    .search-box button {
+      padding: 10px 20px;
+      margin-left: 5px;
+      border: none;
+      background-color: #3eaf7c;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
 
-        .search-box input {
-            padding: 12px;
-            width: 70%;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin-right: 10px;
-        }
+    .section {
+      margin-bottom: 40px;
+    }
 
-        .search-box button {
-            padding: 12px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 1rem;
-            cursor: pointer;
-        }
+    .section h2 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      color: var(--point-color, #3eaf7c);
+      border-left: 4px solid var(--point-color, #3eaf7c);
+      padding-left: 10px;
+    }
 
-        .search-box button:hover {
-            background-color: #0056b3;
-        }
+    .table-container {
+      overflow-x: auto;
+    }
 
-        .section {
-            margin-bottom: 40px;
-            padding: 20px;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
 
-        .section h2 {
-            font-size: 1.8rem;
-            color: #007bff;
-            margin-bottom: 20px;
-        }
+    th, td {
+      padding: 12px 10px;
+      text-align: center;
+      border-bottom: 1px solid #eee;
+      font-size: 14px;
+    }
 
+    th {
+      background-color: #62D491;
+      color: white;
+    }
+
+    .clickable-row {
+      cursor: pointer;
+    }
+
+    .clickable-row:hover {
+      background-color: #f9f9f9;
+    }
+
+    .review-card {
+      background: #fff;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .review-title {
+      font-weight: bold;
+      font-size: 1rem;
+      color: #3eaf7c;
+      margin-bottom: 5px;
+    }
+
+    .review-rating {
+      color: #ff9800;
+    }
+
+    .review-text {
+      font-size: 0.95rem;
+      color: #444;
+      margin-bottom: 5px;
+    }
+
+    footer {
+      background-color: #f1f1f1;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
+      border-top: 1px solid #ddd;
+      margin-top: 40px;
+    }
+
+    footer a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .page-title {
+        font-size: 1.5em;
+      }
+
+      .menu-bar {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .menu-bar a {
+        width: 90%;
+        text-align: center;
+      }
+
+      .search-box input,
+      .search-box button {
+        width: 90%;
+        margin-top: 5px;
+      }
+
+      th, td {
+        font-size: 13px;
+        padding: 10px 5px;
+      }
+    }
+
+        /* (2) 최근 주유소 슬라이드 */
         .recent-slides {
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            padding: 10px 0;
+          display: flex;
+          gap: 10px;
+          overflow-x: hidden; /* 스크롤바 숨기기 */
+          padding: 10px 0;
+          transition: transform 0.5s ease;
         }
 
         .recent-slide {
-            flex: 0 0 300px;
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
+          flex: 0 0 300px;
+          background: #f8f9fa;
+          padding: 15px;
+          border-radius: 8px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          transition: transform 0.3s;
         }
 
         .recent-slide:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+          transform: translateY(-5px);
+          box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
         }
 
         .recent-slide h3 {
-            font-size: 1.2rem;
-            margin: 0 0 10px;
+          font-size: 1.2rem;
+          margin: 0 0 10px;
         }
 
         .recent-slide p {
-            margin: 0;
-            color: #555;
-            font-size: 0.9rem;
+          margin: 0;
+          color: #555;
+          font-size: 0.9rem;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: #fff;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
+        /* 페이지 네비게이션 */
+        .pager {
+          margin-top: 20px;
+          text-align: center;
         }
 
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
 
-        th {
-            background: #007bff;
-            color: white;
-        }
-
-        .clickable-row {
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .clickable-row:hover {
-            background: #f1f1f1;
-        }
-
-        .reviews {
-            margin-top: 20px;
-        }
-
-        .review-card {
-            background: #f9f9f9;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .review-card:hover {
-            background: #f1f1f1;
-        }
-
-        .review-title {
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #007bff;
-        }
-
-        .review-text {
-            font-size: 0.9rem;
-            color: #555;
-        }
-
-        .review-rating {
-            color: #ffc107;
-            font-weight: bold;
-        }
-
-        .footer {
-            text-align: center;
-            padding: 20px;
-            font-size: 0.9rem;
-            background: #f8f9fa;
-            border-top: 1px solid #ddd;
-            color: #333;
-        }
-
-        .footer a {
-            color: #007bff;
-            text-decoration: none;
-        }
-
-        .footer a:hover {
-            text-decoration: underline;
-        }
-
-        .menu-bar {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .menu-bar a {
-            text-decoration: none;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-size: 1.1em;
-            font-weight: bold;
-            transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .menu-bar a:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .menu-parking { background-color: #007bff; }
-        .menu-gas-stations { background-color: #28a745; }
-        .menu-repair-shops { background-color: #e74c3c; }
-
-        @media (max-width: 768px) {
-            .menu-bar {
-                flex-wrap: wrap;
-                gap: 10px;
-            }
-
-            .menu-bar a {
-                font-size: 0.9em;
-                padding: 8px 15px;
-            }
-        }
-
-    </style>
+  </style>
 </head>
 <body>
-        <h1>Car Hub</h1>
 
-
-
-    <div class="menu-bar">
-            <a href="/parking" class="menu-parking">주차장</a>
-            <a href="/gas_stations" class="menu-gas-stations">주유소</a>
-            <a href="/automobile_repair_shops" class="menu-repair-shops">정비소</a>
-        </div>
-
+<?php
+    include APPPATH . 'Views/includes/header.php';
+  ?>
+  <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6686738239613464"
+     data-ad-slot="1204098626"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
     <div class="container">
         <div class="search-box">
             <form action="<?= base_url('gas_stations/search'); ?>" method="get">
@@ -280,15 +257,16 @@
 
         <section class="section">
             <h2>최근 추가된 주유소</h2>
-            <div class="recent-slides">
+            <div class="recent-slides" id="recentSlides">
                 <?php foreach ($recentGasStations as $station): ?>
-                    <div class="recent-slide" onclick="goToDetail(<?= $station['id']; ?>)">
+                    <div class="recent-slide">
                         <h3><?= esc($station['gas_station_name']); ?></h3>
                         <p><?= esc($station['road_address']); ?></p>
                     </div>
                 <?php endforeach; ?>
             </div>
         </section>
+
 
         <section class="section">
             <h2>인기 주유소</h2>
@@ -347,16 +325,8 @@
             </table>
         </section>
 
-        <div class="pager">
-            <?= $pager->links('gasStationsGroup', 'default_full') ?>
-        </div>
-    </div>
-
-    <footer class="footer">
-        <p>본 데이터는 <a href="https://www.data.go.kr" target="_blank">www.data.go.kr</a>에서 데이터 기반으로 만들어진 웹 사이트입니다.</p>
-        <p>이 웹 사이트는 영리 목적으로 만들어졌습니다.</p>
-        <p>잘못된 정보는 <a href="mailto:gjqmaoslwj@naver.com">gjqmaoslwj@naver.com</a>으로 문의해 주세요.</p>
-    </footer>
+</div>
+    <?php include APPPATH . 'Views/includes/footer.php'; ?>
 
     <script>
         function goToDetail(id) {
@@ -365,5 +335,6 @@
             }
         }
     </script>
+
 </body>
 </html>

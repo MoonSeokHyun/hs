@@ -159,21 +159,19 @@
     </style>
 </head>
 <body>
+<?php include APPPATH . 'Views/includes/header.php'; ?>
+  <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6686738239613464"
+     data-ad-slot="1204098626"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
     <div class="container">
         <h1>편의점 레시피</h1>
-
-        <!-- Floating menu bar -->
-        <div class="menu-bar">
-            <a href="/events" class="menu-all">전체</a>
-            <a href="/events/cu" class="menu-cu">CU</a>
-            <a href="/events/gs25" class="menu-gs25">GS25</a>
-            <a href="/events/7-ELEVEn" class="menu-seven">세븐일레븐</a>
-            <a href="/events/emart24" class="menu-emart">이마트24</a>
-            <a href="/recipes" class="menu-recipe">레시피</a>
-            <a href="/event" class="menu-event">이벤트</a>
-            <a href="/parking" class="menu-parking">카허브</a>
-            <a href="/hotel" class="menu-accommodation">숙박</a>
-        </div>
 
         <div class="card-container">
             <?php if (!empty($recipes)): ?>
@@ -201,23 +199,7 @@
             <?= $pager->links() ?>
         </div>
     </div>
-    <?php
+    <?php include APPPATH . 'Views/includes/footer.php'; ?>
 
-$hostname = $_SERVER['HTTP_HOST'];
-
-if (!preg_match('/^localhost(:[0-9]*)?$/', $hostname)) {
-    
-?>
-
-    <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
-    <script type="text/javascript">
-        if(!wcs_add) var wcs_add = {};
-        wcs_add["wa"] = "8adec19974bed8";
-        if(window.wcs) {
-            wcs_do();
-        }
-    </script>
-    <?php }
-    ?>
 </body>
 </html>

@@ -105,3 +105,7 @@ $routes->get('carwash/details/(:num)', 'CarwashController::showDetail/$1');
 $routes->post('carwash/saveReview', 'CarwashController::saveReview');
 // app/config/Routes.php
 $routes->get('sitemap/carwashes/(:num)', 'SitemapController::carwashes/$1');
+
+//추가 
+$routes->get('event-sample', 'EventSample::index');
+

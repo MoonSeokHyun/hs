@@ -37,7 +37,6 @@
 
         h1 {
             text-align: center;
-            color: #007bff;
             margin-bottom: 20px;
             font-size: 2.5em;
         }
@@ -292,23 +291,23 @@
     </style>
 </head>
 <body>
+
+<?php
+    include APPPATH . 'Views/includes/header.php';
+  ?>
+  
     <div class="container">
-        <h1>편의점 할인은 편잇!</h1>
 
-        <!-- Floating menu bar -->
-        <div class="menu-bar">
-        <a href="/events" class="menu-all">전체</a>
-        <a href="/events/cu" class="menu-cu">CU</a>
-        <a href="/events/gs25" class="menu-gs25">GS25</a>
-        <a href="/events/7-ELEVEn" class="menu-seven">세븐일레븐</a>
-        <a href="/events/emart24" class="menu-emart">이마트24</a>
-        <a href="/recipes" class="menu-recipe">레시피</a>
-        <a href="/event" class="menu-event">이벤트</a>
-        <a href="/parking" class="menu-parking">카허브</a>
-        <a href="/hotel" class="menu-accommodation">숙박</a>
-        <a href="/carwash" class="menu-carwash">세차장</a> <!-- 세차장 메뉴 추가 -->
-    </div>
-
+    <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6686738239613464"
+     data-ad-slot="1204098626"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+  
         <!-- Search sections -->
         <div class="section search-container">
             <div class="search-box">
@@ -319,6 +318,29 @@
                 </form>
             </div>
         </div>
+
+        <div class="container section">
+    <h2 class="section-title">편잇은 이런 사이트예요! 🍱✨</h2>
+
+    <div class="intro-content" style="text-align: center; font-size: 1.2em; line-height: 1.8;">
+        <p>🏪 <strong>각종 편의점 할인 정보</strong>를 한눈에 볼 수 있어요!</p>
+        <p>🚗 편의점뿐 아니라, <strong>자동차 주유소와 세차장</strong> 할인까지 담았어요!</p>
+        <p>🏨 여행이나 출장을 가시나요? <strong>호텔 숙박 정보</strong>까지 모두 준비되어 있어요!</p>
+        <p>🎉 놓치기 아쉬운 <strong>각종 이벤트와 축제 정보</strong>도 알려드려요!</p>
+        <p>🍜 간단하고 맛있는 <strong>편의점 레시피</strong>도 공유해 보세요!</p>
+    </div>
+</div>
+
+<style>
+.intro-content p {
+    margin: 10px 0;
+}
+
+.intro-content strong {
+    color: #62D491;
+}
+</style>
+
     <!-- 이벤트 섹션 -->
     <div class="container mt-4">
     <h2 class="section-title">진행 중인 편의점 이벤트</h2>
@@ -342,7 +364,6 @@
     </div>
 </div>
 
-
 <!-- 최신 레시피 섹션 -->
 <div class="container mt-4">
     <h2 class="section-title">편의점 레시피</h2>
@@ -365,32 +386,10 @@
     </div>
 </div>
 
+<!-- Footer -->
+<?php include APPPATH . 'Views/includes/footer.php'; ?>
 
-        <!-- Footer -->
-        <div class="footer">
-            본 데이터는 <a href="https://www.data.go.kr" target="_blank">www.data.go.kr</a>에서 제공한 자료를 기반으로 하였습니다.<br>
-            이 웹 사이트는 영리 목적으로 만들어졌습니다.<br>
-            잘못된 정보는 <a href="mailto:gjqmaoslwj@naver.com">gjqmaoslwj@naver.com</a>으로 문의해 주세요.
-        </div>
-    </div>
 
-    <?php
-
-$hostname = $_SERVER['HTTP_HOST'];
-
-if (!preg_match('/^localhost(:[0-9]*)?$/', $hostname)) {
-    
-?>
-
-    <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
-    <script type="text/javascript">
-        if(!wcs_add) var wcs_add = {};
-        wcs_add["wa"] = "8adec19974bed8";
-        if(window.wcs) {
-            wcs_do();
-        }
-    </script>
-    <?php }
-    ?>
 </body>
 </html>
+

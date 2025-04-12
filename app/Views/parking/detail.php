@@ -1,331 +1,231 @@
+<?php
+// 정비소의 도로명 주소 예시
+$road_address = esc($repair_shop['road_address']);
+
+// 구 이름이나 읍 이름을 추출하기 위한 정규 표현식
+preg_match('/([가-힣]+구|[가-힣]+읍)/', $road_address, $matches);
+
+// 구 또는 읍 이름을 추출
+$district_name = isset($matches[0]) ? $matches[0] : '정비소';
+?>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta name="google-site-verification" content="vTa0kwUBtDAIFY_RbTOw4p-LpneLpkhxTYAWYqNwAog" />
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
-    crossorigin="anonymous"></script>
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f); })(window,document,'script','dataLayer','GTM-WVK2PC5J');</script>
-    <!-- End Google Tag Manager -->
-    
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <?php
-        $address = esc($parkingLot['address_road']);
-        preg_match('/([가-힣]+(?:구|읍|군))/u', $address, $matches);
-        $district = isset($matches[0]) ? $matches[0] : '';
-        
-        // 평균 평점 계산
-        $totalRating = array_sum(array_column($comments, 'rating'));
-        $averageRating = count($comments) ? round($totalRating / count($comments), 1) : 0;
-    ?>
-    <title><?= $district; ?> <?= esc($parkingLot['name']); ?> 주차장</title>
-    <meta name="description" content="<?= $district; ?>에 위치한 <?= esc($parkingLot['name']); ?> 주차장의 상세 정보입니다. 주소, 전화번호, 운영시간 등 정보를 확인하세요.">
-
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="<?= $district; ?> <?= esc($parkingLot['name']); ?> 주차장 정보">
-    <meta property="og:description" content="<?= $district; ?>에 위치한 <?= esc($parkingLot['name']); ?> 주차장의 상세 정보를 확인하세요.">
-    <meta property="og:url" content="<?= current_url(); ?>">
-    <meta property="og:image" content="URL_TO_YOUR_IMAGE"> <!-- 사이트 대표 이미지 URL 추가 -->
-
-    <!-- Twitter Card Data -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="<?= $district; ?> <?= esc($parkingLot['name']); ?> 주차장 정보">
-    <meta name="twitter:description" content="<?= $district; ?>에 위치한 <?= esc($parkingLot['name']); ?> 주차장의 상세 정보를 확인하세요.">
-    <meta name="twitter:image" content="URL_TO_YOUR_IMAGE">
-    <!-- 네이버 지도 API 추가 -->
-    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
-    <style>
-        body { font-family: Arial, sans-serif; background-color: #e6f0ff; margin: 0; padding: 0; }
-        .container { width: 90%; max-width: 800px; margin: 20px auto; padding: 20px; background: #fff; border: 1px solid #007bff; border-radius: 5px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        header { text-align: center; padding: 20px; background: #007bff; color: #fff; border-radius: 5px 5px 0 0; }
-        .info, .nearby-info, .comments-section { margin-bottom: 20px; padding: 15px; border: 1px solid #007bff; background: #f0f8ff; border-radius: 5px; }
-        .info h2, .nearby-info h2, .comments-section h2 { margin-top: 0; color: #007bff; }
-        .info-table, .nearby-table { width: 100%; border-collapse: collapse; }
-        .info-table td, .info-table th, .nearby-table td, .nearby-table th { padding: 10px; border: 1px solid #ddd; text-align: left; }
-        .info-table th, .nearby-table th { background: #e6f7ff; color: #007bff; }
-        #map { width: 100%; height: 400px; margin: 20px 0; border: 1px solid #007bff; border-radius: 5px; }
-        .back-button { display: inline-block; padding: 10px 15px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px; margin: 20px 0; text-align: center; }
-        .back-button:hover { background-color: #0056b3; }
-
-        /* 평균 평점 및 별점 스타일 */
-        .average-rating { display: flex; align-items: center; gap: 5px; font-weight: bold; color: #007bff; margin-bottom: 10px; }
-        .rating { display: flex; align-items: center; margin-bottom: 10px; }
-        .rating-label { margin-right: 10px; font-weight: bold; color: #007bff; }
-        .star { font-size: 24px; color: #ddd; cursor: pointer; transition: color 0.3s ease; }
-        .star.selected { color: #ffd700; }
-
-        /* 리뷰 입력 영역 스타일 */
-        .comment-form { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
-        .comment-textarea { width: 98%; height: 80px; padding: 10px; border-radius: 5px; border: 1px solid #ddd; resize: none; font-size: 14px; }
-        .submit-button { align-self: flex-end; padding: 8px 16px; background-color: #007bff; color: #fff; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s ease; }
-        .submit-button:hover { background-color: #0056b3; }
-        .comments-list { margin-top: 20px; }
-        .comment-item { padding: 15px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 15px; background-color: #f9f9f9; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); }
-        .comment-header { display: flex; justify-content: space-between; font-size: 14px; color: #555; margin-bottom: 8px; }
-        .comment-rating { font-weight: bold; color: #007bff; }
-        .comment-text { font-size: 16px; color: #333; line-height: 1.4; }
-        .error-message { color: red; font-size: 14px; margin-top: -10px; margin-bottom: 10px; }
-
-
-        .menu-bar {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .menu-bar a {
-            text-decoration: none;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-size: 1em;
-            font-weight: bold;
-            transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .menu-bar a:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .menu-cu { background-color: #6c757d; }
-        .menu-all { background-color: #28a745; }
-        .menu-gs25 { background-color: #007bff; }
-        .menu-seven { background-color: #e74c3c; }
-        .menu-emart { background-color: #f1c40f; color: #333; }
-        .menu-cspace { background-color: #e67e22; }
-        .menu-recipe { background-color: #FFA07A; }
-        .menu-event { background-color: #FF4500; }
-        .menu-parking { background-color: #8A2BE2; }
-        .menu-accommodation { background-color: #17a2b8; }
-        .menu-festival { background-color: #17e2b8; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><?= esc($parkingLot['address_road'] ?? '') ?> <?= esc($parkingLot['name'] ?? '주차장') ?> 주변 주유소 주변 정비소 주변 편의점 편의점 상품 1+1 상세정보 - 편잇</title>
+  <meta name="description" content="<?= esc($parkingLot['name'] ?? '주차장') ?>의 위치, 요금, 리뷰 등 상세 정보를 확인하세요. 전국의 주차장을 편하게 비교하고 리뷰도 남겨보세요.">
+  <meta name="keywords" content="주차장, <?= esc($parkingLot['name'] ?? '') ?>, 차량 관리, 리뷰, 별점, 위치 정보">
+  <meta name="author" content="편잇">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="<?= current_url() ?>">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="<?= esc($parkingLot['name'] ?? '주차장') ?> 상세정보 - 편잇">
+  <meta property="og:description" content="<?= esc($parkingLot['name'] ?? '주차장') ?>의 요금, 위치, 리뷰 등 상세 정보 확인">
+  <meta property="og:url" content="<?= current_url() ?>">
+  <meta property="og:image" content="/static/images/og-parking.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="<?= esc($parkingLot['name'] ?? '주차장') ?> 상세정보 - 편잇">
+  <meta name="twitter:description" content="<?= esc($parkingLot['name'] ?? '주차장') ?>에 대한 상세 정보를 편하게 확인하세요.">
+  <meta name="twitter:image" content="/static/images/og-parking.jpg">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ParkingFacility",
+    "name": "<?= esc($parkingLot['name'] ?? '') ?>",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "<?= esc($parkingLot['address_road'] ?? '') ?>",
+      "addressCountry": "KR"
+    },
+    "telephone": "<?= esc($parkingLot['phone_number'] ?? '') ?>",
+    "url": "<?= current_url() ?>",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "<?= round($averageRating ?? 0, 1) ?>",
+      "reviewCount": "<?= count($comments ?? []) ?>"
+    }
+  }
+  </script>
+  <link rel="stylesheet" href="/assets/css/global.css">
+  <style>
+    :root {
+      --main-color: #62D491;
+      --point-color: #3eaf7c;
+      --light-bg: #f7f8fa;
+      --card-bg: #fff;
+      --border-color: #ddd;
+      --text-color: #333;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: Arial, sans-serif;
+      background: var(--light-bg);
+      color: var(--text-color);
+    }
+    main.container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 2rem 1rem;
+    }
+    h1 {
+      font-size: 2rem;
+      color: var(--main-color);
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .section {
+      background: var(--card-bg);
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      margin-bottom: 2rem;
+    }
+    .section h2 {
+      font-size: 1.5rem;
+      color: var(--main-color);
+      margin-bottom: 1rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    th, td {
+      padding: 12px;
+      border: 1px solid var(--border-color);
+      font-size: 0.95rem;
+    }
+    th {
+      background: #e6f7ff;
+      color: var(--point-color);
+    }
+    .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 0.95rem;
+      margin-top: 10px;
+    }
+    .form-group .star {
+      font-size: 1.5rem;
+      color: #ccc;
+      cursor: pointer;
+    }
+    .form-group .star.selected {
+      color: #ffd700;
+    }
+    .form-group button {
+      padding: 10px 20px;
+      background: var(--point-color);
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .form-group button:hover {
+      background: #2e9b68;
+    }
+    .comment-box {
+      border-top: 1px solid #eee;
+      padding-top: 1rem;
+    }
+    .comment-meta {
+      font-size: 0.85rem;
+      color: #666;
+    }
+    .comment-text {
+      margin-top: 0.5rem;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1><?= $district; ?> <?= esc($parkingLot['name']); ?> 주차장</h1>
+  <?php include APPPATH . 'Views/includes/header.php'; ?>
+  <main class="container">
+    <h1><?= esc($parkingLot['name'] ?? '주차장명') ?> 상세정보</h1>
 
-        
-    </header>
+    <section class="section">
+      <h2>기본 정보</h2>
+      <table>
+        <tr><th>주소</th><td><?= esc($parkingLot['address_road']) ?></td></tr>
+        <tr><th>전화번호</th><td><?= esc($parkingLot['phone_number']) ?></td></tr>
+        <tr><th>총 주차 구획 수</th><td><?= esc($parkingLot['total_spots']) ?></td></tr>
+        <tr><th>요금 정보</th><td><?= esc($parkingLot['fee_information']) ?></td></tr>
+        <tr><th>운영 시간</th><td>
+          평일: <?= esc($parkingLot['weekday_start_time']) ?> ~ <?= esc($parkingLot['weekday_end_time']) ?><br>
+          토요일: <?= esc($parkingLot['saturday_start_time']) ?> ~ <?= esc($parkingLot['saturday_end_time']) ?><br>
+          공휴일: <?= esc($parkingLot['holiday_start_time']) ?> ~ <?= esc($parkingLot['holiday_end_time']) ?>
+        </td></tr>
+        <tr><th>특이사항</th><td><?= esc($parkingLot['special_notes']) ?></td></tr>
+      </table>
+    </section>
 
-
-        <!-- 메뉴바 -->
-        <div class="menu-bar">
-            <a href="/events" class="menu-all">전체</a>
-            <a href="/events/cu" class="menu-cu">CU</a>
-            <a href="/events/gs25" class="menu-gs25">GS25</a>
-            <a href="/events/7-ELEVEn" class="menu-seven">세븐일레븐</a>
-            <a href="/events/emart24" class="menu-emart">이마트24</a>
-            <a href="/recipes" class="menu-recipe">레시피</a>
-            <a href="/event" class="menu-event">이벤트</a>
-            <a href="/parking" class="menu-parking">카허브</a>
-            <a href="/hotel" class="menu-accommodation">숙박</a>
+    <section class="section">
+      <h2>리뷰</h2>
+      <form action="/parking/saveComment" method="post" class="form-group">
+        <input type="hidden" name="parking_lot_id" value="<?= esc($parkingLot['id']) ?>">
+        <div>
+          <?php for ($i = 1; $i <= 5; $i++): ?>
+            <span class="star" data-value="<?= $i ?>">&#9733;</span>
+          <?php endfor; ?>
+          <input type="hidden" name="rating" id="rating-value">
         </div>
-    <div class="container">
-        <!-- 돌아가기 버튼 -->
-        <a href="/parking" class="back-button">돌아가기</a>
+        <textarea name="comment_text" placeholder="리뷰를 입력하세요" required></textarea>
+        <button type="submit">등록</button>
+      </form>
 
-        <!-- 주차장 기본 정보 출력 -->
-        <div class="info">
-            <h2>주차장 기본 정보</h2>
-            <table class="info-table">
-                <tr>
-                    <th>주차장명</th>
-                    <td><?= esc($parkingLot['name']); ?></td>
-                </tr>
-                <tr>
-                    <th>주소</th>
-                    <td><?= esc($parkingLot['address_road']); ?></td>
-                </tr>
-                <tr>
-                    <th>전화번호</th>
-                    <td><?= esc($parkingLot['phone_number']); ?></td>
-                </tr>
-                <tr>
-                    <th>총 주차 구획 수</th>
-                    <td><?= esc($parkingLot['total_spots']); ?></td>
-                </tr>
-                <tr>
-                    <th>주차 요금 정보</th>
-                    <td><?= esc($parkingLot['fee_information']); ?></td>
-                </tr>
-                <tr>
-                    <th>운영 시간</th>
-                    <td>
-                        평일: <?= substr($parkingLot['weekday_start_time'], 0, 5) . ' ~ ' . substr($parkingLot['weekday_end_time'], 0, 5); ?><br>
-                        토요일: <?= substr($parkingLot['saturday_start_time'], 0, 5) . ' ~ ' . substr($parkingLot['saturday_end_time'], 0, 5); ?><br>
-                        공휴일: <?= substr($parkingLot['holiday_start_time'], 0, 5) . ' ~ ' . substr($parkingLot['holiday_end_time'], 0, 5); ?>
-                    </td>
-                </tr>
-                <tr>
-                    <th>특이사항</th>
-                    <td><?= esc($parkingLot['special_notes']); ?></td>
-                </tr>
-            </table>
-        </div>
-
-        <!-- 네이버 지도 -->
-        <div id="map"></div>
-
-        <!-- 주변 주차장 정보 테이블 -->
-        <div class="nearby-info">
-            <h2>주변 주차장 정보</h2>
-            <table class="nearby-table">
-                <thead>
-                    <tr>
-                        <th>주차장명</th>
-                        <th>주소</th>
-                        <th>전화번호</th>
-                        <th>주차 구획 수</th>
-                        <th>거리</th>
-                    </tr>
-                </thead>
-                <tbody id="nearby-parking-list">
-                    <?php if (!empty($nearbyParkingLots)): ?>
-                        <?php foreach ($nearbyParkingLots as $lot): ?>
-                            <tr>
-                                <td><?= esc($lot['name']); ?></td>
-                                <td><?= esc($lot['address_road']); ?></td>
-                                <td><?= esc($lot['phone_number']); ?></td>
-                                <td><?= esc($lot['total_spots']); ?></td>
-                                <td><?= number_format($lot['distance'], 2); ?> km</td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <tr>
-                            <td colspan="5">주변 주차장이 없습니다.</td>
-                        </tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
-        
-        <!-- 평균 평점 표시 -->
-        <div class="average-rating">
-            <strong>평균 평점:</strong> <?= $averageRating ?> / 5
-            <?php for ($i = 1; $i <= 5; $i++): ?>
-                <span class="star <?= ($i <= floor($averageRating)) ? 'selected' : (($i - 0.5) === $averageRating ? 'half' : '') ?>">
-                    &#9733;
-                </span>
-            <?php endfor; ?>
-        </div>
-
-        <!-- 리뷰 및 평점 기능 -->
-        <div class="comments-section">
-            <h2>리뷰 남기기</h2>
-            <form action="/parking/saveComment" method="post" class="comment-form" onsubmit="return validateForm()">
-                <input type="hidden" name="parking_lot_id" value="<?= esc($parkingLot['id']); ?>">
-                <div class="rating" id="star-rating">
-                    <span class="rating-label">평점:</span>
-                    <?php for ($i = 1; $i <= 5; $i++): ?>
-                        <span class="star" data-value="<?= $i; ?>">&#9733;</span>
-                    <?php endfor; ?>
-                    <input type="hidden" name="rating" id="rating-value">
-                </div>
-                <div id="rating-error" class="error-message" style="display: none;">평점이 누락되었습니다.</div>
-                <textarea name="comment_text" placeholder="리뷰를 등록해주세요!" required class="comment-textarea" id="comment-text"></textarea>
-                <div id="comment-error" class="error-message" style="display: none;">리뷰가 누락되었습니다.</div>
-                <button type="submit" class="submit-button">리뷰 등록</button>
-            </form>
-            
-            <!-- 리뷰 목록 -->
-            <h3>리뷰 목록</h3>
-            <div class="comments-list">
-                <?php if (!empty($comments)): ?>
-                    <?php foreach ($comments as $comment): ?>
-                        <div class="comment-item">
-                            <div class="comment-header">
-                                <span class="comment-rating">
-                                    <?php 
-                                        for ($i = 1; $i <= 5; $i++): 
-                                            echo ($i <= $comment['rating']) ? '<span class="star selected">&#9733;</span>' : '<span class="star">&#9733;</span>';
-                                        endfor;
-                                    ?>
-                                </span>
-                                <span class="comment-date"><?= date('Y-m-d H:i', strtotime($comment['created_at'])); ?></span>
-                            </div>
-                            <p class="comment-text"><?= esc($comment['comment_text']); ?></p>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p>댓글이 없습니다.</p>
-                <?php endif; ?>
-            </div>
-        </div>
-
-        <footer style="background-color: #f8f9fa; padding: 20px; text-align: center; font-size: 14px; color: #6c757d;">
-            <p>본 데이터는 <a href="https://www.data.go.kr" target="_blank" style="color: #007bff; text-decoration: none;">www.data.go.kr</a>에서 데이터 기반으로 만들어진 웹 사이트입니다.</p>
-            <p>이 웹 사이트는 영리 목적으로 만들어진 사이트입니다.</p>
-            <p>잘못된 정보는 <a href="mailto:gjqmaoslwj@naver.com" style="color: #007bff; text-decoration: none;">gjqmaoslwj@naver.com</a>으로 문의해 주세요.</p>
-        </footer>
-
-        <!-- 지도 및 주변 주차장 스크립트 -->
-        <script>
-            var currentLat = <?= esc($parkingLot['latitude']); ?>;
-            var currentLng = <?= esc($parkingLot['longitude']); ?>;
-            var mapOptions = { center: new naver.maps.LatLng(currentLat, currentLng), zoom: 15 };
-            var map = new naver.maps.Map('map', mapOptions);
-            var mainMarker = new naver.maps.Marker({ position: new naver.maps.LatLng(currentLat, currentLng), map: map, title: "<?= esc($parkingLot['name']); ?>" });
-            var mainInfoWindow = new naver.maps.InfoWindow({ content: '<div style="width:200px;text-align:center;padding:10px;"><b><?= esc($parkingLot['name']); ?></b><br><?= esc($parkingLot['address_road']); ?></div>' });
-            mainInfoWindow.open(map, mainMarker);
-
-            var nearbyParkingLots = <?php echo json_encode($nearbyParkingLots); ?>;
-            nearbyParkingLots.forEach(function(lot) {
-                var marker = new naver.maps.Marker({ position: new naver.maps.LatLng(lot.latitude, lot.longitude), map: map, title: lot.name });
-                var infoWindow = new naver.maps.InfoWindow({ content: '<div style="width:200px;text-align:center;padding:10px;"><b>' + lot.name + '</b><br>' + lot.address_road + '</div>' });
-                marker.addListener('click', function() { infoWindow.open(map, marker); });
-            });
-
-            document.querySelectorAll('#star-rating .star').forEach(star => {
-                star.addEventListener('click', function() {
-                    const ratingValue = this.getAttribute('data-value');
-                    document.getElementById('rating-value').value = ratingValue;
-                    document.querySelectorAll('#star-rating .star').forEach(s => s.classList.remove('selected'));
-                    for (let i = 0; i < ratingValue; i++) {
-                        document.querySelectorAll('#star-rating .star')[i].classList.add('selected');
-                    }
-                });
-            });
-
-            function validateForm() {
-                const ratingValue = document.getElementById("rating-value").value;
-                const commentText = document.getElementById("comment-text").value.trim();
-                let isValid = true;
-
-                document.getElementById("rating-error").style.display = ratingValue ? "none" : "block";
-                document.getElementById("comment-error").style.display = commentText ? "none" : "block";
-
-                if (!ratingValue) isValid = false;
-                if (!commentText) isValid = false;
-
-                return isValid;
+      <script>
+        document.querySelectorAll('.star').forEach(star => {
+          star.addEventListener('click', function () {
+            const rating = this.getAttribute('data-value');
+            document.getElementById('rating-value').value = rating;
+            document.querySelectorAll('.star').forEach(s => s.classList.remove('selected'));
+            for (let i = 1; i <= rating; i++) {
+              document.querySelector('.star[data-value="' + i + '"]').classList.add('selected');
             }
-        </script>
-    </div>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
-    crossorigin="anonymous"></script>
-    <?php
+          });
+        });
+      </script>
 
-$hostname = $_SERVER['HTTP_HOST'];
+      <?php foreach ($comments as $comment): ?>
+      <div class="comment-box">
+        <div class="comment-meta">
+          <span class="rating-stars">★ <?= $comment['rating'] ?>점</span> · <?= date('Y-m-d', strtotime($comment['created_at'])) ?>
+        </div>
+        <div class="comment-text"><?= esc($comment['comment_text']) ?></div>
+      </div>
+      <?php endforeach; ?>
+    </section>
 
-if (!preg_match('/^localhost(:[0-9]*)?$/', $hostname)) {
-    
-?>
+    <section class="section">
+      <h3 class="section-title">다른 서비스</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 1rem; margin-top:1rem;">
+        <a href="/events" style="text-decoration: none;">
+          <div style="background:#fff; border-left:5px solid var(--main-color); border-radius:8px; padding:1rem; box-shadow:0 2px 5px rgba(0,0,0,0.05); transition: transform 0.2s;">
+            <h4 style="color:var(--main-color); margin-bottom:0.5rem;">🏞️ 편의점 이벤트</h4>
+            <p style="font-size:14px; line-height:1.4; color:#555;">전국의 편의점 1+1 이벤트를 한번에!</p>
+          </div>
+        </a>
+        <a href="/recipes" style="text-decoration: none;">
+          <div style="background:#fff; border-left:5px solid var(--main-color); border-radius:8px; padding:1rem; box-shadow:0 2px 5px rgba(0,0,0,0.05); transition: transform 0.2s;">
+            <h4 style="color:var(--main-color); margin-bottom:0.5rem;">👨‍👩‍👧 편의점음식으로 만드는 레시피</h4>
+            <p style="font-size:14px; line-height:1.4; color:#555;">편의점 음식으로 레시피를!?</p>
+          </div>
+        </a>
+        <a href="/parking" style="text-decoration: none;">
+          <div style="background:#fff; border-left:5px solid var(--main-color); border-radius:8px; padding:1rem; box-shadow:0 2px 5px rgba(0,0,0,0.05); transition: transform 0.2s;">
+            <h4 style="color:var(--main-color); margin-bottom:0.5rem;">🏛️ 각종 자동차 정보</h4>
+            <p style="font-size:14px; line-height:1.4; color:#555;">주유소 주차장은 여기로!</p>
+          </div>
+        </a>
+      </div>
+    </section>
 
-    <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
-    <script type="text/javascript">
-        if(!wcs_add) var wcs_add = {};
-        wcs_add["wa"] = "8adec19974bed8";
-        if(window.wcs) {
-            wcs_do();
-        }
-    </script>
-    <?php }
-    ?>
+    <?= view_cell('\\App\\Cells\\ExtraInfoCell::render') ?>
+  </main>
+  <?php include APPPATH . 'Views/includes/footer.php'; ?>
 </body>
 </html>
