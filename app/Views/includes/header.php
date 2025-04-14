@@ -1,5 +1,8 @@
 <!-- 네이버 지도 -->
 <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
+<!-- 구글 애드센스 -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
+crossorigin="anonymous"></script>
 
 <!-- 헤더 시작 -->
 <div id="header-wrapper">
@@ -174,6 +177,12 @@
       font-size: 14px;
     }
   }
+      /* 모든 광고(ins) 태그 가운데 정렬 */
+      .adsbygoogle {
+      display: block;
+      text-align: center;
+      margin: 0 auto;
+    }
 </style>
 
 <!-- 모바일 드롭다운 토글 스크립트 -->
