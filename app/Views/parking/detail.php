@@ -17,8 +17,12 @@
   <meta property="og:url" content="<?= current_url(); ?>">
   <meta name="twitter:title" content="<?= $district; ?> <?= esc($parkingLot['name']); ?> 주차장 정보">
   <meta name="twitter:description" content="<?= $district; ?>에 위치한 <?= esc($parkingLot['name']); ?> 주차장의 상세 정보를 확인하세요.">
-  <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
-  <style>
+
+  <script async src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
+<!-- 구글 애드센스 -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
+crossorigin="anonymous"></script>
+ <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { height: 100%; font-family: "Arial", sans-serif; background-color: #f7f8fa; }
     a { color: inherit; text-decoration: none; }

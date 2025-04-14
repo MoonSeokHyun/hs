@@ -6,7 +6,10 @@
     <title>Car Hub - 주유소 정보 및 리뷰</title>
     <meta name="description" content="Car Hub에서 최신 주유소 정보와 사용자 리뷰를 확인하세요. 주유소 위치, 리뷰, 평균 평점을 제공하여 쉽게 원하는 주유소를 찾을 수 있습니다.">
     <meta name="keywords" content="주유소, Car Hub, 주유소 리뷰, 주유소 위치, 주유소 평점, 서울 주유소">
-
+    <script async src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
+<!-- 구글 애드센스 -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
+crossorigin="anonymous"></script>
     <!-- 스타일 변경 -->
   <style>
     body {

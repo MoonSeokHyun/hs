@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>호텔 리스트 - 편잇</title>
+  <script async src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
+<!-- 구글 애드센스 -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
+crossorigin="anonymous"></script>
   <style>
     /* 기본 초기화 */
     * { margin: 0; padding: 0; box-sizing: border-box; }

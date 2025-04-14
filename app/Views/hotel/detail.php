@@ -16,6 +16,11 @@
   <meta property="og:url" content="<?= current_url() ?>">
   <meta property="og:type" content="website">
 
+  <script async src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
+<!-- 구글 애드센스 -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
+crossorigin="anonymous"></script>
+
   <title><?= esc($hotel['business_name']); ?> - 호텔허브</title>
 
   <style>
