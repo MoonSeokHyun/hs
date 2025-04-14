@@ -1,10 +1,10 @@
 <!-- 네이버 지도 -->
+ <head>
 <script async src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
-</head>
 <!-- 구글 애드센스 -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
 crossorigin="anonymous"></script>
-
+</head>
 <!-- 헤더 시작 -->
 <div id="header-wrapper">
   <!-- 사이트 타이틀 -->

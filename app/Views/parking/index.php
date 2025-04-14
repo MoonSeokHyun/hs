@@ -6,24 +6,20 @@
     <meta name="google-site-verification" content="vTa0kwUBtDAIFY_RbTOw4p-LpneLpkhxTYAWYqNwAog" />
     <meta name="naver-site-verification" content="7a0d49f3fd680b5f4ab77f8edfd3deb13ee30f11" />
     <title>편잇 - 주차장, 정비소, 주유소 정보</title>
-
     <meta name="description" content="Car Hub에서 최신 주차장 정보와 인기 정비소, 주유소 정보를 확인하세요. 사용자 리뷰와 평점을 통해 신뢰도 높은 차량 관리 서비스를 제공합니다.">
     <meta name="keywords" content="주차장, 정비소, 주유소, 차량 관리, 리뷰, 평점">
     <meta name="robots" content="index, follow">
     <meta name="author" content="Car Hub">
-
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464" crossorigin="anonymous"></script>
-
-    <!-- CSS -->
     <style>
-        body {
+        /* 기본 초기화 */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body {
             font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
             background-color: #f8f9fa;
             color: #333;
         }
 
+        /* 컨테이너 */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -32,12 +28,12 @@
 
         h1 {
             text-align: center;
-            color: #007bff;
+            color: #62D491;
             margin-bottom: 20px;
             font-size: 2.5em;
         }
 
-        /* Floating menu bar styles */
+        /* Floating 메뉴 바 스타일 */
         .menu-bar {
             display: flex;
             justify-content: center;
@@ -62,7 +58,7 @@
             box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
         }
 
-        .menu-parking { background-color: #007bff; }
+        .menu-parking { background-color: #62D491; }
         .menu-gas-stations { background-color: #28a745; }
         .menu-repair-shops { background-color: #e74c3c; }
 
@@ -78,6 +74,7 @@
             }
         }
 
+        /* 섹션 스타일 */
         .section {
             margin-bottom: 40px;
             padding: 30px;
@@ -88,10 +85,11 @@
 
         .section h2 {
             font-size: 1.8em;
-            color: #007bff;
+            color: #62D491;
             margin-bottom: 15px;
         }
 
+        /* 테이블 스타일 */
         .table-container {
             overflow-x: auto;
         }
@@ -112,7 +110,7 @@
         }
 
         th {
-            background-color: #007bff;
+            background-color: #62D491;
             color: #fff;
         }
 
@@ -124,6 +122,7 @@
             background-color: #f0f0f0;
         }
 
+        /* Footer 스타일 */
         .footer {
             text-align: center;
             margin-top: 50px;
@@ -135,7 +134,7 @@
         }
 
         .footer a {
-            color: #007bff;
+            color: #62D491;
             text-decoration: none;
         }
 
@@ -148,18 +147,19 @@
 
 <?php
     include APPPATH . 'Views/includes/header.php';
-  ?>
+?>
+
     <div class="container">
-        <!-- Search section -->
+        <!-- 주차장 검색 섹션 -->
         <div class="section">
             <h2>주차장 검색</h2>
             <form method="get" action="/parking/search">
                 <input type="text" name="search" placeholder="주차장 이름 또는 주소 검색" style="width: 80%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
-                <button type="submit" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px;">검색</button>
+                <button type="submit" style="padding: 10px 20px; background-color: #62D491; color: white; border: none; border-radius: 5px;">검색</button>
             </form>
         </div>
 
-        <!-- Recent parking lots -->
+        <!-- 최근 추가된 주차장 섹션 -->
         <div class="section">
             <h2>최근 추가된 주차장</h2>
             <div class="table-container">
@@ -184,7 +184,7 @@
             </div>
         </div>
 
-        <!-- Popular parking lots -->
+        <!-- 인기 주차장 섹션 -->
         <div class="section">
             <h2>인기 주차장</h2>
             <div class="table-container">
@@ -209,7 +209,7 @@
             </div>
         </div>
 
-        <!-- Recent reviews -->
+        <!-- 최근 추가된 리뷰 섹션 -->
         <div class="section">
             <h2>최근 추가된 리뷰</h2>
             <?php foreach ($recentReviews as $review): ?>
@@ -221,10 +221,20 @@
             <?php endforeach; ?>
         </div>
 
-        <!-- Footer -->
+        <!-- 구글 애드센스 광고 배너 -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6686738239613464"
+             data-ad-slot="1204098626"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+
+        <!-- 푸터 -->
         <?php include APPPATH . 'Views/includes/footer.php'; ?>
     </div>
-
 
 </body>
 </html>
