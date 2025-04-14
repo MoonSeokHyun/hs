@@ -13,7 +13,7 @@ $district_name = isset($matches[0]) ? $matches[0] : '정비소';
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title><?= esc($repair_shop['repair_shop_name']); ?> - <?= esc($district_name); ?> 전문 자동차 정비소</title>
+  <title><?= esc($repair_shop['repair_shop_name']); ?> - <?= esc($district_name); ?> 차량정비·수리·엔진오일 교체 전문 정비소</title>
 
   <meta name="description" content="<?= esc($repair_shop['road_address'] ?? '') ?> 위치의 정비소 <?= esc($repair_shop['repair_shop_name'] ?? '') ?>의 상세 정보, 지도, 리뷰, 전화번호 등을 확인해보세요.">
   <meta name="keywords" content="정비소, <?= esc($repair_shop['repair_shop_name'] ?? '') ?>, 자동차 수리, 차량정비, 정비소 추천, 전국 정비소, <?= esc($repair_shop['road_address'] ?? '') ?>">

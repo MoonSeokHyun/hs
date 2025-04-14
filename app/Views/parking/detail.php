@@ -1,16 +1,25 @@
 <?php
-    $address = esc($parkingLot['address_road']);
-    preg_match('/([\x{AC00}-\x{D7A3}]+(?:구|읍|군))/u', $address, $matches);
-    $district = isset($matches[0]) ? $matches[0] : '';
-    $totalRating = array_sum(array_column($comments, 'rating'));
-    $averageRating = count($comments) ? round($totalRating / count($comments), 1) : 0;
+// 주소 처리 (road 우선, 없으면 land)
+$address = !empty($parkingLot['address_road']) ? esc($parkingLot['address_road']) : esc($parkingLot['address_land']);
+
+// 지역명 추출 (구, 읍, 군)
+preg_match('/([\x{AC00}-\x{D7A3}]+(?:구|읍|군))/u', $address, $matches);
+$district = isset($matches[0]) ? $matches[0] : '인근';
+
+// 주차장 이름
+$parkingLotName = esc($parkingLot['name']);
+
+// 평점 평균 계산
+$totalRating = array_sum(array_column($comments, 'rating'));
+$averageRating = count($comments) ? round($totalRating / count($comments), 1) : 0;
 ?>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?= $district; ?> <?= esc($parkingLot['name']); ?> 주차장</title>
+  <title><?= $district ?> 주차장 추천 | <?= $parkingLotName ?> - 평균 ★<?= $averageRating ?>점, 위치/요금 정보</title>
   <meta name="description" content="<?= $district; ?>에 위치한 <?= esc($parkingLot['name']); ?> 주차장의 상세 정보입니다.">
   <meta property="og:title" content="<?= $district; ?> <?= esc($parkingLot['name']); ?> 주차장 정보">
   <meta property="og:description" content="<?= $district; ?>에 위치한 <?= esc($parkingLot['name']); ?> 주차장의 상세 정보를 확인하세요.">
@@ -101,7 +110,20 @@ crossorigin="anonymous"></script>
       <h3 class="section-title">주차장 기본 정보</h3>
       <table class="info-table">
         <tr><th>주차장명</th><td><?= esc($parkingLot['name']); ?></td></tr>
-        <tr><th>주소</th><td><?= esc($parkingLot['address_road']); ?></td></tr>
+        <tr>
+  <th>주소</th>
+  <td>
+    <?php
+      if (!empty($parkingLot['address_road'])) {
+        echo esc($parkingLot['address_road']);
+      } elseif (!empty($parkingLot['address_land'])) {
+        echo esc($parkingLot['address_land']);
+      } else {
+        echo '주소 정보 없음';
+      }
+    ?>
+  </td>
+</tr>
         <tr><th>전화번호</th><td><?= esc($parkingLot['phone_number']); ?></td></tr>
         <tr><th>총 주차 구획 수</th><td><?= esc($parkingLot['total_spots']); ?></td></tr>
         <tr><th>요금</th><td><?= esc($parkingLot['fee_information']); ?></td></tr>

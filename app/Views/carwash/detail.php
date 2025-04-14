@@ -1,9 +1,17 @@
+<?php
+$road_address = esc($carwash['Address (Road Name)']);
+preg_match('/([가-힣]+구|[가-힣]+읍)/', $road_address, $matches);
+$district_name = isset($matches[0]) ? $matches[0] : '지역';
+
+$business_name = esc($carwash['Business Name']);
+?>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title><?= esc($carwash['Business Name']) ?> - 세차장 정보</title>
+  <title><?= $district_name ?> 세차장 | <?= $business_name ?> - 셀프세차, 스팀세차 정보</title>
   <meta name="description" content="<?= esc($carwash['Business Name']) ?> 세차장의 위치, 서비스, 가격 정보 및 리뷰 확인">
   <meta name="keywords" content="세차장, <?= esc($carwash['Business Name']) ?>, 세차, 자동차, <?= esc($carwash['City/District']) ?>">
   <meta name="robots" content="index, follow">

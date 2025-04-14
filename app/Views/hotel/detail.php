@@ -1,15 +1,16 @@
-<!-- 호텔 상세 페이지를 정비소 스타일에 맞춰 통일한 HTML 템플릿입니다. -->
 <?php
   $address = esc($hotel['site_full_address']);
   preg_match('/([\x{AC00}-\x{D7A3}]+(?:구|읍|군))/u', $address, $matches);
-  $district = isset($matches[0]) ? $matches[0] : '';
+  $district = isset($matches[0]) ? $matches[0] : '인근';
+
+  $hotelName = esc($hotel['business_name']);
 ?>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?= esc($hotel['business_name']); ?> - 호텔허브</title>
+  <title><?= $district ?> 숙박시설 추천 | <?= $hotelName ?> - 위치, 가격, 후기 정보 | 호텔허브</title>
   <meta name="description" content="<?= esc($hotel['business_name']); ?>의 상세 정보 및 근처 맛집과 관광지">
   <meta name="keywords" content="호텔, 관광지, 맛집, <?= esc($hotel['business_name']); ?>, 숙박 정보">
   <meta name="robots" content="index, follow">

@@ -1,14 +1,12 @@
 <?php
-// 주유소의 도로명 주소 예시
 $road_address = esc($station['road_address']);
 
-// 구 이름이나 읍 이름을 추출하기 위한 정규 표현식
-preg_match('/([가-힣]+구|[가-힣]+읍)/', $road_address, $matches);
+// 읍/구/면 단위 지역 추출
+preg_match('/([가-힣]+구|[가-힣]+읍|[가-힣]+면)/', $road_address, $matches);
+$district_name = isset($matches[0]) ? $matches[0] : '인근';
 
-// 구 또는 읍 이름을 추출
-$district_name = isset($matches[0]) ? $matches[0] : '주유소';
-
-// 주유소 종류 기본값 설정 (기존에 정의되지 않으면 '일반'으로 설정)
+// 주유소명과 타입
+$gas_station_name = esc($station['gas_station_name']);
 $gas_station_type = isset($station['gas_station_type']) ? esc($station['gas_station_type']) : '일반';
 ?>
 
@@ -17,7 +15,7 @@ $gas_station_type = isset($station['gas_station_type']) ? esc($station['gas_stat
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="<?= esc($station['gas_station_name']) ?> 주유소의 최신 유가 정보와 주변 주유소 위치를 확인하세요.">
+  <meta name="description" content="<?= esc($district_name) ?> <?= esc($gas_station_type) ?> 주유소 <?= esc($station['gas_station_name']) ?>의 실시간 유가 정보! 인근 저렴한 주유소도 함께 확인해보세요.">
   <meta name="keywords" content="<?= esc($station['gas_station_name']) ?>, 주유소, 가격 정보, <?= esc($station['road_address']) ?>, 주변 주유소">
 
   <!-- Open Graph meta tags for social media sharing -->
@@ -34,7 +32,8 @@ $gas_station_type = isset($station['gas_station_type']) ? esc($station['gas_stat
   <meta name="twitter:description" content="<?= esc($station['gas_station_name']) ?> 주유소의 유가와 위치 정보를 확인하세요.">
   <meta name="twitter:image" content="URL_TO_IMAGE">
 
-  <title><?= esc($station['gas_station_name']) ?> - <?= esc($station['road_address']) ?></title>
+  <title><?= $district_name ?> 주유소 추천 | <?= $gas_station_name ?> - 기름값, 위치 정보</title>
+
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
 crossorigin="anonymous"></script>
