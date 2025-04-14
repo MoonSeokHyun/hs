@@ -21,8 +21,8 @@
     <div class="footer-section">
       <h3>Side Projects</h3>
       <ul>
-        <li><a href="#">🔍 필요한 정보를 한곳에서 - Project 찾아요!</a></li>
-        <li><a href="#">💼 채용정보의 모든 것 - Project TheCareer23</a></li>
+        <li><a href="#">🔍 </a></li>
+        <li><a href="#">💼 </a></li>
       </ul>
     </div>
   </div>

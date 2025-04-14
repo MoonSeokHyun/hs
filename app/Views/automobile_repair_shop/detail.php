@@ -336,19 +336,15 @@ $district_name = isset($matches[0]) ? $matches[0] : '정비소';
   </style>
 
   <!-- (선택) 구글 애드센스 등 스크립트 -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxx" crossorigin="anonymous"></script>
 </head>
 <body>
-  <!-- (선택) 구글 태그 매니저 (noscript) 예시 
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
-  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-  -->
 
-  <!-- 헤더 (header.php) -->
-  <?php
+
+
+
+<?php
     include APPPATH . 'Views/includes/header.php';
   ?>
-
   <!-- 상단 광고 배너 (예: 애드센스) -->
 <!-- easehub -->
 <ins class="adsbygoogle"
@@ -363,10 +359,8 @@ $district_name = isset($matches[0]) ? $matches[0] : '정비소';
 
   <!-- Hero Section -->
   <section class="hero-section">
-    <h2>💡 누구나 쉽게 접근 가능한 공공데이터</h2>
+    <h2>💡 누구나 쉽게 접근 가능한 편잇데이터</h2>
     <p>
-      114 표준데이터 플랫폼은 전국 지자체와 공공기관의 시설 정보, 복지 서비스, 환경 데이터 등을
-      표준화된 형식으로 제공합니다.<br>
       원하는 정보를 빠르게 찾고 자유롭게 활용해보세요.
     </p>
   </section>
