@@ -12,7 +12,6 @@ $district_name = isset($matches[0]) ? $matches[0] : '정비소';
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<head>
   <meta charset="UTF-8" />
   <title><?= esc($repair_shop['repair_shop_name']); ?> - <?= esc($district_name); ?> 전문 자동차 정비소</title>
 
@@ -664,8 +663,6 @@ $district_name = isset($matches[0]) ? $matches[0] : '정비소';
     include APPPATH . 'Views/includes/footer.php';
   ?>
 
-  <!-- (필수) 네이버 지도 API: ncpClientId=psp2wjl0ra는 예시 -->
-  <script async src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
 
   <script>
     // 지도 초기화

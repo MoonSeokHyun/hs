@@ -1,5 +1,4 @@
 <!-- 네이버 지도 -->
-<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
 <script async src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
 </head>
 <!-- 구글 애드센스 -->
