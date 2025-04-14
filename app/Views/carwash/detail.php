@@ -14,10 +14,9 @@
   <meta property="og:image" content="/static/images/og-carwash.jpg">
   <link rel="canonical" href="<?= current_url() ?>">
   <link rel="stylesheet" href="/assets/css/global.css">
-  <script async src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
-<!-- 구글 애드센스 -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
 crossorigin="anonymous"></script>
+<script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
   <style>
     :root {
       --main-color: #62D491;

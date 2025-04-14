@@ -9,7 +9,7 @@
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
      crossorigin="anonymous"></script>
-     
+     <script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
     <meta name="description" content="편잇에서 1+1, 2+1 할인 정보와 다양한 편의점 레시피를 만나보세요. CU, GS25, 세븐일레븐 등 전국 편의점 정보와 할인 이벤트를 제공합니다.">
     <meta name="keywords" content="편의점 할인, 1+1, 2+1, 편의점 레시피, CU, GS25, 세븐일레븐, 편의점 이벤트">
     <meta name="robots" content="index, follow">

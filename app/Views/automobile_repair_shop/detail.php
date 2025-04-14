@@ -33,10 +33,13 @@ $district_name = isset($matches[0]) ? $matches[0] : '정비소';
   <meta name="twitter:title" content="<?= esc($repair_shop['repair_shop_name'] ?? '') ?>">
   <meta name="twitter:description" content="정비소 상세정보를 확인해보세요.">
   <meta name="twitter:image" content="/static/images/og-default.jpg">
-  <script async src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
-<!-- 구글 애드센스 -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
+ 
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
 crossorigin="anonymous"></script>
+<script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
+</head>
+<!-- 구글 애드센스 -->
+
   <!-- JSON-LD 구조화 데이터 (LocalBusiness) -->
   <script type="application/ld+json">
   {

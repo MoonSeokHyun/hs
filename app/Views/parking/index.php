@@ -10,6 +10,11 @@
     <meta name="keywords" content="주차장, 정비소, 주유소, 차량 관리, 리뷰, 평점">
     <meta name="robots" content="index, follow">
     <meta name="author" content="Car Hub">
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
+</head>
+<!-- 구글 애드센스 -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
+crossorigin="anonymous"></script><head>
     <style>
         /* 기본 초기화 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -28,7 +33,6 @@
 
         h1 {
             text-align: center;
-            color: #62D491;
             margin-bottom: 20px;
             font-size: 2.5em;
         }

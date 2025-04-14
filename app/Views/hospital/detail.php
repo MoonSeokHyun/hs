@@ -24,9 +24,9 @@
     <meta name="twitter:image" content="https://easehub.co.kr/hospital-project/public/img/logo.png">
 
     <!-- Naver 지도 API -->
-    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
-
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
+crossorigin="anonymous"></script>
+<script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
      crossorigin="anonymous"></script>
     <style>
         /* 기본 스타일 */
