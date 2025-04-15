@@ -109,3 +109,9 @@ $routes->get('sitemap/carwashes/(:num)', 'SitemapController::carwashes/$1');
 //추가 
 $routes->get('event-sample', 'EventSample::index');
 
+// 견인
+$routes->get('towed-vehicle-storage', 'TowedVehicleStorageController::index');
+$routes->get('towed-vehicle-storage/detail/(:num)', 'TowedVehicleStorageController::detail/$1');
+
+// sitemap/towedvehicle 페이지 처리
+$routes->get('sitemap/towedvehicle/(:num)', 'SitemapController::towedvehicle/$1');

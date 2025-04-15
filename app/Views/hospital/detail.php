@@ -1,252 +1,242 @@
+<?php
+// 안전한 변수 초기화
+$storeName = trim(esc($hospital['BusinessName'] ?? ''));
+$fullAddress = esc($hospital['FullAddress'] ?? '');
+$storeId = esc($hospital['ID'] ?? '');
+
+// 지역명 추출
+preg_match('/([가-힣]+구|[가-힣]+읍|[가-힣]+면)/u', $fullAddress, $matches);
+$district_name = $matches[0] ?? '';
+
+// 기본값 보정
+$storeName = $storeName ?: '편의점';
+$districtText = $district_name ?: '인근';
+?>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= esc($hospital['BusinessName']); ?> 정보</title>
 
-    <!-- SEO 메타태그 -->
-    <meta name="description" content="<?= esc($hospital['BusinessName']); ?>에 대한 병원 정보 및 리뷰를 제공합니다. 병원 위치, 운영 상태, 의료 기관 유형, 연락처 등 상세 정보 확인.">
-    <meta name="keywords" content="<?= esc($hospital['BusinessName']); ?>, 병원 정보, 의료기관, 리뷰, 연락처, 주소">
-    <meta name="robots" content="index, follow">
-    
-    <!-- Open Graph for social media -->
-    <meta property="og:title" content="Ease Hub - <?= esc($hospital['BusinessName']); ?> 정보">
-    <meta property="og:description" content="<?= esc($hospital['BusinessName']); ?>에 대한 병원 정보 및 리뷰. 위치, 운영 상태, 의료 기관 유형, 연락처 등 상세 정보 제공.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://easehub.co.kr/hospital/detail/<?= esc($hospital['ID']); ?>">
-    <meta property="og:image" content="https://easehub.co.kr/hospital-project/public/img/logo.png">
+<!-- 메타태그 시작 -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Twitter Card for Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Ease Hub - <?= esc($hospital['BusinessName']); ?> 정보">
-    <meta name="twitter:description" content="<?= esc($hospital['BusinessName']); ?> 병원 정보 및 리뷰 확인">
-    <meta name="twitter:image" content="https://easehub.co.kr/hospital-project/public/img/logo.png">
+<title><?= $storeName ?> | <?= $districtText ?> 위치, 운영시간, 리뷰 - Ease Hub</title>
+
+
+<meta name="description" content="<?= $districtText ?>에 위치한 <?= $storeName ?>의 운영시간, 주소, 전화번호, 사용자 리뷰 정보를 확인해보세요.">
+<meta name="keywords" content="<?= $storeName ?>, 편의점, <?= $districtText ?> 편의점, 위치, 운영시간, 후기, 정보">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph -->
+<meta property="og:title" content="<?= $storeName ?> - <?= $districtText ?> 위치 정보 | Ease Hub">
+<meta property="og:description" content="<?= $districtText ?>에 위치한 <?= $storeName ?> 편의점의 지도, 운영시간, 전화번호, 리뷰를 제공합니다.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://easehub.co.kr/store/detail/<?= $storeId ?>">
+<meta property="og:image" content="https://easehub.co.kr/assets/img/convenience-default.jpg">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="<?= $storeName ?> - <?= $districtText ?> | Ease Hub">
+<meta name="twitter:description" content="<?= $storeName ?>의 위치, 운영시간, 리뷰 정보를 확인하세요.">
+<meta name="twitter:image" content="https://easehub.co.kr/assets/img/convenience-default.jpg">
 
     <!-- Naver 지도 API -->
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
+
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
-crossorigin="anonymous"></script>
-<script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
      crossorigin="anonymous"></script>
     <style>
-        /* 기본 스타일 */
-        body {
-            font-family: 'Helvetica Neue', sans-serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            color: #333333;
-        }
+/* ===== 기본 설정 ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-        /* 컨테이너 스타일 */
-        .container {
-            width: 80%;
-            max-width: 800px;
-        }
+html, body {
+  height: 100%;
+  font-family: 'Helvetica Neue', sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-        /* 모바일 화면에서 컨테이너 너비를 95%로 설정 */
-        @media (max-width: 768px) {
-            .container {
-                width: 95%;
-            }
-        }
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 20px;
+}
 
-        h1 {
-            text-align: center;
-            color: #007b83;
-            font-size: 2.2em;
-            margin-bottom: 20px;
-        }
+h1 {
+  font-size: 2.2em;
+  color: #007b83;
+  text-align: center;
+  margin-bottom: 30px;
+}
 
-        .hospital-details, .review-section, .nearby-facilities, .add-review-form {
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            background-color: #ffffff;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            margin-top: 20px;
-        }
+/* ===== 섹션 ===== */
+.section {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  padding: 25px;
+  margin-bottom: 25px;
+}
 
-        .card, .review {
-            padding: 20px;
-            margin-top: 10px;
-            border-bottom: 1px solid #ddd;
-        }
+.section h2 {
+  font-size: 1.4em;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+  color: #007b83;
+}
 
-        .card h2, .review h2 {
-            font-size: 1.3em;
-            color: #007b83;
-            margin-bottom: 10px;
-            padding-bottom: 5px;
-            border-bottom: 2px solid #ddd;
-        }
+.section p, .section li, .section td {
+  font-size: 1em;
+  line-height: 1.6;
+  margin: 6px 0;
+}
 
-        .card p, .review p {
-            margin: 8px 0;
-            line-height: 1.5;
-        }
+/* ===== 버튼 ===== */
+button, .btn {
+  background-color: #007b83;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1em;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
 
-        .review-rating {
-            color: #f39c12;
-            font-size: 1.2em;
-        }
+button:hover, .btn:hover {
+  background-color: #005f63;
+}
 
-        #map {
-            width: 100%;
-            height: 300px;
-            margin-top: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
+/* ===== 리뷰 ===== */
+.review-rating {
+  color: #f39c12;
+  font-size: 1.2em;
+}
 
-        .add-review-form input[type="text"],
-        .add-review-form select,
-        .add-review-form textarea {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 1em;
-            width: 98%;
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
+.review {
+  padding: 20px;
+  border-bottom: 1px solid #ddd;
+}
 
-        .add-review-form button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            background-color: #007b83;
-            color: #ffffff;
-            font-size: 1em;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
+.review:last-child {
+  border-bottom: none;
+}
 
-        .add-review-form button:hover {
-            background-color: #005f63;
-        }
+/* ===== 폼 ===== */
+.add-review-form input[type="text"],
+.add-review-form select,
+.add-review-form textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
 
-        /* Nearby facilities table */
-        .nearby-facilities table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+.add-review-form button {
+  width: 100%;
+}
 
-        .nearby-facilities th,
-        .nearby-facilities td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
+/* ===== 테이블 ===== */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
 
-        .nearby-facilities th {
-            background-color: #f0f0f0;
-            font-weight: bold;
-        }
+.table th,
+.table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
 
-        .nearby-facilities a {
-            color: #007b83;
-            text-decoration: none;
-            font-weight: bold;
-        }
+.table th {
+  background-color: #f0f0f0;
+  font-weight: bold;
+}
 
-        .nearby-facilities a:hover {
-            text-decoration: underline;
-        }
+.table a {
+  color: #007b83;
+  text-decoration: none;
+  font-weight: bold;
+}
 
-        /* Footer styling */
-        .footer {
-            text-align: center;
-            margin-top: 40px;
-            padding: 20px;
-            font-size: 0.9em;
-            color: #666;
-            border-top: 1px solid #ddd;
-            background-color: #f7f9fc;
-            border-radius: 8px;
-            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
-        }
+.table a:hover {
+  text-decoration: underline;
+}
 
-        .footer a {
-            color: #007b83;
-            text-decoration: none;
-        }
+/* ===== 지도 ===== */
+#map {
+  width: 100%;
+  height: 300px;
+  margin-top: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
 
-        .footer a:hover {
-            text-decoration: underline;
-        }
+/* ===== 푸터 ===== */
+.footer {
+  text-align: center;
+  margin-top: 40px;
+  padding: 20px;
+  font-size: 0.9em;
+  color: #666;
+  border-top: 1px solid #ddd;
+  background-color: #f7f9fc;
+  border-radius: 8px;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+}
 
-                /* Floating menu bar styles */
-                .menu-bar {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
+.footer a {
+  color: #007b83;
+  text-decoration: none;
+}
 
-        .menu-bar a {
-            text-decoration: none;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-size: 1.1em;
-            font-weight: bold;
-            transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
+.footer a:hover {
+  text-decoration: underline;
+}
 
-        .menu-bar a:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
-        }
+/* ===== 반응형 ===== */
+@media (max-width: 768px) {
+  .container {
+    width: 95%;
+  }
 
-        .menu-cu { background-color: #6c757d; }
-        .menu-all { background-color: #28a745; }
-        .menu-gs25 { background-color: #007bff; }
-        .menu-seven { background-color: #e74c3c; }
-        .menu-emart { background-color: #f1c40f; color: #333; }
-        .menu-cspace { background-color: #e67e22; }
-        .menu-recipe { background-color: #FFA07A; } /* 살몬 핑크 */
-        .menu-event { background-color: #FF4500; } /* 오렌지 레드 */
-        .menu-parking { background-color: #8A2BE2; } /* 오렌지 레드 */
-        .menu-accommodation { background-color: #17a2b8; }
-        .menu-festival { background-color: #17e2b8; }
+  h1 {
+    font-size: 1.8em;
+  }
 
-        @media (max-width: 768px) {
-            .menu-bar {
-                flex-wrap: wrap;
-                gap: 10px;
-            }
+  .section {
+    padding: 15px;
+  }
 
-            .menu-bar a {
-                font-size: 0.9em;
-                padding: 8px 15px;
-            }
-        }
+  .add-review-form button {
+    font-size: 1em;
+  }
+}
+
+
     </style>
 </head>
 <body>
+<?php
+    include APPPATH . 'Views/includes/header.php';
+  ?>
     <div class="container">
         <h1><?= esc($hospital['BusinessName']); ?></h1>
 
 
 <!-- Floating menu bar -->
-<div class="menu-bar">
-            <a href="/events" class="menu-all">전체</a>
-            <a href="/events/cu" class="menu-cu">CU</a>
-            <a href="/events/gs25" class="menu-gs25">GS25</a>
-            <a href="/events/7-ELEVEn" class="menu-seven">세븐일레븐</a>
-            <a href="/events/emart24" class="menu-emart">이마트24</a>
-            <a href="/recipes" class="menu-recipe">레시피</a>
-            <a href="/event" class="menu-event">이벤트</a>
-            <a href="/parking" class="menu-parking">카허브</a>
-            <a href="/hotel" class="menu-accommodation">숙박</a>
-        </div>
 
     <ins class="adsbygoogle"
      style="display:block"
@@ -368,12 +358,10 @@ crossorigin="anonymous"></script>
     </a>
 </div>
 
+<?= view_cell('\App\Cells\ExtraInfoCell::render') ?>
+  <?php include APPPATH . 'Views/includes/footer.php'; ?>
 
-        <div class="footer">
-            본 데이터는 <a href="https://www.data.go.kr" target="_blank">www.data.go.kr</a>에서 제공한 자료를 기반으로 하였습니다.<br>
-            이 웹 사이트는 영리 목적으로 만들어졌습니다.<br>
-            잘못된 정보는 <a href="mailto:gjqmaoslwj@naver.com">gjqmaoslwj@naver.com</a>으로 문의해 주세요.
-        </div>
+
     </div>
 
     <script>

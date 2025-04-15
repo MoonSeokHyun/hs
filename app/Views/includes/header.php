@@ -38,6 +38,7 @@
           <li><a href="/automobile_repair_shops">정비소</a></li>
           <li><a href="/gas_stations">주유소</a></li>
           <li><a href="/carwash">세차장</a></li>
+          <li><a href="/towed-vehicle-storage">견인보관소</a></li>
         </ul>
       </li>
 

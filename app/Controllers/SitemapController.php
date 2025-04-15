@@ -18,6 +18,7 @@ class SitemapController extends Controller
         $totalHotels = $sitemapModel->countAllHotels();
         $totalRepairShops = $sitemapModel->countAllRepairShops();
         $totalCarWashes = $sitemapModel->countAllCarWashes();  // 세차장 추가
+        $totalTowedVehicleStorages = $sitemapModel->countAllTowedVehicleStorages();  // 추가된 부분
 
         // 한 페이지에 10,000개 항목
         $itemsPerPage = 10000;
@@ -28,7 +29,8 @@ class SitemapController extends Controller
         $parkingLotPages = ceil($totalParkingLots / $itemsPerPage);
         $hotelPages = ceil($totalHotels / $itemsPerPage);
         $repairShopPages = ceil($totalRepairShops / $itemsPerPage);
-        $carWashPages = ceil($totalCarWashes / $itemsPerPage);  // 세차장 페이지 계산
+        $carWashPages = ceil($totalCarWashes / $itemsPerPage);
+        $towedVehicleStoragePages = ceil($totalTowedVehicleStorages / $itemsPerPage);  // 추가된 부분
 
         // XML 시작
         $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
@@ -41,6 +43,7 @@ class SitemapController extends Controller
         $xml .= $this->addSitemapEntries('hotel', $hotelPages);
         $xml .= $this->addSitemapEntries('repairshops', $repairShopPages);
         $xml .= $this->addSitemapEntries('carwashes', $carWashPages);  // 세차장 추가
+        $xml .= $this->addSitemapEntries('towedvehicle', $towedVehicleStoragePages);  // 추가된 부분
         $xml .= "</sitemapindex>";
 
         return $this->response
@@ -90,6 +93,12 @@ class SitemapController extends Controller
     {
         return $this->generateSitemap('getCarWashesForSitemap', 'carwash/detail', 'Data_Reference_Date', $pageNumber, 'daily', 0.8);
     }
+
+    public function towedvehicle($pageNumber)
+    {
+        return $this->generateSitemap('getTowedVehicleStoragesForSitemap', 'towed-vehicle-storage/detail', 'data_reference_date', $pageNumber, 'daily', 0.8);
+    }
+
 
     private function generateSitemap($method, $baseRoute, $dateField, $pageNumber, $changefreq, $priority)
     {

@@ -24,7 +24,6 @@
 
         h1 {
             text-align: center;
-            color: #007bff;
             margin-bottom: 20px;
             font-size: 2.5em;
         }

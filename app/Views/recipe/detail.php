@@ -6,183 +6,284 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
      crossorigin="anonymous"></script>
     <title><?= esc($recipe['title']) ?> - 편의점 레시피</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f8f9fa;
-            color: #333;
-        }
 
-        .container {
-            max-width: 900px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+        <style>
+    /* 기본 초기화 */
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+    }
+    html, body {
+      height: 100%;
+      font-family: "Arial", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background-color: #f7f8fa;
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+    ul, ol, li { list-style: none; }
+    table { border-collapse: collapse; border-spacing: 0; }
 
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 2.5em;
-        }
+    :root {
+      --main-color: #62D491;
+      --point-color: #3eaf7c;
+      --light-bg: #f7f8fa;
+      --card-bg: #fff;
+      --border-color: #ddd;
+      --text-color: #333;
+      --secondary-text: #666;
+    }
 
-        /* 완성 사진 스타일 */
-        .recipe-image {
-            width: 100%;
-            height: auto;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
+    body {
+      margin: 0;
+      color: var(--text-color);
+    }
 
-        /* 메뉴 스타일 */
-        .menu-bar {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-bottom: 30px;
-        }
+    /* 전체 섹션 레이아웃 */
+    main {
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px 16px;
+    }
 
-        .menu-bar a {
-            text-decoration: none;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-size: 1.1em;
-            font-weight: bold;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
+    /* (1) Hero Section */
+    .hero-section {
+      background: #fff;
+      border-radius: 8px;
+      padding: 2rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .hero-section h2 {
+      font-size: 24px;
+      margin-bottom: 1rem;
+    }
+    .hero-section p {
+      font-size: 16px;
+      color: #555;
+      line-height: 1.6;
+    }
 
-        .menu-cu { background-color: #6c757d; }
-        .menu-all { background-color: #28a745; }
-        .menu-gs25 { background-color: #007bff; }
-        .menu-seven { background-color: #e74c3c; }
-        .menu-emart { background-color: #f1c40f; color: #333; }
-        .menu-cspace { background-color: #e67e22; }
-        .menu-recipe { background-color: #FFA07A; } /* 살몬 핑크 */
-        .menu-event { background-color: #FF4500; } /* 오렌지 레드 */
-        .menu-parking { background-color: #8A2BE2; } /* 오렌지 레드 */
-        .menu-accommodation { background-color: #17a2b8; }
-        .menu-festival { background-color: #17e2b8; }
+    /* (2) 정비소 상세 Section */
+    .detail-section {
+      margin-bottom: 2rem;
+    }
+    .detail-card {
+      background: #fff;
+      border-left: 5px solid var(--main-color);
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      margin-bottom: 1.5rem;
+    }
+    .detail-header {
+      margin-bottom: 16px;
+    }
+    .facility-name {
+      font-size: 22px;
+      font-weight: bold;
+      color: #333;
+    }
+    .facility-type {
+      font-size: 16px;
+      color: #555;
+      margin: 5px 0;
+    }
+    .sub-info {
+      font-size: 14px;
+      color: #777;
+      margin-bottom: 10px;
+    }
+    .section-title {
+      font-size: 18px;
+      color: var(--main-color);
+      margin-bottom: 12px;
+    }
+    .info-table {
+      width: 100%;
+      border: 1px solid #ddd;
+      margin-top: 12px;
+    }
+    .info-table th,
+    .info-table td {
+      padding: 10px;
+      border: 1px solid #eee;
+      font-size: 14px;
+      vertical-align: top;
+    }
+    .info-table th {
+      background-color: #f0f8ff;
+      color: var(--point-color);
+      width: 120px;
+    }
 
-        .menu-bar a:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
-        }
+    .back-button {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 10px 15px;
+      background-color: var(--main-color);
+      color: #fff;
+      border-radius: 5px;
+      text-decoration: none;
+    }
+    .back-button:hover {
+      opacity: 0.9;
+    }
 
-        /* 재료 스타일 */
-        .ingredients {
-            margin-bottom: 30px;
-            padding: 15px;
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-        }
+    /* 지도 */
+    #map {
+      width: 100%;
+      height: 400px;
+      margin-top: 1rem;
+      border: 1px solid #007bff;
+      border-radius: 5px;
+    }
 
-        .ingredients h2 {
-            font-size: 1.8em;
-            color: #007bff;
-            margin-bottom: 10px;
-        }
+    /* (3) 주변 정비소 섹션 */
+    .nearby-section {
+      margin-bottom: 2rem;
+    }
+    .nearby-table {
+      width: 100%;
+      margin-top: 12px;
+      border: 1px solid #ddd;
+    }
+    .nearby-table th,
+    .nearby-table td {
+      padding: 10px;
+      border: 1px solid #eee;
+      font-size: 14px;
+    }
+    .nearby-table th {
+      background-color: #e6f7ff;
+      color: var(--point-color);
+    }
+    .nearby-table tr:hover {
+      background-color: #fafafa;
+      cursor: pointer;
+    }
 
-        .ingredients ul {
-            list-style: none;
-            padding: 0;
-        }
+    /* (4) 리뷰 섹션 */
+    .review-section {
+      margin-bottom: 2rem;
+    }
+    .review-box {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    .review-box h2 {
+      font-size: 18px;
+      color: var(--main-color);
+      margin-bottom: 12px;
+    }
+    .comment-form {
+      margin-bottom: 20px;
+    }
+    .rating-label {
+      margin-right: 8px;
+      font-size: 14px;
+    }
+    .star {
+      font-size: 1.2rem;
+      color: #ccc;
+      cursor: pointer;
+      margin-right: 2px;
+    }
+    .star.selected {
+      color: gold;
+    }
+    .comment-textarea {
+      width: 100%;
+      min-height: 70px;
+      margin-top: 8px;
+      margin-bottom: 8px;
+      padding: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      border-radius: 5px;
+      resize: vertical;
+    }
+    .submit-button {
+      background-color: var(--main-color);
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 15px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .submit-button:hover {
+      opacity: 0.9;
+    }
+    .review-box h3 {
+      font-size: 16px;
+      color: #333;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+    .comment-item {
+      border-bottom: 1px solid #eee;
+      padding: 8px 0;
+    }
+    .comment-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .comment-date {
+      font-size: 12px;
+      color: #999;
+    }
+    .comment-text {
+      font-size: 14px;
+      color: #444;
+    }
 
-        .ingredients li {
-            padding: 8px 0;
-            border-bottom: 1px solid #ddd;
-            font-size: 1em;
-            color: #555;
-        }
+    /* (6) 광고 배너 (예시) */
+    .ad-banner {
+      display: block;
+      margin: 20px auto;
+      text-align: center;
+    }
 
-        .ingredients li:last-child {
-            border-bottom: none;
-        }
+    /* ▼ 모바일 최적화: 화면이 600px 이하일 때 */
+    @media (max-width: 600px) {
+      /* ★ 헤더/푸터 관련 부분 제거 (header h1 등) ★ */
+      .facility-name {
+        font-size: 20px;
+      }
+      .facility-type {
+        font-size: 14px;
+      }
+      .info-table th,
+      .info-table td {
+        font-size: 13px;
+        padding: 8px;
+      }
+      .nearby-table th,
+      .nearby-table td {
+        font-size: 13px;
+        padding: 8px;
+      }
+      .comment-textarea {
+        font-size: 13px;
+      }
+      .menu-bar a {
+        margin: 0 5px;
+      }
+    }
 
-        /* 조리 과정 스타일 */
-        .cooking-steps {
-            margin-bottom: 30px;
-        }
+    /* ★ (5) 푸터 섹션 CSS 모두 제거됨 ★ */
 
-        .cooking-steps h2 {
-            font-size: 1.8em;
-            color: #007bff;
-            margin-bottom: 10px;
-        }
+  </style>
 
-        .step {
-            display: flex;
-            align-items: flex-start;
-            gap: 15px;
-            margin-bottom: 20px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            background-color: #f9f9f9;
-        }
-
-        .step img {
-            width: 120px;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 10px;
-        }
-
-        .step-content {
-            flex: 1;
-        }
-
-        .step-num {
-            font-size: 1.2em;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #333;
-        }
-
-        .step-desc {
-            font-size: 1em;
-            line-height: 1.5;
-            color: #555;
-        }
-
-        /* 모바일 대응 */
-        @media (max-width: 576px) {
-            .step {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .step img {
-                width: 100%;
-                height: auto;
-            }
-        }
-
-        /* 뒤로가기 버튼 */
-        .back-button {
-            display: block;
-            margin: 20px auto;
-            padding: 10px 20px;
-            text-align: center;
-            font-size: 1em;
-            font-weight: bold;
-            color: white;
-            background-color: #007bff;
-            border-radius: 5px;
-            text-decoration: none;
-            transition: background-color 0.3s;
-        }
-
-        .back-button:hover {
-            background-color: #0056b3;
-        }
-    </style>
 </head>
 <body>
 <?php include APPPATH . 'Views/includes/header.php'; ?>

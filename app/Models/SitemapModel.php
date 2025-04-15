@@ -106,4 +106,14 @@ class SitemapModel extends Model
     {
         return $this->countData('car_wash_info');
     }
+
+    public function getTowedVehicleStoragesForSitemap($limit, $offset)
+    {
+        return $this->getDataForSitemap('towed_vehicle_storage', 'id, data_reference_date', $limit, $offset);
+    }
+
+    public function countAllTowedVehicleStorages()
+    {
+        return $this->countData('towed_vehicle_storage');
+    }
 }
