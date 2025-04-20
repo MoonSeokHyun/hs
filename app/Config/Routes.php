@@ -115,3 +115,7 @@ $routes->get('towed-vehicle-storage/detail/(:num)', 'TowedVehicleStorageControll
 
 // sitemap/towedvehicle 페이지 처리
 $routes->get('sitemap/towedvehicle/(:num)', 'SitemapController::towedvehicle/$1');
+
+$routes->get('parking-facilities', 'ParkingFacilityController::index');
+$routes->get('parking-facilities/(:num)', 'ParkingFacilityController::detail/$1');
+$routes->get('sitemap/parkingfacilities/(:num)', 'SitemapController::parkingfacilities/$1');

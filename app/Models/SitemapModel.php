@@ -116,4 +116,28 @@ class SitemapModel extends Model
     {
         return $this->countData('towed_vehicle_storage');
     }
+    public function countAllParkingFacilities(): int
+    {
+        return $this->db
+                    ->table('parking_facility')
+                    ->countAllResults();
+    }
+
+    /**
+     * 공영주차장 사이트맵 데이터 반환
+     *
+     * @param int $limit
+     * @param int $offset
+     * @return array
+     */
+    public function getParkingFacilitiesForSitemap(int $limit, int $offset): array
+    {
+        return $this->db
+                    ->table('parking_facility')
+                    ->select('id, 데이터기준일자')
+                    ->orderBy('id', 'ASC')
+                    ->limit($limit, $offset)
+                    ->get()
+                    ->getResultArray();
+    }
 }

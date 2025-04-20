@@ -39,6 +39,7 @@
           <li><a href="/gas_stations">주유소</a></li>
           <li><a href="/carwash">세차장</a></li>
           <li><a href="/towed-vehicle-storage">견인보관소</a></li>
+          <li><a href="/parking-facilities">공영주차장</a></li>
         </ul>
       </li>
 
