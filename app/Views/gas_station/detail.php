@@ -334,7 +334,8 @@ crossorigin="anonymous"></script>
 
   <!-- Hero Section -->
   <section class="hero-section">
-    <h2>💡 주유소 정보</h2>
+  <h1>💡 <?= esc($station['gas_station_name']) ?> 주유소 정보</h1>
+
     <p>
       <?= esc($station['gas_station_name']) ?> 주유소의 최신 유가 정보와 주변 주유소 위치를 확인해보세요.
     </p>
@@ -351,7 +352,7 @@ crossorigin="anonymous"></script>
           <div class="sub-info">📍 <?= esc($station['road_address']) ?></div>
         </div>
 
-        <h3 class="section-title">유가 정보</h3>
+        <h2 class="section-title">유가 정보</h2>
         <table class="info-table">
           <tr>
             <th>가솔린</th>
@@ -381,7 +382,7 @@ crossorigin="anonymous"></script>
 
     <!-- (2) 주변 주유소 Section -->
     <section class="nearby-section">
-      <h3 class="section-title">주변 3km 이내 주유소</h3>
+      <h2 class="section-title">주변 3km 이내 주유소</h2>
       <table class="nearby-table">
         <thead>
           <tr>

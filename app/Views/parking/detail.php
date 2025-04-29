@@ -103,7 +103,7 @@ crossorigin="anonymous"></script>
 </script>
   <main>
     <section class="hero-section">
-      <h2>📍 <?= esc($parkingLot['name']); ?> 주차장</h2>
+      <h1>📍 <?= esc($parkingLot['name']); ?> 주차장</h1>
       <p><?= esc($parkingLot['address_road']); ?> 위치의 주차장 정보를 확인해보세요.</p>
     </section>
     <section class="detail-card">

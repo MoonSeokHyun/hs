@@ -135,7 +135,7 @@
 
         <div class="detail-container">
             <img src="<?= esc($event['image_url']) ?>" alt="<?= esc($event['title']) ?>" class="event-image">
-            <h2 class="event-title"><?= esc($event['title']) ?></h2>
+            <h1 class="event-title"><?= esc($event['title']) ?></h1>
 
             <div class="event-info">
                 <p><strong>기간:</strong> <?= esc($event['event_period']) ?></p>

@@ -87,7 +87,7 @@ crossorigin="anonymous"></script>
 <?php include APPPATH . 'Views/includes/header.php'; ?>
 <main>
   <section class="hero-section">
-    <h2>🏨 <?= esc($hotel['business_name']); ?> 숙소 정보</h2>
+    <h1>🏨 <?= esc($hotel['business_name']); ?> 숙소 정보</h1>
     <p><?= esc($hotel['site_full_address']); ?> 위치의 숙박 정보입니다.</p>
   </section>
   <section class="detail-card">

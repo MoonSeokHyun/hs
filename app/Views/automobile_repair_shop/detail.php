@@ -364,7 +364,7 @@ crossorigin="anonymous"></script>
 
   <!-- Hero Section -->
   <section class="hero-section">
-    <h2>💡 누구나 쉽게 접근 가능한 편잇데이터</h2>
+    <h1>💡 누구나 쉽게 접근 가능한 <?= esc($repair_shop['repair_shop_name'] ?? '업체명'); ?> 정보!</h1>
     <p>
       원하는 정보를 빠르게 찾고 자유롭게 활용해보세요.
     </p>

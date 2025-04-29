@@ -3,7 +3,7 @@
 <div id="header-wrapper">
   <!-- 사이트 타이틀 -->
   <header>
-    <h1>편잇</h1>
+    <h2>편잇</h2>
     <p>대한민국 편의시설 통합 플랫폼</p>
   </header>
 
