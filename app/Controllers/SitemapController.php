@@ -81,7 +81,7 @@ class SitemapController extends Controller
     {
         return $this->generateSitemap(
             'getGasStationsForSitemap',
-            'gasstation/detail',
+            'gas_stations',
             'data_reference_date',
             $pageNumber,
             'daily',
@@ -93,7 +93,7 @@ class SitemapController extends Controller
     {
         return $this->generateSitemap(
             'getParkingLotsForSitemap',
-            'parkinglot/detail',
+            'parking/detail',
             'data_reference_date',
             $pageNumber,
             'daily',
@@ -117,7 +117,7 @@ class SitemapController extends Controller
     {
         return $this->generateSitemap(
             'getRepairShopsForSitemap',
-            'automobile_repair_shop/detail',
+            'automobile_repair_shop',
             'data_reference_date',
             $pageNumber,
             'daily',
@@ -129,7 +129,7 @@ class SitemapController extends Controller
     {
         return $this->generateSitemap(
             'getCarWashesForSitemap',
-            'carwash/detail',
+            'carwash/details',
             'Data_Reference_Date',
             $pageNumber,
             'daily',
