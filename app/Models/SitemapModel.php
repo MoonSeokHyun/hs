@@ -46,7 +46,6 @@ class SitemapModel extends Model
 
     public function getStoresForSitemap(int $limit, int $offset): array
     {
-        // 단순히 id 조회
         return $this->getDataForSitemap('store_info', 'id', $limit, $offset);
     }
 
@@ -152,5 +151,18 @@ class SitemapModel extends Model
     public function getHotelsForSitemap(int $limit, int $offset): array
     {
         return $this->getDataForSitemap('hotel', 'id, last_update_time', $limit, $offset);
+    }
+
+    /**
+     * 전기차 충전소 데이터 관련 메서드
+     */
+    public function countAllEvStations(): int
+    {
+        return $this->countData('ev_stations');
+    }
+
+    public function getEvStationsForSitemap(int $limit, int $offset): array
+    {
+        return $this->getDataForSitemap('ev_stations', 'id', $limit, $offset);
     }
 }

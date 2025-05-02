@@ -41,6 +41,7 @@
           <li><a href="/towed-vehicle-storage">견인보관소</a></li>
           <li><a href="/parking-facilities">공영주차장</a></li>
           <li><a href="/stores">타이어판매소</a></li>
+          <li><a href="/ev-stations">전기차 충전소</a></li>
         </ul>
       </li>
 

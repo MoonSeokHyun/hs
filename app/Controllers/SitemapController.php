@@ -11,18 +11,17 @@ class SitemapController extends Controller
     {
         $sitemapModel = new SitemapModel();
 
-
         // 데이터 총 개수
-        $totalEvents                = $sitemapModel->countAllEvents();
-        $totalGasStations           = $sitemapModel->countAllGasStations();
-        $totalParkingLots           = $sitemapModel->countAllParkingLots();
-        $totalHotels                = $sitemapModel->countAllHotels();
-        $totalRepairShops           = $sitemapModel->countAllRepairShops();
-        $totalCarWashes             = $sitemapModel->countAllCarWashes();
-        $totalTowedVehicleStorages  = $sitemapModel->countAllTowedVehicleStorages();
-        $totalParkingFacilities     = $sitemapModel->countAllParkingFacilities(); // 공영주차장
-        $totalStores    = $sitemapModel->countAllStores();
-
+        $totalEvents               = $sitemapModel->countAllEvents();
+        $totalGasStations          = $sitemapModel->countAllGasStations();
+        $totalParkingLots          = $sitemapModel->countAllParkingLots();
+        $totalHotels               = $sitemapModel->countAllHotels();
+        $totalRepairShops          = $sitemapModel->countAllRepairShops();
+        $totalCarWashes            = $sitemapModel->countAllCarWashes();
+        $totalTowedVehicleStorages = $sitemapModel->countAllTowedVehicleStorages();
+        $totalParkingFacilities    = $sitemapModel->countAllParkingFacilities(); // 공영주차장
+        $totalStores               = $sitemapModel->countAllStores();
+        $totalEvStations           = $sitemapModel->countAllEvStations(); // 전기차 충전소
 
         $itemsPerPage = 10000;
 
@@ -35,20 +34,23 @@ class SitemapController extends Controller
         $carWashPages             = ceil($totalCarWashes             / $itemsPerPage);
         $towedVehicleStoragePages = ceil($totalTowedVehicleStorages / $itemsPerPage);
         $parkingFacilityPages     = ceil($totalParkingFacilities     / $itemsPerPage); // 공영주차장
-        $storePages     = ceil($totalStores / $itemsPerPage);
+        $storePages               = ceil($totalStores               / $itemsPerPage);
+        $evStationPages           = ceil($totalEvStations           / $itemsPerPage); // 전기차 충전소
+
         // XML 시작
         $xml  = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
         $xml .= "<sitemapindex xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
 
-        $xml .= $this->addSitemapEntries('events',          $eventPages);
-        $xml .= $this->addSitemapEntries('gasstations',     $gasStationPages);
-        $xml .= $this->addSitemapEntries('parkinglots',     $parkingLotPages);
-        $xml .= $this->addSitemapEntries('hotel',           $hotelPages);
-        $xml .= $this->addSitemapEntries('repairshops',     $repairShopPages);
-        $xml .= $this->addSitemapEntries('carwashes',       $carWashPages);
-        $xml .= $this->addSitemapEntries('towedvehicle',    $towedVehicleStoragePages);
-        $xml .= $this->addSitemapEntries('parkingfacilities',$parkingFacilityPages); // 공영주차장
-        $xml .= $this->addSitemapEntries('stores', $storePages);
+        $xml .= $this->addSitemapEntries('events',            $eventPages);
+        $xml .= $this->addSitemapEntries('gasstations',       $gasStationPages);
+        $xml .= $this->addSitemapEntries('parkinglots',       $parkingLotPages);
+        $xml .= $this->addSitemapEntries('hotel',             $hotelPages);
+        $xml .= $this->addSitemapEntries('repairshops',       $repairShopPages);
+        $xml .= $this->addSitemapEntries('carwashes',         $carWashPages);
+        $xml .= $this->addSitemapEntries('towedvehicle',      $towedVehicleStoragePages);
+        $xml .= $this->addSitemapEntries('parkingfacilities', $parkingFacilityPages); // 공영주차장
+        $xml .= $this->addSitemapEntries('stores',            $storePages);
+        $xml .= $this->addSitemapEntries('evstations',        $evStationPages); // 전기차 충전소
         $xml .= "</sitemapindex>";
 
         return $this->response
@@ -152,7 +154,6 @@ class SitemapController extends Controller
         );
     }
 
-    // **공영주차장 엔드포인트**
     public function parkingfacilities(int $pageNumber)
     {
         return $this->generateSitemap(
@@ -166,16 +167,29 @@ class SitemapController extends Controller
     }
 
     public function stores(int $pageNumber)
-{
-    return $this->generateSitemap(
-        'getStoresForSitemap',   // SitemapModel 에 구현된 메소드
-        'stores',                // URL prefix
-        'updated_at',            // 모델의 날짜 필드명 (필요 시 수정)
-        $pageNumber,
-        'daily',
-        '0.8'
-    );
-}
+    {
+        return $this->generateSitemap(
+            'getStoresForSitemap',
+            'stores',
+            'updated_at',
+            $pageNumber,
+            'daily',
+            '0.8'
+        );
+    }
+
+    // 전기차 충전소 엔드포인트
+    public function evstations(int $pageNumber)
+    {
+        return $this->generateSitemap(
+            'getEvStationsForSitemap', // SitemapModel 메서드
+            'ev-stations',             // 라우트 prefix
+            '',                        // 날짜 필드 없음, fallback to today
+            $pageNumber,
+            'daily',
+            '0.7'
+        );
+    }
 
     private function generateSitemap(
         string $method,

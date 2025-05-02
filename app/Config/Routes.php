@@ -123,3 +123,7 @@ $routes->get('sitemap/parkingfacilities/(:num)', 'SitemapController::parkingfaci
 $routes->get('stores', 'StoreInfoController::index');
 $routes->get('stores/(:num)', 'StoreInfoController::detail/$1');
 $routes->get('sitemap/stores/(:num)', 'SitemapController::stores/$1');
+
+$routes->get('ev-stations',      'EvStations::index');
+$routes->get('ev-stations/(:num)','EvStations::detail/$1');
+$routes->get('sitemap/evstations/(:num)', 'SitemapController::evstations/$1');
