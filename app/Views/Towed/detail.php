@@ -251,7 +251,15 @@ main {
   <script>
     (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
-
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6686738239613464"
+     data-ad-slot="1204098626"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
   <!-- Hero Section -->
   <section class="hero-section">
     <h1>💡 누구나 쉽게 접근 가능한 편리한 견인차 보관소</h1>
@@ -270,7 +278,15 @@ main {
           <div class="facility-type"><?= esc($storage['management_organization_name']); ?> 관리 보관소</div>
           <div class="sub-info">📍 <?= esc($storage['address_road_name']); ?></div>
         </div>
-
+        <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6686738239613464"
+     data-ad-slot="1204098626"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
         <h3 class="section-title">보관소 기본 정보</h3>
         <table class="info-table">
           <tr>
@@ -312,7 +328,15 @@ main {
         <div id="map"></div>
       </div>
     </section>
-
+    <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6686738239613464"
+     data-ad-slot="1204098626"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
     <!-- (2) 주변 보관소 Section -->
     <section class="nearby-section">
       <h3 class="section-title">1km 이내 견인차 보관소</h3>

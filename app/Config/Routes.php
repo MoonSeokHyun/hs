@@ -119,3 +119,7 @@ $routes->get('sitemap/towedvehicle/(:num)', 'SitemapController::towedvehicle/$1'
 $routes->get('parking-facilities', 'ParkingFacilityController::index');
 $routes->get('parking-facilities/(:num)', 'ParkingFacilityController::detail/$1');
 $routes->get('sitemap/parkingfacilities/(:num)', 'SitemapController::parkingfacilities/$1');
+
+$routes->get('stores', 'StoreInfoController::index');
+$routes->get('stores/(:num)', 'StoreInfoController::detail/$1');
+$routes->get('sitemap/stores/(:num)', 'SitemapController::stores/$1');

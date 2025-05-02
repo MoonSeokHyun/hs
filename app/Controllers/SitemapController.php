@@ -11,6 +11,7 @@ class SitemapController extends Controller
     {
         $sitemapModel = new SitemapModel();
 
+
         // 데이터 총 개수
         $totalEvents                = $sitemapModel->countAllEvents();
         $totalGasStations           = $sitemapModel->countAllGasStations();
@@ -20,6 +21,8 @@ class SitemapController extends Controller
         $totalCarWashes             = $sitemapModel->countAllCarWashes();
         $totalTowedVehicleStorages  = $sitemapModel->countAllTowedVehicleStorages();
         $totalParkingFacilities     = $sitemapModel->countAllParkingFacilities(); // 공영주차장
+        $totalStores    = $sitemapModel->countAllStores();
+
 
         $itemsPerPage = 10000;
 
@@ -32,7 +35,7 @@ class SitemapController extends Controller
         $carWashPages             = ceil($totalCarWashes             / $itemsPerPage);
         $towedVehicleStoragePages = ceil($totalTowedVehicleStorages / $itemsPerPage);
         $parkingFacilityPages     = ceil($totalParkingFacilities     / $itemsPerPage); // 공영주차장
-
+        $storePages     = ceil($totalStores / $itemsPerPage);
         // XML 시작
         $xml  = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
         $xml .= "<sitemapindex xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
@@ -45,7 +48,7 @@ class SitemapController extends Controller
         $xml .= $this->addSitemapEntries('carwashes',       $carWashPages);
         $xml .= $this->addSitemapEntries('towedvehicle',    $towedVehicleStoragePages);
         $xml .= $this->addSitemapEntries('parkingfacilities',$parkingFacilityPages); // 공영주차장
-
+        $xml .= $this->addSitemapEntries('stores', $storePages);
         $xml .= "</sitemapindex>";
 
         return $this->response
@@ -161,6 +164,18 @@ class SitemapController extends Controller
             '0.8'
         );
     }
+
+    public function stores(int $pageNumber)
+{
+    return $this->generateSitemap(
+        'getStoresForSitemap',   // SitemapModel 에 구현된 메소드
+        'stores',                // URL prefix
+        'updated_at',            // 모델의 날짜 필드명 (필요 시 수정)
+        $pageNumber,
+        'daily',
+        '0.8'
+    );
+}
 
     private function generateSitemap(
         string $method,
