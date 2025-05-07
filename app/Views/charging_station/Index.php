@@ -134,7 +134,7 @@
     <div class="card" onclick="window.location='<?= site_url('station/detail/' . $station['id']) ?>'">
         <h3><?= esc($station['Company']) ?> 🔌</h3>
         <p>주소: <?= esc($station['FullAddress']) ?> 🏠</p>
-        <p>가용 충전기: <?= esc($station['Service']) ?> </p>
+        <p>주요 충전기: <?= esc($station['Service']) ?> </p>
     </div>
     <?php endforeach; ?>
 </div>
