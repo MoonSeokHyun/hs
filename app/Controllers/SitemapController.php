@@ -22,6 +22,7 @@ class SitemapController extends Controller
         $totalParkingFacilities    = $sitemapModel->countAllParkingFacilities(); // 공영주차장
         $totalStores               = $sitemapModel->countAllStores();
         $totalEvStations           = $sitemapModel->countAllEvStations(); // 전기차 충전소
+        $totalChargingStations     = $sitemapModel->countAllChargingStations(); // 추가된 charging_stations
 
         $itemsPerPage = 10000;
 
@@ -36,6 +37,7 @@ class SitemapController extends Controller
         $parkingFacilityPages     = ceil($totalParkingFacilities     / $itemsPerPage); // 공영주차장
         $storePages               = ceil($totalStores               / $itemsPerPage);
         $evStationPages           = ceil($totalEvStations           / $itemsPerPage); // 전기차 충전소
+        $chargingStationPages     = ceil($totalChargingStations     / $itemsPerPage); // charging_stations
 
         // XML 시작
         $xml  = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
@@ -51,6 +53,7 @@ class SitemapController extends Controller
         $xml .= $this->addSitemapEntries('parkingfacilities', $parkingFacilityPages); // 공영주차장
         $xml .= $this->addSitemapEntries('stores',            $storePages);
         $xml .= $this->addSitemapEntries('evstations',        $evStationPages); // 전기차 충전소
+        $xml .= $this->addSitemapEntries('chargingstations',  $chargingStationPages); // charging_stations
         $xml .= "</sitemapindex>";
 
         return $this->response
@@ -185,6 +188,19 @@ class SitemapController extends Controller
             'getEvStationsForSitemap', // SitemapModel 메서드
             'ev-stations',             // 라우트 prefix
             '',                        // 날짜 필드 없음, fallback to today
+            $pageNumber,
+            'daily',
+            '0.7'
+        );
+    }
+
+    // charging_stations 엔드포인트 추가
+    public function chargingstations(int $pageNumber)
+    {
+        return $this->generateSitemap(
+            'getChargingStationsForSitemap', // SitemapModel 메서드
+            'station/detail',                     // 라우트 prefix
+            '',                                      // 날짜 필드 없음, fallback to today
             $pageNumber,
             'daily',
             '0.7'

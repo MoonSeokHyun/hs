@@ -127,3 +127,7 @@ $routes->get('sitemap/stores/(:num)', 'SitemapController::stores/$1');
 $routes->get('ev-stations',      'EvStations::index');
 $routes->get('ev-stations/(:num)','EvStations::detail/$1');
 $routes->get('sitemap/evstations/(:num)', 'SitemapController::evstations/$1');
+
+$routes->get('station', 'StationController::index');
+$routes->get('station/detail/(:num)', 'StationController::detail/$1');
+$routes->get('sitemap/chargingstations/(:num)', 'SitemapController::chargingstations/$1');
