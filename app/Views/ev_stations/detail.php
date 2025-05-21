@@ -41,7 +41,8 @@ $seoKeywords    = esc("{$district} 전기차 충전소, {$facilityName}, 충전�
   <meta name="twitter:description" content="<?= $seoDescription ?>" />
 
   <script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
-
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
+crossorigin="anonymous"></script>
   <style>
     body { background: #f5f5f5; font-family: 'Noto Sans KR', sans-serif; color: #333; margin:0; padding:0; }
     a { color:#0078ff; text-decoration:none; }

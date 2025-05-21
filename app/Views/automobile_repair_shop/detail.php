@@ -34,9 +34,10 @@ $district_name = isset($matches[0]) ? $matches[0] : '정비소';
   <meta name="twitter:description" content="정비소 상세정보를 확인해보세요.">
   <meta name="twitter:image" content="/static/images/og-default.jpg">
  
+  <script async src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra" type="text/javascript"></script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
 crossorigin="anonymous"></script>
-<script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
+
 </head>
 <!-- 구글 애드센스 -->
 
@@ -337,10 +338,45 @@ crossorigin="anonymous"></script>
     }
 
     /* ★ (5) 푸터 섹션 CSS 모두 제거됨 ★ */
+  /* 별점 스타일 */
+  .star {
+    font-size: 2rem;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
 
+  .star.selected {
+    color: gold;
+  }
+
+  .star.hover {
+    color: #fa0;
+  }
+
+  /* 클릭 시 별색 변경 */
+  .comment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .submit-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .submit-button:hover {
+    background-color: #0056b3;
+  }
   </style>
 
   <!-- (선택) 구글 애드센스 등 스크립트 -->
+
 </head>
 <body>
 
@@ -531,94 +567,6 @@ crossorigin="anonymous"></script>
   </div>
 </section>
 
-<script>
-  // 별점 클릭 이벤트
-  document.querySelectorAll('#star-rating .star').forEach(star => {
-    star.addEventListener('mouseover', function() {
-      // 마우스 오버 시 선택한 별까지 색상 변경
-      const value = parseInt(this.getAttribute('data-value'));
-      document.querySelectorAll('#star-rating .star').forEach((s, index) => {
-        if (index < value) {
-          s.classList.add('hover');
-        } else {
-          s.classList.remove('hover');
-        }
-      });
-    });
-
-    star.addEventListener('click', function() {
-      // 클릭 시 선택된 별까지 색상 변경
-      const value = parseInt(this.getAttribute('data-value'));
-      document.getElementById('rating-value').value = value;  // hidden input에 점수 저장
-
-      // 색상 변경: 선택된 별까지 yellow로 채우기
-      document.querySelectorAll('#star-rating .star').forEach((s, index) => {
-        if (index < value) {
-          s.classList.add('selected');
-        } else {
-          s.classList.remove('selected');
-        }
-      });
-    });
-
-    star.addEventListener('mouseout', function() {
-      // 마우스 아웃 시 hover 클래스 제거
-      document.querySelectorAll('#star-rating .star').forEach(s => {
-        s.classList.remove('hover');
-      });
-    });
-  });
-
-  // 폼 유효성 검사
-  function validateForm() {
-    const ratingValue = document.getElementById('rating-value').value;
-    const commentText = document.getElementById('comment-text').value.trim();
-    if (!ratingValue || !commentText) {
-      alert("평점과 리뷰 내용을 입력해주세요!");
-      return false;
-    }
-    return true;
-  }
-</script>
-
-<style>
-  /* 별점 스타일 */
-  .star {
-    font-size: 2rem;
-    color: #ccc;
-    cursor: pointer;
-    transition: color 0.3s ease;
-  }
-
-  .star.selected {
-    color: gold;
-  }
-
-  .star.hover {
-    color: #fa0;
-  }
-
-  /* 클릭 시 별색 변경 */
-  .comment-form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .submit-button {
-    background-color: #007bff;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-
-  .submit-button:hover {
-    background-color: #0056b3;
-  }
-</style>
-
 
     <!-- (추가) 카드 섹션 예시 -->
     <section>
@@ -733,5 +681,54 @@ crossorigin="anonymous"></script>
     }
   </script>
 
+<script>
+  // 별점 클릭 이벤트
+  document.querySelectorAll('#star-rating .star').forEach(star => {
+    star.addEventListener('mouseover', function() {
+      // 마우스 오버 시 선택한 별까지 색상 변경
+      const value = parseInt(this.getAttribute('data-value'));
+      document.querySelectorAll('#star-rating .star').forEach((s, index) => {
+        if (index < value) {
+          s.classList.add('hover');
+        } else {
+          s.classList.remove('hover');
+        }
+      });
+    });
+
+    star.addEventListener('click', function() {
+      // 클릭 시 선택된 별까지 색상 변경
+      const value = parseInt(this.getAttribute('data-value'));
+      document.getElementById('rating-value').value = value;  // hidden input에 점수 저장
+
+      // 색상 변경: 선택된 별까지 yellow로 채우기
+      document.querySelectorAll('#star-rating .star').forEach((s, index) => {
+        if (index < value) {
+          s.classList.add('selected');
+        } else {
+          s.classList.remove('selected');
+        }
+      });
+    });
+
+    star.addEventListener('mouseout', function() {
+      // 마우스 아웃 시 hover 클래스 제거
+      document.querySelectorAll('#star-rating .star').forEach(s => {
+        s.classList.remove('hover');
+      });
+    });
+  });
+
+  // 폼 유효성 검사
+  function validateForm() {
+    const ratingValue = document.getElementById('rating-value').value;
+    const commentText = document.getElementById('comment-text').value.trim();
+    if (!ratingValue || !commentText) {
+      alert("평점과 리뷰 내용을 입력해주세요!");
+      return false;
+    }
+    return true;
+  }
+</script>
 </body>
 </html>
