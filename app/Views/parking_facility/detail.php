@@ -63,6 +63,9 @@ $keywordsSeo = implode(',', [$district, '공영주차장', $facility['FCLTY_NM']
   <meta name="twitter:description" content="<?= $descSeo ?>" />
   <meta name="robots" content="index,follow" />
   <script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
+  crossorigin="anonymous"></script>
+  
   <style>
     body{background:#f5f5f5;font-family:'Noto Sans KR',sans-serif;margin:0;padding:0;color:#333}
     .container{max-width:900px;margin:2rem auto;padding:0 1rem}

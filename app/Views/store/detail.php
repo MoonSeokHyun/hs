@@ -31,6 +31,9 @@ $district = $m[0] ?? '지역';
     a.tip-link{color:#3eaf7c;text-decoration:none;font-size:0.95rem}
     a.tip-link:hover{text-decoration:underline}
   </style>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
+crossorigin="anonymous"></script>
 </head>
 <body>
   <?php include APPPATH . 'Views/includes/header.php'; ?>
