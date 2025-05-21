@@ -90,9 +90,6 @@
         <?php foreach ($events as $event): ?>
           <li>
             <a href="/events/detail/<?= esc($event['id']); ?>">
-              <?php if (!empty($event['image'])): ?>
-                <img src="<?= esc($event['image']); ?>" alt="<?= esc($event['name']); ?>">
-              <?php endif; ?>
               <strong><?= esc($event['name']); ?></strong>
               <p>이벤트 유형: <?= esc($event['type']); ?></p>
               <p>브랜드: <?= esc($event['brand']); ?></p>

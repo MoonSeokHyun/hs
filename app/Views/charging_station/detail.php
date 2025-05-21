@@ -62,7 +62,7 @@ $seoKeywords    = esc("{$fullAddress} 가스충전소, {$company}, {$facilityNam
   <?php include APPPATH . 'Views/includes/header.php'; ?>
 
   <div class="container">
-    <h1 class="content-title"><?= esc($station['Company']) ?></h1>
+    <h1 class="content-title"><?= esc($station['Company']) ?> LPG 충전소</h1>
     <div class="breadcrumb">
       <a href="<?= site_url() ?>">홈</a> &gt;
       <a href="<?= site_url('station') ?>">가스충전소 목록</a> &gt;
