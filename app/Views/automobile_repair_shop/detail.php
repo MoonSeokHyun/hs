@@ -629,6 +629,16 @@ crossorigin="anonymous"></script>
       </div>
     </section>
     -->
+
+    <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6686738239613464"
+     data-ad-slot="1204098626"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
     <!-- (4) 엔진오일 관리법 Section -->
 <section class="maintenance-section">
   <h3 class="section-title">🚗 엔진오일 관리법</h3>
