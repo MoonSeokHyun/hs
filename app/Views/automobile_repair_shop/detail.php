@@ -28,15 +28,16 @@ $district_name = isset($matches[0]) ? $matches[0] : '정비소';
   <meta property="og:url" content="<?= current_url() ?>">
   <meta property="og:image" content="/static/images/og-default.jpg">
 
-  <!-- Twitter Card -->
+  
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="<?= esc($repair_shop['repair_shop_name'] ?? '') ?>">
   <meta name="twitter:description" content="정비소 상세정보를 확인해보세요.">
   <meta name="twitter:image" content="/static/images/og-default.jpg">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
 crossorigin="anonymous"></script>
+<!-- Twitter Card 
 <script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
-
+-->
 </head>
 <!-- 구글 애드센스 -->
 
@@ -372,6 +373,97 @@ crossorigin="anonymous"></script>
   .submit-button:hover {
     background-color: #0056b3;
   }
+
+  /* 공통 섹션 스타일 */
+.maintenance-section {
+  margin-bottom: 2rem;
+}
+
+.maintenance-card {
+  background: #fff;
+  border-left: 5px solid var(--main-color);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.maintenance-card h4 {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.maintenance-card p {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.section-title {
+  font-size: 22px;
+  color: var(--main-color);
+  margin-bottom: 15px;
+  font-weight: bold;
+  text-align: left;
+}
+
+/* (4) 엔진오일 관리법 Section */
+.maintenance-section .maintenance-card {
+  border-left: 5px solid #62D491; /* 엔진오일 섹션에 초록색 강조 */
+}
+
+.maintenance-section .maintenance-card h4 {
+  font-size: 18px;
+  color: #3eaf7c; /* 엔진오일 관련 제목 색상 */
+}
+
+.maintenance-section .maintenance-card p {
+  color: #444;
+}
+
+/* (5) 타이어 관리법 Section */
+.maintenance-section .maintenance-card {
+  border-left: 5px solid #3eaf7c; /* 타이어 섹션에 푸른색 강조 */
+}
+
+.maintenance-section .maintenance-card h4 {
+  font-size: 18px;
+  color: #007bff; /* 타이어 관련 제목 색상 */
+}
+
+.maintenance-section .maintenance-card p {
+  color: #444;
+}
+
+/* (6) 자동차 배터리 관리법 Section */
+.maintenance-section .maintenance-card {
+  border-left: 5px solid #f39c12; /* 배터리 섹션에 주황색 강조 */
+}
+
+.maintenance-section .maintenance-card h4 {
+  font-size: 18px;
+  color: #f39c12; /* 배터리 관련 제목 색상 */
+}
+
+.maintenance-section .maintenance-card p {
+  color: #444;
+}
+
+/* (7) 브레이크 시스템 관리법 Section */
+.maintenance-section .maintenance-card {
+  border-left: 5px solid #e74c3c; /* 브레이크 섹션에 빨간색 강조 */
+}
+
+.maintenance-section .maintenance-card h4 {
+  font-size: 18px;
+  color: #e74c3c; /* 브레이크 관련 제목 색상 */
+}
+
+.maintenance-section .maintenance-card p {
+  color: #444;
+}
+
   </style>
 
   <!-- (선택) 구글 애드센스 등 스크립트 -->
@@ -399,9 +491,12 @@ crossorigin="anonymous"></script>
 
   <!-- Hero Section -->
   <section class="hero-section">
-    <h1>💡 누구나 쉽게 접근 가능한 <?= esc($repair_shop['repair_shop_name'] ?? '업체명'); ?> 정보!</h1>
+    <h1>💡 누구나 쉽게 접근 가능한 <?= esc($repair_shop['repair_shop_name'] ?? '업체명'); ?> 정보! </h1>
     <p>
       원하는 정보를 빠르게 찾고 자유롭게 활용해보세요.
+    </p>
+    <p>
+    <span style="font-size:14px;">(평균 평점: <?= round($averageRating ?? 0, 1); ?>)</span>
     </p>
   </section>
 
@@ -470,49 +565,8 @@ crossorigin="anonymous"></script>
 <script>
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
-        <!-- 목록으로 돌아가기 버튼 -->
-        <a href="<?= site_url('/automobile_repair_shops') ?>" class="back-button">
-          목록으로 돌아가기
-        </a>
-
-        <!-- 지도 -->
-        <div id="map"></div>
-      </div>
-    </section>
-
-    <!-- (2) 주변 정비소 Section -->
-    <section class="nearby-section">
-      <h3 class="section-title">1km 이내 정비소 정보</h3>
-      <table class="nearby-table">
-        <thead>
-          <tr>
-            <th>정비소명</th>
-            <th>주소</th>
-            <th>전화번호</th>
-            <th>거리 (km)</th>
-          </tr>
-        </thead>
-        <tbody>
-        <?php if (empty($nearby_shops)) : ?>
-          <tr>
-            <td colspan="4">근처 정비소 정보가 없습니다.</td>
-          </tr>
-        <?php else : 
-          $limitShops = array_slice($nearby_shops, 0, 5);
-          foreach ($limitShops as $shop) : ?>
-            <tr onclick="window.location.href='/automobile_repair_shop/<?= esc($shop['id']) ?>'">
-              <td><?= esc($shop['repair_shop_name'] ?? ''); ?></td>
-              <td><?= esc($shop['road_address'] ?? ''); ?></td>
-              <td><?= esc($shop['phone_number'] ?? ''); ?></td>
-              <td><?= round($shop['distance'] ?? 0, 1); ?> km</td>
-            </tr>
-          <?php endforeach; ?>
-        <?php endif; ?>
-        </tbody>
-      </table>
-    </section>
-   <!-- (3) 리뷰 섹션 -->
-   <section class="review-section">
+  <!-- (3) 리뷰 섹션 -->
+  <section class="review-section">
   <div class="review-box">
     <h2>리뷰 남기기 <span style="font-size:14px;">(평균 평점: <?= round($averageRating ?? 0, 1); ?>)</span></h2>
     <form action="/automobile_repair_shop/saveReview" method="post" class="comment-form" onsubmit="return validateForm()">
@@ -565,6 +619,101 @@ crossorigin="anonymous"></script>
     <?php endif; ?>
   </div>
 </section>
+        <!-- 목록으로 돌아가기 버튼 -->
+        <a href="<?= site_url('/automobile_repair_shops') ?>" class="back-button">
+          목록으로 돌아가기
+        </a>
+
+        <!-- 지도 
+        <div id="map"></div>
+      </div>
+    </section>
+    -->
+    <!-- (4) 엔진오일 관리법 Section -->
+<section class="maintenance-section">
+  <h3 class="section-title">🚗 엔진오일 관리법</h3>
+  <div class="maintenance-card">
+    <h4>1. 엔진오일 교체 주기</h4>
+    <p>엔진오일은 자동차의 엔진을 보호하고 원활하게 작동하도록 돕습니다. 교체 주기는 대체로 5,000km ~ 10,000km마다 교체하는 것이 좋습니다.</p>
+    <h4>2. 엔진오일 종류</h4>
+    <p>엔진오일에는 여러 종류가 있습니다. 합성오일, 반합성오일, 미네랄오일이 있으며, 자동차 제조사에서 추천하는 오일 종류를 사용하는 것이 중요합니다.</p>
+    <h4>3. 오일 점검 방법</h4>
+    <p>오일 상태를 점검하려면 엔진을 끄고 오일 측정봉을 뽑아 점검합니다. 오일이 부족하면 추가해주고, 변색되었거나 오염된 오일은 교체해줘야 합니다.</p>
+  </div>
+</section>
+
+<!-- (5) 타이어 관리법 Section -->
+<section class="maintenance-section">
+  <h3 class="section-title">🚙 타이어 관리법</h3>
+  <div class="maintenance-card">
+    <h4>1. 타이어 공기압 점검</h4>
+    <p>타이어의 공기압은 정기적으로 점검해야 하며, 자동차의 매뉴얼에 따라 적정 공기압을 유지해야 합니다.</p>
+    <h4>2. 타이어 마모 확인</h4>
+    <p>타이어의 마모 상태를 확인하는 것이 중요합니다. 마모가 심하면 타이어를 교체해야 하며, 타이어 트레드 깊이를 점검하는 것이 좋습니다.</p>
+    <h4>3. 타이어 회전</h4>
+    <p>타이어는 일정한 간격으로 회전해주는 것이 좋습니다. 타이어 회전을 통해 마모를 고르게 분배할 수 있습니다.</p>
+  </div>
+</section>
+
+<!-- (6) 자동차 배터리 관리법 Section -->
+<section class="maintenance-section">
+  <h3 class="section-title">🔋 자동차 배터리 관리법</h3>
+  <div class="maintenance-card">
+    <h4>1. 배터리 점검</h4>
+    <p>배터리의 상태를 정기적으로 점검해야 합니다. 배터리 단자가 부식되거나 노후되었을 경우 교체가 필요합니다.</p>
+    <h4>2. 배터리 수명</h4>
+    <p>배터리의 수명은 보통 3~5년입니다. 교체 시기를 놓치지 않도록 정기적으로 점검을 받는 것이 중요합니다.</p>
+    <h4>3. 차가운 날씨와 배터리</h4>
+    <p>겨울철 추운 날씨에는 배터리 성능이 저하될 수 있습니다. 겨울철에는 차가운 날씨에 대비하여 배터리 점검을 더욱 철저히 해야 합니다.</p>
+  </div>
+</section>
+
+<!-- (7) 브레이크 시스템 관리법 Section -->
+<section class="maintenance-section">
+  <h3 class="section-title">🚦 브레이크 시스템 관리법</h3>
+  <div class="maintenance-card">
+    <h4>1. 브레이크 패드 점검</h4>
+    <p>브레이크 패드는 차량의 안전에 중요한 부품입니다. 패드의 두께가 얇아지면 교체해야 하며, 이상한 소음이 나면 점검을 받는 것이 좋습니다.</p>
+    <h4>2. 브레이크 액 점검</h4>
+    <p>브레이크 액은 브레이크 시스템의 주요 부품 중 하나입니다. 브레이크 액이 부족하면 브레이크 성능에 문제가 발생할 수 있으므로 정기적으로 점검해야 합니다.</p>
+    <h4>3. 브레이크 점검 시기</h4>
+    <p>브레이크 점검은 10,000~20,000km마다 받아주는 것이 좋으며, 브레이크 성능이 저하되었다고 느껴지면 즉시 점검을 받는 것이 중요합니다.</p>
+  </div>
+</section>
+
+
+    <!-- (2) 주변 정비소 Section -->
+    <section class="nearby-section">
+      <h3 class="section-title">1km 이내 정비소 정보</h3>
+      <table class="nearby-table">
+        <thead>
+          <tr>
+            <th>정비소명</th>
+            <th>주소</th>
+            <th>전화번호</th>
+            <th>거리 (km)</th>
+          </tr>
+        </thead>
+        <tbody>
+        <?php if (empty($nearby_shops)) : ?>
+          <tr>
+            <td colspan="4">근처 정비소 정보가 없습니다.</td>
+          </tr>
+        <?php else : 
+          $limitShops = array_slice($nearby_shops, 0, 5);
+          foreach ($limitShops as $shop) : ?>
+            <tr onclick="window.location.href='/automobile_repair_shop/<?= esc($shop['id']) ?>'">
+              <td><?= esc($shop['repair_shop_name'] ?? ''); ?></td>
+              <td><?= esc($shop['road_address'] ?? ''); ?></td>
+              <td><?= esc($shop['phone_number'] ?? ''); ?></td>
+              <td><?= round($shop['distance'] ?? 0, 1); ?> km</td>
+            </tr>
+          <?php endforeach; ?>
+        <?php endif; ?>
+        </tbody>
+      </table>
+    </section>
+ 
 
 
     <!-- (추가) 카드 섹션 예시 -->
@@ -609,40 +758,42 @@ crossorigin="anonymous"></script>
 
 
   <script>
-    // 지도 초기화
-    (function(){
-      var lat  = parseFloat("<?= esc($repair_shop['latitude'] ?? '37.5665'); ?>");
-      var lng  = parseFloat("<?= esc($repair_shop['longitude'] ?? '126.9780'); ?>");
-      var name = "<?= esc($repair_shop['repair_shop_name'] ?? '정비소'); ?>";
 
-      var map = new naver.maps.Map('map', {
-        center: new naver.maps.LatLng(lat, lng),
-        zoom: 16
-      });
-      var mainMarker = new naver.maps.Marker({
-        position: new naver.maps.LatLng(lat, lng),
+  /*
+  (function(){
+    var lat  = parseFloat("<?= esc($repair_shop['latitude'] ?? '37.5665'); ?>");
+    var lng  = parseFloat("<?= esc($repair_shop['longitude'] ?? '126.9780'); ?>");
+    var name = "<?= esc($repair_shop['repair_shop_name'] ?? '정비소'); ?>";
+
+    var map = new naver.maps.Map('map', {
+      center: new naver.maps.LatLng(lat, lng),
+      zoom: 16
+    });
+    var mainMarker = new naver.maps.Marker({
+      position: new naver.maps.LatLng(lat, lng),
+      map: map,
+      title: name
+    });
+
+    // 주변 정비소(5개)
+    var nearbyShops = <?php echo json_encode(array_slice($nearby_shops ?? [], 0, 5)); ?>;
+    nearbyShops.forEach(function(shop){
+      var marker = new naver.maps.Marker({
+        position: new naver.maps.LatLng(shop.latitude, shop.longitude),
         map: map,
-        title: name
+        title: shop.repair_shop_name
       });
-
-      // 주변 정비소(5개)
-      var nearbyShops = <?php echo json_encode(array_slice($nearby_shops ?? [], 0, 5)); ?>;
-      nearbyShops.forEach(function(shop){
-        var marker = new naver.maps.Marker({
-          position: new naver.maps.LatLng(shop.latitude, shop.longitude),
-          map: map,
-          title: shop.repair_shop_name
-        });
-        var infoWindow = new naver.maps.InfoWindow({
-          content: '<div style="padding:10px; font-size:14px;"><b>' + shop.repair_shop_name + '</b><br>'
-                 + '주소: ' + shop.road_address + '<br>'
-                 + '전화: ' + shop.phone_number + '</div>'
-        });
-        naver.maps.Event.addListener(marker, 'click', function(){
-          infoWindow.open(map, marker);
-        });
+      var infoWindow = new naver.maps.InfoWindow({
+        content: '<div style="padding:10px; font-size:14px;"><b>' + shop.repair_shop_name + '</b><br>'
+              + '주소: ' + shop.road_address + '<br>'
+              + '전화: ' + shop.phone_number + '</div>'
       });
-    })();
+      naver.maps.Event.addListener(marker, 'click', function(){
+        infoWindow.open(map, marker);
+      });
+    });
+  })();
+  */
 
     // 별점 선택 이벤트
     document.querySelectorAll('#star-rating .star').forEach(star => {
