@@ -719,7 +719,7 @@ crossorigin="anonymous"></script>
 
   <script>
 
-  /*
+
   (function(){
     var lat  = parseFloat("<?= esc($repair_shop['latitude'] ?? '37.5665'); ?>");
     var lng  = parseFloat("<?= esc($repair_shop['longitude'] ?? '126.9780'); ?>");
