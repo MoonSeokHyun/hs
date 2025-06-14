@@ -624,11 +624,11 @@ crossorigin="anonymous"></script>
           목록으로 돌아가기
         </a>
 
-        <!-- 지도 
+        <section class="nearby-section">
         <div id="map"></div>
       </div>
     </section>
-    -->
+
 
     <ins class="adsbygoogle"
      style="display:block"
@@ -639,57 +639,7 @@ crossorigin="anonymous"></script>
 <script>
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
-    <!-- (4) 엔진오일 관리법 Section -->
-<section class="maintenance-section">
-  <h3 class="section-title">🚗 엔진오일 관리법</h3>
-  <div class="maintenance-card">
-    <h4>1. 엔진오일 교체 주기</h4>
-    <p>엔진오일은 자동차의 엔진을 보호하고 원활하게 작동하도록 돕습니다. 교체 주기는 대체로 5,000km ~ 10,000km마다 교체하는 것이 좋습니다.</p>
-    <h4>2. 엔진오일 종류</h4>
-    <p>엔진오일에는 여러 종류가 있습니다. 합성오일, 반합성오일, 미네랄오일이 있으며, 자동차 제조사에서 추천하는 오일 종류를 사용하는 것이 중요합니다.</p>
-    <h4>3. 오일 점검 방법</h4>
-    <p>오일 상태를 점검하려면 엔진을 끄고 오일 측정봉을 뽑아 점검합니다. 오일이 부족하면 추가해주고, 변색되었거나 오염된 오일은 교체해줘야 합니다.</p>
-  </div>
-</section>
 
-<!-- (5) 타이어 관리법 Section -->
-<section class="maintenance-section">
-  <h3 class="section-title">🚙 타이어 관리법</h3>
-  <div class="maintenance-card">
-    <h4>1. 타이어 공기압 점검</h4>
-    <p>타이어의 공기압은 정기적으로 점검해야 하며, 자동차의 매뉴얼에 따라 적정 공기압을 유지해야 합니다.</p>
-    <h4>2. 타이어 마모 확인</h4>
-    <p>타이어의 마모 상태를 확인하는 것이 중요합니다. 마모가 심하면 타이어를 교체해야 하며, 타이어 트레드 깊이를 점검하는 것이 좋습니다.</p>
-    <h4>3. 타이어 회전</h4>
-    <p>타이어는 일정한 간격으로 회전해주는 것이 좋습니다. 타이어 회전을 통해 마모를 고르게 분배할 수 있습니다.</p>
-  </div>
-</section>
-
-<!-- (6) 자동차 배터리 관리법 Section -->
-<section class="maintenance-section">
-  <h3 class="section-title">🔋 자동차 배터리 관리법</h3>
-  <div class="maintenance-card">
-    <h4>1. 배터리 점검</h4>
-    <p>배터리의 상태를 정기적으로 점검해야 합니다. 배터리 단자가 부식되거나 노후되었을 경우 교체가 필요합니다.</p>
-    <h4>2. 배터리 수명</h4>
-    <p>배터리의 수명은 보통 3~5년입니다. 교체 시기를 놓치지 않도록 정기적으로 점검을 받는 것이 중요합니다.</p>
-    <h4>3. 차가운 날씨와 배터리</h4>
-    <p>겨울철 추운 날씨에는 배터리 성능이 저하될 수 있습니다. 겨울철에는 차가운 날씨에 대비하여 배터리 점검을 더욱 철저히 해야 합니다.</p>
-  </div>
-</section>
-
-<!-- (7) 브레이크 시스템 관리법 Section -->
-<section class="maintenance-section">
-  <h3 class="section-title">🚦 브레이크 시스템 관리법</h3>
-  <div class="maintenance-card">
-    <h4>1. 브레이크 패드 점검</h4>
-    <p>브레이크 패드는 차량의 안전에 중요한 부품입니다. 패드의 두께가 얇아지면 교체해야 하며, 이상한 소음이 나면 점검을 받는 것이 좋습니다.</p>
-    <h4>2. 브레이크 액 점검</h4>
-    <p>브레이크 액은 브레이크 시스템의 주요 부품 중 하나입니다. 브레이크 액이 부족하면 브레이크 성능에 문제가 발생할 수 있으므로 정기적으로 점검해야 합니다.</p>
-    <h4>3. 브레이크 점검 시기</h4>
-    <p>브레이크 점검은 10,000~20,000km마다 받아주는 것이 좋으며, 브레이크 성능이 저하되었다고 느껴지면 즉시 점검을 받는 것이 중요합니다.</p>
-  </div>
-</section>
 
 
     <!-- (2) 주변 정비소 Section -->
