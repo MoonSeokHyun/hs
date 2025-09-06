@@ -62,7 +62,9 @@ $keywordsSeo = implode(',', [$district, '공영주차장', $facility['FCLTY_NM']
   <meta name="twitter:title" content="<?= $titleSeo ?>" />
   <meta name="twitter:description" content="<?= $descSeo ?>" />
   <meta name="robots" content="index,follow" />
+  <!-- 네이버맵 API 주석 처리
   <script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
+  -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
   crossorigin="anonymous"></script>
   
@@ -77,7 +79,9 @@ $keywordsSeo = implode(',', [$district, '공영주차장', $facility['FCLTY_NM']
     .detail-item:last-child{border-bottom:none}
     .label{font-weight:600}
     .value{text-align:right;word-break:break-all;max-width:60%}
+    /* 지도 스타일 주석 처리
     #map{width:100%;height:300px;border-radius:8px;margin-top:1rem}
+    */
   </style>
 </head>
 <body>
@@ -176,10 +180,12 @@ $keywordsSeo = implode(',', [$district, '공영주차장', $facility['FCLTY_NM']
 <script>
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
+    <!-- 지도 섹션 주석 처리
     <div class="section">
       <h2>지도</h2>
       <div id="map"></div>
     </div>
+    -->
     <ins class="adsbygoogle"
      style="display:block"
      data-ad-client="ca-pub-6686738239613464"
@@ -192,11 +198,13 @@ $keywordsSeo = implode(',', [$district, '공영주차장', $facility['FCLTY_NM']
   </div>
   <?= view_cell('\App\Cells\ExtraInfoCell::render') ?>
   <?php include APPPATH . 'Views/includes/footer.php'; ?>
+  <!-- 네이버맵 스크립트 주석 처리
   <script>
     (function(){
       var map = new naver.maps.Map('map',{center:new naver.maps.LatLng(parseFloat("<?= $facility['FCLTY_LA'] ?>"),parseFloat("<?= $facility['FCLTY_LO'] ?>")),zoom:16});
       new naver.maps.Marker({position:map.getCenter(),map:map,title:"<?= $facility['FCLTY_NM'] ?>"});
     })();
   </script>
+  -->
 </body>
 </html>

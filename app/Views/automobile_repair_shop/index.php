@@ -10,7 +10,9 @@
   <meta name="keywords" content="정비소, 주유소, 주차장, 차량 관리, 리뷰, 평점">
   <meta name="robots" content="index, follow">
   <meta name="author" content="Car Hub">
+  <!-- 네이버맵 API 주석 처리
   <script async src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
+  -->
 <!-- 구글 애드센스 -->
 
   <link rel="stylesheet" href="/assets/css/global.css">

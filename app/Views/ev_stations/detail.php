@@ -40,7 +40,9 @@ $seoKeywords    = esc("{$district} 전기차 충전소, {$facilityName}, 충전�
   <meta name="twitter:title"       content="<?= $seoTitle ?>" />
   <meta name="twitter:description" content="<?= $seoDescription ?>" />
 
+  <!-- 네이버맵 API 주석 처리
   <script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
+  -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
 crossorigin="anonymous"></script>
   <style>
@@ -57,7 +59,9 @@ crossorigin="anonymous"></script>
     .detail-item:last-child{ border-bottom:none; }
     .label{ font-weight:600; color:#333; }
     .value{ color:#555; text-align:right; }
+    /* 지도 스타일 주석 처리
     #map{ width:100%; height:300px; border-radius:8px; overflow:hidden; box-shadow:0 1px 4px rgba(0,0,0,0.1); }
+    */
     .qa-list { list-style: none; margin:0; padding:0; }
     .qa-item { margin-bottom: 1rem; }
     .qa-item p.question { font-weight:600; color:#0078ff; margin-bottom:.25rem; }
@@ -172,17 +176,19 @@ crossorigin="anonymous"></script>
            data-full-width-responsive="true"></ins>
       <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
     </div>
-    <!-- 지도 -->
+    <!-- 지도 섹션 주석 처리
     <div class="section">
       <h2>지도</h2>
       <div id="map"></div>
     </div>
+    -->
 
     <p><a href="<?= site_url('ev-stations') ?>">← 목록으로 돌아가기</a></p>
   </div>
 
   <?php include APPPATH . 'Views/includes/footer.php'; ?>
 
+  <!-- 네이버맵 스크립트 주석 처리
   <script>
     (function(){
       var map = new naver.maps.Map('map', {
@@ -196,5 +202,6 @@ crossorigin="anonymous"></script>
       });
     })();
   </script>
+  -->
 </body>
 </html>

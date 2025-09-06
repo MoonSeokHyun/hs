@@ -37,7 +37,9 @@ $gas_station_type = isset($station['gas_station_type']) ? esc($station['gas_stat
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
 crossorigin="anonymous"></script>
+<!-- 네이버맵 API 주석 처리
 <script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
+-->
   <style>
     /* 기본 초기화 */
     * {
@@ -172,7 +174,7 @@ crossorigin="anonymous"></script>
       opacity: 0.9;
     }
 
-    /* 지도 */
+    /* 지도 - 주석 처리
     #map {
       width: 100%;
       height: 400px;
@@ -180,6 +182,7 @@ crossorigin="anonymous"></script>
       border: 1px solid #007bff;
       border-radius: 5px;
     }
+    */
 
     /* (3) 주변 주유소 섹션 */
     .nearby-section {
@@ -375,8 +378,9 @@ crossorigin="anonymous"></script>
         <!-- 목록으로 돌아가기 버튼 -->
         <a href="<?= site_url('/gas_stations') ?>" class="back-button">목록으로 돌아가기</a>
 
-        <!-- 지도 -->
+        <!-- 지도 주석 처리
         <div id="map"></div>
+        -->
       </div>
     </section>
 
@@ -451,6 +455,7 @@ crossorigin="anonymous"></script>
   <?= view_cell('\App\Cells\ExtraInfoCell::render') ?>
   <?php include APPPATH . 'Views/includes/footer.php'; ?>
 
+  <!-- 네이버맵 스크립트 주석 처리
   <script>
     // 지도 초기화
     (function(){

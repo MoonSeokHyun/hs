@@ -14,8 +14,9 @@ $district = $m[0] ?? '지역';
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- SEO 최적화된 Title -->
   <title><?= $store['store_name'] ?> - <?= $district ?> | 타이어·경정비·엔진오일 전문</title>
-  <!-- 네이버 지도 API -->
+  <!-- 네이버 지도 API 주석 처리
   <script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
+  -->
   <style>
     body{background:#f5f5f5;font-family:'Noto Sans KR',sans-serif;margin:0;padding:0;color:#333}
     .container{max-width:900px;margin:2rem auto;padding:0 1rem}
@@ -27,7 +28,9 @@ $district = $m[0] ?? '지역';
     .detail-item:last-child{border-bottom:none}
     .label{font-weight:600}
     .value{text-align:right;word-break:break-all;max-width:60%}
+    /* 지도 스타일 주석 처리
     #map{width:100%;height:300px;border-radius:8px;margin-top:1rem}
+    */
     a.tip-link{color:#3eaf7c;text-decoration:none;font-size:0.95rem}
     a.tip-link:hover{text-decoration:underline}
   </style>
@@ -66,7 +69,9 @@ crossorigin="anonymous"></script>
         <li class="detail-item"><span class="label">도로명주소</span><span class="value"><?= $store['road_address'] ?></span></li>
         <li class="detail-item"><span class="label">지번주소</span><span class="value"><?= $store['address'] ?></span></li>
       </ul>
+      <!-- 지도 div 주석 처리
       <div id="map"></div>
+      -->
     </div>
 
     <!-- 추가 정보 -->
@@ -125,6 +130,7 @@ crossorigin="anonymous"></script>
 </script>
   <?php include APPPATH . 'Views/includes/footer.php'; ?>
 
+  <!-- 네이버맵 스크립트 주석 처리
   <script>
     (function(){
       var lat = parseFloat("<?= $store['latitude'] ?>");
@@ -140,5 +146,6 @@ crossorigin="anonymous"></script>
       });
     })();
   </script>
+  -->
 </body>
 </html>

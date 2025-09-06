@@ -38,7 +38,9 @@ $seoKeywords    = esc("{$fullAddress} 가스충전소, {$company}, {$facilityNam
   <meta name="twitter:title"       content="<?= $seoTitle ?>" />
   <meta name="twitter:description" content="<?= $seoDescription ?>" />
 
+  <!-- 네이버맵 API 주석 처리
   <script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
+  -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
   crossorigin="anonymous"></script>
 
@@ -56,7 +58,9 @@ $seoKeywords    = esc("{$fullAddress} 가스충전소, {$company}, {$facilityNam
     .detail-item:last-child{ border-bottom:none; }
     .label{ font-weight:600; color:#333; }
     .value{ color:#555; text-align:right; }
+    /* 지도 스타일 주석 처리
     #map{ width:100%; height:300px; border-radius:8px; overflow:hidden; box-shadow:0 1px 4px rgba(0,0,0,0.1); }
+    */
   </style>
 </head>
 <body>
@@ -120,11 +124,12 @@ $seoKeywords    = esc("{$fullAddress} 가스충전소, {$company}, {$facilityNam
 
 
 
-    <!-- 지도 -->
+    <!-- 지도 섹션 주석 처리
     <div class="section">
       <h2>지도</h2>
       <div id="map"></div>
     </div>
+    -->
 
     <p><a href="<?= site_url('station') ?>">← 목록으로 돌아가기</a></p>
   </div>
@@ -132,6 +137,7 @@ $seoKeywords    = esc("{$fullAddress} 가스충전소, {$company}, {$facilityNam
   <?= view_cell('\App\Cells\ExtraInfoCell::render') ?>
   <?php include APPPATH . 'Views/includes/footer.php'; ?>
 
+  <!-- 네이버맵 스크립트 주석 처리
   <script>
     (function(){
       var map = new naver.maps.Map('map', {
@@ -145,5 +151,6 @@ $seoKeywords    = esc("{$fullAddress} 가스충전소, {$company}, {$facilityNam
       });
     })();
   </script>
+  -->
 </body>
 </html>

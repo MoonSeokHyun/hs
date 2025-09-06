@@ -7,7 +7,9 @@
     <title><?= esc($festival['Festival_Name']) ?> - 편잇</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.5.2/css/bootstrap.min.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464" crossorigin="anonymous"></script>
+    <!-- 네이버맵 API 주석 처리
     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
+    -->
    <style>
         body {
             font-family: Arial, sans-serif;
@@ -91,11 +93,13 @@
             text-decoration: underline;
         }
 
+        /* 지도 스타일 주석 처리
         #map {
             width: 100%;
             height: 400px;
             margin-top: 30px;
         }
+        */
 
         .festival-img {
             max-width: 80%;
@@ -228,7 +232,9 @@ $imageUrl = fetchPixabayImage($festival['Festival_Name']);
     <p><strong>도로 주소:</strong> <?= esc($festival['Address_Road']) ?></p>
     <p><strong>지번 주소:</strong> <?= esc($festival['Address_Land']) ?></p>
     <p><strong>제공 기관 이름:</strong> <?= esc($festival['Provider_Name']) ?></p>
+    <!-- 지도 div 주석 처리
     <div id="map"></div>
+    -->
     <a href="/festival-info" class="back-link">목록으로 돌아가기</a>
 
     <div class="related-festivals">
@@ -249,6 +255,7 @@ $imageUrl = fetchPixabayImage($festival['Festival_Name']);
     </div>
 </div>
 
+<!-- 네이버맵 스크립트 주석 처리
 <script>
 var latitude = <?= json_encode($festival['Latitude']) ?>;
 var longitude = <?= json_encode($festival['Longitude']) ?>;
@@ -278,6 +285,7 @@ naver.maps.Event.addListener(marker, "click", function() {
     infoWindow.open(map, marker);
 });
 </script>
+-->
 
 <?php
 

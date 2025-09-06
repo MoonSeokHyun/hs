@@ -24,7 +24,9 @@ $business_name = esc($carwash['Business Name']);
   <link rel="stylesheet" href="/assets/css/global.css">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
 crossorigin="anonymous"></script>
+<!-- 네이버맵 API 주석 처리
 <script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
+-->
   <style>
     :root {
       --main-color: #62D491;
@@ -81,11 +83,13 @@ crossorigin="anonymous"></script>
       font-weight: 600;
     }
 
+    /* 지도 스타일 주석 처리
     .map-section {
       height: 400px;
       border-radius: 10px;
       border: 1px solid #ccc;
     }
+    */
 
     textarea {
       width: 100%;
@@ -204,7 +208,9 @@ crossorigin="anonymous"></script>
       </table>
     </div>
 
+    <!-- 지도 div 주석 처리
     <div id="map" class="map-section"></div>
+    -->
 
     <div class="review-form">
       <h2>리뷰 작성</h2>
@@ -269,6 +275,7 @@ crossorigin="anonymous"></script>
 <?php include APPPATH . 'Views/includes/footer.php'; ?>
 
 
+  <!-- 네이버맵 스크립트 주석 처리
   <script>
     const lat = <?= esc($carwash['WGS84 Latitude']) ?>;
     const lng = <?= esc($carwash['WGS84 Longitude']) ?>;

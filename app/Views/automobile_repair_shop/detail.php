@@ -35,9 +35,9 @@ $district_name = isset($matches[0]) ? $matches[0] : '정비소';
   <meta name="twitter:image" content="/static/images/og-default.jpg">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
 crossorigin="anonymous"></script>
-<!--
+<!-- 네이버맵 API 주석 처리
 <script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
- -->
+-->
 </head>
 <!-- 구글 애드센스 -->
 
@@ -191,7 +191,7 @@ crossorigin="anonymous"></script>
       opacity: 0.9;
     }
 
-    /* 지도 */
+    /* 지도 - 주석 처리
     #map {
       width: 100%;
       height: 400px;
@@ -199,6 +199,7 @@ crossorigin="anonymous"></script>
       border: 1px solid #007bff;
       border-radius: 5px;
     }
+    */
 
     /* (3) 주변 정비소 섹션 */
     .nearby-section {
@@ -624,10 +625,12 @@ crossorigin="anonymous"></script>
           목록으로 돌아가기
         </a>
 
+        <!-- 지도 섹션 주석 처리
         <section class="nearby-section">
         <div id="map"></div>
       </div>
     </section>
+    -->
 
 
     <ins class="adsbygoogle"
@@ -717,6 +720,7 @@ crossorigin="anonymous"></script>
   ?>
 
 
+  <!-- 네이버맵 스크립트 주석 처리
   <script>
 
 
@@ -753,6 +757,7 @@ crossorigin="anonymous"></script>
       });
     });
   })();
+  -->
 
     // 별점 선택 이벤트
     document.querySelectorAll('#star-rating .star').forEach(star => {

@@ -14,7 +14,9 @@
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
 crossorigin="anonymous"></script>
+<!-- 네이버맵 API 주석 처리
 <script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
+-->
   <link rel="stylesheet" href="/assets/css/global.css">
   <style>
     body {

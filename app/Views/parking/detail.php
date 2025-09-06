@@ -28,7 +28,9 @@ $averageRating = count($comments) ? round($totalRating / count($comments), 1) : 
   <meta name="twitter:description" content="<?= $district; ?>에 위치한 <?= esc($parkingLot['name']); ?> 주차장의 상세 정보를 확인하세요.">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
 crossorigin="anonymous"></script>
+<!-- 네이버맵 API 주석 처리
 <script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
+-->
  <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { height: 100%; font-family: "Arial", sans-serif; background-color: #f7f8fa; }
@@ -66,10 +68,12 @@ crossorigin="anonymous"></script>
       background-color: var(--main-color); color: #fff; border-radius: 5px;
     }
     .back-button:hover { opacity: 0.9; }
+    /* 지도 스타일 주석 처리
     #map {
       width: 100%; height: 400px; margin-top: 1rem;
       border: 1px solid #007bff; border-radius: 5px;
     }
+    */
     .star { font-size: 2rem; color: #ccc; cursor: pointer; transition: color 0.3s ease; }
     .star.selected { color: gold; }
     .submit-button {
@@ -146,7 +150,9 @@ crossorigin="anonymous"></script>
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
       <a href="/parking" class="back-button">목록으로 돌아가기</a>
+      <!-- 지도 div 주석 처리
       <div id="map"></div>
+      -->
     </section>
     <section class="detail-card">
       <h3 class="section-title">리뷰 남기기</h3>
@@ -210,6 +216,7 @@ crossorigin="anonymous"></script>
       }
       return true;
     }
+    /* 네이버맵 스크립트 주석 처리
     var map = new naver.maps.Map('map', {
       center: new naver.maps.LatLng(<?= esc($parkingLot['latitude']); ?>, <?= esc($parkingLot['longitude']); ?>),
       zoom: 15
@@ -219,6 +226,7 @@ crossorigin="anonymous"></script>
       map: map,
       title: "<?= esc($parkingLot['name']); ?>"
     });
+    */
   </script>
     <?= view_cell('\App\Cells\ExtraInfoCell::render') ?>
   <?php include APPPATH . 'Views/includes/footer.php'; ?>

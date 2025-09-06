@@ -41,8 +41,9 @@ $districtText = $district_name ?: '인근';
 <meta name="twitter:description" content="<?= $storeName ?>의 위치, 운영시간, 리뷰 정보를 확인하세요.">
 <meta name="twitter:image" content="https://easehub.co.kr/assets/img/convenience-default.jpg">
 
-    <!-- Naver 지도 API -->
+    <!-- Naver 지도 API 주석 처리
     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
+    -->
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
      crossorigin="anonymous"></script>
@@ -175,7 +176,7 @@ button:hover, .btn:hover {
   text-decoration: underline;
 }
 
-/* ===== 지도 ===== */
+/* ===== 지도 - 주석 처리 =====
 #map {
   width: 100%;
   height: 300px;
@@ -183,6 +184,7 @@ button:hover, .btn:hover {
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
+*/
 
 /* ===== 푸터 ===== */
 .footer {
@@ -268,7 +270,9 @@ button:hover, .btn:hover {
             </div>
         </div>
 
+        <!-- 지도 div 주석 처리
         <div id="map"></div>
+        -->
 
         <ins class="adsbygoogle"
      style="display:block"
@@ -364,6 +368,7 @@ button:hover, .btn:hover {
 
     </div>
 
+    <!-- 네이버맵 스크립트 주석 처리
     <script>
         var latitude = <?= json_encode($latitude); ?>;
         var longitude = <?= json_encode($longitude); ?>;
@@ -398,6 +403,7 @@ button:hover, .btn:hover {
             }
         });
     </script>
+    -->
     	
         <?php
 

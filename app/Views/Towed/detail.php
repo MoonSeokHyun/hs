@@ -35,7 +35,9 @@ $district_name = isset($matches[0]) ? $matches[0] : '보관소';
   <meta name="twitter:image" content="/static/images/og-default.jpg">
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464" crossorigin="anonymous"></script>
+  <!-- 네이버맵 API 주석 처리
   <script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
+  -->
 
   <script type="application/ld+json">
 {
@@ -167,7 +169,7 @@ $district_name = isset($matches[0]) ? $matches[0] : '보관소';
       background-color: #4db67d;
     }
 
-    /* 지도 */
+    /* 지도 - 주석 처리
     #map {
       width: 100%;
       height: 400px;
@@ -175,6 +177,7 @@ $district_name = isset($matches[0]) ? $matches[0] : '보관소';
       border-radius: 8px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
+    */
 
     /* 주변 보관소 테이블 */
     .nearby-table {
@@ -324,8 +327,9 @@ main {
           목록으로 돌아가기
         </a>
 
-        <!-- 지도 -->
+        <!-- 지도 주석 처리
         <div id="map"></div>
+        -->
       </div>
     </section>
     <ins class="adsbygoogle"
@@ -376,6 +380,7 @@ main {
     (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
 
+  <!-- 네이버맵 스크립트 주석 처리
   <script>
     // 지도 초기화
     (function() {
@@ -413,6 +418,7 @@ main {
       });
     })();
   </script>
+  -->
 
   <?php include APPPATH . 'Views/includes/footer.php'; ?>
 </body>

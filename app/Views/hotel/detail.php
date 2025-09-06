@@ -21,7 +21,9 @@
   <meta property="og:type" content="website">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
 crossorigin="anonymous"></script>
+<!-- 네이버맵 API 주석 처리
 <script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
+-->
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { font-family: 'Arial', sans-serif; background-color: #f7f8fa; color: #333; }
@@ -77,10 +79,12 @@ crossorigin="anonymous"></script>
       background-color: var(--main-color); color: #fff; border-radius: 5px;
     }
     .back-button:hover { opacity: 0.9; }
+    /* 지도 스타일 주석 처리
     #map {
       width: 100%; height: 400px; margin-top: 1rem;
       border: 1px solid #007bff; border-radius: 5px;
     }
+    */
   </style>
 </head>
 <body>
@@ -132,9 +136,12 @@ crossorigin="anonymous"></script>
   </section>
   <section class="detail-card">
     <h3 class="section-title">위치</h3>
+    <!-- 지도 div 주석 처리
     <div id="map"></div>
+    -->
   </section>
 </main>
+<!-- 네이버맵 스크립트 주석 처리
 <script>
   var map = new naver.maps.Map('map', {
     center: new naver.maps.LatLng(<?= esc($hotel['coordinate_y']); ?>, <?= esc($hotel['coordinate_x']); ?>),
@@ -146,6 +153,7 @@ crossorigin="anonymous"></script>
     title: "<?= esc($hotel['business_name']); ?>"
   });
 </script>
+-->
 <?php include APPPATH . 'Views/includes/footer.php'; ?>
 </body>
 </html>
