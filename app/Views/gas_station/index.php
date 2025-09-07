@@ -297,6 +297,17 @@ crossorigin="anonymous"></script>
             </table>
         </section>
 
+        <!-- 중간 광고 배치 -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6686738239613464"
+             data-ad-slot="1204098626"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+
         <section class="reviews">
             <h2>최근 리뷰</h2>
             <?php foreach ($recentReviews as $review): ?>
@@ -329,6 +340,17 @@ crossorigin="anonymous"></script>
                 </tbody>
             </table>
         </section>
+
+        <!-- 하단 광고 배치 -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6686738239613464"
+             data-ad-slot="1204098626"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
 
 </div>
     <?php include APPPATH . 'Views/includes/footer.php'; ?>

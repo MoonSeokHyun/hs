@@ -455,24 +455,24 @@ crossorigin="anonymous"></script>
   <?= view_cell('\App\Cells\ExtraInfoCell::render') ?>
   <?php include APPPATH . 'Views/includes/footer.php'; ?>
 
-  <!-- 네이버맵 스크립트 주석 처리
   <script>
     // 지도 초기화
-    (function(){
-      var lat  = parseFloat("<?= esc($station['latitude']) ?>");
-      var lng  = parseFloat("<?= esc($station['longitude']) ?>");
-      var name = "<?= esc($station['gas_station_name']) ?>";
 
-      var map = new naver.maps.Map('map', {
-        center: new naver.maps.LatLng(lat, lng),
-        zoom: 16
-      });
+//    (function(){
+  //    var lat  = parseFloat("<?= esc($station['latitude']) ?>");
+    //  var lng  = parseFloat("<?= esc($station['longitude']) ?>");
+      //var name = "<?= esc($station['gas_station_name']) ?>";
 
-      var mainMarker = new naver.maps.Marker({
-        position: new naver.maps.LatLng(lat, lng),
-        map: map,
-        title: name
-      });
+      //var map = new naver.maps.Map('map', {
+      //  center: new naver.maps.LatLng(lat, lng),
+      //  zoom: 16
+      //});
+
+      //var mainMarker = new naver.maps.Marker({
+       // position: new naver.maps.LatLng(lat, lng),
+       // map: map,
+       // title: name
+      //});
 
       // 주변 주유소(5개)
       var nearbyStations = <?php echo json_encode($nearbyGasStations); ?>;

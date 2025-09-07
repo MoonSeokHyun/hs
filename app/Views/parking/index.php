@@ -227,6 +227,17 @@ crossorigin="anonymous"></script><head>
             <?php endforeach; ?>
         </div>
 
+        <!-- 중간 광고 배치 -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6686738239613464"
+             data-ad-slot="1204098626"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+
         <!-- 구글 애드센스 광고 배너 -->
         <ins class="adsbygoogle"
              style="display:block"

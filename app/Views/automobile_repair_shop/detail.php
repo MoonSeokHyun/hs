@@ -758,7 +758,7 @@ crossorigin="anonymous"></script>
     });
   })();
   -->
-
+  <script>
     // 별점 선택 이벤트
     document.querySelectorAll('#star-rating .star').forEach(star => {
       star.addEventListener('click', function() {
