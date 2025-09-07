@@ -60,7 +60,7 @@
   <section class="coupang-banner" role="region" aria-label="쿠팡 파트너스 배너" id="coupang-banner" hidden>
     <div class="banner-inner">
       <a class="banner-link" href="https://link.coupang.com/a/cPfzOJ" target="_blank" rel="noopener noreferrer nofollow sponsored" aria-label="쿠팡 제철 특가 자세히 보기">
-        <img class="banner-hero" src="https://image8.coupangcdn.com/image/affiliate/event/promotion/2025/09/05/7162093536a5003c01e713ab6fc6faf3.png" alt="쿠팡 제철 특가 배너" loading="lazy" />
+        <img class="banner-hero" src="https://image15.coupangcdn.com/image/affiliate/event/promotion/2025/09/03/825a2ee5765400490107c72d34d155e6.png" alt="쿠팡 제철 특가 배너" loading="lazy" />
       </a>
       <div class="banner-cta-row">
         <a class="banner-cta" href="https://link.coupang.com/a/cPfzOJ" target="_blank" rel="noopener noreferrer nofollow sponsored">자세히 보기</a>
