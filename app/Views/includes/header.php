@@ -79,11 +79,9 @@
   }
   .tiktok-float .tf-disclaimer{ margin:0; padding:0 12px 12px; font-size:12px; color:#666; }
 
-  /* 모션 최소화 대응 */
   @media (prefers-reduced-motion: reduce){
     .tiktok-float .tf-card{ animation:none; }
   }
-  /* 화면 높이가 매우 낮으면 숨김 */
   @media (max-height:520px){
     .tiktok-float{ display:none; }
   }
@@ -165,27 +163,27 @@
 </div>
 <!-- 헤더 끝 -->
 
-<!-- ✅ TikTok Lite 플로팅 배너 (새 링크 적용) -->
+<!-- ✅ TikTok Lite 플로팅 배너 (speed_up 링크/이미지 적용) -->
 <section id="tiktok-float" class="tiktok-float" role="region" aria-label="TikTok Lite 프로모션" hidden>
   <div class="tf-card" role="dialog" aria-modal="false">
     <button class="tf-close" type="button" aria-label="배너 닫기">×</button>
 
     <a class="tf-hero"
-       href="https://www.tiktok.com/ug/incentive/share/coin_hundred?__status_bar=true&_d=em9hgj8g7hjgdc&_pia_=1&_svg=1&aid=473824&enter_from=share_coin_hundred_dollars_no_tributed&et_campaign=coin&et_gameplay=coin_hundred_dollars_no_tributed&gd_label=click_wap_coin_hundred_dollars_no_tributed&hide_nav_bar=1&inc_pid=coin_referral_onelink_coin_hundred_dollars_no_tributed&og_image=https%3A%2F%2Fp16-ug-incentive-va.tiktokcdn.com%2Ftos-maliva-i-68e3t9dfc1-us%2F4a3cefdb848f409c99b82ff356b7e1d1~tplv-68e3t9dfc1-image.image&region=kr&share_app_id=473824&share_page_data=MIIBCAQMr8g6jFTXon0Xp3MEBIHl6%2FvU5hZvwz285NBFnz6P6bVMAHafa4DeVVO8lWwS3AxVIT7Lw7q8aDkT6gKmoyLWKe3tkWhtIHMqIEyXY24kbfigGfIhglo3DDVrKWP5K5eRTO+xRQpDYt7Y29WQEsjYeWVFedBKP9zAiwf5Tc5rcT561K6Xec71Oyges9Ashui8HjSLzOv1%2F2toojtd0dGVJujJ4ddjY2AYm31PEeFaRRI1YiIAizp6nCXT9ULPusSYOIwz6ie53d4s44%2FTdzfxsMip75GoYSCi9pBomErioE0eUJCmfqyvNCoWO4Ea+5zq5MSLigQQ6Ukb0mZ0UuLytRGlq458ZQ%3D%3D&share_time=1757426267187&sharer_biz=ug_paid_acquisition&sharer_os=ios&should_full_screen=1&u_code=NzU0Nzk0MTY3OTE1NzM0NzMyOQ%3D%3D&utm_campaign=client_share&utm_source=kakaotalk"
+       href="https://www.tiktok.com/ug/incentive/share/speed_up?__status_bar=true&_d=em9hgj8g7hjgdc&_pia_=1&_svg=1&aid=473824&et_campaign=coin&et_gameplay=speed_up&gd_label=click_wap_coin_speedup_share_v1_coins&hide_nav_bar=1&inc_pid=coin_referral_onelink_speedup_share_v1_coins&mentor_name=%EA%B0%9C%EC%9D%B8%EC%A0%95%EB%B3%B4%EB%8F%84%EB%A7%A4%EC%83%81&og_image=https%3A%2F%2Fp16-ug-incentive-va.tiktokcdn.com%2Ftos-maliva-i-68e3t9dfc1-us%2Fb95f2e398cd046a79730a796d495e260~tplv-68e3t9dfc1-image.image&region=kr&share_app_id=473824&share_time=1757428184488&sharer_biz=ug_paid_acquisition&sharer_os=ios&should_full_screen=1&u_code=NzU0Nzk0MTY3OTE1NzM0NzMyOQ%3D%3D&utm_campaign=client_share&utm_source=kakaotalk"
        target="_blank" rel="noopener noreferrer nofollow sponsored"
        aria-label="TikTok Lite 이벤트 바로가기">
-      <img src="https://p16-ug-incentive-va.tiktokcdn.com/tos-maliva-i-68e3t9dfc1-us/4a3cefdb848f409c99b82ff356b7e1d1~tplv-68e3t9dfc1-image.image"
-           alt="TikTok Lite 프로모션" loading="lazy">
+      <img src="https://p16-ug-incentive-va.tiktokcdn.com/tos-maliva-i-68e3t9dfc1-us/b95f2e398cd046a79730a796d495e260~tplv-68e3t9dfc1-image.image"
+           alt="TikTok Lite 스피드업 프로모션" loading="lazy">
     </a>
 
     <div class="tf-body">
-      <strong class="tf-title">틱톡 라이트 리워드</strong>
+      <strong class="tf-title">틱톡 라이트 스피드업</strong>
       <a class="tf-cta"
-         href="https://www.tiktok.com/ug/incentive/share/coin_hundred?__status_bar=true&_d=em9hgj8g7hjgdc&_pia_=1&_svg=1&aid=473824&enter_from=share_coin_hundred_dollars_no_tributed&et_campaign=coin&et_gameplay=coin_hundred_dollars_no_tributed&gd_label=click_wap_coin_hundred_dollars_no_tributed&hide_nav_bar=1&inc_pid=coin_referral_onelink_coin_hundred_dollars_no_tributed&og_image=https%3A%2F%2Fp16-ug-incentive-va.tiktokcdn.com%2Ftos-maliva-i-68e3t9dfc1-us%2F4a3cefdb848f409c99b82ff356b7e1d1~tplv-68e3t9dfc1-image.image&region=kr&share_app_id=473824&share_page_data=MIIBCAQMr8g6jFTXon0Xp3MEBIHl6%2FvU5hZvwz285NBFnz6P6bVMAHafa4DeVVO8lWwS3AxVIT7Lw7q8aDkT6gKmoyLWKe3tkWhtIHMqIEyXY24kbfigGfIhglo3DDVrKWP5K5eRTO+xRQpDYt7Y29WQEsjYeWVFedBKP9zAiwf5Tc5rcT561K6Xec71Oyges9Ashui8HjSLzOv1%2F2toojtd0dGVJujJ4ddjY2AYm31PEeFaRRI1YiIAizp6nCXT9ULPusSYOIwz6ie53d4s44%2FTdzfxsMip75GoYSCi9pBomErioE0eUJCmfqyvNCoWO4Ea+5zq5MSLigQQ6Ukb0mZ0UuLytRGlq458ZQ%3D%3D&share_time=1757426267187&sharer_biz=ug_paid_acquisition&sharer_os=ios&should_full_screen=1&u_code=NzU0Nzk0MTY3OTE1NzM0NzMyOQ%3D%3D&utm_campaign=client_share&utm_source=kakaotalk"
+         href="https://www.tiktok.com/ug/incentive/share/speed_up?__status_bar=true&_d=em9hgj8g7hjgdc&_pia_=1&_svg=1&aid=473824&et_campaign=coin&et_gameplay=speed_up&gd_label=click_wap_coin_speedup_share_v1_coins&hide_nav_bar=1&inc_pid=coin_referral_onelink_speedup_share_v1_coins&mentor_name=%EA%B0%9C%EC%9D%B8%EC%A0%95%EB%B3%B4%EB%8F%84%EB%A7%A4%EC%83%81&og_image=https%3A%2F%2Fp16-ug-incentive-va.tiktokcdn.com%2Ftos-maliva-i-68e3t9dfc1-us%2Fb95f2e398cd046a79730a796d495e260~tplv-68e3t9dfc1-image.image&region=kr&share_app_id=473824&share_time=1757428184488&sharer_biz=ug_paid_acquisition&sharer_os=ios&should_full_screen=1&u_code=NzU0Nzk0MTY3OTE1NzM0NzMyOQ%3D%3D&utm_campaign=client_share&utm_source=kakaotalk"
          target="_blank" rel="noopener noreferrer nofollow sponsored">참여하기</a>
     </div>
 
-    <p class="tf-disclaimer">가입하시고 친추 추천 하시면 20만원을 드려요!</p>
+    <p class="tf-disclaimer">※ 틱톡 같이 하고 돈 벌어가세요~.</p>
   </div>
 </section>
 
