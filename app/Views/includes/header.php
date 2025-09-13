@@ -1,5 +1,6 @@
 <!-- 헤더 시작 -->
 <div id="header-wrapper">
+
   <!-- 사이트 타이틀 -->
   <header>
     <h2>편잇</h2>
@@ -59,14 +60,19 @@
   <!-- ✅ 쿠팡 파트너스 배너(플로팅/모달 아님) -->
   <section class="coupang-banner" role="region" aria-label="쿠팡 파트너스 배너" id="coupang-banner" hidden>
     <div class="banner-inner">
-      <a class="banner-link" href="https://link.coupang.com/a/cPSVpr" target="_blank" rel="noopener noreferrer nofollow sponsored" >
-        <img class="banner-hero" src="https://img3c.coupangcdn.com/image/affiliate/event/promotion/2025/09/09/17ee327b194b0045013dadb649626661.png" alt="쿠팡 제철 특가 배너" loading="lazy" />
+      <a class="banner-link" href="https://link.coupang.com/a/cQAIaL" target="_blank" rel="noopener noreferrer nofollow sponsored" >
+        <img class="banner-hero" src="https://static.coupangcdn.com/image/affiliate/event/promotion/2025/09/12/35d23a7a2263003f012224ad5532af7c.png" alt="쿠팡 제철 특가 배너" loading="lazy" />
       </a>
       <div class="banner-cta-row">
-        <a class="banner-cta" href="https://link.coupang.com/a/cPSVpr" target="_blank" rel="noopener noreferrer nofollow sponsored">자세히 보기</a>
+        <a class="banner-cta" href="https://link.coupang.com/a/cQAIaL" target="_blank" rel="noopener noreferrer nofollow sponsored">자세히 보기</a>
         <button class="banner-close" type="button" aria-label="배너 닫기">×</button>
       </div>
-      <p class="banner-disclaimer">※이 게시물은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</p>
+      <!-- ✅ 광고 문구 강조 -->
+      <p class="banner-disclaimer">
+        <span style="font-size:15px; font-weight:bold; color:#d32f2f; background:#fff4f4; padding:6px 10px; border-radius:4px; display:inline-block;">
+          광고 · 이 게시물은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.
+        </span>
+      </p>
     </div>
   </section>
 </div>
@@ -104,7 +110,7 @@
   .coupang-logo { height:18px; opacity:.9; }
   .banner-cta { margin-left:auto; display:inline-block; padding:10px 14px; font-weight:700; background:#1677ff; color:#fff; text-decoration:none; border-radius:8px; }
   .banner-close { appearance:none; border:none; background:#f2f3f5; color:#222; width:32px; height:32px; line-height:32px; border-radius:50%; cursor:pointer; font-size:18px; }
-  .banner-disclaimer { margin:8px 0 0; font-size:12px; color:#666; }
+  .banner-disclaimer { margin:8px 0 0; text-align:center; }
   @media (max-width:520px){
     .banner-cta{ padding:9px 12px; font-size:14px; }
     .banner-close{ width:28px; height:28px; font-size:16px; }
