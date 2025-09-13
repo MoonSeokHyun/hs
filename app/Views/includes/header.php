@@ -63,10 +63,6 @@
       <a class="banner-link" href="https://link.coupang.com/a/cQAIaL" target="_blank" rel="noopener noreferrer nofollow sponsored" >
         <img class="banner-hero" src="https://static.coupangcdn.com/image/affiliate/event/promotion/2025/09/12/35d23a7a2263003f012224ad5532af7c.png" alt="쿠팡 제철 특가 배너" loading="lazy" />
       </a>
-      <div class="banner-cta-row">
-        <a class="banner-cta" href="https://link.coupang.com/a/cQAIaL" target="_blank" rel="noopener noreferrer nofollow sponsored">자세히 보기</a>
-        <button class="banner-close" type="button" aria-label="배너 닫기">×</button>
-      </div>
       <!-- ✅ 광고 문구 강조 -->
       <p class="banner-disclaimer">
         <span style="font-size:15px; font-weight:bold; color:#d32f2f; background:#fff4f4; padding:6px 10px; border-radius:4px; display:inline-block;">
