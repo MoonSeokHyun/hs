@@ -115,6 +115,15 @@ if ($reviewCount > 0 && $avgRating > 0) {
       margin-bottom: 16px;
     }
 
+    .ad-card {
+      background: #fff;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 10px;
+      margin-bottom: 16px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
+    }
+
     .hero-title {
       margin: 0 0 8px;
       font-size: 30px;
@@ -334,13 +343,15 @@ if ($reviewCount > 0 && $avgRating > 0) {
     </div>
   </section>
 
-  <ins class="adsbygoogle"
-       style="display:block"
-       data-ad-client="ca-pub-6686738239613464"
-       data-ad-slot="1204098626"
-       data-ad-format="auto"
-       data-full-width-responsive="true"></ins>
-  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  <div class="ad-card">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-6686738239613464"
+         data-ad-slot="1204098626"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
 
   <section class="content-card">
     <h2 class="section-title">기본 정보</h2>
@@ -400,6 +411,16 @@ if ($reviewCount > 0 && $avgRating > 0) {
     <?php endif; ?>
   </section>
 
+  <div class="ad-card">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-6686738239613464"
+         data-ad-slot="1204098626"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
   <section class="content-card">
     <h2 class="section-title">리뷰 및 평점</h2>
     <div class="review-summary">
@@ -448,6 +469,16 @@ if ($reviewCount > 0 && $avgRating > 0) {
       </a>
     </div>
   </section>
+
+  <div class="ad-card">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-6686738239613464"
+         data-ad-slot="1204098626"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
 
   <?= view_cell('\App\Cells\ExtraInfoCell::render') ?>
 </main>
