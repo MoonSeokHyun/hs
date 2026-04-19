@@ -134,7 +134,7 @@ class HospitalController extends BaseController
             }
     
             if (!$hospital) {
-                throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound("Hospital with ID {$id} not found");
+                return redirect()->to('/hospital')->with('error', '해당 의료기관 정보를 찾을 수 없습니다.');
             }
     
             // 병원 리뷰와 평점 요약 정보 가져오기
@@ -165,9 +165,13 @@ class HospitalController extends BaseController
             $nearbyCacheKey = "nearby_facilities_{$id}";
             $nearbyFacilities = cache()->get($nearbyCacheKey);
             
-            if (!$nearbyFacilities) {
+            if (!$nearbyFacilities && $coords['latitude'] !== null && $coords['longitude'] !== null) {
                 $nearbyFacilities = $hospitalModel->getNearbyFacilities($coords['latitude'], $coords['longitude']);
                 cache()->save($nearbyCacheKey, $nearbyFacilities, 3600);
+            }
+
+            if (!$nearbyFacilities) {
+                $nearbyFacilities = [];
             }
     
             return view('hospital/detail', [

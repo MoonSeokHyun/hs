@@ -1,428 +1,457 @@
 <?php
-// 안전한 변수 초기화
-$storeName = trim(esc($hospital['BusinessName'] ?? ''));
-$fullAddress = esc($hospital['FullAddress'] ?? '');
-$storeId = esc($hospital['ID'] ?? '');
+$hospitalId = (int) ($hospital['ID'] ?? 0);
+$hospitalName = trim((string) ($hospital['BusinessName'] ?? '의료기관'));
+$openServiceName = trim((string) ($hospital['OpenServiceName'] ?? '의료기관'));
+$businessStatus = trim((string) ($hospital['BusinessStatusName'] ?? '정보 없음'));
+$permitDate = trim((string) ($hospital['PermitDate'] ?? ''));
+$phoneNumber = trim((string) ($hospital['PhoneNumber'] ?? ''));
+$fullAddress = trim((string) ($hospital['FullAddress'] ?? ''));
+$roadAddress = trim((string) ($hospital['RoadNameFullAddress'] ?? ''));
+$postalCode = trim((string) ($hospital['PostalCode'] ?? ''));
+$district = '인근';
 
-// 지역명 추출
-preg_match('/([가-힣]+구|[가-힣]+읍|[가-힣]+면)/u', $fullAddress, $matches);
-$district_name = $matches[0] ?? '';
+if ($fullAddress !== '' && preg_match('/([가-힣]+구|[가-힣]+읍|[가-힣]+면)/u', $fullAddress, $matches)) {
+    $district = $matches[0];
+}
 
-// 기본값 보정
-$storeName = $storeName ?: '의료기관';
-$districtText = $district_name ?: '인근';
+$canonicalUrl = $canonicalUrl ?? base_url('hospital/detail/' . $hospitalId);
+$pageTitle = $hospitalName . ' | ' . $district . ' 위치, 운영시간, 리뷰 - 편잇';
+$pageDescription = $district . '에 위치한 ' . $hospitalName . '의 운영시간, 주소, 전화번호, 사용자 리뷰 정보를 확인해보세요.';
+$reviewCount = is_array($reviews ?? null) ? count($reviews) : 0;
+$avgRating = 0.0;
+if (isset($ratingSummary['avg_rating']) && is_numeric($ratingSummary['avg_rating'])) {
+    $avgRating = round((float) $ratingSummary['avg_rating'], 1);
+}
+
+$jsonLd = [
+    '@context' => 'https://schema.org',
+    '@type' => 'MedicalClinic',
+    'name' => $hospitalName,
+    'url' => $canonicalUrl,
+    'telephone' => $phoneNumber,
+    'address' => [
+        '@type' => 'PostalAddress',
+        'streetAddress' => $roadAddress !== '' ? $roadAddress : $fullAddress,
+        'addressLocality' => $district,
+        'postalCode' => $postalCode,
+        'addressCountry' => 'KR',
+    ],
+];
+
+if (!empty($latitude) && !empty($longitude)) {
+    $jsonLd['geo'] = [
+        '@type' => 'GeoCoordinates',
+        'latitude' => (float) $latitude,
+        'longitude' => (float) $longitude,
+    ];
+}
+
+if ($reviewCount > 0 && $avgRating > 0) {
+    $jsonLd['aggregateRating'] = [
+        '@type' => 'AggregateRating',
+        'ratingValue' => $avgRating,
+        'reviewCount' => $reviewCount,
+    ];
+}
 ?>
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><?= esc($pageTitle) ?></title>
+  <meta name="description" content="<?= esc($pageDescription) ?>">
+  <meta name="keywords" content="<?= esc($hospitalName) ?>, 의료기관, <?= esc($district) ?> 병원, 위치, 운영시간, 후기, 정보">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="<?= esc($canonicalUrl) ?>">
 
-<!-- 메타태그 시작 -->
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="<?= esc($pageTitle) ?>">
+  <meta property="og:description" content="<?= esc($pageDescription) ?>">
+  <meta property="og:url" content="<?= esc($canonicalUrl) ?>">
+  <meta property="og:image" content="<?= esc(base_url('img/logo.png')) ?>">
 
-<title><?= $storeName ?> | <?= $districtText ?> 위치, 운영시간, 리뷰 - 편잇</title>
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="<?= esc($pageTitle) ?>">
+  <meta name="twitter:description" content="<?= esc($pageDescription) ?>">
+  <meta name="twitter:image" content="<?= esc(base_url('img/logo.png')) ?>">
 
+  <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464" crossorigin="anonymous"></script>
 
-<meta name="description" content="<?= $districtText ?>에 위치한 <?= $storeName ?>의 운영시간, 주소, 전화번호, 사용자 리뷰 정보를 확인해보세요.">
-<meta name="keywords" content="<?= $storeName ?>, 의료기관, <?= $districtText ?> 병원, 위치, 운영시간, 후기, 정보">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="<?= esc($canonicalUrl ?? current_url()) ?>">
+  <style>
+    :root {
+      --main-color: #62d491;
+      --point-color: #3eaf7c;
+      --bg-color: #f7f8fa;
+      --card-bg: #ffffff;
+      --border-color: #dfe4ea;
+      --text-color: #253238;
+      --sub-text: #5f6b72;
+    }
 
-<!-- Open Graph -->
-<meta property="og:title" content="<?= $storeName ?> - <?= $districtText ?> 위치 정보 | 편잇">
-<meta property="og:description" content="<?= $districtText ?>에 위치한 <?= $storeName ?>의 지도, 운영시간, 전화번호, 리뷰를 제공합니다.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="<?= esc($canonicalUrl ?? current_url()) ?>">
-<meta property="og:image" content="<?= base_url('img/logo.png') ?>">
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg-color);
+      color: var(--text-color);
+      font-family: "Pretendard", "Noto Sans KR", Arial, sans-serif;
+      line-height: 1.6;
+    }
 
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="<?= $storeName ?> - <?= $districtText ?> | 편잇">
-<meta name="twitter:description" content="<?= $storeName ?>의 위치, 운영시간, 리뷰 정보를 확인하세요.">
-<meta name="twitter:image" content="<?= base_url('img/logo.png') ?>">
+    .page-wrap {
+      max-width: 1080px;
+      margin: 24px auto 40px;
+      padding: 0 16px;
+    }
 
-    <!-- Naver 지도 API 주석 처리
-    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
-    -->
+    .hero-card,
+    .content-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      padding: 24px;
+      margin-bottom: 16px;
+    }
 
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
-     crossorigin="anonymous"></script>
-    <style>
-/* ===== 기본 설정 ===== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+    .hero-title {
+      margin: 0 0 8px;
+      font-size: 30px;
+      line-height: 1.3;
+      color: #1f2d33;
+    }
 
-html, body {
-  height: 100%;
-  font-family: 'Helvetica Neue', sans-serif;
-  background-color: #f8f9fa;
-  color: #333;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+    .hero-subtitle {
+      margin: 0;
+      color: var(--sub-text);
+      font-size: 15px;
+    }
 
-.container {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 20px;
-}
+    .status-row {
+      margin-top: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
 
-h1 {
-  font-size: 2.2em;
-  color: #007b83;
-  text-align: center;
-  margin-bottom: 30px;
-}
+    .status-chip {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      border: 1px solid #d1f0df;
+      background: #f0fdf8;
+      color: #24694c;
+    }
 
-/* ===== 섹션 ===== */
-.section {
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  padding: 25px;
-  margin-bottom: 25px;
-}
+    .section-title {
+      margin: 0 0 14px;
+      font-size: 20px;
+      color: var(--point-color);
+    }
 
-.section h2 {
-  font-size: 1.4em;
-  border-bottom: 2px solid #eee;
-  padding-bottom: 10px;
-  margin-bottom: 15px;
-  color: #007b83;
-}
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
 
-.section p, .section li, .section td {
-  font-size: 1em;
-  line-height: 1.6;
-  margin: 6px 0;
-}
+    .info-box {
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 14px;
+      background: #fbfdfc;
+    }
 
-/* ===== 버튼 ===== */
-button, .btn {
-  background-color: #007b83;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  font-size: 1em;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: 0.3s;
-}
+    .info-label {
+      font-size: 12px;
+      color: var(--sub-text);
+      margin-bottom: 6px;
+    }
 
-button:hover, .btn:hover {
-  background-color: #005f63;
-}
+    .info-value {
+      font-size: 15px;
+      color: var(--text-color);
+      word-break: break-word;
+    }
 
-/* ===== 리뷰 ===== */
-.review-rating {
-  color: #f39c12;
-  font-size: 1.2em;
-}
+    .nearby-table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+    }
 
-.review {
-  padding: 20px;
-  border-bottom: 1px solid #ddd;
-}
+    .nearby-table th,
+    .nearby-table td {
+      border-bottom: 1px solid var(--border-color);
+      padding: 11px 10px;
+      text-align: left;
+      font-size: 14px;
+      vertical-align: top;
+    }
 
-.review:last-child {
-  border-bottom: none;
-}
+    .nearby-table th {
+      background: #eefaf4;
+      color: #2c5f49;
+      font-weight: 700;
+    }
 
-/* ===== 폼 ===== */
-.add-review-form input[type="text"],
-.add-review-form select,
-.add-review-form textarea {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 1em;
-  width: 100%;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
+    .nearby-table tr:last-child td {
+      border-bottom: none;
+    }
 
-.add-review-form button {
-  width: 100%;
-}
+    .nearby-table a {
+      color: #24754f;
+      text-decoration: none;
+      font-weight: 600;
+    }
 
-/* ===== 테이블 ===== */
-.table {
-  width: 100%;
-  border-collapse: collapse;
-}
+    .nearby-table a:hover {
+      text-decoration: underline;
+    }
 
-.table th,
-.table td {
-  padding: 12px 15px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
-}
+    .review-summary {
+      margin-bottom: 14px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: #f6fcf9;
+      border: 1px solid #d8efe3;
+      color: #285b46;
+      font-size: 14px;
+    }
 
-.table th {
-  background-color: #f0f0f0;
-  font-weight: bold;
-}
+    .review-item {
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      background: #fff;
+      padding: 14px;
+      margin-bottom: 10px;
+    }
 
-.table a {
-  color: #007b83;
-  text-decoration: none;
-  font-weight: bold;
-}
+    .review-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
 
-.table a:hover {
-  text-decoration: underline;
-}
+    .review-author {
+      font-weight: 700;
+    }
 
-/* ===== 지도 - 주석 처리 =====
-#map {
-  width: 100%;
-  height: 300px;
-  margin-top: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-*/
+    .review-rating {
+      color: #f2a11b;
+      font-weight: 700;
+    }
 
-/* ===== 푸터 ===== */
-.footer {
-  text-align: center;
-  margin-top: 40px;
-  padding: 20px;
-  font-size: 0.9em;
-  color: #666;
-  border-top: 1px solid #ddd;
-  background-color: #f7f9fc;
-  border-radius: 8px;
-  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
-}
+    .review-date {
+      color: var(--sub-text);
+      font-size: 12px;
+      margin-top: 8px;
+    }
 
-.footer a {
-  color: #007b83;
-  text-decoration: none;
-}
+    .review-form {
+      display: grid;
+      gap: 10px;
+    }
 
-.footer a:hover {
-  text-decoration: underline;
-}
+    .review-form input[type="text"],
+    .review-form select,
+    .review-form textarea {
+      width: 100%;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 10px 11px;
+      font-size: 14px;
+      background: #fff;
+    }
 
-/* ===== 반응형 ===== */
-@media (max-width: 768px) {
-  .container {
-    width: 95%;
-  }
+    .review-form button {
+      border: none;
+      border-radius: 8px;
+      background: var(--main-color);
+      color: #fff;
+      font-weight: 700;
+      padding: 12px;
+      cursor: pointer;
+      transition: background-color .2s ease;
+    }
 
-  h1 {
-    font-size: 1.8em;
-  }
+    .review-form button:hover {
+      background: var(--point-color);
+    }
 
-  .section {
-    padding: 15px;
-  }
+    .share-row {
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
 
-  .add-review-form button {
-    font-size: 1em;
-  }
-}
+    .share-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid var(--border-color);
+      background: #fff;
+    }
 
+    .share-btn img {
+      width: 22px;
+      height: 22px;
+      display: block;
+    }
 
-    </style>
+    @media (max-width: 768px) {
+      .hero-title { font-size: 24px; }
+      .info-grid { grid-template-columns: 1fr; }
+      .nearby-table th, .nearby-table td { font-size: 13px; padding: 9px 8px; }
+      .hero-card, .content-card { padding: 16px; }
+    }
+  </style>
 </head>
 <body>
-<?php
-    include APPPATH . 'Views/includes/header.php';
-  ?>
-    <div class="container">
-        <h1><?= esc($hospital['BusinessName']); ?></h1>
+<?php include APPPATH . 'Views/includes/header.php'; ?>
 
+<main class="page-wrap">
+  <section class="hero-card">
+    <h1 class="hero-title"><?= esc($hospitalName) ?></h1>
+    <p class="hero-subtitle"><?= esc($district) ?> 위치 의료기관 상세 정보, 주변 시설, 리뷰를 확인하세요.</p>
+    <div class="status-row">
+      <span class="status-chip">서비스: <?= esc($openServiceName) ?></span>
+      <span class="status-chip">상태: <?= esc($businessStatus) ?></span>
+      <?php if ($permitDate !== ''): ?>
+        <span class="status-chip">허가일: <?= esc($permitDate) ?></span>
+      <?php endif; ?>
+    </div>
+  </section>
 
-<!-- Floating menu bar -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-6686738239613464"
+       data-ad-slot="1204098626"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 
-    <ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-6686738239613464"
-     data-ad-slot="1204098626"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-        <div class="hospital-details">
-            <div class="card">
-                <h2>기본 정보</h2>
-                <p><strong>서비스명:</strong> <?= esc($hospital['OpenServiceName']); ?></p>
-            </div>
-            
-            <div class="card">
-                <h2>운영 상태</h2>
-                <p><strong>영업 상태:</strong> <?= esc($hospital['BusinessStatusName']); ?></p>
-                <p><strong>허가일자:</strong> <?= esc($hospital['PermitDate']); ?></p>
-            </div>
-            
-            <div class="card">
-                <h2>연락처 및 위치</h2>
-                <p><strong>전화번호:</strong> <?= esc($hospital['PhoneNumber']); ?></p>
-                <p><strong>주소:</strong> <?= esc($hospital['FullAddress']); ?></p>
-                <p><strong>도로명 주소:</strong> <?= esc($hospital['RoadNameFullAddress']); ?></p>
-                <p><strong>우편번호:</strong> <?= esc($hospital['PostalCode']); ?></p>
-            </div>
-        </div>
+  <section class="content-card">
+    <h2 class="section-title">기본 정보</h2>
+    <div class="info-grid">
+      <div class="info-box">
+        <div class="info-label">의료기관명</div>
+        <div class="info-value"><?= esc($hospitalName) ?></div>
+      </div>
+      <div class="info-box">
+        <div class="info-label">서비스 분류</div>
+        <div class="info-value"><?= esc($openServiceName) ?></div>
+      </div>
+      <div class="info-box">
+        <div class="info-label">전화번호</div>
+        <div class="info-value"><?= esc($phoneNumber !== '' ? $phoneNumber : '정보 없음') ?></div>
+      </div>
+      <div class="info-box">
+        <div class="info-label">영업 상태</div>
+        <div class="info-value"><?= esc($businessStatus) ?></div>
+      </div>
+      <div class="info-box">
+        <div class="info-label">주소</div>
+        <div class="info-value"><?= esc($fullAddress !== '' ? $fullAddress : '정보 없음') ?></div>
+      </div>
+      <div class="info-box">
+        <div class="info-label">도로명 주소</div>
+        <div class="info-value"><?= esc($roadAddress !== '' ? $roadAddress : '정보 없음') ?></div>
+      </div>
+    </div>
+  </section>
 
-        <!-- 지도 div 주석 처리
-        <div id="map"></div>
-        -->
+  <section class="content-card">
+    <h2 class="section-title">근처 의료기관</h2>
+    <?php if (!empty($nearbyFacilities)): ?>
+      <table class="nearby-table">
+        <thead>
+          <tr>
+            <th>시설명</th>
+            <th>주소</th>
+            <th>전화번호</th>
+            <th>거리 (km)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach ($nearbyFacilities as $facility): ?>
+            <tr>
+              <td><a href="/hospital/detail/<?= esc($facility['ID'] ?? '') ?>"><?= esc($facility['BusinessName'] ?? '의료기관') ?></a></td>
+              <td><?= esc($facility['FullAddress'] ?? '') ?></td>
+              <td><?= esc($facility['PhoneNumber'] ?? '') ?></td>
+              <td><?= isset($facility['distance']) ? esc(number_format((float) $facility['distance'], 2)) . ' km' : '-' ?></td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    <?php else: ?>
+      <p>근처 의료기관 정보가 없습니다.</p>
+    <?php endif; ?>
+  </section>
 
-        <ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-6686738239613464"
-     data-ad-slot="1204098626"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-        <div class="nearby-facilities">
-            <h2>근처 편의시설 (5km 이내)</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>시설명</th>
-                        <th>주소</th>
-                        <th>전화번호</th>
-                        <th>거리 (km)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (!empty($nearbyFacilities)): ?>
-                        <?php foreach ($nearbyFacilities as $facility): ?>
-                            <tr>
-                                <td><a href="/hospital/detail/<?= esc($facility['ID']); ?>"><?= esc($facility['BusinessName']); ?></a></td>
-                                <td><?= esc($facility['FullAddress']); ?></td>
-                                <td><?= esc($facility['PhoneNumber']); ?></td>
-                                <td><?= number_format($facility['distance'], 2); ?> km</td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <tr><td colspan="4">근처에 편의시설이 없습니다.</td></tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="review-section">
-            <h2>리뷰 및 평점</h2>
-            <?php if ($reviews): ?>
-                <?php foreach ($reviews as $review): ?>
-                    <div class="review">
-                        <p><strong><?= esc($review['user_name']); ?></strong> - <span class="review-rating"><?= str_repeat('★', $review['rating']); ?></span></p>
-                        <p><?= esc($review['comment']); ?></p>
-                        <p><small><?= esc($review['created_at']); ?></small></p>
-                    </div>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <p>아직 리뷰가 없습니다.</p>
-            <?php endif; ?>
-        </div>
-
-        <div class="add-review-form">
-            <h2>리뷰 작성</h2>
-            <form action="/hospital/addReview" method="post">
-                <input type="hidden" name="hospital_id" value="<?= esc($hospital['ID']); ?>">
-                <label for="user_name">이름:</label>
-                <input type="text" name="user_name" required>
-                
-                <label for="rating">평점:</label>
-                <select name="rating" required>
-                    <option value="5">★★★★★</option>
-                    <option value="4">★★★★</option>
-                    <option value="3">★★★</option>
-                    <option value="2">★★</option>
-                    <option value="1">★</option>
-                </select>
-                
-                <label for="comment">댓글:</label>
-                <textarea name="comment" rows="4" required></textarea>
-                
-                <button type="submit">리뷰 작성</button>
-            </form>
-        </div>
-        <div class="social-share" style="text-align: center; margin-top: 20px;">
-    <p>이 의료기관 정보를 공유하세요:</p>
-    
-    <!-- Facebook 공유 버튼 -->
-    <a href="https://facebook.com/sharer/sharer.php?u=<?= urlencode(current_url()) ?>" target="_blank" style="display: inline-block; margin-right: 10px;">
-        <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook 공유" style="width: 40px; height: 40px;">
-    </a>
-    
-    <!-- Twitter 공유 버튼 -->
-    <a href="https://twitter.com/share?url=<?= urlencode(current_url()) ?>" target="_blank" style="display: inline-block;">
-        <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter 공유" style="width: 40px; height: 40px;">
-    </a>
-</div>
-
-<?= view_cell('\App\Cells\ExtraInfoCell::render') ?>
-  <?php include APPPATH . 'Views/includes/footer.php'; ?>
-
-
+  <section class="content-card">
+    <h2 class="section-title">리뷰 및 평점</h2>
+    <div class="review-summary">
+      평균 평점: <strong><?= esc(number_format($avgRating, 1)) ?></strong> / 5 · 리뷰 <strong><?= esc((string) $reviewCount) ?></strong>개
     </div>
 
-    <!-- 네이버맵 스크립트 주석 처리
-    <script>
-        var latitude = <?= json_encode($latitude); ?>;
-        var longitude = <?= json_encode($longitude); ?>;
+    <?php if (!empty($reviews)): ?>
+      <?php foreach ($reviews as $review): ?>
+        <article class="review-item">
+          <div class="review-head">
+            <span class="review-author"><?= esc($review['user_name'] ?? '익명') ?></span>
+            <span class="review-rating"><?= str_repeat('★', (int) ($review['rating'] ?? 0)) ?></span>
+          </div>
+          <div><?= esc($review['comment'] ?? '') ?></div>
+          <div class="review-date"><?= esc($review['created_at'] ?? '') ?></div>
+        </article>
+      <?php endforeach; ?>
+    <?php else: ?>
+      <p>아직 등록된 리뷰가 없습니다.</p>
+    <?php endif; ?>
+  </section>
 
-        var mapOptions = {
-            center: new naver.maps.LatLng(latitude, longitude),
-            zoom: 16
-        };
+  <section class="content-card">
+    <h2 class="section-title">리뷰 작성</h2>
+    <form class="review-form" action="/hospital/addReview" method="post">
+      <input type="hidden" name="hospital_id" value="<?= esc((string) $hospitalId) ?>">
+      <input type="text" name="user_name" placeholder="이름" required>
+      <select name="rating" required>
+        <option value="5">★★★★★ (5점)</option>
+        <option value="4">★★★★ (4점)</option>
+        <option value="3">★★★ (3점)</option>
+        <option value="2">★★ (2점)</option>
+        <option value="1">★ (1점)</option>
+      </select>
+      <textarea name="comment" rows="4" placeholder="리뷰를 작성해주세요." required></textarea>
+      <button type="submit">리뷰 작성</button>
+    </form>
 
-        var map = new naver.maps.Map('map', mapOptions);
+    <div class="share-row">
+      <span>이 페이지 공유:</span>
+      <a class="share-btn" href="https://facebook.com/sharer/sharer.php?u=<?= urlencode($canonicalUrl) ?>" target="_blank" rel="noopener noreferrer" aria-label="Facebook 공유">
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="">
+      </a>
+      <a class="share-btn" href="https://twitter.com/share?url=<?= urlencode($canonicalUrl) ?>" target="_blank" rel="noopener noreferrer" aria-label="X 공유">
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="">
+      </a>
+    </div>
+  </section>
 
-        var marker = new naver.maps.Marker({
-            position: new naver.maps.LatLng(latitude, longitude),
-            map: map,
-            icon: {
-                url: 'https://example.com/path/to/custom-marker-icon.png',
-                size: new naver.maps.Size(30, 40),
-                origin: new naver.maps.Point(0, 0),
-                anchor: new naver.maps.Point(15, 40)
-            }
-        });
+  <?= view_cell('\App\Cells\ExtraInfoCell::render') ?>
+</main>
 
-        var infoWindow = new naver.maps.InfoWindow({
-            content: `<div style="padding:10px;font-size:14px;color:#333;"><strong><?= esc($hospital['BusinessName']); ?></strong></div>`
-        });
-
-        naver.maps.Event.addListener(marker, 'click', function() {
-            if (infoWindow.getMap()) {
-                infoWindow.close();
-            } else {
-                infoWindow.open(map, marker);
-            }
-        });
-    </script>
-    -->
-    	
-        <?php
-
-$hostname = $_SERVER['HTTP_HOST'];
-
-if (!preg_match('/^localhost(:[0-9]*)?$/', $hostname)) {
-    
-?>
-
-    <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
-    <script type="text/javascript">
-        if(!wcs_add) var wcs_add = {};
-        wcs_add["wa"] = "8adec19974bed8";
-        if(window.wcs) {
-            wcs_do();
-        }
-    </script>
-    <?php }
-    ?>
+<?php include APPPATH . 'Views/includes/footer.php'; ?>
 </body>
 </html>
