@@ -11,6 +11,7 @@ $routes->get('/', 'HospitalController::index');
 
 // 병원 관련 라우트
 $routes->get('hospital', 'HospitalController::list');
+$routes->get('hospital/(:num)', 'HospitalController::detail/$1');
 $routes->get('hospital/detail/(:num)', 'HospitalController::detail/$1');
 $routes->get('hospitals/detail/(:num)', 'HospitalController::detail/$1');
 $routes->post('/hospital/addReview', 'HospitalController::addReview');

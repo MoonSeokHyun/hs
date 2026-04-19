@@ -116,7 +116,8 @@ class HospitalController extends BaseController
     public function detail($id)
     {
         try {
-            if (service('uri')->getSegment(1) === 'hospitals') {
+            $uri = service('uri');
+            if ($uri->getSegment(1) === 'hospitals' || $uri->getSegment(2) !== 'detail') {
                 return redirect()->to(base_url('hospital/detail/' . $id), 301);
             }
 
