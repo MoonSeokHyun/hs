@@ -18,19 +18,52 @@ class AutomobileRepairShopController extends BaseController
 
     public function index()
     {
-        $pager = \Config\Services::pager();
         $perPage = 5;
 
-        // 검색어 필터링
-        $search = $this->request->getGet('search');
-        if ($search) {
-            $repair_shops = $this->repairShopModel->like('repair_shop_name', $search)
-                                ->orLike('road_address', $search)
-                                ->paginate($perPage);
-        } else {
-            $repair_shops = $this->repairShopModel->paginate($perPage);
+        $repair_shops = $this->repairShopModel->paginate($perPage);
+
+        $data = $this->buildBaseIndexData();
+        $data['repair_shops'] = $repair_shops;
+        $data['pager'] = $this->repairShopModel->pager;
+        $data['search'] = '';
+        $data['isSearchResult'] = false;
+
+        return view('automobile_repair_shop/index', $data);
+    }
+
+    public function search()
+    {
+        $perPage = 5;
+        $search = trim((string) $this->request->getGet('search'));
+
+        $data = $this->buildBaseIndexData();
+        $data['search'] = $search;
+        $data['isSearchResult'] = true;
+
+        if ($search === '') {
+            $data['repair_shops'] = [];
+            $data['pager'] = null;
+            $data['noResultsMessage'] = '검색어를 입력해주세요.';
+            return view('automobile_repair_shop/index', $data);
         }
 
+        $data['repair_shops'] = $this->repairShopModel
+            ->groupStart()
+                ->like('repair_shop_name', $search)
+                ->orLike('road_address', $search)
+            ->groupEnd()
+            ->paginate($perPage);
+        $data['pager'] = $this->repairShopModel->pager;
+
+        if (empty($data['repair_shops'])) {
+            $data['noResultsMessage'] = '검색 결과가 없습니다.';
+        }
+
+        return view('automobile_repair_shop/index', $data);
+    }
+
+    private function buildBaseIndexData(): array
+    {
         // 최근 추가된 정비소
         $recentRepairShops = $this->repairShopModel->orderBy('id', 'DESC')->findAll(5);
 
@@ -49,14 +82,11 @@ class AutomobileRepairShopController extends BaseController
             ->orderBy('automobile_repair_shop_reviews.id', 'DESC')
             ->findAll(5);
 
-        return view('automobile_repair_shop/index', [
-            'repair_shops' => $repair_shops,
-            'pager' => $this->repairShopModel->pager,
-            'search' => $search,
+        return [
             'recentRepairShops' => $recentRepairShops,
             'popularRepairShops' => $popularRepairShops,
-            'recentReviews' => $recentReviews
-        ]);
+            'recentReviews' => $recentReviews,
+        ];
     }
 
     public function detail($id)

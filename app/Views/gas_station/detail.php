@@ -23,14 +23,14 @@ $gas_station_type = isset($station['gas_station_type']) ? esc($station['gas_stat
   <meta property="og:title" content="<?= esc($station['gas_station_name']) ?> 주유소 가격 정보">
   <meta property="og:description" content="<?= esc($station['gas_station_name']) ?> 주유소의 유가와 위치 정보를 확인하세요.">
   <meta property="og:url" content="<?= current_url() ?>">
-  <meta property="og:image" content="URL_TO_IMAGE"> <!-- 주유소 대표 이미지 URL 추가 -->
-  <meta property="og:site_name" content="Car Hub - 주유소 정보 사이트">
+  <meta property="og:image" content="<?= base_url('img/logo.png') ?>">
+  <meta property="og:site_name" content="편잇 - 주유소 정보">
 
   <!-- Twitter meta tags for social media sharing -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="<?= esc($station['gas_station_name']) ?> 주유소 가격 정보">
   <meta name="twitter:description" content="<?= esc($station['gas_station_name']) ?> 주유소의 유가와 위치 정보를 확인하세요.">
-  <meta name="twitter:image" content="URL_TO_IMAGE">
+  <meta name="twitter:image" content="<?= base_url('img/logo.png') ?>">
 
   <title><?= $district_name ?> 주유소 추천 | <?= $gas_station_name ?> - 기름값, 위치 정보</title>
 

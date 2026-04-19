@@ -6,6 +6,7 @@
     <title>Car Hub - 주유소 정보 및 리뷰</title>
     <meta name="description" content="Car Hub에서 최신 주유소 정보와 사용자 리뷰를 확인하세요. 주유소 위치, 리뷰, 평균 평점을 제공하여 쉽게 원하는 주유소를 찾을 수 있습니다.">
     <meta name="keywords" content="주유소, Car Hub, 주유소 리뷰, 주유소 위치, 주유소 평점, 서울 주유소">
+    <meta name="robots" content="<?= !empty($isSearchResult) ? 'noindex, follow' : 'index, follow' ?>">
     <!-- 네이버맵 API 주석 처리
     <script async src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
     -->
@@ -255,10 +256,17 @@ crossorigin="anonymous"></script>
     <div class="container">
         <div class="search-box">
             <form action="<?= base_url('gas_stations/search'); ?>" method="get">
-                <input type="text" name="search" placeholder="주유소 이름 검색..." required>
+                <input type="text" name="search" value="<?= esc($search ?? '') ?>" placeholder="주유소 이름 검색...">
                 <button type="submit">검색</button>
             </form>
         </div>
+
+        <?php if (!empty($isSearchResult) && !empty($noResultsMessage)): ?>
+        <section class="section">
+            <h2>검색 결과</h2>
+            <p><?= esc($noResultsMessage) ?></p>
+        </section>
+        <?php endif; ?>
 
         <section class="section">
             <h2>최근 추가된 주유소</h2>

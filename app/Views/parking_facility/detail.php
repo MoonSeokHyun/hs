@@ -26,7 +26,7 @@ $keywordsSeo = implode(',', [$district, '공영주차장', $facility['FCLTY_NM']
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "name": "<?= $facility['FCLTY_NM'] ?> 공영주차장",
-    "image": "[여기에_대표이미지_URL]",
+    "image": "<?= base_url('img/logo.png') ?>",
     "@id": "<?= current_url() ?>",
     "url": "<?= current_url() ?>",
     "telephone": "<?= $facility['TEL_NO'] ?? '' ?>",
@@ -56,7 +56,7 @@ $keywordsSeo = implode(',', [$district, '공영주차장', $facility['FCLTY_NM']
   <meta property="og:title" content="<?= $titleSeo ?>" />
   <meta property="og:description" content="<?= $descSeo ?>" />
   <meta property="og:url" content="<?= current_url() ?>" />
-  <meta property="og:image" content="[여기에_대표이미지_URL]" />
+  <meta property="og:image" content="<?= base_url('img/logo.png') ?>" />
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="<?= $titleSeo ?>" />

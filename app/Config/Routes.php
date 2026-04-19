@@ -10,6 +10,8 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'HospitalController::index');
 
 // 병원 관련 라우트
+$routes->get('hospital', 'HospitalController::list');
+$routes->get('hospital/detail/(:num)', 'HospitalController::detail/$1');
 $routes->get('hospitals/detail/(:num)', 'HospitalController::detail/$1');
 $routes->post('/hospital/addReview', 'HospitalController::addReview');
 $routes->get('hospital/search', 'HospitalController::search');
@@ -21,6 +23,7 @@ $routes->post('facility/addReview', 'FacilityController::addReview');
 // 사이트맵 라우트
 $routes->get('sitemap', 'SitemapController::index');
 $routes->get('sitemap/events/(:num)', 'SitemapController::events/$1');
+$routes->get('sitemap/hospitals/(:num)', 'SitemapController::hospitals/$1');
 $routes->get('sitemap/gasstations/(:num)', 'SitemapController::gasstations/$1');
 $routes->get('sitemap/parkinglots/(:num)', 'SitemapController::parkinglots/$1');
 $routes->get('sitemap/hotel/(:num)', 'SitemapController::hotel/$1');

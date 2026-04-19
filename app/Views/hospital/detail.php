@@ -9,7 +9,7 @@ preg_match('/([가-힣]+구|[가-힣]+읍|[가-힣]+면)/u', $fullAddress, $matc
 $district_name = $matches[0] ?? '';
 
 // 기본값 보정
-$storeName = $storeName ?: '편의점';
+$storeName = $storeName ?: '의료기관';
 $districtText = $district_name ?: '인근';
 ?>
 
@@ -21,25 +21,26 @@ $districtText = $district_name ?: '인근';
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title><?= $storeName ?> | <?= $districtText ?> 위치, 운영시간, 리뷰 - Ease Hub</title>
+<title><?= $storeName ?> | <?= $districtText ?> 위치, 운영시간, 리뷰 - 편잇</title>
 
 
 <meta name="description" content="<?= $districtText ?>에 위치한 <?= $storeName ?>의 운영시간, 주소, 전화번호, 사용자 리뷰 정보를 확인해보세요.">
-<meta name="keywords" content="<?= $storeName ?>, 편의점, <?= $districtText ?> 편의점, 위치, 운영시간, 후기, 정보">
+<meta name="keywords" content="<?= $storeName ?>, 의료기관, <?= $districtText ?> 병원, 위치, 운영시간, 후기, 정보">
 <meta name="robots" content="index, follow">
+<link rel="canonical" href="<?= esc($canonicalUrl ?? current_url()) ?>">
 
 <!-- Open Graph -->
-<meta property="og:title" content="<?= $storeName ?> - <?= $districtText ?> 위치 정보 | Ease Hub">
-<meta property="og:description" content="<?= $districtText ?>에 위치한 <?= $storeName ?> 편의점의 지도, 운영시간, 전화번호, 리뷰를 제공합니다.">
+<meta property="og:title" content="<?= $storeName ?> - <?= $districtText ?> 위치 정보 | 편잇">
+<meta property="og:description" content="<?= $districtText ?>에 위치한 <?= $storeName ?>의 지도, 운영시간, 전화번호, 리뷰를 제공합니다.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://easehub.co.kr/store/detail/<?= $storeId ?>">
-<meta property="og:image" content="https://easehub.co.kr/assets/img/convenience-default.jpg">
+<meta property="og:url" content="<?= esc($canonicalUrl ?? current_url()) ?>">
+<meta property="og:image" content="<?= base_url('img/logo.png') ?>">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="<?= $storeName ?> - <?= $districtText ?> | Ease Hub">
+<meta name="twitter:title" content="<?= $storeName ?> - <?= $districtText ?> | 편잇">
 <meta name="twitter:description" content="<?= $storeName ?>의 위치, 운영시간, 리뷰 정보를 확인하세요.">
-<meta name="twitter:image" content="https://easehub.co.kr/assets/img/convenience-default.jpg">
+<meta name="twitter:image" content="<?= base_url('img/logo.png') ?>">
 
     <!-- Naver 지도 API 주석 처리
     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
@@ -298,7 +299,7 @@ button:hover, .btn:hover {
                     <?php if (!empty($nearbyFacilities)): ?>
                         <?php foreach ($nearbyFacilities as $facility): ?>
                             <tr>
-                                <td><a href="/hospitals/detail/<?= esc($facility['ID']); ?>"><?= esc($facility['BusinessName']); ?></a></td>
+                                <td><a href="/hospital/detail/<?= esc($facility['ID']); ?>"><?= esc($facility['BusinessName']); ?></a></td>
                                 <td><?= esc($facility['FullAddress']); ?></td>
                                 <td><?= esc($facility['PhoneNumber']); ?></td>
                                 <td><?= number_format($facility['distance'], 2); ?> km</td>
@@ -349,15 +350,15 @@ button:hover, .btn:hover {
             </form>
         </div>
         <div class="social-share" style="text-align: center; margin-top: 20px;">
-    <p>이 편의시설 정보를 공유하세요:</p>
+    <p>이 의료기관 정보를 공유하세요:</p>
     
     <!-- Facebook 공유 버튼 -->
-    <a href="https://facebook.com/sharer/sharer.php?u=https://easehub.co.kr/hospital/detail/<?= esc($hospital['ID']); ?>" target="_blank" style="display: inline-block; margin-right: 10px;">
+    <a href="https://facebook.com/sharer/sharer.php?u=<?= urlencode(current_url()) ?>" target="_blank" style="display: inline-block; margin-right: 10px;">
         <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook 공유" style="width: 40px; height: 40px;">
     </a>
     
     <!-- Twitter 공유 버튼 -->
-    <a href="https://twitter.com/share?url=https://easehub.co.kr/hospital/detail/<?= esc($hospital['ID']); ?>" target="_blank" style="display: inline-block;">
+    <a href="https://twitter.com/share?url=<?= urlencode(current_url()) ?>" target="_blank" style="display: inline-block;">
         <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter 공유" style="width: 40px; height: 40px;">
     </a>
 </div>

@@ -18,11 +18,11 @@ class SitemapModel extends Model
     /**
      * 공통 데이터 조회 메서드
      */
-    private function getDataForSitemap(string $table, string $columns, int $limit, int $offset): array
+    private function getDataForSitemap(string $table, string $columns, int $limit, int $offset, string $orderField = 'id'): array
     {
         return $this->db->table($table)
             ->select($columns)
-            ->orderBy('id', 'ASC')
+            ->orderBy($orderField, 'ASC')
             ->limit($limit, $offset)
             ->get()
             ->getResultArray();
@@ -155,5 +155,16 @@ class SitemapModel extends Model
     public function getChargingStationsForSitemap(int $limit, int $offset): array
     {
         return $this->getDataForSitemap('charging_stations', 'id', $limit, $offset);
+    }
+
+    // 의료기관 데이터 관련 메서드
+    public function countAllHospitals(): int
+    {
+        return $this->countData('MedicalInstitutions');
+    }
+
+    public function getHospitalsForSitemap(int $limit, int $offset): array
+    {
+        return $this->getDataForSitemap('MedicalInstitutions', 'ID', $limit, $offset, 'ID');
     }
 }

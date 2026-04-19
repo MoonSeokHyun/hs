@@ -14,6 +14,32 @@ class HospitalController extends BaseController
 {
     public function index()
     {
+        $data = $this->buildHospitalPageData();
+
+        return view('hospital/index', $data);
+    }
+
+    public function list()
+    {
+        $data = $this->buildHospitalPageData();
+
+        return view('layouts/main', [
+            'title' => '전국 의료기관 찾기 | 편잇',
+            'description' => '전국 의료기관의 위치, 연락처, 리뷰 정보를 한눈에 확인하세요.',
+            'content' => view('hospital/index_content', $data),
+            'seo' => [
+                'canonical' => current_url(),
+                'og' => [
+                    'title' => '전국 의료기관 찾기 | 편잇',
+                    'description' => '전국 의료기관의 위치, 연락처, 리뷰 정보를 한눈에 확인하세요.',
+                    'url' => current_url(),
+                ],
+            ],
+        ]);
+    }
+
+    private function buildHospitalPageData(): array
+    {
         $hospitalModel = new HospitalModel();
         $reviewModel = new ReviewModel();
         $eventModel = new EventCrawlingModel();
@@ -60,7 +86,7 @@ class HospitalController extends BaseController
             return $reviewModel->getLatestReviews(5);
         });
 
-        return view('hospital/index', $data);
+        return $data;
     }
 
 
@@ -90,6 +116,10 @@ class HospitalController extends BaseController
     public function detail($id)
     {
         try {
+            if (service('uri')->getSegment(1) === 'hospitals') {
+                return redirect()->to(base_url('hospital/detail/' . $id), 301);
+            }
+
             $hospitalModel = new HospitalModel();
             $reviewModel = new ReviewModel();
     
@@ -125,6 +155,10 @@ class HospitalController extends BaseController
                 $coords = ['latitude' => $pointDest->y, 'longitude' => $pointDest->x];
                 cache()->save($coordsCacheKey, $coords, 3600);
             }
+
+            if (!$coords) {
+                $coords = ['latitude' => null, 'longitude' => null];
+            }
     
             // 주변 시설 정보 캐시 및 가져오기
             $nearbyCacheKey = "nearby_facilities_{$id}";
@@ -141,7 +175,8 @@ class HospitalController extends BaseController
                 'ratingSummary' => $ratingSummary,
                 'nearbyFacilities' => $nearbyFacilities,
                 'latitude' => $coords['latitude'],
-                'longitude' => $coords['longitude']
+                'longitude' => $coords['longitude'],
+                'canonicalUrl' => base_url('hospital/detail/' . $id),
             ]);
     
         } catch (\Exception $e) {
@@ -175,15 +210,20 @@ class HospitalController extends BaseController
     {
         $hospitalModel = new HospitalModel();
         $query = $this->request->getGet('query');
+        $category = $this->request->getGet('category');
     
         $results = [];
         if (!empty($query)) {
             $results = $hospitalModel->searchHospitalsByName($query, 20);
+        } elseif (!empty($category)) {
+            $results = $hospitalModel->getHospitalsByCategory($category, 50);
         }
     
         return view('hospital/search', [
             'results' => $results,
-            'searchQuery' => $query
+            'searchQuery' => $query,
+            'searchCategory' => $category,
+            'isSearchResult' => true,
         ]);
     }
     

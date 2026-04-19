@@ -40,6 +40,7 @@ class HotelController extends Controller
     $data['hotels'] = $hotels;
     $data['pager'] = $hotelModel->pager;
     $data['recentHotels'] = $recentHotels;
+    $data['isSearchResult'] = false;
 
     return view('hotel/index', $data);
 }
@@ -71,6 +72,7 @@ class HotelController extends Controller
     
         // 검색어 유지
         $data['query'] = $query;
+        $data['isSearchResult'] = true;
     
         // 뷰 페이지 반환
         return view('hotel/hotel_list_view', $data);

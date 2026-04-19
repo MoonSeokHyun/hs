@@ -6,6 +6,8 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
      crossorigin="anonymous"></script>
     <title>편의시설 검색 결과</title>
+    <meta name="robots" content="noindex, follow">
+    <link rel="canonical" href="<?= base_url('hospital') ?>">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -89,7 +91,7 @@
         <?php if (!empty($results)): ?>
             <h2>검색 결과</h2>
             <?php foreach ($results as $result): ?>
-                <div class="search-item" onclick="location.href='/hospitals/detail/<?= esc($result['ID']); ?>'">
+                <div class="search-item" onclick="location.href='/hospital/detail/<?= esc($result['ID']); ?>'">
                     <h3><?= esc($result['BusinessName']); ?></h3>
                     <p>주소: <?= esc($result['FullAddress']); ?></p>
                 </div>

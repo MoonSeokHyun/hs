@@ -17,16 +17,11 @@ class GasStationController extends BaseController
 
     public function index()
     {
-        // 기본 주유소 리스트 및 페이징 처리
+        $data = $this->buildBaseIndexData();
         $data['gasStations'] = $this->gasStationModel->paginate(5, 'gasStationsGroup');
         $data['pager'] = $this->gasStationModel->pager;
-    
-        // 최근 주유소와 리뷰 5개씩 가져오기
-        $data['recentGasStations'] = $this->gasStationModel->getRecentGasStations();
-        $data['recentReviews'] = $this->reviewModel->getRecentReviewsWithStationName();
-        
-        // 인기 주유소 가져오기 (조인 사용)
-        $data['popularGasStations'] = $this->gasStationModel->getPopularGasStations();
+        $data['search'] = '';
+        $data['isSearchResult'] = false;
     
         return view('gas_station/index', $data);
     }
@@ -34,25 +29,44 @@ class GasStationController extends BaseController
 
     public function search()
     {
-        $searchQuery = $this->request->getGet('search');
+        $searchQuery = trim((string) $this->request->getGet('search'));
+
+        $data = $this->buildBaseIndexData();
+        $data['search'] = $searchQuery;
+        $data['isSearchResult'] = true;
 
         // 검색어가 없을 때 빈 결과 반환
-        if (!$searchQuery) {
-            return redirect()->to('/gas_stations');
+        if ($searchQuery === '') {
+            $data['gasStations'] = [];
+            $data['pager'] = null;
+            $data['noResultsMessage'] = '검색어를 입력해주세요.';
+            return view('gas_station/index', $data);
         }
 
         // 검색어를 통해 주유소 목록 검색
-        $data['gasStations'] = $this->gasStationModel->getGasStations(10, 1, $searchQuery);
+        $data['gasStations'] = $this->gasStationModel
+            ->groupStart()
+                ->like('gas_station_name', $searchQuery)
+                ->orLike('road_address', $searchQuery)
+            ->groupEnd()
+            ->paginate(10, 'gasStationsGroup');
+        $data['pager'] = $this->gasStationModel->pager;
 
         // 검색 결과가 없으면 메시지 설정
         if (empty($data['gasStations'])) {
             $data['noResultsMessage'] = '검색 결과가 없습니다.';
         }
 
-        // Pagination 링크 설정
-        $data['pager'] = $this->gasStationModel->pager;
-
         return view('gas_station/index', $data);
+    }
+
+    private function buildBaseIndexData(): array
+    {
+        return [
+            'recentGasStations' => $this->gasStationModel->getRecentGasStations(),
+            'recentReviews' => $this->reviewModel->getRecentReviewsWithStationName(),
+            'popularGasStations' => $this->gasStationModel->getPopularGasStations(),
+        ];
     }
 
     // 주유소 상세 페이지

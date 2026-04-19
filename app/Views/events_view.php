@@ -16,14 +16,14 @@
     <meta property="og:description" content="<?= $brand ? esc($brand) . '에서 진행 중인 다양한 이벤트를 확인하세요!' : '모든 브랜드의 최신 이벤트 리스트를 한눈에 볼 수 있습니다.' ?>">
     <meta property="og:type" content="website">
     <meta property="og:url" content="<?= current_url() ?>">
-    <meta property="og:image" content="<?= base_url('path/to/default-image.jpg') ?>"> <!-- 기본 이미지 또는 대표 이미지 -->
+    <meta property="og:image" content="<?= base_url('img/logo.png') ?>">
     <meta property="og:locale" content="ko_KR">
 
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="<?= $brand ? esc($brand) . ' 이벤트 리스트' : '모든 이벤트 리스트' ?>">
     <meta name="twitter:description" content="<?= $brand ? esc($brand) . '에서 진행 중인 다양한 이벤트를 확인하세요!' : '모든 브랜드의 최신 이벤트 리스트를 한눈에 볼 수 있습니다.' ?>">
-    <meta name="twitter:image" content="<?= base_url('path/to/default-image.jpg') ?>">
+    <meta name="twitter:image" content="<?= base_url('img/logo.png') ?>">
 
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">

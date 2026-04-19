@@ -8,6 +8,8 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
     crossorigin="anonymous"></script>
     <title>호텔 검색 - 호텔허브</title>
+    <meta name="robots" content="noindex, follow">
+    <link rel="canonical" href="<?= base_url('hotel') ?>">
 
     <style>
         body {

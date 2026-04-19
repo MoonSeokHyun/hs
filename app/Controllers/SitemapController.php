@@ -12,6 +12,7 @@ class SitemapController extends Controller
         $sitemapModel = new SitemapModel();
 
         $totalEvents               = $sitemapModel->countAllEvents();
+        $totalHospitals            = $sitemapModel->countAllHospitals();
         $totalGasStations          = $sitemapModel->countAllGasStations();
         $totalParkingLots          = $sitemapModel->countAllParkingLots();
         $totalHotels               = $sitemapModel->countAllHotels();
@@ -29,6 +30,7 @@ class SitemapController extends Controller
         $xml .= "<sitemapindex xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
 
         $xml .= $this->addSitemapEntries('events',            ceil($totalEvents / $itemsPerPage));
+        $xml .= $this->addSitemapEntries('hospitals',         ceil($totalHospitals / $itemsPerPage));
         $xml .= $this->addSitemapEntries('gasstations',       ceil($totalGasStations / $itemsPerPage));
         $xml .= $this->addSitemapEntries('parkinglots',       ceil($totalParkingLots / $itemsPerPage));
         $xml .= $this->addSitemapEntries('hotel',             ceil($totalHotels / $itemsPerPage));
@@ -63,6 +65,7 @@ class SitemapController extends Controller
     }
 
     public function events(int $pageNumber)             { return $this->generateSitemap('getEventsForSitemap', 'events/detail', 'created_at', $pageNumber, 'daily'); }
+    public function hospitals(int $pageNumber)          { return $this->generateSitemap('getHospitalsForSitemap', 'hospital/detail', '', $pageNumber, 'daily'); }
     public function gasstations(int $pageNumber)        { return $this->generateSitemap('getGasStationsForSitemap', 'gas_stations', 'data_reference_date', $pageNumber, 'daily'); }
     public function parkinglots(int $pageNumber)        { return $this->generateSitemap('getParkingLotsForSitemap', 'parking/detail', 'data_reference_date', $pageNumber, 'daily'); }
     public function hotel(int $pageNumber)              { return $this->generateSitemap('getHotelsForSitemap', 'hotel/detail', 'last_update_time', $pageNumber, 'daily'); }
@@ -94,10 +97,15 @@ class SitemapController extends Controller
         foreach ($data as $item) {
             $idField = isset($item['ID']) ? 'ID' : 'id';
             $url = base_url("{$baseRoute}/{$item[$idField]}");
+            $lastmod = $today;
+
+            if ($dateField !== '' && isset($item[$dateField]) && $item[$dateField]) {
+                $lastmod = $this->formatLastmod((string) $item[$dateField], $today);
+            }
 
             $xml .= "  <url>\n";
             $xml .= "    <loc>{$url}</loc>\n";
-            $xml .= "    <lastmod>{$today}</lastmod>\n";
+            $xml .= "    <lastmod>{$lastmod}</lastmod>\n";
             $xml .= "    <changefreq>{$changefreq}</changefreq>\n";
             $xml .= "  </url>\n";
         }
@@ -107,5 +115,24 @@ class SitemapController extends Controller
         return $this->response
             ->setHeader('Content-Type', 'application/xml; charset=utf-8')
             ->setBody($xml);
+    }
+
+    private function formatLastmod(string $rawDate, string $fallback): string
+    {
+        $rawDate = trim($rawDate);
+
+        if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $rawDate)) {
+            return $rawDate;
+        }
+
+        if (preg_match('/^\d{8}$/', $rawDate)) {
+            return substr($rawDate, 0, 4) . '-' . substr($rawDate, 4, 2) . '-' . substr($rawDate, 6, 2);
+        }
+
+        try {
+            return (new \DateTimeImmutable($rawDate))->format('Y-m-d');
+        } catch (\Exception $e) {
+            return $fallback;
+        }
     }
 }

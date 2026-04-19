@@ -12,10 +12,50 @@ class ParkingController extends BaseController
         $model = new ParkingLotModel();
         $commentModel = new CommentModel();
 
-        // 페이지네이션 설정
-        $perPage = 5;
-        $data['parkingLots'] = $model->paginate($perPage);
+        $data = $this->buildBaseIndexData($model, $commentModel);
+        $data['parkingLots'] = $model->paginate(5);
         $data['pager'] = $model->pager;
+        $data['search'] = '';
+        $data['isSearchResult'] = false;
+
+        return view('parking/index', $data);
+    }
+
+    public function search()
+    {
+        $model = new ParkingLotModel();
+        $commentModel = new CommentModel();
+        $search = trim((string) $this->request->getGet('search'));
+
+        $data = $this->buildBaseIndexData($model, $commentModel);
+        $data['search'] = $search;
+        $data['isSearchResult'] = true;
+
+        if ($search === '') {
+            $data['parkingLots'] = [];
+            $data['pager'] = null;
+            $data['noResultsMessage'] = '검색어를 입력해주세요.';
+            return view('parking/index', $data);
+        }
+
+        $data['parkingLots'] = $model
+            ->groupStart()
+                ->like('name', $search)
+                ->orLike('address_road', $search)
+            ->groupEnd()
+            ->paginate(5);
+        $data['pager'] = $model->pager;
+
+        if (empty($data['parkingLots'])) {
+            $data['noResultsMessage'] = '검색 결과가 없습니다.';
+        }
+
+        return view('parking/index', $data);
+    }
+
+    private function buildBaseIndexData(ParkingLotModel $model, CommentModel $commentModel): array
+    {
+        $data = [];
 
         // 최근 추가된 주차장 가져오기
         $data['recentParkingLots'] = $model->select('id, name, address_road')->orderBy('id', 'DESC')->limit(5)->findAll() ?? [];
@@ -39,22 +79,22 @@ class ParkingController extends BaseController
         $centerLat = 37.5665;
         $centerLng = 126.9780;
         $data['nearbyParkingLots'] = $model->select("id, name, latitude, longitude, (6371 * acos(cos(radians($centerLat)) * cos(radians(latitude)) * cos(radians(longitude) - radians($centerLng)) + sin(radians($centerLat)) * sin(radians(latitude)))) AS distance")
-            ->having('distance <=', 1) // 1km 이내
+            ->having('distance <=', 1)
             ->orderBy('distance', 'ASC')
             ->limit(20)
             ->findAll() ?? [];
 
-        return view('parking/index', $data);
+        return $data;
     }
 
     public function detail($id)
     {
         $parkingLotModel = new ParkingLotModel();
         $commentModel = new CommentModel();
-    
+
         // 주차장 상세 정보 가져오기
         $parkingLot = $parkingLotModel->find($id);
-    
+
         // 주차장 정보 유효성 확인 및 가상의 위치 정보 할당
         if (!$parkingLot) {
             // 기본 가상의 주차장 데이터 설정
@@ -72,14 +112,14 @@ class ParkingController extends BaseController
                 $parkingLot['longitude'] = 126.9780;
             }
         }
-    
+
         // 주변 주차장 정보 가져오기
         $nearbyParkingLots = $this->getNearbyParkingLots($parkingLot['latitude'], $parkingLot['longitude']);
-    
+
         // 댓글과 평점 가져오기
         $comments = $commentModel->getCommentsByParkingLot($id);
         $averageRating = $commentModel->getAverageRating($id);
-    
+
         // 뷰에 데이터 전달
         return view('parking/detail', [
             'parkingLot' => $parkingLot,

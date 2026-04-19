@@ -8,7 +8,7 @@
     <title>편잇 - 주차장, 정비소, 주유소 정보</title>
     <meta name="description" content="Car Hub에서 최신 주차장 정보와 인기 정비소, 주유소 정보를 확인하세요. 사용자 리뷰와 평점을 통해 신뢰도 높은 차량 관리 서비스를 제공합니다.">
     <meta name="keywords" content="주차장, 정비소, 주유소, 차량 관리, 리뷰, 평점">
-    <meta name="robots" content="index, follow">
+    <meta name="robots" content="<?= !empty($isSearchResult) ? 'noindex, follow' : 'index, follow' ?>">
     <meta name="author" content="Car Hub">
     <!-- 네이버맵 API 주석 처리
     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
@@ -160,10 +160,43 @@ crossorigin="anonymous"></script><head>
         <div class="section">
             <h2>주차장 검색</h2>
             <form method="get" action="/parking/search">
-                <input type="text" name="search" placeholder="주차장 이름 또는 주소 검색" style="width: 80%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                <input type="text" name="search" value="<?= esc($search ?? '') ?>" placeholder="주차장 이름 또는 주소 검색" style="width: 80%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
                 <button type="submit" style="padding: 10px 20px; background-color: #62D491; color: white; border: none; border-radius: 5px;">검색</button>
             </form>
         </div>
+
+        <?php if (!empty($isSearchResult)): ?>
+        <div class="section">
+            <h2>검색 결과</h2>
+            <?php if (!empty($noResultsMessage)): ?>
+                <p><?= esc($noResultsMessage) ?></p>
+            <?php elseif (!empty($parkingLots)): ?>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>주차장명</th>
+                            <th>주소</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($parkingLots as $lot): ?>
+                        <tr class="clickable-row" onclick="window.location.href='/parking/detail/<?= esc($lot['id']) ?>'">
+                            <td><?= esc($lot['name']) ?></td>
+                            <td><?= esc($lot['address_road']) ?></td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+            <?php if (!empty($pager)): ?>
+            <div style="margin-top: 16px; text-align: center;">
+                <?= $pager->links() ?>
+            </div>
+            <?php endif; ?>
+            <?php endif; ?>
+        </div>
+        <?php endif; ?>
 
         <!-- 최근 추가된 주차장 섹션 -->
         <div class="section">

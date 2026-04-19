@@ -26,6 +26,7 @@
       <li class="menu-group">
         <a href="#" class="dropdown-toggle">🏨 편의시설 ▾</a>
         <ul class="sub-menu">
+          <li><a href="/hospital">병원</a></li>
           <li><a href="/hotel">숙박</a></li>
         </ul>
       </li>

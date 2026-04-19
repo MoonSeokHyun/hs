@@ -8,7 +8,7 @@
   <title>Car Hub - 정비소, 주유소, 주차장 정보</title>
   <meta name="description" content="Car Hub에서 최신 주차장 정보와 인기 정비소, 주유소 정보를 확인하세요. 사용자 리뷰와 평점을 통해 신뢰도 높은 차량 관리 서비스를 제공합니다.">
   <meta name="keywords" content="정비소, 주유소, 주차장, 차량 관리, 리뷰, 평점">
-  <meta name="robots" content="index, follow">
+  <meta name="robots" content="<?= !empty($isSearchResult) ? 'noindex, follow' : 'index, follow' ?>">
   <meta name="author" content="Car Hub">
   <!-- 네이버맵 API 주석 처리
   <script async src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
@@ -213,8 +213,8 @@
   <main class="container">
 
     <div class="search-box">
-      <form action="/automobile_repair_shops" method="get">
-        <input type="text" name="search" placeholder="정비소 이름 또는 주소 검색">
+      <form action="/automobile_repair_shops/search" method="get">
+        <input type="text" name="search" value="<?= esc($search ?? '') ?>" placeholder="정비소 이름 또는 주소 검색">
         <button type="submit">검색</button>
       </form>
     </div>
@@ -266,7 +266,7 @@
                 </tr>
               <?php endforeach; ?>
             <?php else: ?>
-              <tr><td colspan="4">등록된 정비소가 없습니다.</td></tr>
+              <tr><td colspan="4"><?= esc($noResultsMessage ?? '등록된 정비소가 없습니다.') ?></td></tr>
             <?php endif; ?>
           </tbody>
         </table>
