@@ -1,10 +1,32 @@
+<?php
+$fname = $festival['Festival_Name'] ?? '축제';
+$fvenue = $festival['Venue'] ?? '';
+$fstart = $festival['Start_Date'] ?? '';
+$fend = $festival['End_Date'] ?? '';
+$fdescRaw = trim((string)($festival['Description'] ?? ''));
+if ($fdescRaw === '') {
+    $periodTxt = ($fstart && $fend) ? " {$fstart}부터 {$fend}까지" : '';
+    $venueTxt  = $fvenue ? " {$fvenue}에서" : '';
+    $fdescRaw = "{$fname}{$venueTxt}{$periodTxt} 개최되는 공연·행사 정보입니다. 일정, 장소, 주최기관, 연락처 등 상세 내용을 확인하세요.";
+}
+$festivalDesc = mb_substr(preg_replace('/\s+/', ' ', strip_tags($fdescRaw)), 0, 155);
+?>
 <!DOCTYPE html>
 <html lang="ko">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= esc($festival['Festival_Name']) ?> - 편잇</title>
+    <title><?= esc($fname) ?> - 축제·공연 정보 | 편잇</title>
+    <meta name="description" content="<?= esc($festivalDesc) ?>">
+    <meta name="keywords" content="<?= esc($fname) ?>, 축제, 공연, 행사 정보, <?= esc($fvenue) ?>, 편잇">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="<?= esc(current_url()) ?>">
+    <meta property="og:title" content="<?= esc($fname) ?> - 축제·공연 정보">
+    <meta property="og:description" content="<?= esc($festivalDesc) ?>">
+    <meta property="og:url" content="<?= esc(current_url()) ?>">
+    <meta property="og:type" content="event">
+    <meta property="og:image" content="<?= base_url('img/logo.png') ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.5.2/css/bootstrap.min.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464" crossorigin="anonymous"></script>
     <!-- 네이버맵 API 주석 처리

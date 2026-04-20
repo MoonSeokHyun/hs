@@ -1,3 +1,21 @@
+<?php
+$recipeTitle = $recipe['title'] ?? '편의점 레시피';
+$recipeDescRaw = trim((string)($recipe['description'] ?? ''));
+if ($recipeDescRaw === '') {
+    $ingredientsList = '';
+    if (!empty($recipe['ingredients'])) {
+        $ing = json_decode($recipe['ingredients'], true);
+        if (is_array($ing)) {
+            $ingredientsList = implode(', ', array_slice(array_map('strval', $ing), 0, 5));
+        }
+    }
+    $recipeDescRaw = $ingredientsList !== ''
+        ? "{$recipeTitle} 편의점 레시피 - 주요 재료: {$ingredientsList}. 따라 하기 쉬운 조리법과 꿀팁을 확인하세요."
+        : "{$recipeTitle} 편의점 레시피 - 따라 하기 쉬운 조리법, 필요한 재료와 순서별 조리 과정을 확인하세요.";
+}
+$recipeDesc = mb_substr(preg_replace('/\s+/', ' ', strip_tags($recipeDescRaw)), 0, 155);
+$recipeImage = !empty($recipe['image_url']) ? $recipe['image_url'] : base_url('img/logo.png');
+?>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -5,7 +23,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
      crossorigin="anonymous"></script>
-    <title><?= esc($recipe['title']) ?> - 편의점 레시피</title>
+    <title><?= esc($recipeTitle) ?> - 편의점 레시피 | 편잇</title>
+    <meta name="description" content="<?= esc($recipeDesc) ?>">
+    <meta name="keywords" content="편의점 레시피, <?= esc($recipeTitle) ?>, 편의점 꿀조합, 간편 레시피, 편잇">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="<?= esc(current_url()) ?>">
+    <meta property="og:title" content="<?= esc($recipeTitle) ?> - 편의점 레시피">
+    <meta property="og:description" content="<?= esc($recipeDesc) ?>">
+    <meta property="og:image" content="<?= esc($recipeImage) ?>">
+    <meta property="og:url" content="<?= esc(current_url()) ?>">
+    <meta property="og:type" content="article">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<?= esc($recipeTitle) ?> - 편의점 레시피">
+    <meta name="twitter:description" content="<?= esc($recipeDesc) ?>">
+    <meta name="twitter:image" content="<?= esc($recipeImage) ?>">
 
         <style>
     /* 기본 초기화 */

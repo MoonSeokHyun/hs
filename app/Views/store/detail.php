@@ -6,6 +6,14 @@ foreach($store as $k => $v) {
 // 구(동) 정보 추출
 preg_match('/([가-힣]+구)/', $store['road_address'] ?? '', $m);
 $district = $m[0] ?? '지역';
+
+// SEO 메타
+$storeName = $store['store_name'] ?? '타이어 판매소';
+$storeAddr = $store['road_address'] ?? ($store['address'] ?? '');
+$storeSvc  = $store['services_offered'] ?? '';
+$storeDescRaw = trim("{$storeAddr} 위치의 {$storeName} 타이어·경정비·엔진오일 교체 전문점 정보입니다." . ($storeSvc ? " 주요 서비스: {$storeSvc}." : ''));
+$storeDesc = mb_substr(preg_replace('/\s+/', ' ', strip_tags($storeDescRaw)), 0, 155);
+$storeTitle = "{$storeName} - {$district} | 타이어·경정비·엔진오일 전문 | 편잇";
 ?>
 <!DOCTYPE html>
 <html lang="ko">
@@ -13,7 +21,16 @@ $district = $m[0] ?? '지역';
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- SEO 최적화된 Title -->
-  <title><?= $store['store_name'] ?> - <?= $district ?> | 타이어·경정비·엔진오일 전문</title>
+  <title><?= esc($storeTitle) ?></title>
+  <meta name="description" content="<?= esc($storeDesc) ?>">
+  <meta name="keywords" content="<?= esc($storeName) ?>, 타이어 판매소, <?= esc($district) ?> 타이어, 엔진오일 교체, 경정비, 편잇">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="<?= esc(current_url()) ?>">
+  <meta property="og:title" content="<?= esc($storeTitle) ?>">
+  <meta property="og:description" content="<?= esc($storeDesc) ?>">
+  <meta property="og:url" content="<?= esc(current_url()) ?>">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="<?= base_url('img/logo.png') ?>">
   <!-- 네이버 지도 API 주석 처리
   <script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
   -->

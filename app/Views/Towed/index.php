@@ -1,3 +1,13 @@
+<?php
+$currentPage = max(1, (int)($_GET['page'] ?? 1));
+$pageSuffix  = $currentPage > 1 ? " - {$currentPage}페이지" : '';
+$pageTitle   = "전국 견인차량 보관소{$pageSuffix} | 위치·연락처·보관요금 | 편잇";
+$pageDesc    = $currentPage > 1
+    ? "전국 견인차량 보관소 {$currentPage}페이지 - 지역별 보관소 위치, 연락처, 보관 요금 정보를 확인하세요."
+    : "전국 견인차량 보관소의 위치, 연락처, 보관 요금 정보를 확인하세요. 무단방치 차량, 견인 차량 보관 위치를 지역별로 한눈에 검색할 수 있습니다.";
+$canonicalBase = base_url('towed-vehicle-storage');
+$canonical = $currentPage > 1 ? $canonicalBase . '?page=' . $currentPage : $canonicalBase;
+?>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -5,19 +15,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="vTa0kwUBtDAIFY_RbTOw4p-LpneLpkhxTYAWYqNwAog" />
     <meta name="naver-site-verification" content="7a0d49f3fd680b5f4ab77f8edfd3deb13ee30f11" />
-    <title>견인차량 보관소 목록 - 편잇</title>
+    <title><?= esc($pageTitle) ?></title>
 
-    <!-- Description 및 Keywords 추가 -->
-    <meta name="description" content="편잇에서 제공하는 견인차량 보관소 목록을 확인하고, 근처 보관소를 검색해보세요. 위치, 연락처, 보관 요금 등 상세 정보를 제공합니다.">
-    <meta name="keywords" content="견인차 보관소, 차량 보관소, 무단방치 차량 보관소, 차량 견인, 견인차 보관소 추천, 차량 보관소 검색">
+    <!-- Description 및 Keywords -->
+    <meta name="description" content="<?= esc($pageDesc) ?>">
+    <meta name="keywords" content="견인차 보관소, 차량 보관소, 무단방치 차량, 견인 차량 조회, 보관 요금, 편잇">
     <meta name="author" content="편잇">
-    <meta name="robots" content="index, follow">
+    <meta name="robots" content="<?= !empty($isSearchResult) ? 'noindex, follow' : 'index, follow' ?>">
+    <link rel="canonical" href="<?= esc($canonical) ?>">
 
     <!-- Open Graph (SNS 공유 최적화) -->
-    <meta property="og:title" content="견인차량 보관소 목록 - 편잇">
-    <meta property="og:description" content="편잇에서 제공하는 견인차량 보관소 목록을 확인하고, 근처 보관소를 검색해보세요. 위치, 연락처, 보관 요금 등 상세 정보를 제공합니다.">
+    <meta property="og:title" content="<?= esc($pageTitle) ?>">
+    <meta property="og:description" content="<?= esc($pageDesc) ?>">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="<?= current_url() ?>">
+    <meta property="og:url" content="<?= esc($canonical) ?>">
     <meta property="og:image" content="/static/images/og-default.jpg">
 
     <!-- Twitter Card -->

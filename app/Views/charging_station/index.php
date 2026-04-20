@@ -1,9 +1,27 @@
+<?php
+$currentPage = max(1, (int)($_GET['page'] ?? 1));
+$pageSuffix  = $currentPage > 1 ? " - {$currentPage}페이지" : '';
+$pageTitle   = "전국 전기차 충전소·급속충전기{$pageSuffix} | 위치·요금 | 편잇";
+$pageDesc    = $currentPage > 1
+    ? "전국 전기차 충전소 {$currentPage}페이지 - 지역별 충전기 위치와 이용 정보를 확인하세요."
+    : "전국 전기차 급속·완속 충전소의 위치, 운영 시간, 요금 정보를 한눈에 확인하세요. 가까운 충전소를 지역별로 검색할 수 있습니다.";
+$canonical = $currentPage > 1 ? base_url('station') . '?page=' . $currentPage : base_url('station');
+?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Charging Stations</title>
+    <title><?= esc($pageTitle) ?></title>
+    <meta name="description" content="<?= esc($pageDesc) ?>">
+    <meta name="keywords" content="전기차 충전소, 급속 충전기, 완속 충전기, EV 충전, 전기차 요금, 편잇">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="<?= esc($canonical) ?>">
+    <meta property="og:title" content="<?= esc($pageTitle) ?>">
+    <meta property="og:description" content="<?= esc($pageDesc) ?>">
+    <meta property="og:url" content="<?= esc($canonical) ?>">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="<?= base_url('img/logo.png') ?>">
   
     <!-- 네이버 지도 API 주석 처리 (필요 없으시면 제거) -->
     <!-- <script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script> -->

@@ -1,3 +1,13 @@
+<?php
+$currentPage = max(1, (int)($_GET['page'] ?? 1));
+$pageSuffix  = $currentPage > 1 ? " - {$currentPage}페이지" : '';
+$pageTitle   = "전국 주차장 찾기{$pageSuffix} | 요금·위치·리뷰 정보 | 편잇";
+$pageDesc    = $currentPage > 1
+    ? "전국 주차장 {$currentPage}페이지 - 지역별 주차장 요금, 운영시간, 위치 및 사용자 리뷰를 확인하세요."
+    : "전국 주차장 목록과 요금, 운영시간, 위치 정보를 한눈에 확인하세요. 실제 이용자 리뷰와 평점으로 신뢰할 수 있는 주차장을 찾아보세요.";
+$canonicalBase = base_url('parking');
+$canonical = $currentPage > 1 ? $canonicalBase . '?page=' . $currentPage : $canonicalBase;
+?>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -5,11 +15,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="vTa0kwUBtDAIFY_RbTOw4p-LpneLpkhxTYAWYqNwAog" />
     <meta name="naver-site-verification" content="7a0d49f3fd680b5f4ab77f8edfd3deb13ee30f11" />
-    <title>편잇 - 주차장, 정비소, 주유소 정보</title>
-    <meta name="description" content="Car Hub에서 최신 주차장 정보와 인기 정비소, 주유소 정보를 확인하세요. 사용자 리뷰와 평점을 통해 신뢰도 높은 차량 관리 서비스를 제공합니다.">
-    <meta name="keywords" content="주차장, 정비소, 주유소, 차량 관리, 리뷰, 평점">
+    <title><?= esc($pageTitle) ?></title>
+    <meta name="description" content="<?= esc($pageDesc) ?>">
+    <meta name="keywords" content="주차장, 공영주차장, 민영주차장, 주차요금, 주차장 리뷰, 주차장 위치, 편잇">
     <meta name="robots" content="<?= !empty($isSearchResult) ? 'noindex, follow' : 'index, follow' ?>">
-    <meta name="author" content="Car Hub">
+    <link rel="canonical" href="<?= esc($canonical) ?>">
+    <meta property="og:title" content="<?= esc($pageTitle) ?>">
+    <meta property="og:description" content="<?= esc($pageDesc) ?>">
+    <meta property="og:url" content="<?= esc($canonical) ?>">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="<?= base_url('img/logo.png') ?>">
+    <meta name="author" content="편잇">
     <!-- 네이버맵 API 주석 처리
     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
     -->

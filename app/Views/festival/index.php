@@ -4,7 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464" crossorigin="anonymous"></script>
-    <title>공연 및 행사 정보 - 편잇</title>
+<?php
+$currentPage = max(1, (int)($_GET['page'] ?? 1));
+$pageSuffix  = $currentPage > 1 ? " - {$currentPage}페이지" : '';
+$pageTitle   = "전국 축제·공연·행사 정보{$pageSuffix} | 일정·장소·주최기관 | 편잇";
+$pageDesc    = $currentPage > 1
+    ? "전국 축제·공연 {$currentPage}페이지 - 지역별 축제, 공연, 행사의 일정·장소·주최기관 정보를 확인하세요."
+    : "전국에서 진행 중이거나 예정된 축제, 공연, 문화 행사의 일정·장소·주최기관·연락처 정보를 한눈에 확인하세요.";
+$canonical = $currentPage > 1 ? current_url() . '?page=' . $currentPage : current_url();
+?>
+    <title><?= esc($pageTitle) ?></title>
+    <meta name="description" content="<?= esc($pageDesc) ?>">
+    <meta name="keywords" content="축제, 공연, 행사 정보, 문화 행사, 전국 축제 일정, 편잇">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="<?= esc($canonical) ?>">
+    <meta property="og:title" content="<?= esc($pageTitle) ?>">
+    <meta property="og:description" content="<?= esc($pageDesc) ?>">
+    <meta property="og:url" content="<?= esc($canonical) ?>">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="<?= base_url('img/logo.png') ?>">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Arial', sans-serif; background-color: #f8f9fa; color: #333; }

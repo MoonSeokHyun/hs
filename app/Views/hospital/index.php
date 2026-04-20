@@ -5,16 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="Vg6LnwCg2ciJr3emetShc4yHm1AYLLPKWrg3UdFYpDg" />
     <meta name="naver-site-verification" content="da4595e04224f83fa6c03f3136fc09f0094ef7a7" />
-    <title>편잇 - 편의점 할인정보 & 레시피 공유 플랫폼</title>
+    <title>편잇 - 병원·주유소·주차장·정비소·편의점 할인까지 한번에</title>
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
      crossorigin="anonymous"></script>
      <!-- 네이버맵 API 주석 처리
      <script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
      -->
-    <meta name="description" content="편잇에서 1+1, 2+1 할인 정보와 다양한 편의점 레시피를 만나보세요. CU, GS25, 세븐일레븐 등 전국 편의점 정보와 할인 이벤트를 제공합니다.">
-    <meta name="keywords" content="편의점 할인, 1+1, 2+1, 편의점 레시피, CU, GS25, 세븐일레븐, 편의점 이벤트">
+    <meta name="description" content="편잇은 전국 의료기관, 주유소, 주차장, 정비소, 세차장, 숙박, 전기차 충전소 정보와 편의점 1+1·2+1 할인 이벤트, 레시피까지 한 번에 모아보는 생활 편의 통합 플랫폼입니다.">
+    <meta name="keywords" content="편잇, 의료기관 찾기, 주유소, 주차장, 정비소, 세차장, 편의점 할인, 편의점 레시피, 전기차 충전소">
     <meta name="robots" content="index, follow">
+    <link rel="canonical" href="<?= base_url() ?>">
+    <meta property="og:title" content="편잇 - 병원·주유소·주차장·정비소·편의점 할인까지 한번에">
+    <meta property="og:description" content="전국 의료기관, 주유소, 주차장, 정비소, 편의점 할인 정보까지 한 번에 확인하세요.">
+    <meta property="og:url" content="<?= base_url() ?>">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="<?= base_url('img/logo.png') ?>">
     <meta name="author" content="편잇">
 
 

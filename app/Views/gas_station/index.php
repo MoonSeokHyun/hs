@@ -1,12 +1,28 @@
+<?php
+$currentPage = max(1, (int)($_GET['page'] ?? 1));
+$pageSuffix  = $currentPage > 1 ? " - {$currentPage}페이지" : '';
+$pageTitle   = "전국 주유소 찾기{$pageSuffix} | 실시간 유가·위치·리뷰 정보 | 편잇";
+$pageDesc    = $currentPage > 1
+    ? "전국 주유소 {$currentPage}페이지 - 지역별 주유소 위치, 실시간 유가, 리뷰와 평점 정보를 확인하세요."
+    : "전국 주유소의 실시간 유가, 위치, 리뷰와 평점 정보를 한눈에 확인하세요. 저렴한 주유소를 쉽게 찾아 기름값을 절약할 수 있습니다.";
+$canonicalBase = base_url('gas_stations');
+$canonical = $currentPage > 1 ? $canonicalBase . '?page=' . $currentPage : $canonicalBase;
+?>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Car Hub - 주유소 정보 및 리뷰</title>
-    <meta name="description" content="Car Hub에서 최신 주유소 정보와 사용자 리뷰를 확인하세요. 주유소 위치, 리뷰, 평균 평점을 제공하여 쉽게 원하는 주유소를 찾을 수 있습니다.">
-    <meta name="keywords" content="주유소, Car Hub, 주유소 리뷰, 주유소 위치, 주유소 평점, 서울 주유소">
+    <title><?= esc($pageTitle) ?></title>
+    <meta name="description" content="<?= esc($pageDesc) ?>">
+    <meta name="keywords" content="주유소, 실시간 유가, 주유소 가격, 주유소 리뷰, 저렴한 주유소, 편잇">
     <meta name="robots" content="<?= !empty($isSearchResult) ? 'noindex, follow' : 'index, follow' ?>">
+    <link rel="canonical" href="<?= esc($canonical) ?>">
+    <meta property="og:title" content="<?= esc($pageTitle) ?>">
+    <meta property="og:description" content="<?= esc($pageDesc) ?>">
+    <meta property="og:url" content="<?= esc($canonical) ?>">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="<?= base_url('img/logo.png') ?>">
     <!-- 네이버맵 API 주석 처리
     <script async src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
     -->

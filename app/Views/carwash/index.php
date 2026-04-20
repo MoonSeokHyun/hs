@@ -1,3 +1,13 @@
+<?php
+$currentPage = max(1, (int)($_GET['page'] ?? 1));
+$pageSuffix  = $currentPage > 1 ? " - {$currentPage}페이지" : '';
+$pageTitle   = "전국 세차장 찾기{$pageSuffix} | 셀프·자동·스팀세차 위치/리뷰 | 편잇";
+$pageDesc    = $currentPage > 1
+    ? "전국 세차장 {$currentPage}페이지 - 셀프세차·자동세차·스팀세차장의 위치, 전화번호, 리뷰 정보를 확인하세요."
+    : "전국 세차장의 위치, 전화번호, 서비스 종류와 사용자 리뷰를 한눈에 확인하세요. 셀프세차, 자동세차, 스팀세차장 정보까지 비교할 수 있습니다.";
+$canonicalBase = base_url('carwash');
+$canonical = $currentPage > 1 ? $canonicalBase . '?page=' . $currentPage : $canonicalBase;
+?>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -5,12 +15,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="google-site-verification" content="vTa0kwUBtDAIFY_RbTOw4p-LpneLpkhxTYAWYqNwAog" />
   <meta name="naver-site-verification" content="7a0d49f3fd680b5f4ab77f8edfd3deb13ee30f11" />
-  <title>편잇 - 세차장 정보</title>
+  <title><?= esc($pageTitle) ?></title>
 
-  <meta name="description" content="편잇에서 최신 세차장 정보와 사용자 리뷰를 확인하세요. 위치, 전화번호, 평점 등 다양한 정보를 제공합니다.">
-  <meta name="keywords" content="세차장, 자동차 세차, 리뷰, 평점, 편잇">
-  <meta name="robots" content="index, follow">
-  <meta name="author" content="Car Hub">
+  <meta name="description" content="<?= esc($pageDesc) ?>">
+  <meta name="keywords" content="세차장, 셀프세차, 자동세차, 스팀세차, 세차장 리뷰, 편잇">
+  <meta name="robots" content="<?= !empty($isSearchResult) ? 'noindex, follow' : 'index, follow' ?>">
+  <link rel="canonical" href="<?= esc($canonical) ?>">
+  <meta property="og:title" content="<?= esc($pageTitle) ?>">
+  <meta property="og:description" content="<?= esc($pageDesc) ?>">
+  <meta property="og:url" content="<?= esc($canonical) ?>">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="<?= base_url('img/logo.png') ?>">
+  <meta name="author" content="편잇">
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
 crossorigin="anonymous"></script>

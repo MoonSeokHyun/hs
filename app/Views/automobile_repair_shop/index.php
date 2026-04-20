@@ -1,3 +1,13 @@
+<?php
+$currentPage = max(1, (int)($_GET['page'] ?? 1));
+$pageSuffix  = $currentPage > 1 ? " - {$currentPage}페이지" : '';
+$pageTitle   = "전국 자동차 정비소 찾기{$pageSuffix} | 차량정비·엔진오일·수리 전문 | 편잇";
+$pageDesc    = $currentPage > 1
+    ? "전국 자동차 정비소 {$currentPage}페이지 - 지역별 정비소 위치, 전화번호, 리뷰와 평점 정보를 확인하세요."
+    : "전국 자동차 정비소의 위치, 전화번호, 서비스 정보와 실제 이용자 리뷰를 확인하세요. 차량정비·엔진오일 교체·수리까지 한 번에 비교할 수 있습니다.";
+$canonicalBase = base_url('automobile_repair_shops');
+$canonical = $currentPage > 1 ? $canonicalBase . '?page=' . $currentPage : $canonicalBase;
+?>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -5,11 +15,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="google-site-verification" content="vTa0kwUBtDAIFY_RbTOw4p-LpneLpkhxTYAWYqNwAog" />
   <meta name="naver-site-verification" content="7a0d49f3fd680b5f4ab77f8edfd3deb13ee30f11" />
-  <title>Car Hub - 정비소, 주유소, 주차장 정보</title>
-  <meta name="description" content="Car Hub에서 최신 주차장 정보와 인기 정비소, 주유소 정보를 확인하세요. 사용자 리뷰와 평점을 통해 신뢰도 높은 차량 관리 서비스를 제공합니다.">
-  <meta name="keywords" content="정비소, 주유소, 주차장, 차량 관리, 리뷰, 평점">
+  <title><?= esc($pageTitle) ?></title>
+  <meta name="description" content="<?= esc($pageDesc) ?>">
+  <meta name="keywords" content="자동차 정비소, 차량정비, 엔진오일 교체, 정비소 추천, 정비소 리뷰, 편잇">
   <meta name="robots" content="<?= !empty($isSearchResult) ? 'noindex, follow' : 'index, follow' ?>">
-  <meta name="author" content="Car Hub">
+  <link rel="canonical" href="<?= esc($canonical) ?>">
+  <meta property="og:title" content="<?= esc($pageTitle) ?>">
+  <meta property="og:description" content="<?= esc($pageDesc) ?>">
+  <meta property="og:url" content="<?= esc($canonical) ?>">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="<?= base_url('img/logo.png') ?>">
+  <meta name="author" content="편잇">
   <!-- 네이버맵 API 주석 처리
   <script async src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
   -->

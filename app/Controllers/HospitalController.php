@@ -134,7 +134,7 @@ class HospitalController extends BaseController
             }
     
             if (!$hospital) {
-                return redirect()->to('/hospital')->with('error', '해당 의료기관 정보를 찾을 수 없습니다.');
+                throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound('해당 의료기관 정보를 찾을 수 없습니다.');
             }
     
             // 병원 리뷰와 평점 요약 정보 가져오기
@@ -184,6 +184,9 @@ class HospitalController extends BaseController
                 'canonicalUrl' => base_url('hospital/detail/' . $id),
             ]);
     
+        } catch (\CodeIgniter\Exceptions\PageNotFoundException $e) {
+            // 존재하지 않는 의료기관은 진짜 404 로 응답 (소프트 404 방지)
+            throw $e;
         } catch (\Exception $e) {
             // 에러 발생 시 HTML 형식으로 에러 메시지 출력
             return view('error_template', [

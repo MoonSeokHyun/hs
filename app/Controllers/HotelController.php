@@ -84,7 +84,7 @@ class HotelController extends Controller
         $hotel = $hotelModel->find($id);
     
         if (!$hotel) {
-            return redirect()->to('/hotel')->with('error', '호텔 정보를 찾을 수 없습니다.');
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound('해당 숙박시설 정보를 찾을 수 없습니다.');
         }
     
         // 네이버 API 요청

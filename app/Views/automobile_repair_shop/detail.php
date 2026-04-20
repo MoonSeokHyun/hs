@@ -98,6 +98,15 @@ crossorigin="anonymous"></script>
       color: var(--text-color);
     }
 
+    .ad-slot-box {
+      margin: 16px 0 20px;
+      padding: 10px;
+      border: 1px solid #e6e6e6;
+      border-radius: 10px;
+      background: #fff;
+      min-height: 120px;
+    }
+
     /* 전체 섹션 레이아웃 */
     main {
       width: 100%;
@@ -491,15 +500,14 @@ crossorigin="anonymous"></script>
     <span style="font-size:14px;">(평균 평점: <?= round($averageRating ?? 0, 1); ?>)</span>
     </p>
   </section>
-  <ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-6686738239613464"
-     data-ad-slot="1204098626"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+  <div class="ad-slot-box">
+    <ins class="adsbygoogle ad-slot"
+       style="display:block"
+       data-ad-client="ca-pub-6686738239613464"
+       data-ad-slot="1204098626"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  </div>
 
   <!-- 본문 메인 -->
   <main>
@@ -557,15 +565,14 @@ crossorigin="anonymous"></script>
             <td><?= esc($repair_shop['provider_name'] ?? ''); ?></td>
           </tr>
         </table>
-        <ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-6686738239613464"
-     data-ad-slot="1204098626"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+        <div class="ad-slot-box">
+          <ins class="adsbygoogle ad-slot"
+            style="display:block"
+            data-ad-client="ca-pub-6686738239613464"
+            data-ad-slot="1204098626"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        </div>
   <!-- (3) 리뷰 섹션 -->
   <section class="review-section">
   <div class="review-box">
@@ -584,15 +591,14 @@ crossorigin="anonymous"></script>
       <textarea name="comment_text" class="comment-textarea" id="comment-text" placeholder="리뷰를 등록해주세요!" required></textarea>
       <button type="submit" class="submit-button">리뷰 등록</button>
     </form>
-    <ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-6686738239613464"
-     data-ad-slot="1204098626"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+    <div class="ad-slot-box">
+      <ins class="adsbygoogle ad-slot"
+       style="display:block"
+       data-ad-client="ca-pub-6686738239613464"
+       data-ad-slot="1204098626"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+    </div>
     <h3>리뷰 목록</h3>
     <?php if (empty($reviews)): ?>
       <p style="font-size:14px; color:#555;">아직 리뷰가 없습니다.</p>
@@ -633,15 +639,14 @@ crossorigin="anonymous"></script>
     -->
 
 
-    <ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-6686738239613464"
-     data-ad-slot="1204098626"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+    <div class="ad-slot-box">
+      <ins class="adsbygoogle ad-slot"
+       style="display:block"
+       data-ad-client="ca-pub-6686738239613464"
+       data-ad-slot="1204098626"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+    </div>
 
 
 
@@ -758,6 +763,19 @@ crossorigin="anonymous"></script>
     });
   })();
   -->
+  <script>
+    // 페이지 내 광고 슬롯을 한 번에 렌더링 (중복 push 방지)
+    (function () {
+      var adNodes = document.querySelectorAll('.ad-slot.adsbygoogle');
+      adNodes.forEach(function (node) {
+        if (!node.dataset.adsRendered) {
+          (adsbygoogle = window.adsbygoogle || []).push({});
+          node.dataset.adsRendered = '1';
+        }
+      });
+    })();
+  </script>
+
   <script>
     // 별점 선택 이벤트
     document.querySelectorAll('#star-rating .star').forEach(star => {

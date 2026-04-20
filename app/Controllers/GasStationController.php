@@ -76,6 +76,10 @@ public function detail($stationId)
     // 주유소 정보 가져오기
     $station = $this->gasStationModel->getGasStation($stationId);
 
+    if (empty($station)) {
+        throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound('해당 주유소 정보를 찾을 수 없습니다.');
+    }
+
     // 주유소 좌표를 기준으로 3km 내의 다른 주유소 정보 가져오기
     $nearbyGasStations = $this->gasStationModel->getNearbyGasStations($station['latitude'], $station['longitude']);
 

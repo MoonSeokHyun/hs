@@ -38,6 +38,10 @@ class TowedVehicleStorageController extends BaseController
         // 보관소 정보 가져오기
         $data['storage'] = $storageModel->find($id);
 
+        if (empty($data['storage'])) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound('해당 견인차 보관소 정보를 찾을 수 없습니다.');
+        }
+
         return view('Towed/detail', $data);
     }
 }

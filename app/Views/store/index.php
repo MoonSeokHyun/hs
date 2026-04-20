@@ -1,9 +1,27 @@
 <!-- app/Views/store/index.php -->
+<?php
+$currentPage = max(1, (int)($_GET['page'] ?? 1));
+$pageSuffix  = $currentPage > 1 ? " - {$currentPage}페이지" : '';
+$pageTitle   = "전국 타이어 판매소·경정비 전문점 찾기{$pageSuffix} | 편잇";
+$pageDesc    = $currentPage > 1
+    ? "전국 타이어 판매소 {$currentPage}페이지 - 지역별 타이어 판매소, 경정비 전문점의 위치·연락처·서비스 정보를 확인하세요."
+    : "전국 타이어 판매소와 경정비 전문점의 위치, 전화번호, 취급 서비스 정보를 한눈에 확인하세요. 타이어 교체·엔진오일 교체 매장을 지역별로 검색할 수 있습니다.";
+$canonical = $currentPage > 1 ? base_url('stores') . '?page=' . $currentPage : base_url('stores');
+?>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>전국 타이어 판매소 </title>
+    <title><?= esc($pageTitle) ?></title>
+    <meta name="description" content="<?= esc($pageDesc) ?>">
+    <meta name="keywords" content="타이어 판매소, 타이어 교체, 경정비, 엔진오일 교체, 타이어 매장 추천, 편잇">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="<?= esc($canonical) ?>">
+    <meta property="og:title" content="<?= esc($pageTitle) ?>">
+    <meta property="og:description" content="<?= esc($pageDesc) ?>">
+    <meta property="og:url" content="<?= esc($canonical) ?>">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="<?= base_url('img/logo.png') ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>

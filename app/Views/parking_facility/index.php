@@ -1,10 +1,28 @@
+<?php
+$currentPage = max(1, (int)($_GET['page'] ?? 1));
+$pageSuffix  = $currentPage > 1 ? " - {$currentPage}페이지" : '';
+$pageTitle   = "전국 공영주차장 목록{$pageSuffix} | 요금·운영시간·주차면수 | 편잇";
+$pageDesc    = $currentPage > 1
+    ? "전국 공영주차장 {$currentPage}페이지 - 지역별 공영주차장의 요금, 운영시간, 주차면수 정보를 확인하세요."
+    : "전국 공영주차장의 요금, 운영시간, 주차면수, 위치 정보를 지역별로 확인하세요. 가까운 공영주차장을 쉽게 찾고 요금을 미리 비교할 수 있습니다.";
+$canonical = $currentPage > 1 ? base_url('parking-facilities') . '?page=' . $currentPage : base_url('parking-facilities');
+?>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>공영주차장 목록 편잇!</title>
+    <title><?= esc($pageTitle) ?></title>
+    <meta name="description" content="<?= esc($pageDesc) ?>">
+    <meta name="keywords" content="공영주차장, 주차 요금, 주차면수, 운영시간, 주차장 조회, 편잇">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="<?= esc($canonical) ?>">
+    <meta property="og:title" content="<?= esc($pageTitle) ?>">
+    <meta property="og:description" content="<?= esc($pageDesc) ?>">
+    <meta property="og:url" content="<?= esc($canonical) ?>">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="<?= base_url('img/logo.png') ?>">
 
     <style>
         body {

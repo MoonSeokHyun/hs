@@ -9,8 +9,25 @@
   
     <!-- 광고 스크립트 -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464" crossorigin="anonymous"></script>
-
-    <title>전국 전기차 충전소</title>
+<?php
+$currentPage = max(1, (int)($_GET['page'] ?? 1));
+$pageSuffix  = $currentPage > 1 ? " - {$currentPage}페이지" : '';
+$pageTitle   = "전국 전기차 충전소 찾기{$pageSuffix} | 급속·완속 충전기 위치 | 편잇";
+$pageDesc    = $currentPage > 1
+    ? "전국 전기차 충전소 {$currentPage}페이지 - 지역별 급속·완속 충전기 위치, 운영시간, 충전 요금 정보를 확인하세요."
+    : "전국 전기차 충전소의 위치, 충전기 유형(급속·완속), 운영시간, 이용 요금을 한눈에 확인하세요. 가까운 전기차 충전소를 지역별로 쉽게 찾아보세요.";
+$canonical = $currentPage > 1 ? base_url('ev-stations') . '?page=' . $currentPage : base_url('ev-stations');
+?>
+    <title><?= esc($pageTitle) ?></title>
+    <meta name="description" content="<?= esc($pageDesc) ?>">
+    <meta name="keywords" content="전기차 충전소, 급속 충전기, 완속 충전기, EV 충전소, 전기차 충전 요금, 편잇">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="<?= esc($canonical) ?>">
+    <meta property="og:title" content="<?= esc($pageTitle) ?>">
+    <meta property="og:description" content="<?= esc($pageDesc) ?>">
+    <meta property="og:url" content="<?= esc($canonical) ?>">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="<?= base_url('img/logo.png') ?>">
 
     <!-- ===================== 여기에 스타일 복사 ===================== -->
     <style>

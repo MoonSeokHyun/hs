@@ -5,7 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
      crossorigin="anonymous"></script>
-    <title>레시피 목록 - 편잇</title>
+<?php
+$currentPage = max(1, (int)($_GET['page'] ?? 1));
+$pageSuffix  = $currentPage > 1 ? " - {$currentPage}페이지" : '';
+$pageTitle   = "편의점 레시피 모음{$pageSuffix} | 간편 꿀조합·따라하기 | 편잇";
+$pageDesc    = $currentPage > 1
+    ? "편의점 레시피 {$currentPage}페이지 - 편의점 제품으로 만드는 간편 레시피와 꿀조합을 확인하세요."
+    : "편의점 제품으로 만드는 간편 레시피와 인기 꿀조합을 모아놓았습니다. CU, GS25, 세븐일레븐 상품으로 누구나 쉽게 따라할 수 있는 레시피를 만나보세요.";
+$canonical = $currentPage > 1 ? base_url('recipes') . '?page=' . $currentPage : base_url('recipes');
+?>
+    <title><?= esc($pageTitle) ?></title>
+    <meta name="description" content="<?= esc($pageDesc) ?>">
+    <meta name="keywords" content="편의점 레시피, 편의점 꿀조합, 간편 요리, CU 레시피, GS25 레시피, 편잇">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="<?= esc($canonical) ?>">
+    <meta property="og:title" content="<?= esc($pageTitle) ?>">
+    <meta property="og:description" content="<?= esc($pageDesc) ?>">
+    <meta property="og:url" content="<?= esc($canonical) ?>">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="<?= base_url('img/logo.png') ?>">
     <link rel="stylesheet" href="/css/style.css">
     <style>
         body {
