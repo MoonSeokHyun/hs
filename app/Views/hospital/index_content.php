@@ -15,15 +15,7 @@ if (isset($breadcrumb)) {
     </section>
 
     <!-- 광고 -->
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-6686738239613464"
-         data-ad-slot="1204098626"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
+    <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
 
     <!-- 카테고리별 의료기관 -->
     <?php if (!empty($hospitalsByCategory)): ?>
@@ -135,7 +127,7 @@ if (isset($breadcrumb)) {
                     <a href="/event/<?= esc($event['id']) ?>" class="card-link">
                         <?php if (isset($event['image_url'])): ?>
                             <div class="card-image">
-                                <img src="<?= esc($event['image_url']) ?>" alt="<?= esc($event['title']) ?>" loading="lazy">
+                                <img src="<?= esc($event['image_url'])?>" alt="<?= esc($event['title']) ?>" loading="lazy">
                             </div>
                         <?php endif; ?>
                         <div class="card-header">
@@ -161,7 +153,7 @@ if (isset($breadcrumb)) {
                     <a href="/recipes/<?= esc($recipe['id']) ?>" class="card-link">
                         <?php if (isset($recipe['image_url'])): ?>
                             <div class="card-image">
-                                <img src="<?= esc($recipe['image_url']) ?>" alt="<?= esc($recipe['title']) ?>" loading="lazy">
+                                <img src="<?= esc($recipe['image_url'])?>" alt="<?= esc($recipe['title']) ?>" loading="lazy">
                             </div>
                         <?php endif; ?>
                         <div class="card-header">

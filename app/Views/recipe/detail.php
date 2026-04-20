@@ -318,22 +318,14 @@ $recipeImage = !empty($recipe['image_url']) ? $recipe['image_url'] : base_url('i
 </head>
 <body>
 <?php include APPPATH . 'Views/includes/header.php'; ?>
-  <ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-6686738239613464"
-     data-ad-slot="1204098626"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+  <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
 
     <div class="container">
         <!-- 제목 -->
         <h1><?= esc($recipe['title']) ?></h1>
 
         <!-- 완성 사진 -->
-        <img src="<?= esc($recipe['image_url']) ?>" alt="완성 사진" class="recipe-image">
+        <img src="<?= esc($recipe['image_url'])?>" alt="완성 사진" class="recipe-image" loading="lazy" decoding="async">
 
 
         <!-- 재료 섹션 -->
@@ -351,7 +343,7 @@ $recipeImage = !empty($recipe['image_url']) ? $recipe['image_url'] : base_url('i
             <h2>조리 과정</h2>
             <?php foreach (json_decode($recipe['cooking_steps'], true) as $index => $step): ?>
                 <div class="step">
-                    <img src="<?= esc($step['image']) ?>" alt="Step <?= $index + 1 ?>">
+                    <img src="<?= esc($step['image'])?>" alt="Step <?= $index + 1 ?>" loading="lazy" decoding="async">
                     <div class="step-content">
                         <div class="step-num">STEP <?= $index + 1 ?></div>
                         <div class="step-desc"><?= esc($step['text']) ?></div>

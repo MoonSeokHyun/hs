@@ -134,15 +134,7 @@ $canonical = $currentPage > 1 ? base_url('station') . '?page=' . $currentPage : 
 
 <?php include APPPATH . 'Views/includes/header.php'; ?>
 
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-6686738239613464"
-     data-ad-slot="1204098626"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+<?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
 
 <h1 class="page-title">Charging Stations</h1>
 
@@ -158,26 +150,10 @@ $canonical = $currentPage > 1 ? base_url('station') . '?page=' . $currentPage : 
 </div>
 
 <!-- 중간 광고 배치 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-6686738239613464"
-     data-ad-slot="1204098626"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+<?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
 
 <!-- 하단 광고 배치 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-6686738239613464"
-     data-ad-slot="1204098626"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+<?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
 
 <!-- 페이징 -->
 

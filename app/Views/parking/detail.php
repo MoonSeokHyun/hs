@@ -96,15 +96,7 @@ crossorigin="anonymous"></script>
 </head>
 <body>
   <?php include APPPATH . 'Views/includes/header.php'; ?>
-  <ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-6686738239613464"
-     data-ad-slot="1204098626"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+  <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
   <main>
     <section class="hero-section">
       <h1>📍 <?= esc($parkingLot['name']); ?> 주차장</h1>
@@ -140,15 +132,7 @@ crossorigin="anonymous"></script>
         </tr>
         <tr><th>특이사항</th><td><?= esc($parkingLot['special_notes']); ?></td></tr>
       </table>
-      <ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-6686738239613464"
-     data-ad-slot="1204098626"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+      <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
       <a href="/parking" class="back-button">목록으로 돌아가기</a>
       <!-- 지도 div 주석 처리
       <div id="map"></div>
@@ -168,15 +152,7 @@ crossorigin="anonymous"></script>
         <textarea name="comment_text" class="comment-textarea" placeholder="리뷰를 등록해주세요!" required id="comment-text"></textarea>
         <button type="submit" class="submit-button">리뷰 등록</button>
       </form>
-      <ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-6686738239613464"
-     data-ad-slot="1204098626"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+      <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
       <h3>리뷰 목록</h3>
       <?php if (empty($comments)): ?>
         <p style="font-size:14px; color:#555;">아직 리뷰가 없습니다.</p>

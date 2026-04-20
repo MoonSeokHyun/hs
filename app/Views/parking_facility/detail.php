@@ -86,15 +86,7 @@ $keywordsSeo = implode(',', [$district, '공영주차장', $facility['FCLTY_NM']
 </head>
 <body>
   <?php include APPPATH . 'Views/includes/header.php'; ?>
-  <ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-6686738239613464"
-     data-ad-slot="1204098626"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+  <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
   <div class="container">
     <a href="<?= site_url('parking-facilities') ?>" class="back">← 목록으로 돌아가기</a>
 
@@ -112,15 +104,7 @@ $keywordsSeo = implode(',', [$district, '공영주차장', $facility['FCLTY_NM']
       <li class="detail-item"><span class="label">우편번호</span><span class="value"><?= $facility['ZIP_NO'] ?></span></li>
       <li class="detail-item"><span class="label">도로명주소</span><span class="value"><?= $facility['RDNMADR_NM'] ?></span></li>
     </ul></div>
-    <ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-6686738239613464"
-     data-ad-slot="1204098626"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+    <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
 
     <div class="section"><h2>주차 면수</h2><ul class="detail-list">
       <li class="detail-item"><span class="label">주차면수</span><span class="value"><?= $facility['PARKNG_SPCE_CO'] ?></span></li>
@@ -150,15 +134,7 @@ $keywordsSeo = implode(',', [$district, '공영주차장', $facility['FCLTY_NM']
       <li class="detail-item"><span class="label">결제수단</span><span class="value"><?= $facility['SETLE_MTH_CN'] ?></span></li>
       <li class="detail-item"><span class="label">추가할인</span><span class="value"><?= $facility['ADIT_DC'] ?></span></li>
     </ul></div>
-    <ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-6686738239613464"
-     data-ad-slot="1204098626"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+    <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
     <div class="section"><h2>관리/제공 기관</h2><ul class="detail-list">
       <li class="detail-item"><span class="label">관리기관</span><span class="value"><?= $facility['MANAGE_INSTT_NM'] ?></span></li>
       <li class="detail-item"><span class="label">제공기관</span><span class="value"><?= $facility['PROVD_INSTT_NM'] ?></span></li>
@@ -171,30 +147,14 @@ $keywordsSeo = implode(',', [$district, '공영주차장', $facility['FCLTY_NM']
      <li class="detail-item"><span class="label">기준일자</span><span class="value"><?= $facility['BASE_DE'] ?></span></li>
       <li class="detail-item"><span class="label">최종변경일자</span><span class="value"><?= $facility['LAST_CHG_DE'] ?></span></li>
     </ul></div>
-    <ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-6686738239613464"
-     data-ad-slot="1204098626"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+    <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
     <!-- 지도 섹션 주석 처리
     <div class="section">
       <h2>지도</h2>
       <div id="map"></div>
     </div>
     -->
-    <ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-6686738239613464"
-     data-ad-slot="1204098626"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+    <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
   </div>
   <?= view_cell('\App\Cells\ExtraInfoCell::render') ?>
   <?php include APPPATH . 'Views/includes/footer.php'; ?>

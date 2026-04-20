@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= esc($event['Event_Name']) ?> - 공연 정보</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=YOUR_NCP_CLIENT_ID"></script>
     <style>
         body {
@@ -44,7 +44,7 @@
 <body>
     <div class="container">
         <h1><?= esc($event['Event_Name']) ?></h1>
-        <img src="<?= esc($event['image_path'] ?? 'https://via.placeholder.com/800x400') ?>" alt="이미지" class="event-img">
+        <img src="<?= esc($event['image_path'] ?? 'https://via.placeholder.com/800x400')?>" alt="이미지" class="event-img" loading="lazy" decoding="async">
         <p><strong>기간:</strong> <?= esc($event['Event_Start_Date']) ?> ~ <?= esc($event['Event_End_Date']) ?></p>
         <p><strong>장소:</strong> <?= esc($event['Venue']) ?></p>
         <p><strong>설명:</strong> <?= esc($event['Description']) ?></p>
@@ -61,7 +61,7 @@
             <?php foreach ($relatedEvents as $related): ?>
                 <div class="col-md-4">
                     <div class="card">
-                        <img src="<?= esc($related['image_path'] ?? 'https://via.placeholder.com/150') ?>" class="card-img-top" alt="관련 이미지">
+                        <img src="<?= esc($related['image_path'] ?? 'https://via.placeholder.com/150')?>" class="card-img-top" alt="관련 이미지" loading="lazy" decoding="async">
                         <div class="card-body">
                             <h5 class="card-title"><?= esc($related['Event_Name']) ?></h5>
                             <p class="card-text"><?= esc($related['Venue']) ?></p>

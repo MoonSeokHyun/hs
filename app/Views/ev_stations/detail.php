@@ -81,13 +81,7 @@ crossorigin="anonymous"></script>
     </div>
 
     <div class="ad-box">
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-6686738239613464"
-           data-ad-slot="1204098626"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+      <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
     </div>
 
     <!-- 기본 정보 -->
@@ -130,13 +124,7 @@ crossorigin="anonymous"></script>
       </ul>
     </div>
     <div class="ad-box">
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-6686738239613464"
-           data-ad-slot="1204098626"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+      <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
     </div>
     <!-- 후기 -->
     <div class="section">
@@ -168,13 +156,7 @@ crossorigin="anonymous"></script>
       </ul>
     </div>
     <div class="ad-box">
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-6686738239613464"
-           data-ad-slot="1204098626"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+      <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
     </div>
     <!-- 지도 섹션 주석 처리
     <div class="section">

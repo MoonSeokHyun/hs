@@ -176,21 +176,13 @@
 <body>
     <!-- 메뉴바 -->
     <?php include APPPATH . 'Views/includes/header.php'; ?>
-  <ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-6686738239613464"
-     data-ad-slot="1204098626"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+  <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
 
     <div class="container mt-5">
         <h1 class="text-center mb-4"><?= esc($event['product_name']) ?></h1>
         <!-- 상품 상세 정보 -->
         <div class="card mx-auto" style="max-width: 600px;">
-            <img src="<?= esc($event['image_url']) ?>" class="card-img-top" alt="Product Image">
+            <img src="<?= esc($event['image_url'])?>" class="card-img-top" alt="Product Image" loading="lazy" decoding="async">
             <div class="card-body">
                 <h5 class="card-title"><?= esc($event['product_name']) ?></h5>
                 <p><strong>브랜드:</strong> <?= esc($event['brand']) ?></p>
@@ -220,7 +212,7 @@
                 <?php foreach ($recommendedProducts as $recommended): ?>
                     <a href="/events/detail/<?= $recommended['id'] ?>" class="card-link" style="text-decoration: none; color: inherit;">
                         <div class="card">
-                            <img src="<?= esc($recommended['image_url']) ?>" class="card-img-top" alt="<?= esc($recommended['product_name']) ?>">
+                            <img src="<?= esc($recommended['image_url'])?>" class="card-img-top" alt="<?= esc($recommended['product_name']) ?>" loading="lazy" decoding="async">
                             <div class="card-body">
                                 <h6 class="card-title"><?= esc($recommended['product_name']) ?></h6>
                                 <p class="card-text mb-2">

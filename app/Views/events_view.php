@@ -195,15 +195,7 @@
 </head>
 <body>
 <?php include APPPATH . 'Views/includes/header.php'; ?>
-  <ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-6686738239613464"
-     data-ad-slot="1204098626"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+  <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
 
     <div class="container mt-5">
         <h1 class="text-center mb-4"><?= $brand ? $brand . ' 이벤트' : '모든 이벤트' ?></h1>
@@ -306,7 +298,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-4">
-                                    <img src="<?= esc($event['image_url']) ?>" class="img-fluid" alt="Product Image">
+                                    <img src="<?= esc($event['image_url'])?>" class="img-fluid" alt="Product Image" loading="lazy" decoding="async">
                                 </div>
                                 <div class="col-8">
                                     <h5 class="card-title"><?= esc($event['product_name']) ?></h5>

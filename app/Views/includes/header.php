@@ -58,18 +58,10 @@
     </ul>
   </nav>
 
-  <!-- ✅ 애드센스 광고 배너 -->
-  <section class="ads-banner" role="region" aria-label="애드센스 광고 배너">
+  <!-- 상단 광고 배너 (CLS 예약 + 전역 1회 푸시 스크립트가 footer에서 처리) -->
+  <section class="ads-banner" role="region" aria-label="광고 배너">
     <div class="banner-inner">
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-6686738239613464"
-           data-ad-slot="1204098626"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-      <script>
-           (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>
+      <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'footer']) ?>
     </div>
   </section>
 </div>

@@ -167,4 +167,34 @@ class SitemapModel extends Model
     {
         return $this->getDataForSitemap('MedicalInstitutions', 'ID', $limit, $offset, 'ID');
     }
+
+    // 레시피 데이터 관련 메서드
+    public function countAllRecipes(): int
+    {
+        return $this->countData('recipes_ease');
+    }
+
+    public function getRecipesForSitemap(int $limit, int $offset): array
+    {
+        return $this->getDataForSitemap('recipes_ease', 'id, created_at', $limit, $offset);
+    }
+
+    // 축제·공연 데이터 관련 메서드
+    public function countAllFestivals(): int
+    {
+        try {
+            return $this->countData('festival_info');
+        } catch (\Throwable $e) {
+            return 0;
+        }
+    }
+
+    public function getFestivalsForSitemap(int $limit, int $offset): array
+    {
+        try {
+            return $this->getDataForSitemap('festival_info', 'id', $limit, $offset);
+        } catch (\Throwable $e) {
+            return [];
+        }
+    }
 }

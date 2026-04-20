@@ -177,15 +177,7 @@ $canonical = $currentPage > 1 ? base_url('recipes') . '?page=' . $currentPage : 
 </head>
 <body>
 <?php include APPPATH . 'Views/includes/header.php'; ?>
-  <ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-6686738239613464"
-     data-ad-slot="1204098626"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+  <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
 
     <div class="container">
         <h1>편의점 레시피</h1>
@@ -195,7 +187,7 @@ $canonical = $currentPage > 1 ? base_url('recipes') . '?page=' . $currentPage : 
                 <?php foreach ($recipes as $recipe): ?>
                     <a href="/recipes/<?= esc($recipe['id']) ?>" class="card-link">
                         <div class="card">
-                            <img src="<?= esc($recipe['image_url']) ?>" class="card-img-top" alt="<?= esc($recipe['title']) ?>">
+                            <img src="<?= esc($recipe['image_url'])?>" class="card-img-top" alt="<?= esc($recipe['title']) ?>" loading="lazy" decoding="async">
                             <div class="card-body">
                                 <h5 class="card-title"><?= esc($recipe['title']) ?></h5>
                                 <p class="card-text">

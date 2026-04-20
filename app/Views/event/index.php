@@ -157,22 +157,14 @@ $canonical = $currentPage > 1 ? current_url() . '?page=' . $currentPage : curren
     <div class="container">
 
 
-        <ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-6686738239613464"
-     data-ad-slot="1204098626"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+        <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
         <!-- 이벤트 카드 -->
         <div class="card-container">
             <?php if (!empty($allEvents)): ?>
                 <?php foreach ($allEvents as $event): ?>
                     <a href="/event/<?= esc($event['id']) ?>" class="card-link">
                         <div class="card">
-                            <img src="<?= esc($event['image_url']) ?>" class="card-img-top" alt="<?= esc($event['title']) ?>">
+                            <img src="<?= esc($event['image_url'])?>" class="card-img-top" alt="<?= esc($event['title']) ?>" loading="lazy" decoding="async">
                             <div class="card-body">
                                 <span class="status <?= $event['status'] === '진행중' ? 'status-ongoing' : 'status-ended' ?>">
                                     <?= $event['status'] === '진행중' ? '[진행]' : '[종료]' ?>

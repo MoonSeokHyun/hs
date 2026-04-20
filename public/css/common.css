@@ -1213,3 +1213,37 @@ img {
     gap: 12px;
   }
 }
+
+/* =========================================
+   AdSense Slot Container (CLS 예약 · 사이트 공통)
+   ========================================= */
+.ad-slot-box {
+  position: relative;
+  margin: 16px 0 20px;
+  padding: 10px;
+  border: 1px solid #e6e6e6;
+  border-radius: 10px;
+  background: #fff;
+  min-height: 120px;
+  overflow: hidden;
+}
+.ad-slot-box--inline { min-height: 250px; }
+.ad-slot-box--sidebar { min-height: 300px; }
+.ad-slot-box--footer { min-height: 100px; }
+.ad-slot-box::before {
+  content: "광고";
+  position: absolute;
+  top: 4px;
+  right: 8px;
+  font-size: 10px;
+  color: #aaa;
+  letter-spacing: 0.5px;
+}
+.ad-slot-box .adsbygoogle {
+  display: block;
+  width: 100%;
+}
+@media (max-width: 600px) {
+  .ad-slot-box { min-height: 100px; padding: 8px; }
+  .ad-slot-box--inline { min-height: 200px; }
+}

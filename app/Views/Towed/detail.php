@@ -250,19 +250,8 @@ main {
   <?php include APPPATH . 'Views/includes/header.php'; ?>
   
   <!-- 광고 배너 (애드센스 예시) -->
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6686738239613464" data-ad-slot="1204098626" data-ad-format="auto" data-full-width-responsive="true"></ins>
-  <script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-  </script>
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-6686738239613464"
-     data-ad-slot="1204098626"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+  <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
+<?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
   <!-- Hero Section -->
   <section class="hero-section">
     <h1>💡 누구나 쉽게 접근 가능한 편리한 견인차 보관소</h1>
@@ -281,15 +270,7 @@ main {
           <div class="facility-type"><?= esc($storage['management_organization_name']); ?> 관리 보관소</div>
           <div class="sub-info">📍 <?= esc($storage['address_road_name']); ?></div>
         </div>
-        <ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-6686738239613464"
-     data-ad-slot="1204098626"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+        <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
         <h3 class="section-title">보관소 기본 정보</h3>
         <table class="info-table">
           <tr>
@@ -332,15 +313,7 @@ main {
         -->
       </div>
     </section>
-    <ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-6686738239613464"
-     data-ad-slot="1204098626"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+    <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
     <!-- (2) 주변 보관소 Section -->
     <section class="nearby-section">
       <h3 class="section-title">1km 이내 견인차 보관소</h3>
@@ -375,10 +348,7 @@ main {
     <?= view_cell('\App\Cells\ExtraInfoCell::render') ?>
   </main>
 
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6686738239613464" data-ad-slot="1204098626" data-ad-format="auto" data-full-width-responsive="true"></ins>
-  <script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-  </script>
+  <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
 
   <!-- 네이버맵 스크립트 주석 처리
   <script>

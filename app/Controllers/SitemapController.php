@@ -23,6 +23,8 @@ class SitemapController extends Controller
         $totalStores               = $sitemapModel->countAllStores();
         $totalEvStations           = $sitemapModel->countAllEvStations();
         $totalChargingStations     = $sitemapModel->countAllChargingStations();
+        $totalRecipes              = $sitemapModel->countAllRecipes();
+        $totalFestivals            = $sitemapModel->countAllFestivals();
 
         $itemsPerPage = 10000;
 
@@ -41,6 +43,12 @@ class SitemapController extends Controller
         $xml .= $this->addSitemapEntries('stores',            ceil($totalStores / $itemsPerPage));
         $xml .= $this->addSitemapEntries('evstations',        ceil($totalEvStations / $itemsPerPage));
         $xml .= $this->addSitemapEntries('chargingstations',  ceil($totalChargingStations / $itemsPerPage));
+        if ($totalRecipes > 0) {
+            $xml .= $this->addSitemapEntries('recipes',       ceil($totalRecipes / $itemsPerPage));
+        }
+        if ($totalFestivals > 0) {
+            $xml .= $this->addSitemapEntries('festivals',     ceil($totalFestivals / $itemsPerPage));
+        }
 
         $xml .= "</sitemapindex>";
 
@@ -76,6 +84,8 @@ class SitemapController extends Controller
     public function stores(int $pageNumber)             { return $this->generateSitemap('getStoresForSitemap', 'stores', 'updated_at', $pageNumber, 'daily'); }
     public function evstations(int $pageNumber)         { return $this->generateSitemap('getEvStationsForSitemap', 'ev-stations', '', $pageNumber, 'daily'); }
     public function chargingstations(int $pageNumber)   { return $this->generateSitemap('getChargingStationsForSitemap', 'station/detail', '', $pageNumber, 'daily'); }
+    public function recipes(int $pageNumber)            { return $this->generateSitemap('getRecipesForSitemap', 'recipes', 'created_at', $pageNumber, 'weekly'); }
+    public function festivals(int $pageNumber)          { return $this->generateSitemap('getFestivalsForSitemap', 'festival-info', '', $pageNumber, 'weekly'); }
 
     private function generateSitemap(
         string $method,

@@ -344,13 +344,7 @@ if ($reviewCount > 0 && $avgRating > 0) {
   </section>
 
   <div class="ad-card">
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-6686738239613464"
-         data-ad-slot="1204098626"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
   </div>
 
   <section class="content-card">
@@ -412,13 +406,7 @@ if ($reviewCount > 0 && $avgRating > 0) {
   </section>
 
   <div class="ad-card">
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-6686738239613464"
-         data-ad-slot="1204098626"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
   </div>
 
   <section class="content-card">
@@ -462,22 +450,16 @@ if ($reviewCount > 0 && $avgRating > 0) {
     <div class="share-row">
       <span>이 페이지 공유:</span>
       <a class="share-btn" href="https://facebook.com/sharer/sharer.php?u=<?= urlencode($canonicalUrl) ?>" target="_blank" rel="noopener noreferrer" aria-label="Facebook 공유">
-        <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="">
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="" loading="lazy" decoding="async">
       </a>
       <a class="share-btn" href="https://twitter.com/share?url=<?= urlencode($canonicalUrl) ?>" target="_blank" rel="noopener noreferrer" aria-label="X 공유">
-        <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="">
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="" loading="lazy" decoding="async">
       </a>
     </div>
   </section>
 
   <div class="ad-card">
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-6686738239613464"
-         data-ad-slot="1204098626"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
   </div>
 
   <?= view_cell('\App\Cells\ExtraInfoCell::render') ?>

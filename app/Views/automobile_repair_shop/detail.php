@@ -764,19 +764,6 @@ crossorigin="anonymous"></script>
   })();
   -->
   <script>
-    // 페이지 내 광고 슬롯을 한 번에 렌더링 (중복 push 방지)
-    (function () {
-      var adNodes = document.querySelectorAll('.ad-slot.adsbygoogle');
-      adNodes.forEach(function (node) {
-        if (!node.dataset.adsRendered) {
-          (adsbygoogle = window.adsbygoogle || []).push({});
-          node.dataset.adsRendered = '1';
-        }
-      });
-    })();
-  </script>
-
-  <script>
     // 별점 선택 이벤트
     document.querySelectorAll('#star-rating .star').forEach(star => {
       star.addEventListener('click', function() {

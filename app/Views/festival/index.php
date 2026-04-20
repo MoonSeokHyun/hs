@@ -102,7 +102,7 @@ $canonical = $currentPage > 1 ? current_url() . '?page=' . $currentPage : curren
             <a href="<?= $url ?>" class="card-link">
                 <div class="card">
                     <div class="card-img-top">
-                        <img src="<?= fetchPixabayImage($item['Event_Name'] ?? $item['Festival_Name']) ?>" alt="<?= esc($item['Event_Name'] ?? $item['Festival_Name']) ?>">
+                        <img src="<?= fetchPixabayImage($item['Event_Name'] ?? $item['Festival_Name'])?>" alt="<?= esc($item['Event_Name'] ?? $item['Festival_Name']) ?>" loading="lazy" decoding="async">
                     </div>
                     <div class="card-body">
                         <span class="type-label" style="background-color: <?= $typeColor ?>;"><?= $typeLabel ?></span>

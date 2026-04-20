@@ -9,7 +9,7 @@
         <?php foreach ($events as $event): ?>
           <li>
             <?php if (!empty($event['image'])): ?>
-              <img src="<?= esc($event['image']); ?>" alt="<?= esc($event['name']); ?>">
+              <img src="<?= esc($event['image']);?>" alt="<?= esc($event['name']); ?>" loading="lazy" decoding="async">
             <?php endif; ?>
             <strong><?= esc($event['name']); ?></strong>
             <p>이벤트 유형: <?= esc($event['type']); ?></p>

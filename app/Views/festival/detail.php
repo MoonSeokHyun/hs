@@ -27,7 +27,7 @@ $festivalDesc = mb_substr(preg_replace('/\s+/', ' ', strip_tags($fdescRaw)), 0, 
     <meta property="og:url" content="<?= esc(current_url()) ?>">
     <meta property="og:type" content="event">
     <meta property="og:image" content="<?= base_url('img/logo.png') ?>">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464" crossorigin="anonymous"></script>
     <!-- 네이버맵 API 주석 처리
     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
@@ -227,7 +227,7 @@ $imageUrl = fetchPixabayImage($festival['Festival_Name']);
 </div>
 
 <div class="container">
-    <img src="<?= $imageUrl ?>" alt="<?= esc($festival['Festival_Name']) ?> 이미지" class="festival-img">
+    <img src="<?= $imageUrl?>" alt="<?= esc($festival['Festival_Name']) ?> 이미지" class="festival-img" loading="lazy" decoding="async">
     <p><strong>기간:</strong> <?= esc($festival['Start_Date']) ?> ~ <?= esc($festival['End_Date']) ?></p>
     <p><strong>장소:</strong> <?= esc($festival['Venue']) ?></p>
     <?php if (!empty($festival['Description'])): ?>
@@ -265,7 +265,7 @@ $imageUrl = fetchPixabayImage($festival['Festival_Name']);
             <?php foreach ($relatedFestivals as $related): ?>
                 <div class="col-md-4">
                     <div class="card" onclick="location.href='/festival-info/<?= esc($related['id']) ?>'">
-                        <img src="<?= fetchPixabayImage($related['Festival_Name']) ?>" class="card-img-top" alt="<?= esc($related['Festival_Name']) ?>">
+                        <img src="<?= fetchPixabayImage($related['Festival_Name'])?>" class="card-img-top" alt="<?= esc($related['Festival_Name']) ?>" loading="lazy" decoding="async">
                         <div class="card-body">
                             <h5 class="card-title text-center"><?= esc($related['Festival_Name']) ?></h5>
                             <p class="text-center"><strong>주소:</strong> <?= esc($related['Address_Road']) ?></p>

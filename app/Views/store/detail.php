@@ -57,15 +57,7 @@ crossorigin="anonymous"></script>
 </head>
 <body>
   <?php include APPPATH . 'Views/includes/header.php'; ?>
-  <ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-6686738239613464"
-     data-ad-slot="1204098626"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+  <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
   <div class="container">
     <a href="<?= site_url('stores') ?>" class="back">← 목록으로 돌아가기</a>
 
@@ -100,15 +92,7 @@ crossorigin="anonymous"></script>
         <li class="detail-item"><span class="label">Services Offered</span><span class="value"><?= $store['services_offered'] ?></span></li>
       </ul>
     </div>
-    <ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-6686738239613464"
-     data-ad-slot="1204098626"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+    <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
     <!-- 팁 섹션: 타이어 잘 가는 법 -->
     <div class="section">
       <h2>Tip: 타이어 오래 쓰는 법</h2>
@@ -136,15 +120,7 @@ crossorigin="anonymous"></script>
       <p><a href="https://www.carcareinfo.kr/tire-maintenance" target="_blank" class="tip-link">더 알아보기 &raquo;</a></p>
     </div>
   </div>
-  <ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-6686738239613464"
-     data-ad-slot="1204098626"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+  <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
   <?php include APPPATH . 'Views/includes/footer.php'; ?>
 
   <!-- 네이버맵 스크립트 주석 처리

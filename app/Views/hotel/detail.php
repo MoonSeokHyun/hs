@@ -111,7 +111,7 @@ crossorigin="anonymous"></script>
     <div class="card-slider">
       <?php foreach ($results_food as $item): ?>
         <div class="card">
-          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAChCAMAAABkv1NnAAAA" alt="맛집 이미지">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAChCAMAAABkv1NnAAAA" alt="맛집 이미지" loading="lazy" decoding="async">
           <h3><?= esc($item['title']); ?></h3>
           <p><?= esc($item['roadAddress']); ?></p>
           <p><?= esc($item['telephone'] ?? '정보 없음'); ?></p>
@@ -125,7 +125,7 @@ crossorigin="anonymous"></script>
     <div class="card-slider">
       <?php foreach ($results_tour as $item): ?>
         <div class="card">
-          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAChCAMAAABkv1NnAAAA" alt="관광지 이미지">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAATgAAAChCAMAAABkv1NnAAAA" alt="관광지 이미지" loading="lazy" decoding="async">
           <h3><?= esc($item['title']); ?></h3>
           <p><?= esc($item['roadAddress']); ?></p>
           <p><?= esc($item['telephone'] ?? '정보 없음'); ?></p>

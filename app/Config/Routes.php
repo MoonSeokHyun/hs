@@ -135,3 +135,6 @@ $routes->get('sitemap/evstations/(:num)', 'SitemapController::evstations/$1');
 $routes->get('station', 'StationController::index');
 $routes->get('station/detail/(:num)', 'StationController::detail/$1');
 $routes->get('sitemap/chargingstations/(:num)', 'SitemapController::chargingstations/$1');
+
+$routes->get('sitemap/recipes/(:num)', 'SitemapController::recipes/$1');
+$routes->get('sitemap/festivals/(:num)', 'SitemapController::festivals/$1');

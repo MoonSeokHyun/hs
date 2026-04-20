@@ -31,15 +31,7 @@ if (isset($breadcrumb)) {
     </section>
 
     <!-- 광고 -->
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-6686738239613464"
-         data-ad-slot="1204098626"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
+    <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
 
     <!-- 최근 추가된 호텔 -->
     <?php if (!empty($recentHotels)): ?>
@@ -79,7 +71,7 @@ if (isset($breadcrumb)) {
                         <a href="/hotel/detail/<?= esc($hotel['id']) ?>" class="card-link">
                             <?php if (isset($hotel['map_image_url'])): ?>
                                 <div class="card-image">
-                                    <img src="<?= esc($hotel['map_image_url']) ?>" alt="<?= esc($hotel['business_name']) ?>" loading="lazy">
+                                    <img src="<?= esc($hotel['map_image_url'])?>" alt="<?= esc($hotel['business_name']) ?>" loading="lazy">
                                 </div>
                             <?php endif; ?>
                             <div class="card-header">

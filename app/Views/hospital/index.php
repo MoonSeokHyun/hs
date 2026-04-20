@@ -304,15 +304,7 @@
   
     <div class="container">
 
-    <ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-6686738239613464"
-     data-ad-slot="1204098626"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-  <script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-  </script>
+    <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
 
         <!-- Search sections -->
         <div class="section search-container">
@@ -355,7 +347,7 @@
             <?php foreach ($events as $event): ?>
                 <a href="/event/<?= esc($event['id']) ?>" class="card-link">
                     <div class="card">
-                        <img src="<?= esc($event['image_url']) ?>" class="card-img-top" alt="<?= esc($event['title']) ?>">
+                        <img src="<?= esc($event['image_url'])?>" class="card-img-top" alt="<?= esc($event['title']) ?>" loading="lazy" decoding="async">
                         <div class="card-body">
                             <h5 class="card-title"><?= esc($event['title']) ?></h5>
                             <p class="card-text">
@@ -371,15 +363,7 @@
 </div>
 
 <!-- 중간 광고 배치 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-6686738239613464"
-     data-ad-slot="1204098626"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+<?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
 
 <!-- 최신 레시피 섹션 -->
 <div class="container mt-4">
@@ -390,7 +374,7 @@
                 <!-- 링크로 감싸기 -->
                 <a href="/recipes/<?= esc($recipe['id']) ?>" class="card-link">
                     <div class="card">
-                        <img src="<?= esc($recipe['image_url']) ?>" class="card-img-top" alt="<?= esc($recipe['title']) ?>">
+                        <img src="<?= esc($recipe['image_url'])?>" class="card-img-top" alt="<?= esc($recipe['title']) ?>" loading="lazy" decoding="async">
                         <div class="card-body">
                             <h5 class="card-title"><?= esc($recipe['title']) ?></h5>
                         </div>
@@ -404,15 +388,7 @@
 </div>
 
 <!-- 하단 광고 배치 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-6686738239613464"
-     data-ad-slot="1204098626"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+<?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
 
 <!-- Footer -->
 <?php include APPPATH . 'Views/includes/footer.php'; ?>
