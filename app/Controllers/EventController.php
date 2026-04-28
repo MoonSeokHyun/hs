@@ -73,8 +73,6 @@ class EventController extends Controller
     }
     public function detail($id)
     {
-        $db = \Config\Database::connect();
-    
         // 제품 정보 가져오기
         $eventModel = new EventModel();
         $event = $eventModel->find($id);
@@ -84,14 +82,16 @@ class EventController extends Controller
         }
     
         // 추천 상품 가져오기 (카테고리와 ±10% 가격 범위)
-        $priceRangeLow = $event['price'] * 0.9; // 가격 하한
-        $priceRangeHigh = $event['price'] * 1.1; // 가격 상한
+        $price = (float) ($event['price'] ?? 0);
+        $priceRangeLow = $price * 0.9; // 가격 하한
+        $priceRangeHigh = $price * 1.1; // 가격 상한
     
         $recommendedProducts = $eventModel->where('category', $event['category'])
             ->where('id !=', $event['id']) // 현재 상품 제외
             ->where('price >=', $priceRangeLow)
             ->where('price <=', $priceRangeHigh)
-            ->orderBy('RAND()') // 랜덤 정렬
+            // CI4는 orderBy('RAND()') 시 식별자로 이스케이프되어 SQL 오류가 난다. DB별 RAND는 direction 'random' 사용.
+            ->orderBy('id', 'random')
             ->limit(5)
             ->findAll();
     

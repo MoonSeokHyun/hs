@@ -1,7 +1,7 @@
 <?php
 $currentPage = max(1, (int)($_GET['page'] ?? 1));
 $pageSuffix  = $currentPage > 1 ? " - {$currentPage}페이지" : '';
-$pageTitle   = "전국 자동차 정비소 찾기{$pageSuffix} | 차량정비·엔진오일·수리 전문 | 편잇";
+$pageTitle   = "전국 자동차 정비소 찾기 | 위치·리뷰{$pageSuffix} | 편잇";
 $pageDesc    = $currentPage > 1
     ? "전국 자동차 정비소 {$currentPage}페이지 - 지역별 정비소 위치, 전화번호, 리뷰와 평점 정보를 확인하세요."
     : "전국 자동차 정비소의 위치, 전화번호, 서비스 정보와 실제 이용자 리뷰를 확인하세요. 차량정비·엔진오일 교체·수리까지 한 번에 비교할 수 있습니다.";
@@ -13,11 +13,8 @@ $canonical = $currentPage > 1 ? $canonicalBase . '?page=' . $currentPage : $cano
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="google-site-verification" content="vTa0kwUBtDAIFY_RbTOw4p-LpneLpkhxTYAWYqNwAog" />
-  <meta name="naver-site-verification" content="7a0d49f3fd680b5f4ab77f8edfd3deb13ee30f11" />
   <title><?= esc($pageTitle) ?></title>
   <meta name="description" content="<?= esc($pageDesc) ?>">
-  <meta name="keywords" content="자동차 정비소, 차량정비, 엔진오일 교체, 정비소 추천, 정비소 리뷰, 편잇">
   <meta name="robots" content="<?= !empty($isSearchResult) ? 'noindex, follow' : 'index, follow' ?>">
   <link rel="canonical" href="<?= esc($canonical) ?>">
   <meta property="og:title" content="<?= esc($pageTitle) ?>">
@@ -25,291 +22,74 @@ $canonical = $currentPage > 1 ? $canonicalBase . '?page=' . $currentPage : $cano
   <meta property="og:url" content="<?= esc($canonical) ?>">
   <meta property="og:type" content="website">
   <meta property="og:image" content="<?= base_url('img/logo.png') ?>">
-  <meta name="author" content="편잇">
-  <!-- 네이버맵 API 주석 처리
-  <script async src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
-  -->
-<!-- 구글 애드센스 -->
-
-  <link rel="stylesheet" href="/assets/css/global.css">
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #f8f9fa;
-      color: #333;
-    }
-
-    .container {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-
-    .page-title {
-      font-size: 2em;
-      color: var(--main-color, #62D491);
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .menu-bar {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 20px;
-    }
-
-    .menu-bar a {
-      padding: 10px 20px;
-      background-color: #62D491;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 20px;
-      font-weight: bold;
-      transition: all 0.2s ease-in-out;
-    }
-
-    .menu-bar a:hover {
-      background-color: #3eaf7c;
-    }
-
-    .search-box {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-
-    .search-box input {
-      padding: 10px;
-      width: 70%;
-      max-width: 400px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-
-    .search-box button {
-      padding: 10px 20px;
-      margin-left: 5px;
-      border: none;
-      background-color: #3eaf7c;
-      color: white;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .section {
-      margin-bottom: 40px;
-    }
-
-    .section h2 {
-      font-size: 1.5rem;
-      margin-bottom: 10px;
-      color: var(--point-color, #3eaf7c);
-      border-left: 4px solid var(--point-color, #3eaf7c);
-      padding-left: 10px;
-    }
-
-    .table-container {
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background-color: #fff;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
-
-    th, td {
-      padding: 12px 10px;
-      text-align: center;
-      border-bottom: 1px solid #eee;
-      font-size: 14px;
-    }
-
-    th {
-      background-color: #62D491;
-      color: white;
-    }
-
-    .clickable-row {
-      cursor: pointer;
-    }
-
-    .clickable-row:hover {
-      background-color: #f9f9f9;
-    }
-
-    .review-card {
-      background: #fff;
-      border: 1px solid #eee;
-      border-radius: 8px;
-      padding: 15px;
-      margin-bottom: 15px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-
-    .review-title {
-      font-weight: bold;
-      font-size: 1rem;
-      color: #3eaf7c;
-      margin-bottom: 5px;
-    }
-
-    .review-rating {
-      color: #ff9800;
-    }
-
-    .review-text {
-      font-size: 0.95rem;
-      color: #444;
-      margin-bottom: 5px;
-    }
-
-    footer {
-      background-color: #f1f1f1;
-      text-align: center;
-      padding: 20px;
-      font-size: 0.9em;
-      border-top: 1px solid #ddd;
-      margin-top: 40px;
-    }
-
-    footer a {
-      color: #007bff;
-      text-decoration: none;
-    }
-
-    footer a:hover {
-      text-decoration: underline;
-    }
-
-    @media (max-width: 768px) {
-      .page-title {
-        font-size: 1.5em;
-      }
-
-      .menu-bar {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .menu-bar a {
-        width: 90%;
-        text-align: center;
-      }
-
-      .search-box input,
-      .search-box button {
-        width: 90%;
-        margin-top: 5px;
-      }
-
-      th, td {
-        font-size: 13px;
-        padding: 10px 5px;
-      }
-    }
-  </style>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preload" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"></noscript>
+  <link rel="stylesheet" href="<?= base_url('css/common.css') ?>?v=<?= filemtime(FCPATH.'css/common.css') ?>">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464" crossorigin="anonymous"></script>
 </head>
 <body>
-  <?php include APPPATH . 'Views/includes/header.php'; ?>
-  <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
-  <main class="container">
+<?php include APPPATH . 'Views/includes/header.php'; ?>
 
-    <div class="search-box">
-      <form action="/automobile_repair_shops/search" method="get">
-        <input type="text" name="search" value="<?= esc($search ?? '') ?>" placeholder="정비소 이름 또는 주소 검색">
-        <button type="submit">검색</button>
-      </form>
+<section class="lp-hero">
+  <div class="lp-hero-inner">
+    <p class="lp-hero-eyebrow">AUTO REPAIR</p>
+    <h1 class="lp-hero-title">🔧 전국 자동차 정비소</h1>
+    <p class="lp-hero-sub">정비소 위치, 서비스 정보와 실제 이용자 리뷰를 확인하세요</p>
+    <form class="lp-search" action="<?= base_url('automobile_repair_shops/search') ?>" method="get">
+      <input type="text" name="search" value="<?= esc($search ?? '') ?>" placeholder="정비소명, 주소 검색">
+      <button type="submit">검색</button>
+    </form>
+    <div class="lp-hero-stats">
+      <span class="lp-stat-chip"><strong>전국</strong> 정비소 정보</span>
+      <span class="lp-stat-chip"><strong>1·2·3급</strong> 정비소 구분</span>
+      <span class="lp-stat-chip"><strong>리뷰·평점</strong> 제공</span>
     </div>
+  </div>
+</section>
 
-    <section class="section">
-      <h2>최근 추가된 정비소</h2>
-      <div class="table-container">
-        <table>
-          <thead>
-            <tr>
-              <th>정비소명</th>
-              <th>주소</th>
-              <th>추가일</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php foreach ($recentRepairShops as $shop): ?>
-              <tr class="clickable-row" onclick="window.location.href='/automobile_repair_shop/<?= esc($shop['id']) ?>'">
-                <td><?= esc($shop['repair_shop_name']) ?></td>
-                <td><?= esc($shop['road_address']) ?></td>
-                <td><?= date('Y-m-d') ?></td>
-              </tr>
-            <?php endforeach; ?>
-          </tbody>
-        </table>
-      </div>
-    </section>
+<div class="lp-body">
+  <div class="container">
 
-    <section class="section">
-      <h2>인기 정비소</h2>
-      <div class="table-container">
-        <table>
-          <thead>
-            <tr>
-              <th>정비소명</th>
-              <th>정비소 종류</th>
-              <th>주소</th>
-              <th>전화번호</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php if (!empty($repair_shops)): ?>
-              <?php foreach ($repair_shops as $shop): ?>
-                <tr class="clickable-row" onclick="window.location.href='/automobile_repair_shop/<?= esc($shop['id']) ?>'">
-                  <td><?= esc($shop['repair_shop_name']) ?></td>
-                  <td><?= esc($shop['repair_shop_type']) ?>급</td>
-                  <td><?= esc($shop['road_address']) ?></td>
-                  <td><?= esc($shop['phone_number']) ?></td>
-                </tr>
-              <?php endforeach; ?>
-            <?php else: ?>
-              <tr><td colspan="4"><?= esc($noResultsMessage ?? '등록된 정비소가 없습니다.') ?></td></tr>
-            <?php endif; ?>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- 중간 광고 배치 -->
-    <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
-
-    <section class="section">
-      <h2>최근 추가된 리뷰</h2>
-      <?php foreach ($recentReviews as $review): ?>
-        <div class="review-card clickable-row" onclick="window.location.href='/automobile_repair_shop/<?= esc($review['repair_shop_id']) ?>'">
-          <div class="review-title">
-            <?= esc($review['repair_shop_name']) ?> - <span class="review-rating"><?= esc($review['rating']) ?>점</span>
-          </div>
-          <div class="review-text"><?= esc($review['comment_text']) ?></div>
-          <small>작성일: <?= date('Y-m-d', strtotime($review['created_at'])) ?></small>
+    <?php if (!empty($recentRepairShops)): ?>
+    <section>
+      <div class="lp-section-head">
+        <div>
+          <span class="lp-section-kicker">LIST</span>
+          <p class="lp-section-title">🔧 자동차 정비소 목록</p>
         </div>
-      <?php endforeach; ?>
+      </div>
+      <div class="lp-grid">
+        <?php foreach ($recentRepairShops as $shop): ?>
+          <a class="lp-card" href="/automobile_repair_shop/<?= esc($shop['id']) ?>">
+            <div class="lp-card-name"><?= esc($shop['repair_shop_name']) ?></div>
+            <?php if (!empty($shop['repair_shop_type'])): ?>
+            <div class="lp-card-row"><span class="lp-card-badge"><?= esc($shop['repair_shop_type']) ?>급 정비소</span></div>
+            <?php endif; ?>
+            <div class="lp-card-row">📍 <?= esc($shop['road_address']) ?></div>
+            <?php if (!empty($shop['phone_number'])): ?>
+            <div class="lp-card-row">📞 <?= esc($shop['phone_number']) ?></div>
+            <?php endif; ?>
+            <?php if (!empty($shop['average_rating'])): ?>
+            <div class="lp-card-rating">★ <?= number_format($shop['average_rating'], 1) ?></div>
+            <?php endif; ?>
+          </a>
+        <?php endforeach; ?>
+      </div>
     </section>
+    <?php endif; ?>
 
-    <!-- 하단 광고 배치 -->
-    <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
-  </main>
+    <?php if (!empty($noResultsMessage)): ?>
+    <p class="lp-empty"><?= esc($noResultsMessage) ?></p>
+    <?php endif; ?>
 
-  <?php include APPPATH . 'Views/includes/footer.php'; ?>
+    <?php if (isset($pager)): ?>
+    <div class="lp-pager"><?= $pager->links() ?></div>
+    <?php endif; ?>
 
-  <?php if (!preg_match('/^localhost(:[0-9]*)?$/', $_SERVER['HTTP_HOST'])): ?>
-    <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
-    <script type="text/javascript">
-      if (!wcs_add) var wcs_add = {};
-      wcs_add["wa"] = "8adec19974bed8";
-      if (window.wcs) wcs_do();
-    </script>
-  <?php endif; ?>
+  </div>
+</div>
+
+<?php include APPPATH . 'Views/includes/footer.php'; ?>
 </body>
 </html>

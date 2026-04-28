@@ -63,7 +63,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <style>
         body {
-            background-color: #f8f9fa;
+            background-color: #FBF8F3;
         }
 
         /* 메뉴바 스타일 */
@@ -84,17 +84,17 @@
             font-weight: bold;
             transition: transform 0.3s, box-shadow 0.3s;
         }
-        .menu-cu { background-color: #6c757d; }
-        .menu-all { background-color: #28a745; }
-        .menu-gs25 { background-color: #007bff; }
+        .menu-cu { background-color: #6f64a8; }
+        .menu-all { background-color: #E8653A; }
+        .menu-gs25 { background-color: #FF8A65; }
         .menu-seven { background-color: #e74c3c; }
         .menu-emart { background-color: #f1c40f; color: #333; }
         .menu-cspace { background-color: #e67e22; }
         .menu-recipe { background-color: #FFA07A; } /* 살몬 핑크 */
         .menu-event { background-color: #FF4500; } /* 오렌지 레드 */
         .menu-parking { background-color: #8A2BE2; } /* 오렌지 레드 */
-        .menu-accommodation { background-color: #17a2b8; }
-        .menu-festival { background-color: #17e2b8; }
+        .menu-accommodation { background-color: #7d6dff; }
+        .menu-festival { background-color: #9b8cff; }
 
 
         .menu-bar a:hover {

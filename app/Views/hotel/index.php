@@ -1,10 +1,10 @@
 <?php
 $currentPage = max(1, (int)($_GET['page'] ?? 1));
 $pageSuffix  = $currentPage > 1 ? " - {$currentPage}페이지" : '';
-$pageTitle   = "전국 숙박시설·호텔 찾기{$pageSuffix} | 위치·가격·후기 | 편잇";
+$pageTitle   = "전국 숙박시설·호텔 찾기 | 위치·가격·후기{$pageSuffix} | 편잇";
 $pageDesc    = $currentPage > 1
     ? "전국 호텔·숙박시설 {$currentPage}페이지 - 지역별 호텔, 모텔, 펜션의 위치, 가격, 후기 정보를 확인하세요."
-    : "전국 호텔, 모텔, 펜션 등 숙박시설의 위치, 가격, 사용자 후기 정보를 한눈에 확인하세요. 지역별·조건별로 숙박을 쉽게 비교할 수 있습니다.";
+    : "전국 호텔, 모텔, 펜션 등 숙박시설의 위치, 가격, 사용자 후기 정보를 한눈에 확인하세요.";
 $canonical = $currentPage > 1 ? base_url('hotel') . '?page=' . $currentPage : base_url('hotel');
 ?>
 <!DOCTYPE html>
@@ -14,7 +14,6 @@ $canonical = $currentPage > 1 ? base_url('hotel') . '?page=' . $currentPage : ba
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= esc($pageTitle) ?></title>
   <meta name="description" content="<?= esc($pageDesc) ?>">
-  <meta name="keywords" content="호텔, 숙박시설, 모텔, 펜션, 숙소 예약, 호텔 후기, 편잇">
   <meta name="robots" content="<?= !empty($isSearchResult) ? 'noindex, follow' : 'index, follow' ?>">
   <link rel="canonical" href="<?= esc($canonical) ?>">
   <meta property="og:title" content="<?= esc($pageTitle) ?>">
@@ -22,180 +21,86 @@ $canonical = $currentPage > 1 ? base_url('hotel') . '?page=' . $currentPage : ba
   <meta property="og:url" content="<?= esc($canonical) ?>">
   <meta property="og:type" content="website">
   <meta property="og:image" content="<?= base_url('img/logo.png') ?>">
-  <!-- 네이버맵 API 주석 처리
-  <script async src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
-  -->
-<!-- 구글 애드센스 -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
-crossorigin="anonymous"></script>
-  <style>
-    /* 기본 초기화 */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f9;
-      color: #333;
-    }
-    /* 메인 콘텐츠 영역 */
-    main {
-      max-width: 1200px;
-      margin: 20px auto;
-      padding: 30px;
-    }
-    /* 검색 바 */
-    .search-bar {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    .search-bar input[type="text"] {
-      width: 300px;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      font-size: 1em;
-    }
-    .search-bar button {
-      padding: 10px 20px;
-      background-color: #62D491;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-size: 1em;
-      cursor: pointer;
-      margin-left: 10px;
-    }
-    .search-bar button:hover { background-color: #3eaf7c; }
-    /* 최근 추가된 호텔 */
-    .recent-hotels {
-      margin-bottom: 40px;
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-    .recent-hotels h2 {
-      color: #62D491;
-      font-size: 1.8em;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-    .recent-hotels ul { list-style: none; padding: 0; }
-    .recent-hotels li {
-      padding: 12px;
-      border-bottom: 1px solid #eee;
-      transition: background-color 0.2s;
-    }
-    .recent-hotels li:hover { background-color: #f9f9f9; }
-    .recent-hotels a {
-      color: #333;
-      text-decoration: none;
-      font-weight: bold;
-      transition: color 0.2s;
-    }
-    .recent-hotels a:hover { color: #62D491; }
-    /* 호텔 카드 스타일 */
-    .card-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-    }
-    .hotel-card {
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      transition: transform 0.3s, box-shadow 0.3s;
-      text-align: center;
-    }
-    .hotel-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    }
-    .hotel-card h3 {
-      font-size: 1.6em;
-      color: #62D491;
-      margin-bottom: 10px;
-    }
-    .hotel-card p {
-      font-size: 1em;
-      margin: 8px 0;
-      color: #555;
-    }
-    .hotel-card a {
-      display: inline-block;
-      margin-top: 15px;
-      padding: 10px 18px;
-      background-color: #62D491;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-      transition: background-color 0.3s;
-    }
-    .hotel-card a:hover { background-color: #3eaf7c; }
-    /* 리스트 제목 */
-    h2.page-title {
-      text-align: center;
-      color: #62D491;
-      margin-bottom: 20px;
-    }
-    /* Pagination */
-    .pagination {
-      text-align: center;
-      margin-top: 30px;
-    }
-  </style>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preload" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"></noscript>
+  <link rel="stylesheet" href="<?= base_url('css/common.css') ?>?v=<?= filemtime(FCPATH.'css/common.css') ?>">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464" crossorigin="anonymous"></script>
 </head>
 <body>
-  <!-- 헤더는 헤더 파일에서 동일한 스타일로 적용됨 -->
-  <?php include APPPATH . 'Views/includes/header.php'; ?>
-  
-  <!-- 상단 광고 배치 -->
-  <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
-  
-  <main>
-    <div class="search-bar">
-      <form action="/hotel" method="get">
-        <input type="text" name="query" placeholder="검색어를 입력하세요" value="<?= esc($query ?? '') ?>">
-        <button type="submit">검색</button>
-      </form>
-    </div>
+<?php include APPPATH . 'Views/includes/header.php'; ?>
 
-    <div class="recent-hotels">
-      <h2>최근 추가된 호텔</h2>
-      <ul>
-        <?php foreach ($recentHotels as $recent): ?>
-          <li>
-            <a href="/hotel/detail/<?= esc($recent['id']) ?>">
-              <?= esc($recent['business_name']) ?> (<?= esc($recent['site_full_address']) ?>)
-            </a>
-          </li>
-        <?php endforeach; ?>
-      </ul>
+<section class="lp-hero">
+  <div class="lp-hero-inner">
+    <p class="lp-hero-eyebrow">HOTEL &amp; STAY</p>
+    <h1 class="lp-hero-title">🏨 전국 숙박시설</h1>
+    <p class="lp-hero-sub">호텔·모텔·펜션 위치, 가격, 후기 정보를 한번에</p>
+    <form class="lp-search" action="/hotel" method="get">
+      <input type="text" name="query" value="<?= esc($query ?? '') ?>" placeholder="숙박시설명, 지역명으로 검색">
+      <button type="submit">검색</button>
+    </form>
+    <div class="lp-hero-stats">
+      <span class="lp-stat-chip"><strong>호텔·모텔·펜션</strong> 전국 정보</span>
+      <span class="lp-stat-chip"><strong>위치·연락처</strong> 제공</span>
+      <span class="lp-stat-chip"><strong>매일</strong> 업데이트</span>
     </div>
+  </div>
+</section>
 
-    <h2 class="page-title">호텔 리스트</h2>
-    <div class="card-container">
-      <?php foreach ($hotels as $hotel): ?>
-        <div class="hotel-card">
-          <div class="hotel-card-content">
-            <h3><?= esc($hotel['business_name']) ?></h3>
-            <p><?= esc($hotel['site_full_address']) ?></p>
-            <p>연락처: <?= esc($hotel['contact_number'] ?? '정보 없음') ?></p>
-            <a href="/hotel/detail/<?= esc($hotel['id']) ?>">자세히 보기</a>
-          </div>
+<div class="lp-body">
+  <div class="container">
+
+    <?php if (!empty($recentHotels)): ?>
+    <section>
+      <div class="lp-section-head">
+        <div>
+          <span class="lp-section-kicker">NEW</span>
+          <p class="lp-section-title">🆕 최근 추가된 숙박시설</p>
         </div>
-      <?php endforeach; ?>
-    </div>
+      </div>
+      <div class="lp-grid">
+        <?php foreach ($recentHotels as $recent): ?>
+          <a class="lp-card" href="/hotel/detail/<?= esc($recent['id']) ?>">
+            <div class="lp-card-name"><?= esc($recent['business_name']) ?></div>
+            <div class="lp-card-row">📍 <?= esc($recent['site_full_address']) ?></div>
+            <?php if (!empty($recent['contact_number'])): ?>
+            <div class="lp-card-row">📞 <?= esc($recent['contact_number']) ?></div>
+            <?php endif; ?>
+          </a>
+        <?php endforeach; ?>
+      </div>
+    </section>
+    <?php endif; ?>
 
-    <!-- 중간 광고 배치 -->
-    <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
+    <?php if (!empty($hotels)): ?>
+    <section>
+      <div class="lp-section-head">
+        <div>
+          <span class="lp-section-kicker">LIST</span>
+          <p class="lp-section-title">🏨 숙박시설 목록</p>
+        </div>
+      </div>
+      <div class="lp-grid">
+        <?php foreach ($hotels as $hotel): ?>
+          <a class="lp-card" href="/hotel/detail/<?= esc($hotel['id']) ?>">
+            <div class="lp-card-name"><?= esc($hotel['business_name']) ?></div>
+            <div class="lp-card-row">📍 <?= esc($hotel['site_full_address']) ?></div>
+            <?php if (!empty($hotel['contact_number'])): ?>
+            <div class="lp-card-row">📞 <?= esc($hotel['contact_number']) ?></div>
+            <?php endif; ?>
+          </a>
+        <?php endforeach; ?>
+      </div>
+    </section>
+    <?php endif; ?>
 
-    <!-- 하단 광고 배치 -->
-    <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
+    <?php if (isset($pager)): ?>
+    <div class="lp-pager"><?= $pager->links() ?></div>
+    <?php endif; ?>
 
+  </div>
+</div>
 
-  </main>
-
-  <?php include APPPATH . 'Views/includes/footer.php'; ?>
+<?php include APPPATH . 'Views/includes/footer.php'; ?>
 </body>
 </html>

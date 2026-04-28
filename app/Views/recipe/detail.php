@@ -13,349 +13,137 @@ if ($recipeDescRaw === '') {
         ? "{$recipeTitle} 편의점 레시피 - 주요 재료: {$ingredientsList}. 따라 하기 쉬운 조리법과 꿀팁을 확인하세요."
         : "{$recipeTitle} 편의점 레시피 - 따라 하기 쉬운 조리법, 필요한 재료와 순서별 조리 과정을 확인하세요.";
 }
-$recipeDesc = mb_substr(preg_replace('/\s+/', ' ', strip_tags($recipeDescRaw)), 0, 155);
-$recipeImage = !empty($recipe['image_url']) ? $recipe['image_url'] : base_url('img/logo.png');
+$recipeDesc   = mb_substr(preg_replace('/\s+/', ' ', strip_tags($recipeDescRaw)), 0, 155);
+$recipeImage  = !empty($recipe['image_url']) ? $recipe['image_url'] : base_url('img/logo.png');
+$canonical    = esc(current_url());
+$pageTitle    = esc("{$recipeTitle} - 편의점 레시피 | 재료·조리법 | 편잇");
+
+$ingredients  = json_decode($recipe['ingredients'] ?? '[]', true) ?: [];
+$cookingSteps = json_decode($recipe['cooking_steps'] ?? '[]', true) ?: [];
+$lastStepIdx  = count($cookingSteps) - 1;
 ?>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
-     crossorigin="anonymous"></script>
-    <title><?= esc($recipeTitle) ?> - 편의점 레시피 | 편잇</title>
-    <meta name="description" content="<?= esc($recipeDesc) ?>">
-    <meta name="keywords" content="편의점 레시피, <?= esc($recipeTitle) ?>, 편의점 꿀조합, 간편 레시피, 편잇">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="<?= esc(current_url()) ?>">
-    <meta property="og:title" content="<?= esc($recipeTitle) ?> - 편의점 레시피">
-    <meta property="og:description" content="<?= esc($recipeDesc) ?>">
-    <meta property="og:image" content="<?= esc($recipeImage) ?>">
-    <meta property="og:url" content="<?= esc(current_url()) ?>">
-    <meta property="og:type" content="article">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="<?= esc($recipeTitle) ?> - 편의점 레시피">
-    <meta name="twitter:description" content="<?= esc($recipeDesc) ?>">
-    <meta name="twitter:image" content="<?= esc($recipeImage) ?>">
-
-        <style>
-    /* 기본 초기화 */
-    * {
-      margin: 0; padding: 0; box-sizing: border-box;
-    }
-    html, body {
-      height: 100%;
-      font-family: "Arial", sans-serif;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      background-color: #f7f8fa;
-    }
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-    ul, ol, li { list-style: none; }
-    table { border-collapse: collapse; border-spacing: 0; }
-
-    :root {
-      --main-color: #62D491;
-      --point-color: #3eaf7c;
-      --light-bg: #f7f8fa;
-      --card-bg: #fff;
-      --border-color: #ddd;
-      --text-color: #333;
-      --secondary-text: #666;
-    }
-
-    body {
-      margin: 0;
-      color: var(--text-color);
-    }
-
-    /* 전체 섹션 레이아웃 */
-    main {
-      width: 100%;
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 20px 16px;
-    }
-
-    /* (1) Hero Section */
-    .hero-section {
-      background: #fff;
-      border-radius: 8px;
-      padding: 2rem;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-    .hero-section h2 {
-      font-size: 24px;
-      margin-bottom: 1rem;
-    }
-    .hero-section p {
-      font-size: 16px;
-      color: #555;
-      line-height: 1.6;
-    }
-
-    /* (2) 정비소 상세 Section */
-    .detail-section {
-      margin-bottom: 2rem;
-    }
-    .detail-card {
-      background: #fff;
-      border-left: 5px solid var(--main-color);
-      border-radius: 8px;
-      padding: 20px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-      margin-bottom: 1.5rem;
-    }
-    .detail-header {
-      margin-bottom: 16px;
-    }
-    .facility-name {
-      font-size: 22px;
-      font-weight: bold;
-      color: #333;
-    }
-    .facility-type {
-      font-size: 16px;
-      color: #555;
-      margin: 5px 0;
-    }
-    .sub-info {
-      font-size: 14px;
-      color: #777;
-      margin-bottom: 10px;
-    }
-    .section-title {
-      font-size: 18px;
-      color: var(--main-color);
-      margin-bottom: 12px;
-    }
-    .info-table {
-      width: 100%;
-      border: 1px solid #ddd;
-      margin-top: 12px;
-    }
-    .info-table th,
-    .info-table td {
-      padding: 10px;
-      border: 1px solid #eee;
-      font-size: 14px;
-      vertical-align: top;
-    }
-    .info-table th {
-      background-color: #f0f8ff;
-      color: var(--point-color);
-      width: 120px;
-    }
-
-    .back-button {
-      display: inline-block;
-      margin-top: 12px;
-      padding: 10px 15px;
-      background-color: var(--main-color);
-      color: #fff;
-      border-radius: 5px;
-      text-decoration: none;
-    }
-    .back-button:hover {
-      opacity: 0.9;
-    }
-
-    /* 지도 */
-    #map {
-      width: 100%;
-      height: 400px;
-      margin-top: 1rem;
-      border: 1px solid #007bff;
-      border-radius: 5px;
-    }
-
-    /* (3) 주변 정비소 섹션 */
-    .nearby-section {
-      margin-bottom: 2rem;
-    }
-    .nearby-table {
-      width: 100%;
-      margin-top: 12px;
-      border: 1px solid #ddd;
-    }
-    .nearby-table th,
-    .nearby-table td {
-      padding: 10px;
-      border: 1px solid #eee;
-      font-size: 14px;
-    }
-    .nearby-table th {
-      background-color: #e6f7ff;
-      color: var(--point-color);
-    }
-    .nearby-table tr:hover {
-      background-color: #fafafa;
-      cursor: pointer;
-    }
-
-    /* (4) 리뷰 섹션 */
-    .review-section {
-      margin-bottom: 2rem;
-    }
-    .review-box {
-      background: #fff;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 16px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    }
-    .review-box h2 {
-      font-size: 18px;
-      color: var(--main-color);
-      margin-bottom: 12px;
-    }
-    .comment-form {
-      margin-bottom: 20px;
-    }
-    .rating-label {
-      margin-right: 8px;
-      font-size: 14px;
-    }
-    .star {
-      font-size: 1.2rem;
-      color: #ccc;
-      cursor: pointer;
-      margin-right: 2px;
-    }
-    .star.selected {
-      color: gold;
-    }
-    .comment-textarea {
-      width: 100%;
-      min-height: 70px;
-      margin-top: 8px;
-      margin-bottom: 8px;
-      padding: 8px;
-      border: 1px solid #ccc;
-      font-size: 14px;
-      border-radius: 5px;
-      resize: vertical;
-    }
-    .submit-button {
-      background-color: var(--main-color);
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      padding: 10px 15px;
-      font-size: 14px;
-      cursor: pointer;
-    }
-    .submit-button:hover {
-      opacity: 0.9;
-    }
-    .review-box h3 {
-      font-size: 16px;
-      color: #333;
-      margin-top: 20px;
-      margin-bottom: 10px;
-    }
-    .comment-item {
-      border-bottom: 1px solid #eee;
-      padding: 8px 0;
-    }
-    .comment-header {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 6px;
-    }
-    .comment-date {
-      font-size: 12px;
-      color: #999;
-    }
-    .comment-text {
-      font-size: 14px;
-      color: #444;
-    }
-
-    /* (6) 광고 배너 (예시) */
-    .ad-banner {
-      display: block;
-      margin: 20px auto;
-      text-align: center;
-    }
-
-    /* ▼ 모바일 최적화: 화면이 600px 이하일 때 */
-    @media (max-width: 600px) {
-      /* ★ 헤더/푸터 관련 부분 제거 (header h1 등) ★ */
-      .facility-name {
-        font-size: 20px;
-      }
-      .facility-type {
-        font-size: 14px;
-      }
-      .info-table th,
-      .info-table td {
-        font-size: 13px;
-        padding: 8px;
-      }
-      .nearby-table th,
-      .nearby-table td {
-        font-size: 13px;
-        padding: 8px;
-      }
-      .comment-textarea {
-        font-size: 13px;
-      }
-      .menu-bar a {
-        margin: 0 5px;
-      }
-    }
-
-    /* ★ (5) 푸터 섹션 CSS 모두 제거됨 ★ */
-
-  </style>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><?= $pageTitle ?></title>
+  <meta name="description" content="<?= esc($recipeDesc) ?>">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="<?= $canonical ?>">
+  <meta property="og:title" content="<?= $pageTitle ?>">
+  <meta property="og:description" content="<?= esc($recipeDesc) ?>">
+  <meta property="og:image" content="<?= esc($recipeImage) ?>">
+  <meta property="og:url" content="<?= $canonical ?>">
+  <meta property="og:type" content="article">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="<?= $pageTitle ?>">
+  <meta name="twitter:description" content="<?= esc($recipeDesc) ?>">
+  <meta name="twitter:image" content="<?= esc($recipeImage) ?>">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preload" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"></noscript>
+  <link rel="stylesheet" href="<?= base_url('css/common.css') ?>?v=<?= filemtime(FCPATH.'css/common.css') ?>">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464" crossorigin="anonymous"></script>
+  <?php if (!empty($ingredients) && !empty($cookingSteps)): ?>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    "name": "<?= esc($recipeTitle) ?>",
+    "description": "<?= esc($recipeDesc) ?>",
+    "image": "<?= esc($recipeImage) ?>",
+    "recipeIngredient": <?= json_encode(array_map('strval', $ingredients), JSON_UNESCAPED_UNICODE) ?>,
+    "recipeInstructions": [<?php foreach ($cookingSteps as $i => $step): ?><?= $i > 0 ? ',' : '' ?>{
+      "@type": "HowToStep",
+      "text": "<?= esc($step['text'] ?? '') ?>"
+    }<?php endforeach; ?>]
+  }
+  </script>
+  <?php endif; ?>
 </head>
 <body>
 <?php include APPPATH . 'Views/includes/header.php'; ?>
-  <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
 
-    <div class="container">
-        <!-- 제목 -->
-        <h1><?= esc($recipe['title']) ?></h1>
+<div class="main-content">
+<div class="container" style="max-width:960px;">
 
-        <!-- 완성 사진 -->
-        <img src="<?= esc($recipe['image_url'])?>" alt="완성 사진" class="recipe-image" loading="lazy" decoding="async">
+  <nav class="dp-breadcrumb" aria-label="breadcrumb">
+    <a href="/">홈</a><span class="sep">/</span>
+    <a href="/recipes">편의점 레시피</a><span class="sep">/</span>
+    <span class="current"><?= esc($recipeTitle) ?></span>
+  </nav>
 
+  <div class="detail-hero">
+    <h1 class="detail-hero-title">👨‍🍳 <?= esc($recipeTitle) ?></h1>
+    <?php if (!empty($recipe['description'])): ?>
+    <p class="detail-hero-sub"><?= esc(mb_substr($recipe['description'], 0, 100)) ?></p>
+    <?php endif; ?>
+  </div>
 
-        <!-- 재료 섹션 -->
-        <div class="ingredients">
-            <h2>재료</h2>
-            <ul>
-                <?php foreach (json_decode($recipe['ingredients']) as $ingredient): ?>
-                    <li><?= esc($ingredient) ?></li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
+  <?php if (!empty($recipe['image_url'])): ?>
+  <div class="content-card" style="padding:0;overflow:hidden;">
+    <img src="<?= esc($recipe['image_url']) ?>" alt="<?= esc($recipeTitle) ?> 완성 사진"
+      loading="lazy" decoding="async"
+      style="width:100%;max-height:400px;object-fit:cover;display:block;">
+  </div>
+  <?php endif; ?>
 
-        <!-- 조리 과정 -->
-        <div class="cooking-steps">
-            <h2>조리 과정</h2>
-            <?php foreach (json_decode($recipe['cooking_steps'], true) as $index => $step): ?>
-                <div class="step">
-                    <img src="<?= esc($step['image'])?>" alt="Step <?= $index + 1 ?>" loading="lazy" decoding="async">
-                    <div class="step-content">
-                        <div class="step-num">STEP <?= $index + 1 ?></div>
-                        <div class="step-desc"><?= esc($step['text']) ?></div>
-                    </div>
-                </div>
-            <?php endforeach; ?>
-        </div>
+  <ins class="adsbygoogle ad-slot"
+    style="display:block" data-ad-client="ca-pub-6686738239613464"
+    data-ad-slot="1204098626" data-ad-format="auto" data-full-width-responsive="true"></ins>
 
-        <!-- 뒤로가기 버튼 -->
-        <a href="/recipes" class="back-button">목록으로 돌아가기</a>
+  <?php if (!empty($ingredients)): ?>
+  <div class="content-card">
+    <h2 class="content-card-title">🛒 재료</h2>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;padding-top:4px;">
+      <?php foreach ($ingredients as $ing): ?>
+      <span class="dp-chip"><?= esc((string)$ing) ?></span>
+      <?php endforeach; ?>
     </div>
-    <?= view_cell('\App\Cells\ExtraInfoCell::render') ?>
-    <?php include APPPATH . 'Views/includes/footer.php'; ?>
+  </div>
+  <?php endif; ?>
+
+  <?php if (!empty($cookingSteps)): ?>
+  <div class="content-card">
+    <h2 class="content-card-title">📋 조리 과정</h2>
+    <?php foreach ($cookingSteps as $i => $step): ?>
+    <div style="display:flex;gap:16px;padding:16px 0;<?= $i < $lastStepIdx ? 'border-bottom:1px solid #F3F4F6;' : '' ?>">
+      <div style="flex-shrink:0;width:32px;height:32px;background:#F97316;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:#fff;">
+        <?= $i + 1 ?>
+      </div>
+      <div style="flex:1;">
+        <?php if (!empty($step['image'])): ?>
+        <img src="<?= esc($step['image']) ?>" alt="Step <?= $i + 1 ?>"
+          loading="lazy" decoding="async"
+          style="width:100%;max-height:220px;object-fit:cover;border-radius:10px;margin-bottom:10px;">
+        <?php endif; ?>
+        <p style="font-size:14px;line-height:1.7;color:#374151;margin:0;"><?= esc($step['text'] ?? '') ?></p>
+      </div>
+    </div>
+    <?php endforeach; ?>
+  </div>
+  <?php endif; ?>
+
+  <ins class="adsbygoogle ad-slot"
+    style="display:block" data-ad-client="ca-pub-6686738239613464"
+    data-ad-slot="1204098626" data-ad-format="auto" data-full-width-responsive="true"></ins>
+
+  <a href="/recipes" class="back-btn">← 목록으로 돌아가기</a>
+
+</div>
+</div>
+
+<?= view_cell('\App\Cells\ExtraInfoCell::render') ?>
+<?php include APPPATH . 'Views/includes/footer.php'; ?>
+
+<?php if (!preg_match('/^localhost(:[0-9]*)?$/', $_SERVER['HTTP_HOST'])): ?>
+<script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
+<script type="text/javascript">
+  if (!wcs_add) var wcs_add = {};
+  wcs_add["wa"] = "8adec19974bed8";
+  if (window.wcs) wcs_do();
+</script>
+<?php endif; ?>
 </body>
 </html>

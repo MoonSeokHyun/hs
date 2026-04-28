@@ -1,10 +1,3 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
-     crossorigin="anonymous"></script>
 <?php
 $currentPage = max(1, (int)($_GET['page'] ?? 1));
 $pageSuffix  = $currentPage > 1 ? " - {$currentPage}페이지" : '';
@@ -14,201 +7,66 @@ $pageDesc    = $currentPage > 1
     : "편의점 제품으로 만드는 간편 레시피와 인기 꿀조합을 모아놓았습니다. CU, GS25, 세븐일레븐 상품으로 누구나 쉽게 따라할 수 있는 레시피를 만나보세요.";
 $canonical = $currentPage > 1 ? base_url('recipes') . '?page=' . $currentPage : base_url('recipes');
 ?>
-    <title><?= esc($pageTitle) ?></title>
-    <meta name="description" content="<?= esc($pageDesc) ?>">
-    <meta name="keywords" content="편의점 레시피, 편의점 꿀조합, 간편 요리, CU 레시피, GS25 레시피, 편잇">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="<?= esc($canonical) ?>">
-    <meta property="og:title" content="<?= esc($pageTitle) ?>">
-    <meta property="og:description" content="<?= esc($pageDesc) ?>">
-    <meta property="og:url" content="<?= esc($canonical) ?>">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="<?= base_url('img/logo.png') ?>">
-    <link rel="stylesheet" href="/css/style.css">
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f8f9fa;
-            color: #333;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 2.5em;
-        }
-
-        /* Floating menu bar styles */
-        .menu-bar {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0 40px;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .menu-bar a {
-            text-decoration: none;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-size: 1.1em;
-            font-weight: bold;
-            transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .menu-bar a:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .menu-cu { background-color: #6c757d; }
-        .menu-all { background-color: #28a745; }
-        .menu-gs25 { background-color: #007bff; }
-        .menu-seven { background-color: #e74c3c; }
-        .menu-emart { background-color: #f1c40f; color: #333; }
-        .menu-cspace { background-color: #e67e22; }
-        .menu-recipe { background-color: #FFA07A; } /* 살몬 핑크 */
-        .menu-event { background-color: #FF4500; } /* 오렌지 레드 */
-        .menu-parking { background-color: #8A2BE2; } /* 오렌지 레드 */
-        .menu-accommodation { background-color: #17a2b8; }
-        .menu-festival { background-color: #17e2b8; }
-        /* Card styles */
-        .card-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3개 배치 */
-            gap: 20px;
-        }
-
-        .card {
-            display: flex;
-            flex-direction: column;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            background-color: #fff;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .card-img-top {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-        }
-
-        .card-body {
-            padding: 10px;
-            text-align: center;
-        }
-
-        .card-title {
-            font-size: 1rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #333;
-            display: -webkit-box;
-            -webkit-line-clamp: 2; /* 최대 2줄로 제한 */
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .card-text {
-            font-size: 0.9rem;
-            color: #555;
-        }
-
-        /* Pagination styles */
-        .pagination {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0;
-        }
-
-        .pagination a {
-            text-decoration: none;
-            color: #007bff;
-            margin: 0 5px;
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .pagination a:hover {
-            background-color: #007bff;
-            color: #fff;
-        }
-
-        .pagination .active {
-            background-color: #007bff;
-            color: white;
-            border-color: #007bff;
-        }
-
-        /* Responsive styles */
-        @media (max-width: 992px) {
-            .card-container {
-                grid-template-columns: repeat(2, 1fr); /* 태블릿: 2개 배치 */
-            }
-        }
-
-        @media (max-width: 576px) {
-            .card-container {
-                grid-template-columns: 1fr; /* 작은 화면: 1개 배치 */
-            }
-        }
-    </style>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><?= esc($pageTitle) ?></title>
+  <meta name="description" content="<?= esc($pageDesc) ?>">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="<?= esc($canonical) ?>">
+  <meta property="og:title" content="<?= esc($pageTitle) ?>">
+  <meta property="og:description" content="<?= esc($pageDesc) ?>">
+  <meta property="og:url" content="<?= esc($canonical) ?>">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="<?= base_url('img/logo.png') ?>">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preload" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"></noscript>
+  <link rel="stylesheet" href="<?= base_url('css/common.css') ?>?v=<?= filemtime(FCPATH.'css/common.css') ?>">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464" crossorigin="anonymous"></script>
 </head>
 <body>
 <?php include APPPATH . 'Views/includes/header.php'; ?>
-  <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
 
-    <div class="container">
-        <h1>편의점 레시피</h1>
+<section class="lp-hero">
+  <div class="lp-hero-inner">
+    <p class="lp-hero-eyebrow">RECIPE</p>
+    <h1 class="lp-hero-title">🍜 편의점 레시피</h1>
+    <p class="lp-hero-sub">편의점 재료로 만드는 꿀조합 레시피</p>
+  </div>
+</section>
 
-        <div class="card-container">
-            <?php if (!empty($recipes)): ?>
-                <?php foreach ($recipes as $recipe): ?>
-                    <a href="/recipes/<?= esc($recipe['id']) ?>" class="card-link">
-                        <div class="card">
-                            <img src="<?= esc($recipe['image_url'])?>" class="card-img-top" alt="<?= esc($recipe['title']) ?>" loading="lazy" decoding="async">
-                            <div class="card-body">
-                                <h5 class="card-title"><?= esc($recipe['title']) ?></h5>
-                                <p class="card-text">
-                                    <strong>작성자:</strong> <?= esc($recipe['author']) ?><br>
-                                    <strong>조회수:</strong> <?= esc($recipe['views']) ?>
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <p>레시피가 없습니다.</p>
-            <?php endif; ?>
-        </div>
+<div class="lp-body">
+  <div class="container">
 
-        <!-- Pagination -->
-        <div class="pagination">
-            <?= $pager->links() ?>
-        </div>
+    <?php if (!empty($recipes)): ?>
+    <div class="lp-img-grid">
+      <?php foreach ($recipes as $recipe): ?>
+        <a class="lp-img-card" href="/recipes/<?= esc($recipe['id']) ?>">
+          <div class="lp-img-card-thumb">
+            <img src="<?= esc($recipe['image_url']) ?>" alt="<?= esc($recipe['title']) ?>" loading="lazy" decoding="async">
+          </div>
+          <div class="lp-img-card-body">
+            <div class="lp-img-card-title"><?= esc($recipe['title']) ?></div>
+            <div class="lp-img-card-meta">작성자: <?= esc($recipe['author']) ?></div>
+            <div class="lp-img-card-meta">조회수: <?= esc($recipe['views']) ?></div>
+          </div>
+        </a>
+      <?php endforeach; ?>
     </div>
-    <?php include APPPATH . 'Views/includes/footer.php'; ?>
+    <?php else: ?>
+    <p class="lp-empty">레시피가 없습니다.</p>
+    <?php endif; ?>
 
+    <?php if (isset($pager)): ?>
+    <div class="lp-pager"><?= $pager->links() ?></div>
+    <?php endif; ?>
+
+  </div>
+</div>
+
+<?php include APPPATH . 'Views/includes/footer.php'; ?>
 </body>
 </html>

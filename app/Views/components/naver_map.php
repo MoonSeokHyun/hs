@@ -123,7 +123,7 @@ $apiKey = getenv('NAVER_MAPS_API_KEY') ?: 'iyBYir1BVYhy4bW5XWB1wHGfUNyOit2Pz4g41
 .naver-map-fallback {
     width: 100%;
     min-height: 300px;
-    background: #f8f9fa;
+    background: #FBF8F3;
     border: 2px dashed #dee2e6;
     border-radius: 8px;
     display: flex;
@@ -143,7 +143,7 @@ $apiKey = getenv('NAVER_MAPS_API_KEY') ?: 'iyBYir1BVYhy4bW5XWB1wHGfUNyOit2Pz4g41
 
 .map-fallback-text {
     font-size: 16px;
-    color: #6c757d;
+    color: #6f64a8;
     margin-bottom: 20px;
 }
 

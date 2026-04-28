@@ -1,122 +1,75 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
-     crossorigin="anonymous"></script>
-    <title>편의시설 검색 결과</title>
-    <meta name="robots" content="noindex, follow">
-    <link rel="canonical" href="<?= base_url('hospital') ?>">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f7f9fc;
-            color: #333;
-        }
-
-        .container {
-            width: 80%;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        h1 {
-            text-align: center;
-            color: #007bff;
-            margin-bottom: 20px;
-        }
-
-        .search-item {
-            padding: 15px;
-            border: 1px solid #ddd;
-            margin-bottom: 10px;
-            border-radius: 8px;
-            background-color: #fff;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .search-item:hover {
-            background-color: #f0f8ff;
-        }
-
-        .search-item h3 {
-            margin: 0;
-            color: #007bff;
-        }
-
-        .search-item p {
-            margin: 5px 0;
-            color: #666;
-        }
-
-        .search-form {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .search-form input[type="text"] {
-            padding: 10px;
-            font-size: 1em;
-            width: 80%;
-            max-width: 400px;
-            margin-right: 10px;
-        }
-
-        .search-form button {
-            padding: 10px 20px;
-            font-size: 1em;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        .search-form button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>병원·의료기관 검색 결과 | 편잇</title>
+  <meta name="robots" content="noindex, follow">
+  <link rel="canonical" href="<?= base_url('hospital') ?>">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preload" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"></noscript>
+  <link rel="stylesheet" href="<?= base_url('css/common.css') ?>?v=<?= filemtime(FCPATH.'css/common.css') ?>">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="container">
-        <h1>편의시설 검색</h1>
-        <form class="search-form" method="get" action="/hospital/search">
-            <input type="text" name="query" placeholder="편의시설 이름을 입력하세요" value="<?= esc($searchQuery ?? '') ?>">
-            <button type="submit">검색</button>
-        </form>
+<?php include APPPATH . 'Views/includes/header.php'; ?>
 
-        <?php if (!empty($results)): ?>
-            <h2>검색 결과</h2>
-            <?php foreach ($results as $result): ?>
-                <div class="search-item" onclick="location.href='/hospital/detail/<?= esc($result['ID']); ?>'">
-                    <h3><?= esc($result['BusinessName']); ?></h3>
-                    <p>주소: <?= esc($result['FullAddress']); ?></p>
-                </div>
-            <?php endforeach; ?>
-        <?php elseif (isset($searchQuery)): ?>
-            <p>검색 결과가 없습니다.</p>
-        <?php endif; ?>
+<section class="lp-hero">
+  <div class="lp-hero-inner">
+    <p class="lp-hero-eyebrow">HOSPITAL SEARCH</p>
+    <h1 class="lp-hero-title">🏥 의료기관 검색</h1>
+    <p class="lp-hero-sub">전국 병원·의원·약국을 검색해보세요</p>
+    <form class="lp-search" method="get" action="/hospital/search">
+      <input type="text" name="query" placeholder="병원명, 주소, 진료과목 검색" value="<?= esc($searchQuery ?? '') ?>">
+      <button type="submit">검색</button>
+    </form>
+  </div>
+</section>
+
+<div class="lp-body">
+  <div class="container">
+
+    <?php if (!empty($results)): ?>
+    <div class="lp-section-head">
+      <div>
+        <span class="lp-section-kicker">SEARCH RESULTS</span>
+        <p class="lp-section-title">검색 결과 <small style="font-size:14px;font-weight:500;color:#6B7280;"><?= number_format(count($results)) ?>건</small></p>
+      </div>
+      <a href="/hospital" class="lp-section-more">전체 목록 →</a>
     </div>
-    <?php
+    <div class="lp-grid">
+      <?php foreach ($results as $result): ?>
+        <a class="lp-card" href="/hospital/detail/<?= esc($result['ID']) ?>">
+          <div class="lp-card-name"><?= esc($result['BusinessName']) ?></div>
+          <div class="lp-card-row">📍 <?= esc($result['FullAddress']) ?></div>
+          <?php if (!empty($result['PhoneNumber'])): ?>
+          <div class="lp-card-row">📞 <?= esc($result['PhoneNumber']) ?></div>
+          <?php endif; ?>
+        </a>
+      <?php endforeach; ?>
+    </div>
+    <?php elseif (isset($searchQuery) && $searchQuery !== ''): ?>
+    <p class="lp-empty">
+      <span class="lp-empty-icon">🔍</span><br>
+      <span class="lp-empty-text">"<?= esc($searchQuery) ?>"에 대한 검색 결과가 없습니다.</span>
+    </p>
+    <?php endif; ?>
 
+  </div>
+</div>
+
+<?php include APPPATH . 'Views/includes/footer.php'; ?>
+
+<?php
 $hostname = $_SERVER['HTTP_HOST'];
-
-if (!preg_match('/^localhost(:[0-9]*)?$/', $hostname)) {
-    
-?>
-
-    <script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
-    <script type="text/javascript">
-        if(!wcs_add) var wcs_add = {};
-        wcs_add["wa"] = "8adec19974bed8";
-        if(window.wcs) {
-            wcs_do();
-        }
-    </script>
-    <?php }
-    ?>
+if (!preg_match('/^localhost(:[0-9]*)?$/', $hostname)): ?>
+<script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>
+<script type="text/javascript">
+  if (!wcs_add) var wcs_add = {};
+  wcs_add["wa"] = "8adec19974bed8";
+  if (window.wcs) wcs_do();
+</script>
+<?php endif; ?>
 </body>
 </html>

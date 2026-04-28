@@ -1,5 +1,4 @@
 <?php
-// 안전 초기화
 $facilityName      = esc($station['facility_name']   ?? '가스 충전소');
 $fullAddress       = esc($station['FullAddress']     ?? '');
 $availableChargers = esc($station['available_chargers'] ?? '0');
@@ -7,144 +6,179 @@ $inUseChargers     = esc($station['in_use_chargers'] ?? '0');
 $lat               = esc($station['latitude']         ?? '0');
 $lng               = esc($station['longitude']        ?? '0');
 
-// Address1과 Company를 이용해 SEO 생성
 $address1          = esc($station['Address1'] ?? '');
 $company           = esc($station['Company'] ?? '');
 
-
-// SEO용 메타 (이목 끌기)
 $seoTitle       = esc("{$fullAddress} {$company} - {$facilityName} 가스충전소 위치·요금·후기｜실시간 가용 {$availableChargers}대");
 $seoDescription = esc("{$fullAddress} {$company} {$facilityName} 가스충전소의 위치, 요금, 이용 후기, 실시간 가용 충전기 현황({$availableChargers}대)을 한눈에 확인하세요.");
 $seoKeywords    = esc("{$fullAddress} 가스충전소, {$company}, {$facilityName}, {$address1}, 충전소 요금, 충전소 후기, 실시간 가용 충전기");
 ?>
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= $seoTitle ?></title>
-  <meta name="description" content="<?= $seoDescription ?>" />
-  <meta name="keywords" content="<?= $seoKeywords ?>" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="<?= $seoDescription ?>">
+  <meta name="keywords" content="<?= $seoKeywords ?>">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="<?= esc(current_url()) ?>">
 
-  <!-- Open Graph -->
-  <meta property="og:type"        content="website" />
-  <meta property="og:title"       content="<?= $seoTitle ?>" />
-  <meta property="og:description" content="<?= $seoDescription ?>" />
-  <meta property="og:url"         content="<?= current_url() ?>" />
-  <meta property="og:locale"      content="ko_KR" />
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="<?= $seoTitle ?>">
+  <meta property="og:description" content="<?= $seoDescription ?>">
+  <meta property="og:url" content="<?= esc(current_url()) ?>">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:image" content="<?= base_url('img/logo.png') ?>">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="<?= $seoTitle ?>">
+  <meta name="twitter:description" content="<?= $seoDescription ?>">
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card"        content="summary" />
-  <meta name="twitter:title"       content="<?= $seoTitle ?>" />
-  <meta name="twitter:description" content="<?= $seoDescription ?>" />
-
-  <!-- 네이버맵 API 주석 처리
-  <script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
-  -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
-  crossorigin="anonymous"></script>
-
-  <style>
-    body { background: #f5f5f5; font-family: 'Noto Sans KR', sans-serif; color: #333; margin:0; padding:0; }
-    a { color:#0078ff; text-decoration:none; }
-    .container{ max-width:800px; margin:2rem auto; padding:0 1rem; }
-    .content-title{ font-size:2rem; margin-bottom:.5rem; border-bottom:2px solid #0078ff; padding-bottom:.3rem; }
-    .breadcrumb{ font-size:.9rem; color:#555; margin-bottom:1.5rem; }
-    .ad-box{ margin:1.5rem 0; text-align:center; }
-    .section{ background:#fff; border-radius:8px; box-shadow:0 1px 4px rgba(0,0,0,0.1); margin-bottom:1.5rem; padding:1.5rem; }
-    .section h2{ font-size:1.2rem; margin-bottom:1rem; color:#0078ff; border-left:4px solid #0078ff; padding-left:.5rem; }
-    .detail-list{ margin:0; padding:0; }
-    .detail-item{ display:flex; justify-content:space-between; padding:.75rem 0; border-bottom:1px solid #eee; }
-    .detail-item:last-child{ border-bottom:none; }
-    .label{ font-weight:600; color:#333; }
-    .value{ color:#555; text-align:right; }
-    /* 지도 스타일 주석 처리
-    #map{ width:100%; height:300px; border-radius:8px; overflow:hidden; box-shadow:0 1px 4px rgba(0,0,0,0.1); }
-    */
-  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preload" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"></noscript>
+  <link rel="stylesheet" href="<?= base_url('css/common.css') ?>?v=<?= filemtime(FCPATH . 'css/common.css') ?>">
 </head>
 <body>
+<?php include APPPATH . 'Views/includes/header.php'; ?>
 
-  <?php include APPPATH . 'Views/includes/header.php'; ?>
+<div class="main-content">
+<div class="container" style="max-width:960px;">
 
-  <div class="container">
-    <h1 class="content-title"><?= esc($station['Company']) ?> LPG 충전소</h1>
-    <div class="breadcrumb">
-      <a href="<?= site_url() ?>">홈</a> &gt;
-      <a href="<?= site_url('station') ?>">가스충전소 목록</a> &gt;
-      상세정보
+  <!-- 브레드크럼 -->
+  <nav class="dp-breadcrumb" aria-label="breadcrumb">
+    <a href="/">홈</a>
+    <span class="sep">/</span>
+    <a href="<?= site_url('station') ?>">가스충전소</a>
+    <span class="sep">/</span>
+    <span class="current"><?= esc($station['Company']) ?> LPG 충전소</span>
+  </nav>
+
+  <!-- 히어로 -->
+  <div class="detail-hero">
+    <h1 class="detail-hero-title">💨 <?= esc($station['Company']) ?> LPG 충전소</h1>
+    <p class="detail-hero-sub">📍 <?= $fullAddress ?></p>
+    <div class="dp-chips">
+      <?php if (!empty($station['Phone'])): ?>
+        <a class="dp-chip dp-chip-link" href="tel:<?= esc($station['Phone']) ?>" aria-label="전화 연결">
+          📞 <?= esc($station['Phone']) ?>
+        </a>
+      <?php endif; ?>
+      <?php if (!empty($station['Status'])): ?>
+        <span class="dp-chip"><?= esc($station['Status']) ?></span>
+      <?php endif; ?>
+      <span class="dp-chip dp-chip-orange">💨 가스충전소</span>
     </div>
+  </div>
 
-    <div class="ad-box">
-      <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
-    </div>
+  <!-- 광고 1 -->
+  <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
 
-    <!-- 기본 정보 -->
-    <div class="section">
-      <h2>기본 정보</h2>
-      <div class="detail-list">
-        <div class="detail-item"><div class="label">주소1</div><div class="value"><?= esc($station['Address1']) ?></div></div>
-        <div class="detail-item"><div class="label">주소2</div><div class="value"><?= esc($station['Address2']) ?></div></div>
-        <div class="detail-item"><div class="label">사업자 ID</div><div class="value"><?= esc($station['BusinessID']) ?></div></div>
-        <div class="detail-item"><div class="label">상태</div><div class="value"><?= esc($station['Status']) ?></div></div>
-        <div class="detail-item"><div class="label">도시</div><div class="value"><?= esc($station['City']) ?></div></div>
-        <div class="detail-item"><div class="label">회사</div><div class="value"><?= esc($station['Company']) ?></div></div>
-        <div class="detail-item"><div class="label">전체 주소</div><div class="value"><?= esc($station['FullAddress']) ?></div></div>
-        <div class="detail-item"><div class="label">전화번호</div><div class="value"><?= esc($station['Phone']) ?></div></div>
-        <div class="detail-item"><div class="label">서비스</div><div class="value"><?= esc($station['Service']) ?></div></div>
+  <!-- 기본 정보 -->
+  <div class="content-card">
+    <h2 class="content-card-title">📋 기본 정보</h2>
+    <dl class="dp-kv">
+      <div class="dp-kv-row">
+        <dt class="dp-kv-key">주소1</dt>
+        <dd class="dp-kv-val"><?= esc($station['Address1']) ?></dd>
       </div>
-    </div>
+      <div class="dp-kv-row">
+        <dt class="dp-kv-key">주소2</dt>
+        <dd class="dp-kv-val"><?= esc($station['Address2']) ?></dd>
+      </div>
+      <div class="dp-kv-row">
+        <dt class="dp-kv-key">전체주소</dt>
+        <dd class="dp-kv-val"><?= esc($station['FullAddress']) ?></dd>
+      </div>
+      <div class="dp-kv-row">
+        <dt class="dp-kv-key">도시</dt>
+        <dd class="dp-kv-val"><?= esc($station['City']) ?></dd>
+      </div>
+      <div class="dp-kv-row">
+        <dt class="dp-kv-key">회사</dt>
+        <dd class="dp-kv-val"><?= esc($station['Company']) ?></dd>
+      </div>
+      <div class="dp-kv-row">
+        <dt class="dp-kv-key">전화번호</dt>
+        <dd class="dp-kv-val">
+          <?php if (!empty($station['Phone'])): ?>
+            <a href="tel:<?= esc($station['Phone']) ?>"><?= esc($station['Phone']) ?></a>
+          <?php else: ?>
+            정보 없음
+          <?php endif; ?>
+        </dd>
+      </div>
+      <div class="dp-kv-row">
+        <dt class="dp-kv-key">서비스</dt>
+        <dd class="dp-kv-val"><?= esc($station['Service']) ?></dd>
+      </div>
+      <div class="dp-kv-row">
+        <dt class="dp-kv-key">상태</dt>
+        <dd class="dp-kv-val"><?= esc($station['Status']) ?></dd>
+      </div>
+      <div class="dp-kv-row">
+        <dt class="dp-kv-key">사업자ID</dt>
+        <dd class="dp-kv-val"><?= esc($station['BusinessID']) ?></dd>
+      </div>
+    </dl>
+  </div>
 
-    <!-- 가스충전소 관련 내용 -->
-    <div class="section">
-      <h2>가스충전소 주의사항</h2>
-      <ul class="detail-list">
-        <li class="detail-item"><div class="label">1. 충전 중 차량을 떠나지 마세요.</div><div class="value">충전이 완료될 때까지 차량을 충전소에서 대기시키세요.</div></li>
-        <li class="detail-item"><div class="label">2. 가스 누출을 방지하기 위해 충전 전에 모든 차량 문을 닫아주세요.</div><div class="value">가스 누출을 막기 위해 차량 문을 반드시 닫고 충전하세요.</div></li>
-        <li class="detail-item"><div class="label">3. 충전이 끝난 후에는 꼭 충전기를 다시 제자리에 놓아주세요.</div><div class="value">충전 완료 후 충전기를 다시 제자리로 놓아주세요.</div></li>
-        <li class="detail-item"><div class="label">4. 날씨가 나쁠 때는 가스충전소 이용을 자제해주세요.</div><div class="value">폭우나 폭설 등의 기상 악화 시 충전소 이용을 자제해 주세요.</div></li>
-      </ul>
-    </div>
+  <!-- 광고 2 -->
+  <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
 
-    <!-- 안전 수칙 -->
-    <div class="section">
-      <h2>안전 수칙</h2>
-      <ul class="detail-list">
-        <li class="detail-item"><div class="label">1. 충전소 근처에서 흡연을 금지해주세요.</div><div class="value">가스가 누출될 경우 큰 화재로 이어질 수 있습니다.</div></li>
-        <li class="detail-item"><div class="label">2. 불필요한 기기 사용을 자제해주세요.</div><div class="value">기계와 전자기기에서 발생하는 열이 위험할 수 있습니다.</div></li>
-        <li class="detail-item"><div class="label">3. 사고 발생 시 즉시 담당자에게 신고해주세요.</div><div class="value">사고나 이상을 발견하면 즉시 관리자에게 알려야 합니다.</div></li>
-      </ul>
-    </div>
+  <!-- 가스충전소 주의사항 -->
+  <div class="content-card">
+    <h2 class="content-card-title">⚠️ 가스충전소 주의사항</h2>
+    <ul style="display:flex;flex-direction:column;gap:12px;padding:0;list-style:none;">
+      <li style="display:flex;gap:12px;font-size:14px;line-height:1.7;color:#374151;">
+        <span style="flex-shrink:0;width:24px;height:24px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#C2410C;">1</span>
+        <div><strong>충전 중 차량을 떠나지 마세요.</strong> 충전이 완료될 때까지 차량을 충전소에서 대기시키세요.</div>
+      </li>
+      <li style="display:flex;gap:12px;font-size:14px;line-height:1.7;color:#374151;">
+        <span style="flex-shrink:0;width:24px;height:24px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#C2410C;">2</span>
+        <div><strong>충전 전 모든 차량 문을 닫아주세요.</strong> 가스 누출을 막기 위해 차량 문을 반드시 닫고 충전하세요.</div>
+      </li>
+      <li style="display:flex;gap:12px;font-size:14px;line-height:1.7;color:#374151;">
+        <span style="flex-shrink:0;width:24px;height:24px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#C2410C;">3</span>
+        <div><strong>충전 후 충전기를 제자리에 놓아주세요.</strong> 충전 완료 후 충전기를 반드시 제자리로 놓아주세요.</div>
+      </li>
+      <li style="display:flex;gap:12px;font-size:14px;line-height:1.7;color:#374151;">
+        <span style="flex-shrink:0;width:24px;height:24px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#C2410C;">4</span>
+        <div><strong>기상 악화 시 이용을 자제해주세요.</strong> 폭우·폭설 등 기상 악화 시 충전소 이용을 자제해 주세요.</div>
+      </li>
+    </ul>
+  </div>
 
-
-
-    <!-- 지도 섹션 주석 처리
-    <div class="section">
-      <h2>지도</h2>
-      <div id="map"></div>
-    </div>
-    -->
-
-    <p><a href="<?= site_url('station') ?>">← 목록으로 돌아가기</a></p>
+  <!-- 안전 수칙 -->
+  <div class="content-card">
+    <h2 class="content-card-title">🛡️ 안전 수칙</h2>
+    <ul style="display:flex;flex-direction:column;gap:12px;padding:0;list-style:none;">
+      <li style="display:flex;gap:12px;font-size:14px;line-height:1.7;color:#374151;">
+        <span style="flex-shrink:0;width:24px;height:24px;background:#FEE2E2;border:1px solid #FECACA;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#DC2626;">1</span>
+        <div><strong>충전소 근처에서 흡연을 금지해주세요.</strong> 가스가 누출될 경우 큰 화재로 이어질 수 있습니다.</div>
+      </li>
+      <li style="display:flex;gap:12px;font-size:14px;line-height:1.7;color:#374151;">
+        <span style="flex-shrink:0;width:24px;height:24px;background:#FEE2E2;border:1px solid #FECACA;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#DC2626;">2</span>
+        <div><strong>불필요한 기기 사용을 자제해주세요.</strong> 기계와 전자기기에서 발생하는 열이 위험할 수 있습니다.</div>
+      </li>
+      <li style="display:flex;gap:12px;font-size:14px;line-height:1.7;color:#374151;">
+        <span style="flex-shrink:0;width:24px;height:24px;background:#FEE2E2;border:1px solid #FECACA;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#DC2626;">3</span>
+        <div><strong>사고 발생 시 즉시 담당자에게 신고해주세요.</strong> 사고나 이상을 발견하면 즉시 관리자에게 알려야 합니다.</div>
+      </li>
+    </ul>
   </div>
 
   <?= view_cell('\App\Cells\ExtraInfoCell::render') ?>
-  <?php include APPPATH . 'Views/includes/footer.php'; ?>
 
-  <!-- 네이버맵 스크립트 주석 처리
-  <script>
-    (function(){
-      var map = new naver.maps.Map('map', {
-        center: new naver.maps.LatLng(parseFloat("<?= $lat ?>"), parseFloat("<?= $lng ?>")),
-        zoom: 16
-      });
-      new naver.maps.Marker({
-        position: map.getCenter(),
-        map: map,
-        title: "<?= $facilityName ?>"
-      });
-    })();
-  </script>
-  -->
+  <!-- 광고 3 -->
+  <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
+
+  <a href="<?= site_url('station') ?>" class="back-btn">← 목록으로 돌아가기</a>
+
+</div>
+</div>
+
+<?php include APPPATH . 'Views/includes/footer.php'; ?>
 </body>
 </html>

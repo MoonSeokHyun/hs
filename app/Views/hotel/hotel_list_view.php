@@ -16,7 +16,7 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f8f9fa;
+            background-color: #FBF8F3;
             color: #333;
         }
 
@@ -28,7 +28,7 @@
 
         h1 {
             text-align: center;
-            color: #007bff;
+            color: #FF8A65;
             margin-bottom: 20px;
             font-size: 2.5em;
         }
@@ -55,16 +55,16 @@
             box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
         }
 
-        .menu-all { background-color: #28a745; } /* 초록색 */
-        .menu-cu { background-color: #6c757d; } /* 회색 */
-        .menu-gs25 { background-color: #007bff; } /* 파란색 */
+        .menu-all { background-color: #E8653A; } /* 초록색 */
+        .menu-cu { background-color: #6f64a8; } /* 회색 */
+        .menu-gs25 { background-color: #FF8A65; } /* 파란색 */
         .menu-seven { background-color: #e74c3c; } /* 빨간색 */
         .menu-emart { background-color: #f1c40f; color: #333; } /* 노란색 */
         .menu-recipe { background-color: #FFA07A; } /* 살몬 핑크 */
         .menu-event { background-color: #FF4500; } /* 오렌지 레드 */
         .menu-parking { background-color: #8A2BE2; } /* 보라색 */
-        .menu-accommodation { background-color: #17a2b8; } /* 청록색 */
-        .menu-festival { background-color: #17e2b8; }
+        .menu-accommodation { background-color: #7d6dff; } /* 청록색 */
+        .menu-festival { background-color: #9b8cff; }
 
         .search-container {
             text-align: center;
@@ -83,7 +83,7 @@
         .search-container button {
             padding: 10px 20px;
             border: none;
-            background-color: #007bff;
+            background-color: #FF8A65;
             color: #fff;
             border-radius: 5px;
             font-size: 16px;
@@ -91,7 +91,7 @@
         }
 
         .search-container button:hover {
-            background-color: #0056b3;
+            background-color: #D4541F;
         }
 
         table {
@@ -108,7 +108,7 @@
         }
 
         th {
-            background-color: #007bff;
+            background-color: #FF8A65;
             color: white;
         }
 
@@ -120,14 +120,14 @@
         .pagination a {
             margin: 0 5px;
             padding: 8px 15px;
-            background-color: #007bff;
+            background-color: #FF8A65;
             color: white;
             text-decoration: none;
             border-radius: 5px;
         }
 
         .pagination a:hover {
-            background-color: #0056b3;
+            background-color: #D4541F;
         }
     </style>
 </head>

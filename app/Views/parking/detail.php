@@ -1,210 +1,196 @@
 <?php
-// 주소 처리 (road 우선, 없으면 land)
 $address = !empty($parkingLot['address_road']) ? esc($parkingLot['address_road']) : esc($parkingLot['address_land']);
-
-// 지역명 추출 (구, 읍, 군)
 preg_match('/([\x{AC00}-\x{D7A3}]+(?:구|읍|군))/u', $address, $matches);
 $district = isset($matches[0]) ? $matches[0] : '인근';
-
-// 주차장 이름
 $parkingLotName = esc($parkingLot['name']);
-
-// 평점 평균 계산
 $totalRating = array_sum(array_column($comments, 'rating'));
 $averageRating = count($comments) ? round($totalRating / count($comments), 1) : 0;
 ?>
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?= $district ?> 주차장 추천 | <?= $parkingLotName ?> - 평균 ★<?= $averageRating ?>점, 위치/요금 정보</title>
-  <meta name="description" content="<?= $district; ?>에 위치한 <?= esc($parkingLot['name']); ?> 주차장의 상세 정보입니다.">
-  <meta property="og:title" content="<?= $district; ?> <?= esc($parkingLot['name']); ?> 주차장 정보">
-  <meta property="og:description" content="<?= $district; ?>에 위치한 <?= esc($parkingLot['name']); ?> 주차장의 상세 정보를 확인하세요.">
-  <meta property="og:url" content="<?= current_url(); ?>">
-  <meta name="twitter:title" content="<?= $district; ?> <?= esc($parkingLot['name']); ?> 주차장 정보">
-  <meta name="twitter:description" content="<?= $district; ?>에 위치한 <?= esc($parkingLot['name']); ?> 주차장의 상세 정보를 확인하세요.">
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
-crossorigin="anonymous"></script>
-<!-- 네이버맵 API 주석 처리
-<script src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
--->
- <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { height: 100%; font-family: "Arial", sans-serif; background-color: #f7f8fa; }
-    a { color: inherit; text-decoration: none; }
-    table { border-collapse: collapse; border-spacing: 0; }
-    :root {
-      --main-color: #62D491;
-      --point-color: #3eaf7c;
-      --light-bg: #f7f8fa;
-      --card-bg: #fff;
-      --border-color: #ddd;
-      --text-color: #333;
+  <title><?= $district ?> 주차장 | <?= $parkingLotName ?> - 위치·요금·운영시간 | 편잇</title>
+  <meta name="description" content="<?= $district ?>에 위치한 <?= $parkingLotName ?> 주차장의 요금, 운영시간, 상세 위치를 확인하세요.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="<?= current_url() ?>">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="<?= $district ?> 주차장 | <?= $parkingLotName ?> - 위치·요금·운영시간 | 편잇">
+  <meta property="og:description" content="<?= $district ?>에 위치한 <?= $parkingLotName ?> 주차장의 요금, 운영시간, 상세 위치를 확인하세요.">
+  <meta property="og:url" content="<?= current_url() ?>">
+  <meta property="og:image" content="<?= base_url('img/logo.png') ?>">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "<?= $parkingLotName ?>",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "<?= $address ?>"
     }
-    body { color: var(--text-color); }
-    main { max-width: 1000px; margin: 0 auto; padding: 20px; }
-    .hero-section {
-      background: #fff; border-radius: 8px; padding: 2rem;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05); text-align: center;
-      margin-bottom: 2rem;
+    <?php if ($averageRating > 0): ?>
+    ,"aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "<?= $averageRating ?>",
+      "reviewCount": "<?= count($comments) ?>"
     }
-    .detail-card {
-      background: #fff; border-left: 5px solid var(--main-color);
-      border-radius: 8px; padding: 20px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 2rem;
-    }
-    .info-table { width: 100%; border: 1px solid #ddd; margin-top: 1rem; }
-    .info-table th, .info-table td {
-      padding: 10px; border: 1px solid #eee; font-size: 14px;
-    }
-    .info-table th {
-      background-color: #f0f8ff; color: var(--point-color); width: 120px;
-    }
-    .back-button {
-      display: inline-block; margin-top: 16px; padding: 10px 15px;
-      background-color: var(--main-color); color: #fff; border-radius: 5px;
-    }
-    .back-button:hover { opacity: 0.9; }
-    /* 지도 스타일 주석 처리
-    #map {
-      width: 100%; height: 400px; margin-top: 1rem;
-      border: 1px solid #007bff; border-radius: 5px;
-    }
-    */
-    .star { font-size: 2rem; color: #ccc; cursor: pointer; transition: color 0.3s ease; }
-    .star.selected { color: gold; }
-    .submit-button {
-      background-color: #007bff; color: white; padding: 10px;
-      border: none; border-radius: 5px; cursor: pointer;
-    }
-    .submit-button:hover { background-color: #0056b3; }
-    .comment-form { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
-    .comment-textarea {
-      width: 100%; height: 80px; padding: 10px; border: 1px solid #ccc;
-      border-radius: 4px; resize: vertical; font-size: 14px;
-    }
-    .comment-item {
-      border-bottom: 1px solid #eee; padding: 10px 0;
-    }
-    .comment-header {
-      display: flex; justify-content: space-between; font-size: 13px; color: #555;
-    }
-  </style>
+    <?php endif; ?>
+  }
+  </script>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preload" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"></noscript>
+  <link rel="stylesheet" href="<?= base_url('css/common.css') ?>?v=<?= filemtime(FCPATH.'css/common.css') ?>">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464" crossorigin="anonymous"></script>
 </head>
 <body>
-  <?php include APPPATH . 'Views/includes/header.php'; ?>
-  <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
-  <main>
-    <section class="hero-section">
-      <h1>📍 <?= esc($parkingLot['name']); ?> 주차장</h1>
-      <p><?= esc($parkingLot['address_road']); ?> 위치의 주차장 정보를 확인해보세요.</p>
-    </section>
-    <section class="detail-card">
-      <h3 class="section-title">주차장 기본 정보</h3>
-      <table class="info-table">
-        <tr><th>주차장명</th><td><?= esc($parkingLot['name']); ?></td></tr>
-        <tr>
-  <th>주소</th>
-  <td>
-    <?php
-      if (!empty($parkingLot['address_road'])) {
-        echo esc($parkingLot['address_road']);
-      } elseif (!empty($parkingLot['address_land'])) {
-        echo esc($parkingLot['address_land']);
-      } else {
-        echo '주소 정보 없음';
-      }
-    ?>
-  </td>
-</tr>
-        <tr><th>전화번호</th><td><?= esc($parkingLot['phone_number']); ?></td></tr>
-        <tr><th>총 주차 구획 수</th><td><?= esc($parkingLot['total_spots']); ?></td></tr>
-        <tr><th>요금</th><td><?= esc($parkingLot['fee_information']); ?></td></tr>
-        <tr><th>운영 시간</th>
-          <td>
-            평일: <?= substr($parkingLot['weekday_start_time'], 0, 5); ?> ~ <?= substr($parkingLot['weekday_end_time'], 0, 5); ?><br>
-            토요일: <?= substr($parkingLot['saturday_start_time'], 0, 5); ?> ~ <?= substr($parkingLot['saturday_end_time'], 0, 5); ?><br>
-            공휴일: <?= substr($parkingLot['holiday_start_time'], 0, 5); ?> ~ <?= substr($parkingLot['holiday_end_time'], 0, 5); ?>
-          </td>
-        </tr>
-        <tr><th>특이사항</th><td><?= esc($parkingLot['special_notes']); ?></td></tr>
-      </table>
-      <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
-      <a href="/parking" class="back-button">목록으로 돌아가기</a>
-      <!-- 지도 div 주석 처리
-      <div id="map"></div>
-      -->
-    </section>
-    <section class="detail-card">
-      <h3 class="section-title">리뷰 남기기</h3>
-      <form action="/parking/saveComment" method="post" class="comment-form" onsubmit="return validateForm()">
-        <input type="hidden" name="parking_lot_id" value="<?= esc($parkingLot['id']); ?>">
-        <div id="star-rating">
-          <span>평점:</span>
-          <?php for ($i = 1; $i <= 5; $i++): ?>
-            <span class="star" data-value="<?= $i; ?>">&#9733;</span>
-          <?php endfor; ?>
-          <input type="hidden" name="rating" id="rating-value">
-        </div>
-        <textarea name="comment_text" class="comment-textarea" placeholder="리뷰를 등록해주세요!" required id="comment-text"></textarea>
-        <button type="submit" class="submit-button">리뷰 등록</button>
-      </form>
-      <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
-      <h3>리뷰 목록</h3>
-      <?php if (empty($comments)): ?>
-        <p style="font-size:14px; color:#555;">아직 리뷰가 없습니다.</p>
-      <?php else: ?>
-        <?php foreach ($comments as $comment): ?>
-        <div class="comment-item">
-          <div class="comment-header">
-            <span>
-              <?php for ($i = 1; $i <= 5; $i++): ?>
-                <span class="star <?= ($i <= $comment['rating']) ? 'selected' : '' ?>">&#9733;</span>
-              <?php endfor; ?>
-            </span>
-            <span><?= date('Y-m-d H:i', strtotime($comment['created_at'])); ?></span>
-          </div>
-          <p><?= esc($comment['comment_text']); ?></p>
-        </div>
-        <?php endforeach; ?>
+<?php include APPPATH . 'Views/includes/header.php'; ?>
+
+<div class="main-content">
+<div class="container" style="max-width:1080px;">
+
+  <!-- 브레드크럼 -->
+  <nav class="dp-breadcrumb" aria-label="breadcrumb">
+    <a href="/">홈</a>
+    <span class="sep">›</span>
+    <a href="/parking">주차장</a>
+    <span class="sep">›</span>
+    <span class="current"><?= $parkingLotName ?></span>
+  </nav>
+
+  <!-- 히어로 -->
+  <div class="detail-hero">
+    <h1 class="detail-hero-title">🅿️ <?= esc($parkingLot['name']) ?></h1>
+    <p class="detail-hero-sub">📍 <?= $address ?></p>
+    <div class="dp-chips">
+      <?php if ($averageRating > 0): ?>
+        <span class="dp-chip dp-chip-orange">★ <?= $averageRating ?> 평균</span>
       <?php endif; ?>
-    </section>
-  </main>
-  <script>
-    document.querySelectorAll('#star-rating .star').forEach(star => {
-      star.addEventListener('click', function() {
-        const value = this.getAttribute('data-value');
-        document.getElementById('rating-value').value = value;
-        document.querySelectorAll('#star-rating .star').forEach((s, i) => {
-          s.classList.toggle('selected', i < value);
-        });
-      });
-    });
-    function validateForm() {
-      const rating = document.getElementById('rating-value').value;
-      const comment = document.getElementById('comment-text').value.trim();
-      if (!rating || !comment) {
-        alert("평점과 리뷰 내용을 모두 입력해주세요.");
-        return false;
-      }
-      return true;
-    }
-    /* 네이버맵 스크립트 주석 처리
-    var map = new naver.maps.Map('map', {
-      center: new naver.maps.LatLng(<?= esc($parkingLot['latitude']); ?>, <?= esc($parkingLot['longitude']); ?>),
-      zoom: 15
-    });
-    var marker = new naver.maps.Marker({
-      position: new naver.maps.LatLng(<?= esc($parkingLot['latitude']); ?>, <?= esc($parkingLot['longitude']); ?>),
-      map: map,
-      title: "<?= esc($parkingLot['name']); ?>"
-    });
-    */
-  </script>
-    <?= view_cell('\App\Cells\ExtraInfoCell::render') ?>
-  <?php include APPPATH . 'Views/includes/footer.php'; ?>
+      <span class="dp-chip">리뷰 <?= count($comments) ?>개</span>
+      <?php if (!empty($parkingLot['phone_number'])): ?>
+        <a class="dp-chip dp-chip-link" href="tel:<?= esc($parkingLot['phone_number']) ?>">📞 <?= esc($parkingLot['phone_number']) ?></a>
+      <?php endif; ?>
+    </div>
+  </div>
+
+  <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
+
+  <!-- 주차장 정보 -->
+  <div class="content-card">
+    <h2 class="content-card-title">📋 주차장 정보</h2>
+    <div class="dp-kv">
+      <div class="dp-kv-row">
+        <span class="dp-kv-key">주차장명</span>
+        <span class="dp-kv-val"><?= esc($parkingLot['name']) ?></span>
+      </div>
+      <div class="dp-kv-row">
+        <span class="dp-kv-key">주소</span>
+        <span class="dp-kv-val">
+          <?php
+            if (!empty($parkingLot['address_road'])) echo esc($parkingLot['address_road']);
+            elseif (!empty($parkingLot['address_land'])) echo esc($parkingLot['address_land']);
+            else echo '주소 정보 없음';
+          ?>
+        </span>
+      </div>
+      <div class="dp-kv-row">
+        <span class="dp-kv-key">전화번호</span>
+        <span class="dp-kv-val">
+          <?php if (!empty($parkingLot['phone_number'])): ?>
+            <a href="tel:<?= esc($parkingLot['phone_number']) ?>"><?= esc($parkingLot['phone_number']) ?></a>
+          <?php else: ?>정보 없음<?php endif; ?>
+        </span>
+      </div>
+      <div class="dp-kv-row">
+        <span class="dp-kv-key">주차면수</span>
+        <span class="dp-kv-val"><?= esc($parkingLot['total_spots']) ?> 면</span>
+      </div>
+      <div class="dp-kv-row">
+        <span class="dp-kv-key">요금</span>
+        <span class="dp-kv-val"><?= esc($parkingLot['fee_information']) ?></span>
+      </div>
+      <div class="dp-kv-row">
+        <span class="dp-kv-key">평일운영</span>
+        <span class="dp-kv-val"><?= substr($parkingLot['weekday_start_time'], 0, 5) ?> ~ <?= substr($parkingLot['weekday_end_time'], 0, 5) ?></span>
+      </div>
+      <div class="dp-kv-row">
+        <span class="dp-kv-key">토요일운영</span>
+        <span class="dp-kv-val"><?= substr($parkingLot['saturday_start_time'], 0, 5) ?> ~ <?= substr($parkingLot['saturday_end_time'], 0, 5) ?></span>
+      </div>
+      <div class="dp-kv-row">
+        <span class="dp-kv-key">공휴일운영</span>
+        <span class="dp-kv-val"><?= substr($parkingLot['holiday_start_time'], 0, 5) ?> ~ <?= substr($parkingLot['holiday_end_time'], 0, 5) ?></span>
+      </div>
+      <?php if (!empty($parkingLot['special_notes'])): ?>
+      <div class="dp-kv-row">
+        <span class="dp-kv-key">특이사항</span>
+        <span class="dp-kv-val"><?= esc($parkingLot['special_notes']) ?></span>
+      </div>
+      <?php endif; ?>
+    </div>
+  </div>
+
+  <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
+
+  <!-- 리뷰 -->
+  <div class="content-card">
+    <h2 class="content-card-title">✏️ 리뷰 남기기</h2>
+    <form action="/parking/saveComment" method="post" class="review-form" onsubmit="return validateForm()">
+      <input type="hidden" name="parking_lot_id" value="<?= esc($parkingLot['id']) ?>">
+      <div class="dp-chips" style="align-items:center;">
+        <span class="star-label">평점:</span>
+        <div class="star-row" id="star-rating">
+          <?php for ($i = 1; $i <= 5; $i++): ?>
+            <span class="star" data-value="<?= $i ?>">★</span>
+          <?php endfor; ?>
+        </div>
+        <input type="hidden" name="rating" id="rating-value">
+      </div>
+      <textarea class="form-textarea" name="comment_text" id="comment-text" placeholder="리뷰를 등록해주세요!" required></textarea>
+      <button class="form-submit" type="submit">리뷰 등록</button>
+    </form>
+
+    <?php if (!empty($comments)): ?>
+    <div class="review-list" style="margin-top:20px;">
+      <?php foreach ($comments as $comment): ?>
+        <div class="review-item">
+          <div class="review-header">
+            <span class="review-rating">
+              <?php for ($i = 1; $i <= 5; $i++) echo ($i <= $comment['rating']) ? '<span style="color:var(--c-star)">★</span>' : '<span style="color:#ddd">★</span>'; ?>
+            </span>
+            <span class="review-date"><?= date('Y-m-d H:i', strtotime($comment['created_at'])) ?></span>
+          </div>
+          <div class="review-text"><?= esc($comment['comment_text']) ?></div>
+        </div>
+      <?php endforeach; ?>
+    </div>
+    <?php else: ?>
+      <p class="text-muted" style="margin-top:16px;">아직 등록된 리뷰가 없습니다.</p>
+    <?php endif; ?>
+  </div>
+
+  <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
+
+  <a href="/parking" class="back-btn">← 주차장 목록으로</a>
+
+</div>
+</div>
+
+<?php include APPPATH . 'Views/includes/footer.php'; ?>
+
+<script>
+document.querySelectorAll('#star-rating .star').forEach(function(s){
+  s.addEventListener('click', function(){
+    var v = this.dataset.value;
+    document.getElementById('rating-value').value = v;
+    document.querySelectorAll('#star-rating .star').forEach(function(x,i){ x.classList.toggle('selected', i < v); });
+  });
+});
+function validateForm(){
+  if(!document.getElementById('rating-value').value || !document.getElementById('comment-text').value.trim()){ alert('평점과 리뷰를 입력해주세요.'); return false; }
+  return true;
+}
+</script>
 </body>
 </html>

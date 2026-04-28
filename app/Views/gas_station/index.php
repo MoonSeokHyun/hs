@@ -1,367 +1,116 @@
 <?php
 $currentPage = max(1, (int)($_GET['page'] ?? 1));
 $pageSuffix  = $currentPage > 1 ? " - {$currentPage}페이지" : '';
-$pageTitle   = "전국 주유소 찾기{$pageSuffix} | 실시간 유가·위치·리뷰 정보 | 편잇";
+$pageTitle   = "전국 주유소 찾기 | 실시간 유가·위치·리뷰{$pageSuffix} | 편잇";
 $pageDesc    = $currentPage > 1
     ? "전국 주유소 {$currentPage}페이지 - 지역별 주유소 위치, 실시간 유가, 리뷰와 평점 정보를 확인하세요."
     : "전국 주유소의 실시간 유가, 위치, 리뷰와 평점 정보를 한눈에 확인하세요. 저렴한 주유소를 쉽게 찾아 기름값을 절약할 수 있습니다.";
-$canonicalBase = base_url('gas_stations');
-$canonical = $currentPage > 1 ? $canonicalBase . '?page=' . $currentPage : $canonicalBase;
+$canonical = $currentPage > 1 ? base_url('gas_stations') . '?page=' . $currentPage : base_url('gas_stations');
 ?>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= esc($pageTitle) ?></title>
-    <meta name="description" content="<?= esc($pageDesc) ?>">
-    <meta name="keywords" content="주유소, 실시간 유가, 주유소 가격, 주유소 리뷰, 저렴한 주유소, 편잇">
-    <meta name="robots" content="<?= !empty($isSearchResult) ? 'noindex, follow' : 'index, follow' ?>">
-    <link rel="canonical" href="<?= esc($canonical) ?>">
-    <meta property="og:title" content="<?= esc($pageTitle) ?>">
-    <meta property="og:description" content="<?= esc($pageDesc) ?>">
-    <meta property="og:url" content="<?= esc($canonical) ?>">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="<?= base_url('img/logo.png') ?>">
-    <!-- 네이버맵 API 주석 처리
-    <script async src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=psp2wjl0ra"></script>
-    -->
-<!-- 구글 애드센스 -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
-crossorigin="anonymous"></script>
-    <!-- 스타일 변경 -->
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #f8f9fa;
-      color: #333;
-    }
-
-    .container {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-
-    .page-title {
-      font-size: 2em;
-      color: var(--main-color, #62D491);
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .menu-bar {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 20px;
-    }
-
-    .menu-bar a {
-      padding: 10px 20px;
-      background-color: #62D491;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 20px;
-      font-weight: bold;
-      transition: all 0.2s ease-in-out;
-    }
-
-    .menu-bar a:hover {
-      background-color: #3eaf7c;
-    }
-
-    .search-box {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-
-    .search-box input {
-      padding: 10px;
-      width: 70%;
-      max-width: 400px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-
-    .search-box button {
-      padding: 10px 20px;
-      margin-left: 5px;
-      border: none;
-      background-color: #3eaf7c;
-      color: white;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .section {
-      margin-bottom: 40px;
-    }
-
-    .section h2 {
-      font-size: 1.5rem;
-      margin-bottom: 10px;
-      color: var(--point-color, #3eaf7c);
-      border-left: 4px solid var(--point-color, #3eaf7c);
-      padding-left: 10px;
-    }
-
-    .table-container {
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background-color: #fff;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
-
-    th, td {
-      padding: 12px 10px;
-      text-align: center;
-      border-bottom: 1px solid #eee;
-      font-size: 14px;
-    }
-
-    th {
-      background-color: #62D491;
-      color: white;
-    }
-
-    .clickable-row {
-      cursor: pointer;
-    }
-
-    .clickable-row:hover {
-      background-color: #f9f9f9;
-    }
-
-    .review-card {
-      background: #fff;
-      border: 1px solid #eee;
-      border-radius: 8px;
-      padding: 15px;
-      margin-bottom: 15px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-
-    .review-title {
-      font-weight: bold;
-      font-size: 1rem;
-      color: #3eaf7c;
-      margin-bottom: 5px;
-    }
-
-    .review-rating {
-      color: #ff9800;
-    }
-
-    .review-text {
-      font-size: 0.95rem;
-      color: #444;
-      margin-bottom: 5px;
-    }
-
-    footer {
-      background-color: #f1f1f1;
-      text-align: center;
-      padding: 20px;
-      font-size: 0.9em;
-      border-top: 1px solid #ddd;
-      margin-top: 40px;
-    }
-
-    footer a {
-      color: #007bff;
-      text-decoration: none;
-    }
-
-    footer a:hover {
-      text-decoration: underline;
-    }
-
-    @media (max-width: 768px) {
-      .page-title {
-        font-size: 1.5em;
-      }
-
-      .menu-bar {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .menu-bar a {
-        width: 90%;
-        text-align: center;
-      }
-
-      .search-box input,
-      .search-box button {
-        width: 90%;
-        margin-top: 5px;
-      }
-
-      th, td {
-        font-size: 13px;
-        padding: 10px 5px;
-      }
-    }
-
-        /* (2) 최근 주유소 슬라이드 */
-        .recent-slides {
-          display: flex;
-          gap: 10px;
-          overflow-x: hidden; /* 스크롤바 숨기기 */
-          padding: 10px 0;
-          transition: transform 0.5s ease;
-        }
-
-        .recent-slide {
-          flex: 0 0 300px;
-          background: #f8f9fa;
-          padding: 15px;
-          border-radius: 8px;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-          transition: transform 0.3s;
-        }
-
-        .recent-slide:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .recent-slide h3 {
-          font-size: 1.2rem;
-          margin: 0 0 10px;
-        }
-
-        .recent-slide p {
-          margin: 0;
-          color: #555;
-          font-size: 0.9rem;
-        }
-
-        /* 페이지 네비게이션 */
-        .pager {
-          margin-top: 20px;
-          text-align: center;
-        }
-
-
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><?= esc($pageTitle) ?></title>
+  <meta name="description" content="<?= esc($pageDesc) ?>">
+  <meta name="robots" content="<?= !empty($isSearchResult) ? 'noindex, follow' : 'index, follow' ?>">
+  <link rel="canonical" href="<?= esc($canonical) ?>">
+  <meta property="og:title" content="<?= esc($pageTitle) ?>">
+  <meta property="og:description" content="<?= esc($pageDesc) ?>">
+  <meta property="og:url" content="<?= esc($canonical) ?>">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="<?= base_url('img/logo.png') ?>">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preload" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"></noscript>
+  <link rel="stylesheet" href="<?= base_url('css/common.css') ?>?v=<?= filemtime(FCPATH.'css/common.css') ?>">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464" crossorigin="anonymous"></script>
 </head>
 <body>
+<?php include APPPATH . 'Views/includes/header.php'; ?>
 
-<?php
-    include APPPATH . 'Views/includes/header.php';
-  ?>
-  <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
-    <div class="container">
-        <div class="search-box">
-            <form action="<?= base_url('gas_stations/search'); ?>" method="get">
-                <input type="text" name="search" value="<?= esc($search ?? '') ?>" placeholder="주유소 이름 검색...">
-                <button type="submit">검색</button>
-            </form>
+<section class="lp-hero">
+  <div class="lp-hero-inner">
+    <p class="lp-hero-eyebrow">FUEL STATION</p>
+    <h1 class="lp-hero-title">⛽ 전국 주유소</h1>
+    <p class="lp-hero-sub">실시간 유가 정보와 위치, 리뷰를 한눈에 확인하세요</p>
+    <form class="lp-search" action="<?= base_url('gas_stations/search') ?>" method="get">
+      <input type="text" name="search" value="<?= esc($search ?? '') ?>" placeholder="주유소명, 주소 검색">
+      <button type="submit">검색</button>
+    </form>
+    <div class="lp-hero-stats">
+      <span class="lp-stat-chip"><strong>1.2만+</strong> 전국 주유소</span>
+      <span class="lp-stat-chip"><strong>실시간</strong> 유가 정보</span>
+      <span class="lp-stat-chip"><strong>리뷰·평점</strong> 제공</span>
+    </div>
+  </div>
+</section>
+
+<div class="lp-body">
+  <div class="container">
+
+    <?php if (!empty($isSearchResult) && !empty($noResultsMessage)): ?>
+      <p class="lp-empty"><?= esc($noResultsMessage) ?></p>
+    <?php endif; ?>
+
+    <?php if (!empty($gasStations)): ?>
+    <section>
+      <div class="lp-section-head">
+        <div>
+          <span class="lp-section-kicker">LIST</span>
+          <p class="lp-section-title">⛽ 주유소 목록</p>
         </div>
+      </div>
+      <div class="lp-grid">
+        <?php foreach ($gasStations as $station): ?>
+          <a class="lp-card" href="/gas_stations/<?= esc($station['id']) ?>">
+            <div class="lp-card-name"><?= esc($station['gas_station_name']) ?></div>
+            <div class="lp-card-row">📍 <?= esc($station['road_address']) ?></div>
+            <?php if (!empty($station['review_count'])): ?>
+            <div class="lp-card-row">💬 리뷰 <?= esc($station['review_count']) ?>개</div>
+            <?php endif; ?>
+            <?php if (!empty($station['average_rating'])): ?>
+            <div class="lp-card-rating">★ <?= number_format($station['average_rating'], 1) ?></div>
+            <?php endif; ?>
+          </a>
+        <?php endforeach; ?>
+      </div>
+    </section>
+    <?php endif; ?>
 
-        <?php if (!empty($isSearchResult) && !empty($noResultsMessage)): ?>
-        <section class="section">
-            <h2>검색 결과</h2>
-            <p><?= esc($noResultsMessage) ?></p>
-        </section>
-        <?php endif; ?>
+    <?php if (!empty($popularGasStations)): ?>
+    <section>
+      <div class="lp-section-head">
+        <div>
+          <span class="lp-section-kicker">POPULAR</span>
+          <p class="lp-section-title">⭐ 인기 주유소</p>
+        </div>
+      </div>
+      <div class="lp-grid">
+        <?php foreach ($popularGasStations as $station): ?>
+          <a class="lp-card" href="/gas_stations/<?= esc($station['id']) ?>">
+            <div class="lp-card-name"><?= esc($station['gas_station_name']) ?></div>
+            <div class="lp-card-row">📍 <?= esc($station['road_address']) ?></div>
+            <?php if (!empty($station['review_count'])): ?>
+            <div class="lp-card-row">💬 리뷰 <?= esc($station['review_count']) ?>개</div>
+            <?php endif; ?>
+            <?php if (!empty($station['average_rating'])): ?>
+            <div class="lp-card-rating">★ <?= number_format($station['average_rating'], 1) ?></div>
+            <?php endif; ?>
+          </a>
+        <?php endforeach; ?>
+      </div>
+    </section>
+    <?php endif; ?>
 
-        <section class="section">
-            <h2>최근 추가된 주유소</h2>
-            <div class="recent-slides" id="recentSlides">
-                <?php foreach ($recentGasStations as $station): ?>
-                    <div class="recent-slide">
-                        <h3><?= esc($station['gas_station_name']); ?></h3>
-                        <p><?= esc($station['road_address']); ?></p>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-        </section>
+    <?php if (isset($pager)): ?>
+    <div class="lp-pager"><?= $pager->links() ?></div>
+    <?php endif; ?>
 
-
-        <section class="section">
-            <h2>인기 주유소</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>주유소 이름</th>
-                        <th>주소</th>
-                        <th>리뷰 개수</th>
-                        <th>평균 평점</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($popularGasStations as $station): ?>
-                        <tr class="clickable-row" onclick="goToDetail(<?= $station['id']; ?>)">
-                            <td><?= esc($station['gas_station_name']); ?></td>
-                            <td><?= esc($station['road_address']); ?></td>
-                            <td><?= esc($station['review_count']); ?></td>
-                            <td><?= number_format($station['average_rating'], 1); ?> 점</td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </section>
-
-        <!-- 중간 광고 배치 -->
-        <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
-
-        <section class="reviews">
-            <h2>최근 리뷰</h2>
-            <?php foreach ($recentReviews as $review): ?>
-                <div class="review-card" onclick="goToDetail(<?= isset($review['gas_station_id']) ? esc($review['gas_station_id']) : '0'; ?>)">
-                    <div class="review-title"> <?= isset($review['gas_station_name']) ? esc($review['gas_station_name']) : '정보 없음'; ?> -
-                        <span class="review-rating"> <?= isset($review['rating']) ? esc($review['rating']) : '0'; ?>점</span>
-                    </div>
-                    <div class="review-text"> <?= isset($review['comment_text']) ? esc($review['comment_text']) : '리뷰 없음'; ?> </div>
-                    <small> 작성일: <?= isset($review['created_at']) ? date('Y-m-d', strtotime($review['created_at'])) : '알 수 없음'; ?> </small>
-                </div>
-            <?php endforeach; ?>
-        </section>
-
-        <section class="section">
-            <h2>주유소 목록</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>주유소 이름</th>
-                        <th>주소</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($gasStations as $station): ?>
-                        <tr class="clickable-row" onclick="goToDetail(<?= $station['id']; ?>)">
-                            <td><?= esc($station['gas_station_name']); ?></td>
-                            <td><?= esc($station['road_address']); ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </section>
-
-        <!-- 하단 광고 배치 -->
-        <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
-
+  </div>
 </div>
-    <?php include APPPATH . 'Views/includes/footer.php'; ?>
 
-    <script>
-        function goToDetail(id) {
-            if (id) {
-                window.location.href = '/gas_stations/' + id;
-            }
-        }
-    </script>
-
+<?php include APPPATH . 'Views/includes/footer.php'; ?>
 </body>
 </html>

@@ -1,192 +1,74 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
-     crossorigin="anonymous"></script>
 <?php
 $currentPage = max(1, (int)($_GET['page'] ?? 1));
 $pageSuffix  = $currentPage > 1 ? " - {$currentPage}페이지" : '';
-$pageTitle   = "편의점 이벤트·할인 정보{$pageSuffix} | 1+1, 2+1 모음 | 편잇";
+$pageTitle   = "이벤트 정보 | 지역·문화 행사{$pageSuffix} | 편잇";
 $pageDesc    = $currentPage > 1
     ? "편의점 이벤트 {$currentPage}페이지 - CU, GS25, 세븐일레븐 등 편의점 1+1, 2+1 할인 이벤트를 확인하세요."
     : "CU, GS25, 세븐일레븐, 이마트24 등 편의점 1+1, 2+1 할인 이벤트와 행사를 모아놓았습니다. 최신 편의점 할인 정보를 놓치지 마세요.";
-$canonical = $currentPage > 1 ? current_url() . '?page=' . $currentPage : current_url();
+$canonical = $currentPage > 1 ? base_url('event') . '?page=' . $currentPage : base_url('event');
 ?>
-    <title><?= esc($pageTitle) ?></title>
-    <meta name="description" content="<?= esc($pageDesc) ?>">
-    <meta name="keywords" content="편의점 이벤트, 편의점 할인, 1+1 행사, 2+1 행사, CU, GS25, 세븐일레븐, 편잇">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="<?= esc($canonical) ?>">
-    <meta property="og:title" content="<?= esc($pageTitle) ?>">
-    <meta property="og:description" content="<?= esc($pageDesc) ?>">
-    <meta property="og:url" content="<?= esc($canonical) ?>">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="<?= base_url('img/logo.png') ?>">
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f8f9fa;
-            color: #333;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 2.5em;
-        }
-
-
-        .card-container {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr); /* 한 줄에 4개 */
-            gap: 15px;
-        }
-
-        .card {
-            display: flex;
-            flex-direction: column;
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            background-color: #fff;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .card-img-top {
-            height: 150px;
-            object-fit: cover;
-        }
-
-        .card-body {
-            padding: 10px;
-            text-align: center;
-        }
-
-        .card-title {
-            font-size: 1rem;
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #333;
-        }
-
-        .status {
-            font-weight: bold;
-            display: inline-block;
-            padding: 5px 10px;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-
-        .status-ongoing {
-            background-color: #28a745;
-            color: white;
-        }
-
-        .status-ended {
-            background-color: #e74c3c;
-            color: white;
-        }
-
-        .pagination {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0;
-        }
-
-        .pagination a {
-            text-decoration: none;
-            margin: 0 5px;
-            padding: 5px 10px;
-            border: 1px solid #ddd;
-            color: #007bff;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        .pagination a:hover {
-            background-color: #007bff;
-            color: white;
-        }
-
-        .pagination .active {
-            background-color: #007bff;
-            color: white;
-            border-color: #007bff;
-        }
-
-        @media (max-width: 1024px) {
-            .card-container {
-                grid-template-columns: repeat(3, 1fr); /* 태블릿: 한 줄에 3개 */
-            }
-        }
-
-        @media (max-width: 768px) {
-            .card-container {
-                grid-template-columns: repeat(2, 1fr); /* 모바일: 한 줄에 2개 */
-            }
-        }
-
-        @media (max-width: 576px) {
-            .card-container {
-                grid-template-columns: 1fr; /* 작은 화면: 한 줄에 1개 */
-            }
-        }
-    </style>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><?= esc($pageTitle) ?></title>
+  <meta name="description" content="<?= esc($pageDesc) ?>">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="<?= esc($canonical) ?>">
+  <meta property="og:title" content="<?= esc($pageTitle) ?>">
+  <meta property="og:description" content="<?= esc($pageDesc) ?>">
+  <meta property="og:url" content="<?= esc($canonical) ?>">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="<?= base_url('img/logo.png') ?>">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preload" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"></noscript>
+  <link rel="stylesheet" href="<?= base_url('css/common.css') ?>?v=<?= filemtime(FCPATH.'css/common.css') ?>">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464" crossorigin="anonymous"></script>
 </head>
 <body>
-<?php
-    include APPPATH . 'Views/includes/header.php';
-  ?>
-    <div class="container">
+<?php include APPPATH . 'Views/includes/header.php'; ?>
 
+<section class="lp-hero">
+  <div class="lp-hero-inner">
+    <p class="lp-hero-eyebrow">EVENTS</p>
+    <h1 class="lp-hero-title">🎉 이벤트</h1>
+    <p class="lp-hero-sub">전국 이벤트, 문화 행사 정보</p>
+  </div>
+</section>
 
-        <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
-        <!-- 이벤트 카드 -->
-        <div class="card-container">
-            <?php if (!empty($allEvents)): ?>
-                <?php foreach ($allEvents as $event): ?>
-                    <a href="/event/<?= esc($event['id']) ?>" class="card-link">
-                        <div class="card">
-                            <img src="<?= esc($event['image_url'])?>" class="card-img-top" alt="<?= esc($event['title']) ?>" loading="lazy" decoding="async">
-                            <div class="card-body">
-                                <span class="status <?= $event['status'] === '진행중' ? 'status-ongoing' : 'status-ended' ?>">
-                                    <?= $event['status'] === '진행중' ? '[진행]' : '[종료]' ?>
-                                </span>
-                                <h5 class="card-title"><?= esc($event['title']) ?></h5>
-                                <p class="card-text">
-                                    <strong>기간:</strong> <?= esc($event['event_period']) ?><br>
-                                    <strong>브랜드:</strong> <?= esc($event['brand']) ?>
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <p>현재 이벤트가 없습니다.</p>
+<div class="lp-body">
+  <div class="container">
+
+    <?php if (!empty($allEvents)): ?>
+    <div class="lp-img-grid">
+      <?php foreach ($allEvents as $event): ?>
+        <a class="lp-img-card" href="/event/<?= esc($event['id']) ?>">
+          <div class="lp-img-card-thumb">
+            <img src="<?= esc($event['image_url']) ?>" alt="<?= esc($event['title']) ?>" loading="lazy" decoding="async">
+          </div>
+          <div class="lp-img-card-body">
+            <?php if (!empty($event['brand'])): ?>
+            <span class="brand-badge brand-other"><?= esc($event['brand']) ?></span>
             <?php endif; ?>
-        </div>
-
-        <!-- 페이징 -->
-        <?= $pager->links() ?>
+            <div class="lp-img-card-title"><?= esc($event['title']) ?></div>
+            <div class="lp-img-card-meta"><?= esc($event['event_period']) ?></div>
+          </div>
+        </a>
+      <?php endforeach; ?>
     </div>
+    <?php else: ?>
+    <p class="lp-empty">현재 이벤트가 없습니다.</p>
+    <?php endif; ?>
 
-    <?php include APPPATH . 'Views/includes/footer.php'; ?>
+    <?php if (isset($pager)): ?>
+    <div class="lp-pager"><?= $pager->links() ?></div>
+    <?php endif; ?>
+
+  </div>
+</div>
+
+<?php include APPPATH . 'Views/includes/footer.php'; ?>
 </body>
 </html>
