@@ -42,7 +42,8 @@ class CarwashController extends BaseController
         return view('carwash/detail', [
             'carwash' => $carwash,
             'reviews' => $reviews,
-            'averageRating' => $averageRating
+            'averageRating' => $averageRating,
+            'reviewCount' => count($reviews),
         ]);
     }
 

@@ -35,13 +35,10 @@ class EventDataModel extends Model
         'Longitude',
         'Data_Reference_Date',
         'Provider_Code',
-        'Provider_Name'
+        'Provider_Name',
+        'Event_Start_Time',
+        'Event_End_Time',
     ];
 
-    protected $useTimestamps = false; // Set true if the table has created_at and updated_at columns
-
-    // Validation rules can be added here
-    protected $validationRules = [];
-    protected $validationMessages = [];
-    protected $skipValidation = false;
+    protected $useTimestamps = false;
 }
