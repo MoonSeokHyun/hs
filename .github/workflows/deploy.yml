@@ -13,5 +13,5 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           script: |
-            cd /var/www/${{ github.event.repository.name }}
+            cd /var/www/hospitalhub.co.kr/public_html
             git pull origin main
