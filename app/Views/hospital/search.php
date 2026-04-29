@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>병원·의료기관 검색 결과 | 편잇</title>
+  <meta name="description" content="<?= !empty($searchQuery) ? esc($searchQuery) . ' 검색 결과 - 전국 병원·의원·약국의 위치, 연락처, 운영시간 정보를 확인하세요.' : '전국 병원·의원·약국을 검색하세요. 위치, 연락처, 운영시간 정보를 한눈에 확인할 수 있습니다.' ?>">
   <meta name="robots" content="noindex, follow">
   <link rel="canonical" href="<?= base_url('hospital') ?>">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>

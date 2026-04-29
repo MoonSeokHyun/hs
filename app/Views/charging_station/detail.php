@@ -124,6 +124,22 @@ $seoKeywords    = esc("{$fullAddress} 가스충전소, {$company}, {$facilityNam
     </dl>
   </div>
 
+  <?php
+  $_chgLat = $station['Latitude'] ?? $station['latitude'] ?? null;
+  $_chgLng = $station['Longitude'] ?? $station['longitude'] ?? null;
+  if ($_chgLat !== null && $_chgLng !== null && abs((float) $_chgLat) < 1e-8 && abs((float) $_chgLng) < 1e-8) {
+      $_chgLat = $_chgLng = null;
+  }
+  ?>
+  <?= view('includes/section_naver_map', [
+      'latitude'  => $_chgLat,
+      'longitude' => $_chgLng,
+      'title'     => (string) ($station['Company'] ?? $station['Service'] ?? '가스충전소'),
+      'address'   => (string) ($station['FullAddress'] ?? ''),
+      'mapId'     => 'chg-map-' . (int) ($station['id'] ?? 0),
+      'linkQuery' => $map_link_query ?? '',
+  ]) ?>
+
   <!-- 광고 2 -->
   <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
 
@@ -173,6 +189,8 @@ $seoKeywords    = esc("{$fullAddress} 가스충전소, {$company}, {$facilityNam
 
   <!-- 광고 3 -->
   <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
+
+  <?= view('includes/section_naver_blog', ['blog_posts' => $blog_posts ?? []]) ?>
 
   <a href="<?= site_url('station') ?>" class="back-btn">← 목록으로 돌아가기</a>
 

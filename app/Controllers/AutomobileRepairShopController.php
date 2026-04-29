@@ -110,7 +110,9 @@ class AutomobileRepairShopController extends BaseController
             'repair_shop' => $repair_shop,
             'nearby_shops' => $nearby_shops,
             'reviews' => $reviews,
-            'averageRating' => $averageRating
+            'averageRating' => $averageRating,
+            'blog_posts' => $this->naverBlogSearch((string) ($repair_shop['repair_shop_name'] ?? ''), '자동차정비'),
+            'map_link_query' => (string) ($repair_shop['road_address'] ?? $repair_shop['repair_shop_name'] ?? ''),
         ]);
     }
 

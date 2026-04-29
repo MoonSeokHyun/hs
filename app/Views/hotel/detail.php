@@ -5,7 +5,8 @@ $district = isset($matches[0]) ? $matches[0] : '인근';
 $hotelName = esc($hotel['business_name']);
 $canonicalUrl = current_url();
 $pageTitle = "{$district} 숙박시설 | {$hotelName} - 위치·연락처·후기 | 편잇";
-$pageDesc = "{$district}에 위치한 {$hotelName}의 위치, 연락처, 객실 정보와 주변 맛집·관광지를 확인하세요.";
+$addrSnippet = mb_substr($address, 0, 30);
+$pageDesc = "{$hotelName}({$addrSnippet}) - 위치, 연락처, 객실 요금 및 주변 맛집·관광지 정보를 확인하세요.";
 $jsonLd = [
   '@context' => 'https://schema.org',
   '@type' => 'Hotel',
@@ -111,6 +112,15 @@ if (!empty($hotel['contact_number'])) $jsonLd['telephone'] = $hotel['contact_num
     </dl>
   </div>
 
+  <?= view('includes/section_naver_map', [
+      'latitude'  => $hotelLatitude ?? null,
+      'longitude' => $hotelLongitude ?? null,
+      'title'     => $hotel['business_name'] ?? '',
+      'address'   => $hotel['site_full_address'] ?? '',
+      'mapId'     => 'hotel-map-' . (int) ($hotel['id'] ?? 0),
+      'linkQuery' => $map_link_query ?? '',
+  ]) ?>
+
   <!-- 근처 맛집 -->
   <?php if (!empty($results_food)): ?>
   <div class="content-card">
@@ -154,6 +164,8 @@ if (!empty($hotel['contact_number'])) $jsonLd['telephone'] = $hotel['contact_num
   <?php endif; ?>
 
   <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
+
+  <?= view('includes/section_naver_blog', ['blog_posts' => $blog_posts ?? []]) ?>
 
   <a href="/hotel" class="back-btn">← 숙박 목록으로</a>
 

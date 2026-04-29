@@ -146,6 +146,15 @@ $keywordsSeo = implode(',', [$district, '공영주차장', $facility['FCLTY_NM']
     </dl>
   </div>
 
+  <?= view('includes/section_naver_map', [
+      'latitude'  => isset($facility['FCLTY_LA']) && $facility['FCLTY_LA'] !== '' ? (float) $facility['FCLTY_LA'] : null,
+      'longitude' => isset($facility['FCLTY_LO']) && $facility['FCLTY_LO'] !== '' ? (float) $facility['FCLTY_LO'] : null,
+      'title'     => (string) ($facility['FCLTY_NM'] ?? ''),
+      'address'   => (string) ($facility['RDNMADR_NM'] ?? ''),
+      'mapId'     => 'pf-map-' . (int) ($facility['id'] ?? 0),
+      'linkQuery' => $map_link_query ?? '',
+  ]) ?>
+
   <!-- 주차 면수 및 운영 시간 -->
   <div class="content-card">
     <h2 class="content-card-title">🕐 주차 면수 및 운영 시간</h2>
@@ -260,6 +269,8 @@ $keywordsSeo = implode(',', [$district, '공영주차장', $facility['FCLTY_NM']
 
   <!-- 광고 4 -->
   <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
+
+  <?= view('includes/section_naver_blog', ['blog_posts' => $blog_posts ?? []]) ?>
 
   <a href="<?= site_url('parking-facilities') ?>" class="back-btn">← 목록으로 돌아가기</a>
 

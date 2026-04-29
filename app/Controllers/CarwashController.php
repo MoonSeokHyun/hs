@@ -39,11 +39,16 @@ class CarwashController extends BaseController
         // 평균 평점 계산
         $averageRating = $reviewModel->getAverageRating($carwash_id);
 
+        $cwName = (string) ($carwash['Business Name'] ?? '');
+        $cwAddr = (string) ($carwash['Address (Road Name)'] ?? '');
+
         return view('carwash/detail', [
             'carwash' => $carwash,
             'reviews' => $reviews,
             'averageRating' => $averageRating,
             'reviewCount' => count($reviews),
+            'blog_posts' => $this->naverBlogSearch($cwName, '세차장'),
+            'map_link_query' => $cwAddr !== '' ? $cwAddr : $cwName,
         ]);
     }
 

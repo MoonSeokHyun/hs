@@ -131,6 +131,15 @@ $averageRating = count($comments) ? round($totalRating / count($comments), 1) : 
     </div>
   </div>
 
+  <?= view('includes/section_naver_map', [
+      'latitude'  => $parkingLot['latitude'] ?? null,
+      'longitude' => $parkingLot['longitude'] ?? null,
+      'title'     => $parkingLot['name'] ?? '',
+      'address'   => !empty($parkingLot['address_road']) ? $parkingLot['address_road'] : ($parkingLot['address_land'] ?? ''),
+      'mapId'     => 'parking-map-' . (int) ($parkingLot['id'] ?? 0),
+      'linkQuery' => $map_link_query ?? '',
+  ]) ?>
+
   <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
 
   <!-- 리뷰 -->
@@ -171,6 +180,8 @@ $averageRating = count($comments) ? round($totalRating / count($comments), 1) : 
   </div>
 
   <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
+
+  <?= view('includes/section_naver_blog', ['blog_posts' => $blog_posts ?? []]) ?>
 
   <a href="/parking" class="back-btn">← 주차장 목록으로</a>
 

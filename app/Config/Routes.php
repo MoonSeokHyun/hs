@@ -13,7 +13,6 @@ $routes->get('/', 'HospitalController::index');
 $routes->get('hospital', 'HospitalController::list');
 $routes->get('hospital/(:num)', 'HospitalController::detail/$1');
 $routes->get('hospital/detail/(:num)', 'HospitalController::detail/$1');
-$routes->get('hospitals/detail/(:num)', 'HospitalController::detail/$1');
 $routes->post('/hospital/addReview', 'HospitalController::addReview');
 $routes->get('hospital/search', 'HospitalController::search');
 

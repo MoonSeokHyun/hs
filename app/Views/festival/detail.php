@@ -120,6 +120,15 @@ $canonical = esc(current_url());
     </div>
   </div>
 
+  <?= view('includes/section_naver_map', [
+      'latitude'  => isset($festival['Latitude']) && $festival['Latitude'] !== '' ? $festival['Latitude'] : null,
+      'longitude' => isset($festival['Longitude']) && $festival['Longitude'] !== '' ? $festival['Longitude'] : null,
+      'title'     => $fname,
+      'address'   => (string) ($festival['Address_Road'] ?? $fvenue),
+      'mapId'     => 'fest-map-' . (int) ($festival['id'] ?? 0),
+      'linkQuery' => $map_link_query ?? '',
+  ]) ?>
+
   <?php if (!empty($festival['Description'])): ?>
   <div class="content-card">
     <h2 class="content-card-title">📝 행사 설명</h2>
@@ -160,6 +169,8 @@ $canonical = esc(current_url());
   <ins class="adsbygoogle ad-slot"
     style="display:block" data-ad-client="ca-pub-6686738239613464"
     data-ad-slot="1204098626" data-ad-format="auto" data-full-width-responsive="true"></ins>
+
+  <?= view('includes/section_naver_blog', ['blog_posts' => $blog_posts ?? []]) ?>
 
   <a href="/festival-info" class="back-btn">← 목록으로 돌아가기</a>
 

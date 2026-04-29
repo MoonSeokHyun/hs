@@ -1,9 +1,8 @@
 <?php namespace App\Controllers;
 
 use App\Models\EvStationsModel;
-use CodeIgniter\Controller;
 
-class EvStations extends Controller
+class EvStations extends BaseController
 {
     public function index()
     {
@@ -21,6 +20,10 @@ class EvStations extends Controller
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound("Station #{$id} not found");
         }
 
-        echo view('ev_stations/detail', ['station' => $station]);
+        echo view('ev_stations/detail', [
+            'station' => $station,
+            'blog_posts' => $this->naverBlogSearch((string) ($station['facility_name'] ?? ''), '전기차 충전'),
+            'map_link_query' => (string) ($station['full_address'] ?? $station['road_address'] ?? $station['facility_name'] ?? ''),
+        ]);
     }
 }

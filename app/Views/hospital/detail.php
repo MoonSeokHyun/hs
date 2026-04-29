@@ -133,6 +133,15 @@ if ($reviewCount > 0 && $avgRating > 0) {
     </dl>
   </div>
 
+  <?= view('includes/section_naver_map', [
+      'latitude'  => $latitude ?? null,
+      'longitude' => $longitude ?? null,
+      'title'     => $hospitalName,
+      'address'   => $roadAddress !== '' ? $roadAddress : $fullAddress,
+      'mapId'     => 'hospital-map-' . $hospitalId,
+      'linkQuery' => $map_link_query ?? '',
+  ]) ?>
+
   <!-- 근처 의료기관 -->
   <div class="content-card">
     <h2 class="content-card-title">📍 근처 의료기관</h2>
@@ -223,6 +232,8 @@ if ($reviewCount > 0 && $avgRating > 0) {
   <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
 
   <?= view_cell('\App\Cells\ExtraInfoCell::render') ?>
+
+  <?= view('includes/section_naver_blog', ['blog_posts' => $blog_posts ?? []]) ?>
 
   <a href="/hospital" class="back-btn">← 병원 목록으로</a>
 

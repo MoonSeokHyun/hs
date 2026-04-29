@@ -3,9 +3,8 @@
 namespace App\Controllers;
 
 use App\Models\HotelModel;
-use CodeIgniter\Controller;
 
-class HotelController extends Controller
+class HotelController extends BaseController
 {
     public function index()
 {
@@ -104,12 +103,29 @@ class HotelController extends Controller
     
         // 최근 추가된 숙박업소 가져오기
         $recentHotels = $hotelModel->orderBy('id', 'desc')->limit(5)->find();
-    
+
+        $hotelLat = null;
+        $hotelLng = null;
+        $cx = $hotel['coordinate_x'] ?? null;
+        $cy = $hotel['coordinate_y'] ?? null;
+        if ($cx !== null && $cy !== null && is_numeric($cx) && is_numeric($cy)) {
+            $cx = (float) $cx;
+            $cy = (float) $cy;
+            if ($cy >= 33 && $cy <= 39 && $cx >= 124 && $cx <= 132) {
+                $hotelLat = $cy;
+                $hotelLng = $cx;
+            }
+        }
+
         return view('hotel/detail', [
             'hotel' => $hotel,
             'results_food' => $results_food,
             'results_tour' => $results_tour,
-            'recentHotels' => $recentHotels, // 추가
+            'recentHotels' => $recentHotels,
+            'hotelLatitude' => $hotelLat,
+            'hotelLongitude' => $hotelLng,
+            'blog_posts' => $this->naverBlogSearch((string) ($hotel['business_name'] ?? ''), '숙박'),
+            'map_link_query' => (string) ($hotel['site_full_address'] ?? $hotel['business_name'] ?? ''),
         ]);
     }
     

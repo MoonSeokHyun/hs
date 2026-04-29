@@ -117,7 +117,7 @@ class HospitalController extends BaseController
     {
         try {
             $uri = service('uri');
-            if ($uri->getSegment(1) === 'hospitals' || $uri->getSegment(2) !== 'detail') {
+            if ($uri->getSegment(2) !== 'detail') {
                 return redirect()->to(base_url('hospital/detail/' . $id), 301);
             }
 
@@ -182,6 +182,8 @@ class HospitalController extends BaseController
                 'latitude' => $coords['latitude'],
                 'longitude' => $coords['longitude'],
                 'canonicalUrl' => base_url('hospital/detail/' . $id),
+                'blog_posts' => $this->naverBlogSearch((string) ($hospital['BusinessName'] ?? ''), '병원'),
+                'map_link_query' => (string) ($hospital['FullAddress'] ?? $hospital['BusinessName'] ?? ''),
             ]);
     
         } catch (\CodeIgniter\Exceptions\PageNotFoundException $e) {

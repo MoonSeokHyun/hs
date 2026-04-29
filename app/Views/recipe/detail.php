@@ -129,6 +129,17 @@ $lastStepIdx  = count($cookingSteps) - 1;
     style="display:block" data-ad-client="ca-pub-6686738239613464"
     data-ad-slot="1204098626" data-ad-format="auto" data-full-width-responsive="true"></ins>
 
+  <?= view('includes/section_naver_map', [
+      'latitude'  => null,
+      'longitude' => null,
+      'title'     => $recipeTitle,
+      'address'   => '',
+      'mapId'     => 'recipe-map-' . (int) ($recipe['id'] ?? 0),
+      'linkQuery' => $map_link_query ?? $recipeTitle,
+  ]) ?>
+
+  <?= view('includes/section_naver_blog', ['blog_posts' => $blog_posts ?? []]) ?>
+
   <a href="/recipes" class="back-btn">← 목록으로 돌아가기</a>
 
 </div>

@@ -4,8 +4,12 @@ $currentPage  = max(1, (int)($_GET['page'] ?? 1));
 $pageSuffix   = $currentPage > 1 ? " - {$currentPage}페이지" : '';
 $pageTitle    = ($brand ? $brand . ' 이벤트' : '편의점 이벤트') . "{$pageSuffix} | 편잇";
 $pageDesc     = $brand
-    ? "{$brand}에서 진행 중인 1+1·2+1 할인 이벤트를 확인하세요."
-    : "CU, GS25, 세븐일레븐, 이마트24 편의점 1+1·2+1 할인 이벤트를 한눈에 확인하세요.";
+    ? ($currentPage > 1
+        ? "{$brand}에서 진행 중인 1+1·2+1 할인 이벤트 {$currentPage}페이지입니다. 최신 편의점 행사 상품을 확인하세요."
+        : "{$brand}에서 진행 중인 1+1·2+1 할인 이벤트를 확인하세요. 최신 행사 상품과 할인가를 한눈에 볼 수 있습니다.")
+    : ($currentPage > 1
+        ? "CU, GS25, 세븐일레븐, 이마트24 편의점 1+1·2+1 할인 이벤트 {$currentPage}페이지입니다. 매일 업데이트되는 최신 할인 정보를 확인하세요."
+        : "CU, GS25, 세븐일레븐, 이마트24 편의점 1+1·2+1 할인 이벤트를 한눈에 확인하세요. 최신 편의점 행사 상품을 매일 업데이트합니다.");
 $canonical    = current_url();
 
 // brand → CSS class map

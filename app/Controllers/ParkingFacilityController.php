@@ -1,9 +1,8 @@
 <?php namespace App\Controllers;
 
 use App\Models\ParkingFacilityModel;
-use CodeIgniter\Controller;
 
-class ParkingFacilityController extends Controller
+class ParkingFacilityController extends BaseController
 {
     public function index()
     {
@@ -23,6 +22,17 @@ class ParkingFacilityController extends Controller
         if (!$data['facility']) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound("ID {$id} 시설을 찾을 수 없습니다.");
         }
+        $f = $data['facility'];
+        $data['blog_posts'] = $this->naverBlogSearch((string) ($f['FCLTY_NM'] ?? ''), '공영주차장');
+        $addrParts = array_filter([
+            $f['CTPRVN_NM'] ?? '',
+            $f['SIGNGU_NM'] ?? '',
+            $f['RDNMADR_NM'] ?? '',
+        ]);
+        $data['map_link_query'] = trim(implode(' ', $addrParts)) !== ''
+            ? trim(implode(' ', $addrParts))
+            : (string) ($f['FCLTY_NM'] ?? '');
+
         echo view('parking_facility/detail', $data);
     }
 }

@@ -105,6 +105,8 @@ public function detail($stationId)
         'dieselPrice' => $dieselPrice,
         'premiumGasolinePrice' => $premiumGasolinePrice,
         'kerosenePrice' => $kerosenePrice,
+        'blog_posts' => $this->naverBlogSearch((string) ($station['gas_station_name'] ?? ''), '주유소'),
+        'map_link_query' => (string) ($station['road_address'] ?? $station['gas_station_name'] ?? ''),
     ]);
 }
 

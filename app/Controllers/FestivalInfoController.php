@@ -73,6 +73,8 @@ class FestivalInfoController extends BaseController
         return view('festival/detail', [
             'festival' => $festival,
             'relatedFestivals' => $relatedFestivals,
+            'blog_posts' => $this->naverBlogSearch((string) ($festival['Festival_Name'] ?? ''), '축제'),
+            'map_link_query' => (string) ($festival['Address_Road'] ?? $festival['Venue'] ?? $festival['Festival_Name'] ?? ''),
         ]);
     }
 
@@ -92,6 +94,8 @@ class FestivalInfoController extends BaseController
         return view('festival/eventdetail', [
             'event' => $event,
             'relatedEvents' => $relatedEvents,
+            'blog_posts' => $this->naverBlogSearch((string) ($event['Event_Name'] ?? ''), '공연'),
+            'map_link_query' => (string) ($event['Road_Address'] ?? $event['Location'] ?? $event['Event_Name'] ?? ''),
         ]);
     }
 }

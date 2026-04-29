@@ -37,6 +37,10 @@ class RecipeController extends BaseController
         $recipe['views'] = $recipe['views'] + 1; // 조회수 1 증가
         $recipeModel->update($id, ['views' => $recipe['views']]);
 
-        return view('recipe/detail', ['recipe' => $recipe]);
+        return view('recipe/detail', [
+            'recipe' => $recipe,
+            'blog_posts' => $this->naverBlogSearch((string) ($recipe['title'] ?? ''), '편의점 레시피'),
+            'map_link_query' => (string) ($recipe['title'] ?? ''),
+        ]);
     }
 }

@@ -106,6 +106,15 @@ if (!empty($carwash['Car Wash Phone Number'])) $jsonLd['telephone'] = $carwash['
     </dl>
   </div>
 
+  <?= view('includes/section_naver_map', [
+      'latitude'  => $carwash['WGS84 Latitude'] ?? null,
+      'longitude' => $carwash['WGS84 Longitude'] ?? null,
+      'title'     => $carwash['Business Name'] ?? '',
+      'address'   => $carwash['Address (Road Name)'] ?? '',
+      'mapId'     => 'carwash-map-' . (int) ($carwash['ID'] ?? 0),
+      'linkQuery' => $map_link_query ?? '',
+  ]) ?>
+
   <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
 
   <!-- 이용 후기 -->
@@ -126,7 +135,7 @@ if (!empty($carwash['Car Wash Phone Number'])) $jsonLd['telephone'] = $carwash['
               </span>
               <time class="review-date"><?= esc($review['created_at']) ?></time>
             </div>
-            <p class="review-text"><?= esc($review['comment']) ?></p>
+            <p class="review-text"><?= esc($review['comment_text']) ?></p>
           </div>
         <?php endforeach; ?>
       </div>
@@ -153,6 +162,8 @@ if (!empty($carwash['Car Wash Phone Number'])) $jsonLd['telephone'] = $carwash['
   </div>
 
   <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
+
+  <?= view('includes/section_naver_blog', ['blog_posts' => $blog_posts ?? []]) ?>
 
   <a href="/carwash" class="back-btn">← 세차장 목록으로</a>
 

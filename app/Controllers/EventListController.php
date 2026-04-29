@@ -30,6 +30,10 @@ class EventListController extends BaseController
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound("Event with ID $id not found.");
         }
 
-        return view('event/detail', ['event' => $event]);
+        return view('event/detail', [
+            'event' => $event,
+            'blog_posts' => $this->naverBlogSearch((string) ($event['title'] ?? ''), '편의점 이벤트'),
+            'map_link_query' => (string) ($event['title'] ?? ''),
+        ]);
     }
 }

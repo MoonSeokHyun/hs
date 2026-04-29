@@ -1,0 +1,6 @@
+vendor/
+writable/
+.env
+env
+.git/
+app/Config/Database.php

@@ -113,12 +113,18 @@ class ParkingController extends BaseController
         $comments = $commentModel->getCommentsByParkingLot($id);
         $averageRating = $commentModel->getAverageRating($id);
 
+        $addrForMap = ! empty($parkingLot['address_road'])
+            ? $parkingLot['address_road']
+            : ($parkingLot['address_land'] ?? '');
+
         // 뷰에 데이터 전달
         return view('parking/detail', [
             'parkingLot' => $parkingLot,
             'nearbyParkingLots' => $nearbyParkingLots,
             'comments' => $comments,
             'averageRating' => $averageRating,
+            'blog_posts' => $this->naverBlogSearch((string) ($parkingLot['name'] ?? ''), '주차장'),
+            'map_link_query' => $addrForMap ?: (string) ($parkingLot['name'] ?? ''),
         ]);
     }
 

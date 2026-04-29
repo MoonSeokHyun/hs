@@ -2,10 +2,9 @@
 
 namespace App\Controllers;
 
-use CodeIgniter\Controller;
 use App\Models\EventModel;
 
-class EventController extends Controller
+class EventController extends BaseController
 {
     public function index($brand = null)
     {
@@ -102,10 +101,16 @@ class EventController extends Controller
             }
         }
     
+        $eventLabel = trim(
+            (string) ($event['product_name'] ?? '') . ' ' . (string) ($event['brand'] ?? '')
+        );
+
         // View에 데이터 전달
         return view('event_detail', [
             'event' => $event,
             'recommendedProducts' => $recommendedProducts,
+            'blog_posts' => $this->naverBlogSearch($eventLabel, '편의점'),
+            'map_link_query' => (string) ($event['product_name'] ?? $event['brand'] ?? ''),
         ]);
     }
     

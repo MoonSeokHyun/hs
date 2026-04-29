@@ -33,6 +33,12 @@ class StationController extends BaseController
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Station not found');
         }
 
+        $s = $data['station'];
+        $label = (string) ($s['Service'] ?? $s['Company'] ?? $s['FullAddress'] ?? '');
+
+        $data['blog_posts'] = $this->naverBlogSearch($label, '충전소');
+        $data['map_link_query'] = (string) ($s['FullAddress'] ?? $label);
+
         return view('charging_station/detail', $data);
     }
 }

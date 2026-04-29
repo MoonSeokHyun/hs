@@ -81,6 +81,15 @@ $canonical = esc(current_url());
     </dl>
   </div>
 
+  <?= view('includes/section_naver_map', [
+      'latitude'  => $station['latitude'] ?? null,
+      'longitude' => $station['longitude'] ?? null,
+      'title'     => $facilityName,
+      'address'   => $fullAddress,
+      'mapId'     => 'ev-map-' . (int) ($station['id'] ?? 0),
+      'linkQuery' => $map_link_query ?? '',
+  ]) ?>
+
   <!-- 충전기 종류 -->
   <div class="content-card">
     <h2 class="content-card-title">🔌 충전기 종류</h2>
@@ -106,6 +115,8 @@ $canonical = esc(current_url());
 
   <!-- 광고 3 -->
   <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
+
+  <?= view('includes/section_naver_blog', ['blog_posts' => $blog_posts ?? []]) ?>
 
   <a href="/ev-stations" class="back-btn">← 목록으로 돌아가기</a>
 

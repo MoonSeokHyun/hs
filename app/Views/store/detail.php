@@ -8,7 +8,9 @@ $district = $m[0] ?? '지역';
 $storeName = $store['store_name'] ?? '타이어 판매소';
 $storeAddr = $store['road_address'] ?? ($store['address'] ?? '');
 $storeSvc  = $store['services_offered'] ?? '';
-$storeDescRaw = trim("{$storeAddr} 위치의 {$storeName} 타이어·경정비·엔진오일 교체 전문점 정보입니다." . ($storeSvc ? " 주요 서비스: {$storeSvc}." : ''));
+$storeDescRaw = $storeAddr
+    ? trim("{$storeAddr} 위치의 {$storeName} 타이어·경정비·엔진오일 교체 전문점 정보입니다." . ($storeSvc ? " 주요 서비스: {$storeSvc}." : ''))
+    : trim("{$storeName} 타이어·경정비·엔진오일 교체 전문점의 위치, 연락처, 서비스 정보를 확인하세요." . ($storeSvc ? " 주요 서비스: {$storeSvc}." : ''));
 $storeDesc = mb_substr(preg_replace('/\s+/', ' ', strip_tags($storeDescRaw)), 0, 155);
 $storeTitle = "{$storeName} - {$district} | 타이어·경정비·엔진오일 전문 | 편잇";
 ?>
@@ -116,6 +118,15 @@ $storeTitle = "{$storeName} - {$district} | 타이어·경정비·엔진오일 �
     </dl>
   </div>
 
+  <?= view('includes/section_naver_map', [
+      'latitude'  => isset($store['latitude']) && $store['latitude'] !== '' ? $store['latitude'] : null,
+      'longitude' => isset($store['longitude']) && $store['longitude'] !== '' ? $store['longitude'] : null,
+      'title'     => (string) ($store['store_name'] ?? ''),
+      'address'   => (string) ($store['road_address'] ?? $store['address'] ?? ''),
+      'mapId'     => 'store-map-' . (int) ($store['id'] ?? 0),
+      'linkQuery' => $map_link_query ?? '',
+  ]) ?>
+
   <!-- 광고 2 -->
   <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
 
@@ -152,6 +163,8 @@ $storeTitle = "{$storeName} - {$district} | 타이어·경정비·엔진오일 �
 
   <!-- 광고 3 -->
   <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
+
+  <?= view('includes/section_naver_blog', ['blog_posts' => $blog_posts ?? []]) ?>
 
   <a href="<?= site_url('stores') ?>" class="back-btn">← 목록으로 돌아가기</a>
 

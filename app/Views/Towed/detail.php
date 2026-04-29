@@ -126,6 +126,15 @@ $district_name = isset($matches[0]) ? $matches[0] : '보관소';
     </dl>
   </div>
 
+  <?= view('includes/section_naver_map', [
+      'latitude'  => $storage['latitude']  ?? null,
+      'longitude' => $storage['longitude'] ?? null,
+      'title'     => $storage['towed_vehicle_storage_name'] ?? '',
+      'address'   => $storage['address_road_name'] ?? '',
+      'mapId'     => 'towed-map',
+      'linkQuery' => $storage['address_road_name'] ?? $storage['towed_vehicle_storage_name'] ?? '',
+  ]) ?>
+
   <!-- 광고 2 -->
   <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
 
@@ -168,6 +177,8 @@ $district_name = isset($matches[0]) ? $matches[0] : '보관소';
 
   <!-- 광고 3 -->
   <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
+
+  <?= view('includes/section_naver_blog', ['blog_posts' => $blog_posts ?? []]) ?>
 
   <a href="/towed-vehicle-storage" class="back-btn">← 목록으로 돌아가기</a>
 

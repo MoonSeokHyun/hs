@@ -92,6 +92,15 @@ $gas_station_type = isset($station['gas_station_type']) ? esc($station['gas_stat
     </div>
   </div>
 
+  <?= view('includes/section_naver_map', [
+      'latitude'  => $station['latitude'] ?? null,
+      'longitude' => $station['longitude'] ?? null,
+      'title'     => $station['gas_station_name'] ?? '',
+      'address'   => $station['road_address'] ?? '',
+      'mapId'     => 'gas-map-' . (int) ($station['id'] ?? 0),
+      'linkQuery' => $map_link_query ?? '',
+  ]) ?>
+
   <!-- 주변 주유소 -->
   <?php if (!empty($nearbyGasStations)): ?>
   <div class="content-card">
@@ -161,6 +170,8 @@ $gas_station_type = isset($station['gas_station_type']) ? esc($station['gas_stat
   <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
 
   <?= view_cell('\App\Cells\ExtraInfoCell::render') ?>
+
+  <?= view('includes/section_naver_blog', ['blog_posts' => $blog_posts ?? []]) ?>
 
   <a href="/gas_stations" class="back-btn">← 주유소 목록으로</a>
 

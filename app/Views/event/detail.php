@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= esc($event['title']) ?> - 편의점 할인 정보 & 이벤트 | 편잇</title>
-    <meta name="description" content="<?= esc($event['title']) ?>에 대한 상세 정보와 할인 이벤트 기간, 브랜드, 상태 등을 확인하세요. 편의점 할인 정보와 레시피는 편잇에서 확인하세요!">
+    <meta name="description" content="<?= esc($event['brand']) ?> <?= esc($event['title']) ?> 이벤트 상세 정보 - 행사 기간, 할인 혜택, 참여 조건을 확인하세요. 편의점 최신 이벤트는 편잇에서 바로 확인하세요.">
     <meta name="keywords" content="편의점 할인, <?= esc($event['brand']) ?>, <?= esc($event['title']) ?>, 1+1 이벤트, 2+1 할인, 편의점 이벤트">
     <meta name="robots" content="index, follow">
     <meta name="author" content="편잇">
@@ -18,6 +18,8 @@
     <meta name="twitter:title" content="<?= esc($event['title']) ?> - 편의점 할인 정보 & 이벤트 | 편잇">
     <meta name="twitter:description" content="<?= esc($event['title']) ?>에 대한 상세 정보와 할인 이벤트 기간, 브랜드, 상태 등을 확인하세요.">
     <meta name="twitter:image" content="<?= esc($event['image_url']) ?>">
+
+    <link rel="stylesheet" href="<?= base_url('css/common.css') ?>?v=<?= filemtime(FCPATH . 'css/common.css') ?>">
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6686738239613464"
      crossorigin="anonymous"></script>
@@ -140,6 +142,17 @@
                 <p><?= esc($event['description'] ?? '이벤트 설명이 없습니다.') ?></p>
             </div>
         </div>
+
+        <?= view('includes/section_naver_map', [
+            'latitude'  => null,
+            'longitude' => null,
+            'title'     => (string) ($event['title'] ?? ''),
+            'address'   => '',
+            'mapId'     => 'evt-crawl-' . (int) ($event['id'] ?? 0),
+            'linkQuery' => $map_link_query ?? '',
+        ]) ?>
+
+        <?= view('includes/section_naver_blog', ['blog_posts' => $blog_posts ?? []]) ?>
     </div>
 
     <?= view_cell('\App\Cells\ExtraInfoCell::render') ?>

@@ -121,6 +121,15 @@ $reviewCount = count($reviews ?? []);
     </dl>
   </div>
 
+  <?= view('includes/section_naver_map', [
+      'latitude'  => $repair_shop['latitude'] ?? null,
+      'longitude' => $repair_shop['longitude'] ?? null,
+      'title'     => $repair_shop['repair_shop_name'] ?? '',
+      'address'   => $repair_shop['road_address'] ?? '',
+      'mapId'     => 'repair-map-' . (int) ($repair_shop['id'] ?? 0),
+      'linkQuery' => $map_link_query ?? '',
+  ]) ?>
+
   <!-- 주변 정비소 -->
   <?php if (!empty($nearby_shops)): ?>
   <div class="content-card">
@@ -196,6 +205,8 @@ $reviewCount = count($reviews ?? []);
   <?= view('includes/ad_slot', ['slot' => '1204098626', 'variant' => 'inline']) ?>
 
   <?= view_cell('\App\Cells\ExtraInfoCell::render') ?>
+
+  <?= view('includes/section_naver_blog', ['blog_posts' => $blog_posts ?? []]) ?>
 
   <a href="/automobile_repair_shops" class="back-btn">← 목록으로 돌아가기</a>
 

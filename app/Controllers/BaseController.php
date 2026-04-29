@@ -55,4 +55,55 @@ abstract class BaseController extends Controller
 
         // E.g.: $this->session = \Config\Services::session();
     }
+
+    /**
+     * 네이버 블로그 검색 API (상세 페이지용).
+     *
+     * @param string $mainQuery 장소·상품명 등
+     * @param string $suffix    검색 맥락 (예: '주차장', '주유소')
+     * @return list<array<string, mixed>>
+     */
+    protected function naverBlogSearch(string $mainQuery, string $suffix = ''): array
+    {
+        $mainQuery = trim($mainQuery);
+        if ($mainQuery === '') {
+            return [];
+        }
+
+        $suffix = trim($suffix);
+        $fullQuery = $suffix !== '' ? "{$mainQuery} {$suffix}" : $mainQuery;
+
+        $clientId     = env('NAVER_SEARCH_CLIENT_ID', 'NlYld_Eq4rodExbK5pmQ');
+        $clientSecret = env('NAVER_SEARCH_CLIENT_SECRET', 'KpyY5brELu');
+
+        $url = 'https://openapi.naver.com/v1/search/blog.json?' . http_build_query([
+            'query'   => $fullQuery,
+            'display' => 5,
+            'sort'    => 'sim',
+        ]);
+
+        $ch = curl_init($url);
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT        => 5,
+            CURLOPT_CONNECTTIMEOUT => 3,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_HTTPHEADER     => [
+                'X-Naver-Client-Id: '     . $clientId,
+                'X-Naver-Client-Secret: ' . $clientSecret,
+            ],
+        ]);
+
+        $raw  = curl_exec($ch);
+        $http = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($http !== 200 || ! $raw) {
+            return [];
+        }
+
+        $json = json_decode($raw, true);
+
+        return $json['items'] ?? [];
+    }
 }

@@ -22,7 +22,7 @@
 
 
 
-    <meta name="description" content="<?= esc($event['product_name']) ?> - <?= esc($event['brand']) ?>에서 진행하는 행사로 <?= esc($event['event_type'] ?? 'N/A') ?> 혜택과 가격 <?= number_format($event['price']) ?> 원!">
+    <meta name="description" content="<?= esc($event['brand']) ?> <?= esc($event['product_name']) ?>(<?= esc($event['category'] ?? '') ?>) - <?= esc($event['event_type'] ?? '') ?> 행사 상품, 가격 <?= number_format($event['price']) ?>원. 편의점 할인 정보는 편잇에서 확인하세요.">
     <meta name="keywords" content="행사, <?= esc($event['brand']) ?>, <?= esc($event['category']) ?>, <?= esc($event['product_name']) ?>, 이벤트, 할인, <?= esc($event['event_type'] ?? '프로모션') ?>">
     <meta name="author" content="Your Site Name">
     <link rel="canonical" href="<?= current_url() ?>">
@@ -61,6 +61,7 @@
     </script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?= base_url('css/common.css') ?>?v=<?= filemtime(FCPATH . 'css/common.css') ?>">
     <style>
         body {
             background-color: #FBF8F3;
@@ -204,6 +205,17 @@
                 </p>
             </div>
         </div>
+
+        <?= view('includes/section_naver_map', [
+            'latitude'  => null,
+            'longitude' => null,
+            'title'     => (string) ($event['product_name'] ?? ''),
+            'address'   => '',
+            'mapId'     => 'prod-event-' . (int) ($event['id'] ?? 0),
+            'linkQuery' => $map_link_query ?? '',
+        ]) ?>
+
+        <?= view('includes/section_naver_blog', ['blog_posts' => $blog_posts ?? []]) ?>
 
         <!-- 추천 상품 섹션 -->
         <div class="recommended-section mt-5">
