@@ -106,4 +106,37 @@ abstract class BaseController extends Controller
 
         return $json['items'] ?? [];
     }
+
+    /**
+     * 쿠팡 파트너스 네이버 모바일 검색 최초 유입 분기용.
+     * 쿠키는 응답 전송 전에만 설정하므로 반드시 컨트롤러에서 호출한다.
+     *
+     * @param int $exposurePercent 노출 확률(1–100). 기본 100.
+     *
+     * @return bool 스와이프 연동 배너(`data-coupang-link`) 노출 여부
+     */
+    protected function resolveCoupangNaverSwipeBanner(int $exposurePercent = 100): bool
+    {
+        if (! $this->request instanceof IncomingRequest) {
+            return false;
+        }
+
+        $ua = $this->request->getHeaderLine('User-Agent');
+        $isMobile = preg_match('/Mobile|Android|iP(hone|od|ad)/i', $ua) === 1;
+
+        $referer = $this->request->getHeaderLine('Referer');
+        $isNaver = strpos($referer, 'm.search.naver.com') !== false;
+
+        $alreadyMarked = ! empty($this->request->getCookie('ADSENSE0102'));
+        $isNaverFirstVisit = $isMobile && $isNaver && ! $alreadyMarked;
+
+        if ($isNaverFirstVisit) {
+            // seconds from now → ResponseTrait 가 만료 타임스탬프로 변환
+            $this->response->setCookie('ADSENSE0102', '1', 86400, '', '/');
+        }
+
+        $exposurePercent = max(1, min(100, $exposurePercent));
+
+        return $isNaverFirstVisit && random_int(1, 100) <= $exposurePercent;
+    }
 }

@@ -136,7 +136,7 @@ $reviewCount = count($reviews ?? []);
       'mapId'     => 'repair-map-' . (int) ($repair_shop['id'] ?? 0),
       'linkQuery' => $map_link_query ?? '',
   ]) ?>
-
+  <?php include(APPPATH . 'Views/common/coupang.php'); ?>
   <!-- 주변 정비소 -->
   <?php if (!empty($nearby_shops)): ?>
   <div class="content-card">
