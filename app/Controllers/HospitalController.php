@@ -161,19 +161,29 @@ class HospitalController extends BaseController
                 $coords = ['latitude' => null, 'longitude' => null];
             }
     
-            // 주변 시설 정보 캐시 및 가져오기
+            // 주변 시설 정보 캐시 및 가져오기 (TM 좌표 기준 바운딩박스 쿼리)
             $nearbyCacheKey = "nearby_facilities_{$id}";
             $nearbyFacilities = cache()->get($nearbyCacheKey);
-            
-            if (!$nearbyFacilities && $coords['latitude'] !== null && $coords['longitude'] !== null) {
-                $nearbyFacilities = $hospitalModel->getNearbyFacilities($coords['latitude'], $coords['longitude']);
+
+            if (!$nearbyFacilities && isset($hospital['Coordinate_X'], $hospital['Coordinate_Y'])
+                && $hospital['Coordinate_X'] && $hospital['Coordinate_Y']
+            ) {
+                $nearbyFacilities = $hospitalModel->getNearbyFacilities(
+                    $hospital['Coordinate_X'],
+                    $hospital['Coordinate_Y']
+                );
                 cache()->save($nearbyCacheKey, $nearbyFacilities, 3600);
             }
 
             if (!$nearbyFacilities) {
                 $nearbyFacilities = [];
             }
-    
+
+            $blogCacheKey = 'naver_blog_hospital_' . md5((string) ($hospital['BusinessName'] ?? ''));
+            $blogPosts = cache()->remember($blogCacheKey, 86400, function () use ($hospital) {
+                return $this->naverBlogSearch((string) ($hospital['BusinessName'] ?? ''), '병원');
+            });
+
             return view('hospital/detail', [
                 'hospital' => $hospital,
                 'reviews' => $reviews,
@@ -182,7 +192,7 @@ class HospitalController extends BaseController
                 'latitude' => $coords['latitude'],
                 'longitude' => $coords['longitude'],
                 'canonicalUrl' => base_url('hospital/detail/' . $id),
-                'blog_posts' => $this->naverBlogSearch((string) ($hospital['BusinessName'] ?? ''), '병원'),
+                'blog_posts' => $blogPosts,
                 'map_link_query' => (string) ($hospital['FullAddress'] ?? $hospital['BusinessName'] ?? ''),
             ]);
     

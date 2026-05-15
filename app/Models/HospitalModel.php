@@ -63,25 +63,27 @@ class HospitalModel extends Model
         return $query->getRowArray();
     }
 
-    // 주어진 좌표에서 일정 거리 내에 있는 병원을 찾는 메서드
-    public function getNearbyFacilities($latitude, $longitude, $distance = 10, $limit = 5)
+    // TM(EPSG:5186) 좌표 기준 주변 시설 조회 — 바운딩박스 인덱스 후 피타고라스 거리 정렬
+    public function getNearbyFacilities($tmX, $tmY, $distanceKm = 10, $limit = 5)
     {
-        $latitude = (float) $latitude;
-        $longitude = (float) $longitude;
+        $tmX    = (float) $tmX;
+        $tmY    = (float) $tmY;
+        $margin = $distanceKm * 1000; // km → m
 
-        $query = $this->db->query("
+        return $this->db->query("
             SELECT ID, BusinessName, FullAddress, PhoneNumber,
-            (6371 * acos(cos(radians($latitude)) * cos(radians(Coordinate_X)) * 
-            cos(radians(Coordinate_Y) - radians($longitude)) + 
-            sin(radians($latitude)) * sin(radians(Coordinate_X)))) AS distance
+                ROUND(SQRT(POW(Coordinate_X - ?, 2) + POW(Coordinate_Y - ?, 2)) / 1000, 2) AS distance
             FROM MedicalInstitutions
-            WHERE Coordinate_X IS NOT NULL AND Coordinate_Y IS NOT NULL
-            HAVING distance <= $distance
+            WHERE Coordinate_X BETWEEN ? AND ?
+              AND Coordinate_Y BETWEEN ? AND ?
+            HAVING distance <= ?
             ORDER BY distance
-            LIMIT $limit
-        ");
-
-        return $query->getResultArray();
+            LIMIT ?
+        ", [$tmX, $tmY,
+           $tmX - $margin, $tmX + $margin,
+           $tmY - $margin, $tmY + $margin,
+           (float) $distanceKm, $limit
+        ])->getResultArray();
     }
     public function searchHospitalsByName($name, $limit = 10, $offset = 0)
 {

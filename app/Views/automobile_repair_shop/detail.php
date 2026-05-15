@@ -118,6 +118,13 @@ $reviewCount = count($reviews ?? []);
       <?php if (!empty($repair_shop['provider_name'])): ?>
         <div class="dp-kv-row"><dt class="dp-kv-key">제공업체</dt><dd class="dp-kv-val"><?= esc($repair_shop['provider_name']) ?></dd></div>
       <?php endif; ?>
+      <?php
+        $updatedAt = $repair_shop['updated_at'] ?? null;
+        $createdAt = $repair_shop['created_at'] ?? null;
+        if ($updatedAt && $createdAt && $updatedAt !== $createdAt):
+      ?>
+        <div class="dp-kv-row"><dt class="dp-kv-key">정보 업데이트</dt><dd class="dp-kv-val"><?= esc(date('Y.m.d', strtotime($updatedAt))) ?></dd></div>
+      <?php endif; ?>
     </dl>
   </div>
 

@@ -44,7 +44,7 @@ class SitemapModel extends Model
 
     public function getStoresForSitemap(int $limit, int $offset): array
     {
-        return $this->getDataForSitemap('store_info', 'id', $limit, $offset);
+        return $this->getDataForSitemap('store_info', 'id, updated_at', $limit, $offset);
     }
 
     // 공영주차장 데이터 관련 메서드
@@ -88,7 +88,7 @@ class SitemapModel extends Model
 
     public function getRepairShopsForSitemap(int $limit, int $offset): array
     {
-        return $this->getDataForSitemap('automobile_repair_shop', 'id, data_reference_date', $limit, $offset);
+        return $this->getDataForSitemap('automobile_repair_shop', 'id, updated_at', $limit, $offset);
     }
 
     // 주차장 데이터 관련 메서드
@@ -165,7 +165,7 @@ class SitemapModel extends Model
 
     public function getHospitalsForSitemap(int $limit, int $offset): array
     {
-        return $this->getDataForSitemap('MedicalInstitutions', 'ID', $limit, $offset, 'ID');
+        return $this->getDataForSitemap('MedicalInstitutions', 'ID, LastUpdateTime', $limit, $offset, 'ID');
     }
 
     // 레시피 데이터 관련 메서드
@@ -192,7 +192,7 @@ class SitemapModel extends Model
     public function getFestivalsForSitemap(int $limit, int $offset): array
     {
         try {
-            return $this->getDataForSitemap('festival_info', 'id', $limit, $offset);
+            return $this->getDataForSitemap('festival_info', 'id, Data_Reference_Date', $limit, $offset);
         } catch (\Throwable $e) {
             return [];
         }

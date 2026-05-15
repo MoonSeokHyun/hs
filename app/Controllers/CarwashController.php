@@ -33,6 +33,10 @@ class CarwashController extends BaseController
         // 세차장 정보 가져오기
         $carwash = $carWashModel->find($carwash_id);
 
+        if (!$carwash) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException("세차장 ID {$carwash_id}를 찾을 수 없습니다.");
+        }
+
         // 리뷰 목록 가져오기
         $reviews = $reviewModel->getReviewsByCarWashId($carwash_id);
 

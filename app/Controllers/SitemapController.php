@@ -73,11 +73,11 @@ class SitemapController extends Controller
     }
 
     public function events(int $pageNumber)             { return $this->generateSitemap('getEventsForSitemap', 'events/detail', 'created_at', $pageNumber, 'daily'); }
-    public function hospitals(int $pageNumber)          { return $this->generateSitemap('getHospitalsForSitemap', 'hospital/detail', '', $pageNumber, 'daily'); }
+    public function hospitals(int $pageNumber)          { return $this->generateSitemap('getHospitalsForSitemap', 'hospital/detail', 'LastUpdateTime', $pageNumber, 'daily'); }
     public function gasstations(int $pageNumber)        { return $this->generateSitemap('getGasStationsForSitemap', 'gas_stations', 'data_reference_date', $pageNumber, 'daily'); }
     public function parkinglots(int $pageNumber)        { return $this->generateSitemap('getParkingLotsForSitemap', 'parking/detail', 'data_reference_date', $pageNumber, 'daily'); }
     public function hotel(int $pageNumber)              { return $this->generateSitemap('getHotelsForSitemap', 'hotel/detail', 'last_update_time', $pageNumber, 'daily'); }
-    public function repairshops(int $pageNumber)        { return $this->generateSitemap('getRepairShopsForSitemap', 'automobile_repair_shop', 'data_reference_date', $pageNumber, 'daily'); }
+    public function repairshops(int $pageNumber)        { return $this->generateSitemap('getRepairShopsForSitemap', 'automobile_repair_shop', 'updated_at', $pageNumber, 'daily'); }
     public function carwashes(int $pageNumber)          { return $this->generateSitemap('getCarWashesForSitemap', 'carwash/details', 'Data_Reference_Date', $pageNumber, 'daily'); }
     public function towedvehicle(int $pageNumber)       { return $this->generateSitemap('getTowedVehicleStoragesForSitemap', 'towed-vehicle-storage/detail', 'data_reference_date', $pageNumber, 'daily'); }
     public function parkingfacilities(int $pageNumber)  { return $this->generateSitemap('getParkingFacilitiesForSitemap', 'parking-facilities', '데이터기준일자', $pageNumber, 'daily'); }
@@ -85,7 +85,7 @@ class SitemapController extends Controller
     public function evstations(int $pageNumber)         { return $this->generateSitemap('getEvStationsForSitemap', 'ev-stations', '', $pageNumber, 'daily'); }
     public function chargingstations(int $pageNumber)   { return $this->generateSitemap('getChargingStationsForSitemap', 'station/detail', '', $pageNumber, 'daily'); }
     public function recipes(int $pageNumber)            { return $this->generateSitemap('getRecipesForSitemap', 'recipes', 'created_at', $pageNumber, 'weekly'); }
-    public function festivals(int $pageNumber)          { return $this->generateSitemap('getFestivalsForSitemap', 'festival-info', '', $pageNumber, 'weekly'); }
+    public function festivals(int $pageNumber)          { return $this->generateSitemap('getFestivalsForSitemap', 'festival-info', 'Data_Reference_Date', $pageNumber, 'weekly'); }
 
     private function generateSitemap(
         string $method,
